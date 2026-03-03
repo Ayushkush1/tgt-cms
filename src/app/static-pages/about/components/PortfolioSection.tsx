@@ -135,7 +135,7 @@ export default function PortfolioSection() {
 
                         {/* Note: the nested stats/services arrays could be built out recursively here, 
                             but keeping it one level deep for this CMS block unless requested. */}
-                        <div className="col-span-2 p-3 bg-blue-50/50 rounded-lg text-sm text-blue-600 border border-blue-100">
+                        <div className="col-span-2 p-3 bg-blue-50/50 rounded-lg text-sm text-[#D3AF37] border border-blue-100">
                           <strong>Note:</strong> Stats and inner services
                           features are currently managed in code. Let me know if
                           you need full deep-nested CMS controls for them!

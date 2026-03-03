@@ -177,7 +177,7 @@ export default function TrustedBySection() {
                     </div>
 
                     <p className="text-gray-500 text-sm mb-2">
-                      <span className="text-blue-600 font-semibold hover:underline mr-1">
+                      <span className="text-[#D3AF37] font-semibold hover:underline mr-1">
                         Click to upload
                       </span>
                       or drag and drop

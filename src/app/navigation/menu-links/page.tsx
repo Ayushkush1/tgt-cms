@@ -179,7 +179,7 @@ export default function NavLinksPage() {
         <span
           className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
             row.type === "Main Link"
-              ? "bg-blue-50 text-blue-600"
+              ? "bg-blue-50 text-[#D3AF37]"
               : row.type === "Dropdown"
                 ? "bg-purple-50 text-purple-600"
                 : "bg-gray-100 text-gray-500"
