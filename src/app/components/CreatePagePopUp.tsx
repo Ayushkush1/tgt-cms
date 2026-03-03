@@ -1,8 +1,8 @@
 "use client";
 
-import React, { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, X } from "lucide-react";
+import { X } from "lucide-react";
 
 export const CreatePagePopUp = ({
   setIsModalOpen,

@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Page {
+  id               String   @id @default(uuid())
+  title            String
+  slug             String   @unique
+  content          String?  @db.Text
+  type             String   @default("standard")
+  visibility       String   @default("draft")
+  
+  // SEO Fields
+  metaTitle        String?
+  metaDescription  String?  @db.Text
+  targetKeywords   String?
+  canonicalUrl     String?
+  noIndex          Boolean  @default(false)
+
+  // Meta
+  featuredImage    String?
+  parentPage       String?
+
+  sections         Section[]
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Section {
+  id               String   @id @default(uuid())
+  pageId           String
+  page             Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  type             String   // e.g. "HeroSection", "WhatWeDo", "OurPartners"
+  content          Json     // The stored form data for this specific section
+  order            Int      @default(0) // Used to order sections on a page
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([pageId])
+}
+
+model Blog {
+  id               String   @id @default(uuid())
+  title            String
+  slug             String   @unique
+  category         String?
+  excerpt          String?  @db.Text
+  authorName       String?
+  authorBio        String?  @db.Text
+  authorAvatar     String?
+  readTime         String?
+  views            Int      @default(0)
+  image            String?
+  tags             String[] 
+  pullQuote        String?  @db.Text
+  takeaways        String[]
+  content          Json?    // Storing the complex array of content blocks
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Enquiry {
+  id               String   @id @default(uuid())
+  name             String
+  email            String
+  interestedIn     String?
+  budget           String?
+  projectGoals     String?  @db.Text
+  status           String   @default("new") // e.g. new, contacted, closed
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model GlobalSettings {
+  id               String   @id @default(uuid())
+  key              String   @unique // e.g., "footer", "integrations", "general"
+  value            Json     // Config blob
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
