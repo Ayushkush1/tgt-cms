@@ -7,6 +7,7 @@ interface PageHeaderProps {
   action?: {
     label: string;
     icon?: React.ReactNode;
+    href?: string;
   };
   setIsOpen?: Dispatch<SetStateAction<boolean>>;
 }

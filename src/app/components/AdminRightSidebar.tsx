@@ -59,114 +59,79 @@ export function AdminRightSidebar() {
         </div>
       </div>
 
-      {/* Calendar Box */}
-      <div className="bg-white rounded-[2rem] p-6 shadow-sm ring-1 ring-gray-50 flex flex-col items-center">
-        <div className="flex items-center justify-between w-full mb-6 px-2">
-          <ChevronLeft className="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#0B0F29]" />
-          <span className="font-bold text-[15px] text-[#0B0F29]">
-            October, 2026
-          </span>
-          <ChevronRight className="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#0B0F29]" />
-        </div>
-
-        <div className="grid grid-cols-7 w-full gap-y-4 gap-x-1 text-center text-[12px]">
-          {["S", "M", "T", "W", "T", "F", "S"].map((d) => (
-            <div
-              key={d}
-              className="font-bold text-gray-400 tracking-wider mb-2"
-            >
-              {d}
-            </div>
-          ))}
-
-          {/* Dummy Dates */}
-          <div className="text-gray-300 font-medium p-1">28</div>
-          <div className="text-gray-300 font-medium p-1">29</div>
-          <div className="text-gray-300 font-medium p-1">30</div>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((d) => (
-            <div
-              key={d}
-              className="text-[#0B0F29] font-semibold p-1 cursor-pointer hover:bg-gray-50 rounded-full"
-            >
-              {d}
-            </div>
-          ))}
-          <div className="text-[#0B0F29] font-semibold bg-[#D4AF37] rounded-full w-8 h-8 flex items-center justify-center mx-auto shadow-sm cursor-pointer">
-            17
-          </div>
-          {[18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31].map((d) => (
-            <div
-              key={d}
-              className="text-[#0B0F29] font-semibold p-1 cursor-pointer hover:bg-gray-50 rounded-full"
-            >
-              {d}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Tasks/Assignments */}
+      {/* Quick Analytics */}
       <div>
         <div className="flex items-center justify-between mb-4 px-2">
-          <h3 className="font-bold text-lg text-[#0B0F29]">Action Items</h3>
-          <button className="w-6 h-6 rounded-full bg-[#D4AF37] text-[#0B0F29] flex items-center justify-center hover:scale-105 transition-transform">
-            <Plus className="w-4 h-4" strokeWidth={3} />
+          <h3 className="font-bold text-lg text-[#0B0F29]">Quick Analytics</h3>
+          <button className="text-[#0B0F29] text-xs font-bold hover:underline">
+            View All
           </button>
         </div>
 
         <div className="space-y-3">
-          {[
-            {
-              title: "Review New Copy",
-              date: "02 Oct, 10:30 AM",
-              status: "In progress",
-              color: "bg-indigo-100 text-indigo-700",
-              icon: "📝",
-              iconBg: "bg-indigo-50",
-            },
-            {
-              title: "Client Feedback",
-              date: "14 Oct, 12:45 AM",
-              status: "Completed",
-              color: "bg-[#d1fadf] text-[#027a48]",
-              icon: "✅",
-              iconBg: "bg-green-50",
-            },
-            {
-              title: "Data Collection",
-              date: "22 Oct, 11:00 AM",
-              status: "Upcoming",
-              color: "bg-orange-100 text-orange-700",
-              icon: "📊",
-              iconBg: "bg-orange-50",
-            },
-          ].map((item, i) => (
-            <div
-              key={i}
-              className="bg-white rounded-2xl p-4 shadow-sm ring-1 ring-gray-50 flex items-center justify-between hover:-translate-y-0.5 transition-transform cursor-pointer"
-            >
-              <div className="flex items-center gap-3">
-                <div
-                  className={`w-10 h-10 rounded-xl ${item.iconBg} flex items-center justify-center text-lg`}
-                >
-                  {item.icon}
-                </div>
-                <div>
-                  <h4 className="font-bold text-[14px] text-[#0B0F29] leading-tight">
-                    {item.title}
-                  </h4>
-                  <p className="text-[12px] font-medium text-gray-400 mt-1">
-                    {item.date}
-                  </p>
-                </div>
-              </div>
-              <span
-                className={`px-2.5 py-1 rounded-full text-[11px] font-bold ${item.color}`}
-              >
-                {item.status}
+          {/* Metric 1 */}
+          <div className="bg-white rounded-2xl p-4 shadow-sm ring-1 ring-gray-50 hover:-translate-y-0.5 transition-transform cursor-pointer">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[13px] font-medium text-gray-400">
+                Conversion Rate
+              </span>
+              <span className="text-[11px] font-bold text-[#12b76a] bg-[#12b76a]/10 px-2 py-0.5 rounded-md">
+                +2.4%
               </span>
             </div>
-          ))}
+            <div className="flex items-end gap-2 mb-3">
+              <h4 className="font-black text-2xl text-[#0B0F29] leading-none">
+                3.8%
+              </h4>
+            </div>
+            {/* Mini Progress */}
+            <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+              <div
+                className="bg-[#D4AF37] h-1.5 rounded-full"
+                style={{ width: "65%" }}
+              ></div>
+            </div>
+          </div>
+
+          {/* Metric 2 */}
+          <div className="bg-white rounded-2xl p-4 shadow-sm ring-1 ring-gray-50 hover:-translate-y-0.5 transition-transform cursor-pointer">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[13px] font-medium text-gray-400">
+                Active Users (Now)
+              </span>
+              <div className="flex items-center gap-1.5">
+                <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></div>
+                <span className="text-[11px] font-bold text-gray-400">
+                  Live
+                </span>
+              </div>
+            </div>
+            <div className="flex items-end gap-2">
+              <h4 className="font-black text-2xl text-[#0B0F29] leading-none">
+                428
+              </h4>
+              <span className="text-[12px] font-bold text-[#12b76a] pb-0.5">
+                ↑ 12
+              </span>
+            </div>
+          </div>
+
+          {/* Metric 3 */}
+          <div className="bg-white rounded-2xl p-4 shadow-sm ring-1 ring-gray-50 hover:-translate-y-0.5 transition-transform cursor-pointer">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[13px] font-medium text-gray-400">
+                Bounce Rate
+              </span>
+              <span className="text-[11px] font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded-md">
+                +1.2%
+              </span>
+            </div>
+            <div className="flex items-end gap-2 mt-1">
+              <h4 className="font-black text-2xl text-[#0B0F29] leading-none">
+                42.3%
+              </h4>
+            </div>
+          </div>
         </div>
       </div>
     </>

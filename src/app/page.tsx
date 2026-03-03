@@ -1,7 +1,6 @@
 import { AdminHeader } from "./components/AdminHeader";
 import { OverviewStats } from "./components/OverviewStats";
 import { ActivityCharts } from "./components/ActivityCharts";
-import { ContentPipeline } from "./components/ContentPipeline";
 import { AdminRightSidebar } from "./components/AdminRightSidebar";
 
 export default function Home() {
@@ -15,7 +14,6 @@ export default function Home() {
         <div className="xl:col-span-8 space-y-6">
           <OverviewStats />
           <ActivityCharts />
-          <ContentPipeline />
         </div>
 
         {/* Right Sidebar Column (4 cols) */}

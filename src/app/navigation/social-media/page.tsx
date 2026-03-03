@@ -1,7 +1,7 @@
 "use client";
 
-import { PageHeader } from "../components/PageHeader";
-import { DataTable } from "../components/DataTable";
+import { DataTable } from "@/components/DataTable";
+import { PageHeader } from "@/components/PageHeader";
 import { Link as LinkIcon } from "lucide-react";
 
 export default function SocialLinksPage() {
@@ -47,11 +47,11 @@ export default function SocialLinksPage() {
   ];
 
   return (
-    <div>
+    <section className=" flex flex-col gap-6 ">
       <PageHeader
         title="Social Media Links"
         description="Manage the social connectivity icons displayed in the footer."
-        action={{ label: "Add Social Link", href: "#" }}
+        action={{ label: "Add Social Link" }}
       />
 
       <DataTable
@@ -59,6 +59,6 @@ export default function SocialLinksPage() {
         columns={columns}
         keyExtractor={(item) => item.id}
       />
-    </div>
+    </section>
   );
 }

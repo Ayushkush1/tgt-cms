@@ -2,69 +2,83 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import {
   LayoutDashboard,
   Settings,
-  Users,
-  MessageSquare,
-  FileText,
-  MenuSquare,
+  Compass,
+  BookOpen,
+  Layers,
   ArrowUpRight,
-  Search,
+  LucideIcon,
+  ChevronDown,
 } from "lucide-react";
 import { cn } from "../lib/utils";
 
-const sidebarLinks = [
+type SidebarLink = {
+  title: string;
+  icon: LucideIcon;
+  href?: string;
+  sublinks?: { title: string; href: string }[];
+  badge?: string | number;
+};
+
+const sidebarLinks: SidebarLink[] = [
   {
     title: "Dashboard",
     href: "/",
     icon: LayoutDashboard,
   },
   {
-    title: "Site Settings",
-    icon: Settings,
+    title: "Navigation & Links",
+    icon: Compass,
     sublinks: [
-      { title: "General Info", href: "/settings/general" },
-      { title: "Hero Section", href: "/settings/hero" },
-      { title: "About Section", href: "/settings/about" },
+      { title: "Menu Links", href: "/navigation/menu-links" },
+      { title: "Social Media", href: "/navigation/social-media" },
     ],
   },
   {
-    title: "Content",
-    icon: FileText,
+    title: "Static pages",
+    icon: BookOpen,
     sublinks: [
-      { title: "Services", href: "/services" },
+      { title: "Home", href: "/static-pages/home" },
+      { title: "About", href: "/static-pages/about" },
+      { title: "Contact", href: "/static-pages/contact" },
+      { title: "Services", href: "/static-pages/services" },
+      { title: "Products", href: "/static-pages/products" },
+    ],
+  },
+  {
+    title: "Custom pages",
+    icon: Layers,
+    sublinks: [
+      { title: "Services", href: "/ " },
       { title: "Blog Posts", href: "/blog" },
       { title: "Metrics & Stats", href: "/metrics" },
     ],
   },
   {
-    title: "Public Relations",
-    icon: Users,
-    sublinks: [
-      { title: "Testimonials", href: "/testimonials" },
-      { title: "Partners & Clients", href: "/partners" },
-      { title: "Integrations", href: "/integrations" },
-    ],
-  },
-  {
-    title: "Navigation & Links",
-    icon: MenuSquare,
-    sublinks: [
-      { title: "Menu Links", href: "/navlinks" },
-      { title: "Social Media", href: "/socials" },
-    ],
-  },
-  {
-    title: "Enquiries",
-    href: "/enquiries",
-    icon: MessageSquare,
-    badge: "2",
+    title: "Settings",
+    icon: Settings,
+    sublinks: [{ title: "Profile", href: "/settings/profile" }],
   },
 ];
 
 export function AdminSidebar() {
   const pathname = usePathname();
+  const [openGroups, setOpenGroups] = useState<string[]>(() => {
+    return sidebarLinks
+      .filter((item) =>
+        item.sublinks?.some((sublink) => pathname.startsWith(sublink.href)),
+      )
+      .map((item) => item.title);
+  });
+
+  const toggleGroup = (title: string) => {
+    setOpenGroups((prev) =>
+      prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title],
+    );
+  };
 
   return (
     <div className="flex h-full w-[280px] flex-col bg-[#0B0F29] text-white overflow-hidden rounded-l-[2.5rem]">
@@ -89,33 +103,47 @@ export function AdminSidebar() {
             const isGroupActive = item.sublinks?.some((sublink) =>
               pathname.startsWith(sublink.href),
             );
+            const isOpen = openGroups.includes(item.title);
 
             if (item.sublinks) {
               return (
                 <div key={index} className="pt-4 first:pt-0">
-                  <div className="px-4 mb-2 text-[11px] font-bold uppercase tracking-wider text-gray-500 flex items-center gap-2">
-                    <item.icon className="w-3.5 h-3.5" />
-                    {item.title}
+                  <div
+                    className="flex items-center justify-between cursor-pointer group mb-2 pr-4 pl-4"
+                    onClick={() => toggleGroup(item.title)}
+                  >
+                    <div className="text-[11px] font-bold uppercase tracking-wider text-gray-500 flex items-center gap-2 group-hover:text-gray-300 transition-colors">
+                      <item.icon className="w-3.5 h-3.5" />
+                      {item.title}
+                    </div>
+                    <ChevronDown
+                      className={cn(
+                        "w-3.5 h-3.5 text-gray-500 transition-transform group-hover:text-gray-300",
+                        isOpen ? "rotate-180" : "",
+                      )}
+                    />
                   </div>
-                  <div className="space-y-1 pl-4 ml-2 border-l border-gray-800 py-1">
-                    {item.sublinks.map((sublink, subIndex) => {
-                      const isSubActive = pathname === sublink.href;
-                      return (
-                        <Link
-                          key={subIndex}
-                          href={sublink.href}
-                          className={cn(
-                            "block px-4 py-2.5 rounded-2xl text-[13px] font-medium transition-all duration-200",
-                            isSubActive
-                              ? "bg-[#D4AF37] text-[#0B0F29] shadow-sm transform scale-[1.02]"
-                              : "text-gray-400 hover:bg-white/5 hover:text-white",
-                          )}
-                        >
-                          {sublink.title}
-                        </Link>
-                      );
-                    })}
-                  </div>
+                  {isOpen && (
+                    <div className="space-y-1 pl-4 ml-2 border-l border-gray-800 py-1">
+                      {item.sublinks.map((sublink, subIndex) => {
+                        const isSubActive = pathname === sublink.href;
+                        return (
+                          <Link
+                            key={subIndex}
+                            href={sublink.href}
+                            className={cn(
+                              "block px-4 py-2.5 rounded-2xl text-[13px] font-medium transition-all duration-200",
+                              isSubActive
+                                ? "bg-[#D4AF37] text-[#0B0F29] shadow-sm transform scale-[1.02]"
+                                : "text-gray-400 hover:bg-white/5 hover:text-white",
+                            )}
+                          >
+                            {sublink.title}
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               );
             }
