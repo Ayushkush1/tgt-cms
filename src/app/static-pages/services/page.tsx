@@ -55,6 +55,7 @@ const defaultData: PageData = {
   hero: {
     label: "",
     headingLine1: "",
+    headingLine2: "",
     paragraphs: ["", ""],
     ctaText: "",
     ctaHref: "",
