@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TGT CMS: The Gold Technologies Content Management System
 
-## Getting Started
+TGT CMS is a modern, high-performance Content Management System (CMS) designed specifically for The Gold Technologies agency. It provides a robust and flexible interface for managing static pages, service highlights, portfolios, blogs, and lead enquiries.
 
-First, run the development server:
+## 🚀 Key Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Section-Based Page Builder**: Highly modular structure allowing for easy management of home, about, services, and product pages.
+- **Dynamic Portfolios & Services**: Reusable components for managing project galleries and service offerings.
+- **Advanced Blog Engine**: Full-featured blog management with support for custom layouts, pull quotes, and takeaways.
+- **Unified Lead Management**: Automated capturing and tracking of client enquiries through a central dashboard.
+- **Real-time Previews & Caching**: Optimized performance via a dedicated API caching layer (`fetchWithCache`).
+- **Premium Design System**: A sleek, dark-themed UI featuring gold accents, glassmorphism, and responsive micro-animations.
+
+## 🛠 Tech Stack
+
+- **Framework**: [Next.js 16 (App Router)](https://nextjs.org/)
+- **Database**: [PostgreSQL](https://www.postgresql.org/)
+- **ORM**: [Prisma](https://www.prisma.io/)
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **State Management**: React Hooks with custom API caching.
+
+## 📁 Project Structure (CMS Client)
+
+```
+client/
+├── prisma/               # Database schema and migrations
+├── src/
+│   ├── app/
+│   │   ├── api/          # Serverless API routes (About, Home, Products, etc.)
+│   │   ├── static-pages/ # CMS Dashboard pages and sub-modules
+│   │   └── lib/          # Database clients and upload helpers
+│   ├── components/       # Reusable UI components (InputField, SaveButton, etc.)
+│   └── lib/              # Core utility functions (API Cache)
+└── public/               # Static assets and uploads
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ⚙️ Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Node.js**: v18 or later
+- **PostgreSQL**: A running instance of PostgreSQL.
 
-## Learn More
+### Installation
 
-To learn more about Next.js, take a look at the following resources:
+1.  **Clone the repository**:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    ```bash
+    git clone [repository-url]
+    cd TGT-cms/client
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2.  **Install dependencies**:
 
-## Deploy on Vercel
+    ```bash
+    npm install
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3.  **Environment Setup**:
+    Create a `.env` file in the `client/` directory and configure your database host:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    ```env
+    DATABASE_URL="postgresql://user:password@localhost:5432/tgt_cms"
+    ```
+
+4.  **Database Migration**:
+    Push the Prisma schema to your local database:
+
+    ```bash
+    npx prisma db push
+    ```
+
+5.  **Run Development Server**:
+    ```bash
+    npm run dev
+    ```
+
+Open [http://localhost:3000](http://localhost:3000) to access the CMS dashboard.
+
+## 🎨 Design Guidelines
+
+The CMS uses a premium aesthetic:
+
+- **Primary Color**: Dark Blue (`#0B0F29`)
+- **Accent Color**: Gold (`#D4AF37`)
+- **Interactive Elements**: All primary buttons follow a unified theme with gold glowing borders and smooth hover transitions.
+
+## 📄 License
+
+Private and confidential for The Gold Technologies.

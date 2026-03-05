@@ -183,11 +183,11 @@ export default function OurTeam() {
 
               <InputField
                 label="Heading"
-                name="headingLine"
-                value={formData.headingLine2}
+                name="headingLine1"
+                value={formData.headingLine1}
                 onChange={handleChange}
                 placeholder="e.g. Growth Driving Innovation"
-                className="col-span-2"
+                containerClassName="col-span-2"
               />
               <TextAreaField
                 label="Description text"

@@ -35,8 +35,7 @@ export default function WhoWeAre() {
 
   useEffect(() => {
     fetchWithCache("/api/home")
-      .then((res) => res.json())
-      .then((json) => {
+      .then((json: any) => {
         if (json.success && json.data?.[SECTION_KEY]) {
           setFormData((prev) => ({ ...prev, ...json.data[SECTION_KEY] }));
         }

@@ -24,20 +24,39 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { title, slug } = body;
+    const { title, type = "standard" } = await request.json();
 
-    if (!title || !slug) {
+    if (!title) {
       return NextResponse.json(
-        { success: false, error: "Title and slug are required" },
+        { success: false, error: "Title is required" },
         { status: 400 },
       );
+    }
+
+    // Simple slugify function
+    const slug = title
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/[\s_-]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+
+    // Check if slug already exists
+    const existingPage = await prisma.page.findUnique({
+      where: { slug },
+    });
+
+    let finalSlug = slug;
+    if (existingPage) {
+      finalSlug = `${slug}-${Math.random().toString(36).substring(2, 7)}`;
     }
 
     const newPage = await prisma.page.create({
       data: {
         title,
-        slug,
+        slug: finalSlug,
+        type,
+        visibility: "draft",
       },
     });
 

@@ -3,6 +3,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import toast from "react-hot-toast";
 
 export const CreatePagePopUp = ({
   setIsModalOpen,
@@ -12,7 +13,43 @@ export const CreatePagePopUp = ({
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
   const [pageName, setPageName] = useState("");
-  const [pageType, setPageType] = useState("standard");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!pageName.trim()) {
+      toast.error("Please enter a page name");
+      return;
+    }
+
+    setIsSubmitting(true);
+    const toastId = toast.loading("Creating page...");
+
+    try {
+      const res = await fetch("/api/pages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: pageName }),
+      });
+
+      const json = await res.json();
+
+      if (json.success) {
+        toast.success("Page created successfully!", { id: toastId });
+        setPageName("");
+        setIsModalOpen(false);
+        // Refresh the page to show the new page in list if needed
+        window.location.reload();
+      } else {
+        toast.error(json.error || "Failed to create page", { id: toastId });
+      }
+    } catch (error) {
+      toast.error("Network error. Please try again.", { id: toastId });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <AnimatePresence>
       {isModalOpen && (
@@ -50,11 +87,10 @@ export const CreatePagePopUp = ({
                 </h2>
 
                 <p className="text-gray-500 text-sm mt-3 mb-8">
-                  Enter a name and select a type to create a new page for your
-                  website.
+                  Enter a name to create a new page for your website.
                 </p>
                 {/* Form */}
-                <form className="space-y-6 text-left">
+                <form onSubmit={handleSubmit} className="space-y-6 text-left">
                   <div className=" flex flex-col gap-2">
                     <label className="block text-sm font-semibold text-[#0B0F29]">
                       Page Name*
@@ -68,30 +104,16 @@ export const CreatePagePopUp = ({
                       className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-black placeholder-gray-400 focus:border-[#0B0F29] outline-none"
                     />
                   </div>
-                  <div className=" flex flex-col gap-2">
-                    <label className="block text-sm font-semibold text-[#0B0F29]">
-                      Page Type
-                    </label>
-                    <select
-                      value={pageType}
-                      onChange={(e) => setPageType(e.target.value)}
-                      className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-black placeholder-gray-400 focus:border-[#0B0F29] outline-none"
-                    >
-                      <option value="landing">Landing Page</option>
-                      <option value="hero">Hero Page</option>
-                      <option value="standard">Standard Page</option>
-                      <option value="blog">Blog Post</option>
-                    </select>
-                  </div>
 
                   {/* CTA — SAME AS HERO BUTTON */}
 
                   <div className="pt-4 flex items-center justify-end gap-3">
                     <button
                       type="submit"
-                      className=" w-32 bg-[#0B0F29] text-white font-semibold py-3 rounded-full flex items-center justify-center gap-2 hover:bg-black transition-all hover:border-[#D4AF37] hover:shadow-[0_0_25px_rgba(212,175,55,0.4)]"
+                      disabled={isSubmitting}
+                      className=" w-32 bg-[#0B0F29] text-white font-semibold py-3 rounded-full flex items-center justify-center gap-2 hover:bg-black transition-all hover:border-[#D4AF37] hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] disabled:opacity-50"
                     >
-                      Continue
+                      {isSubmitting ? "Creating..." : "Continue"}
                     </button>
                     <button
                       type="button"

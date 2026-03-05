@@ -15,10 +15,7 @@ const SECTION_KEY = "PortfolioSection";
 interface PortfolioItem {
   id: number;
   title: string;
-  subtitle: string;
-  CTA: string;
   link: string;
-  date: string;
   description: string;
   image: (File | string | null)[];
 }
@@ -26,16 +23,13 @@ interface PortfolioItem {
 const defaultPortfolio = (): PortfolioItem => ({
   id: Date.now(),
   title: "",
-  subtitle: "",
-  CTA: "",
   link: "",
-  date: "",
   description: "",
   image: [],
 });
 
 const defaultFormData = {
-  portfolios: [] as PortfolioItem[],
+  portfolios: [defaultPortfolio()] as PortfolioItem[],
 };
 
 export default function PortfolioSection() {
@@ -45,7 +39,7 @@ export default function PortfolioSection() {
 
   useEffect(() => {
     fetchWithCache("/api/about")
-      .then((json) => {
+      .then((json: any) => {
         if (json.success && json.data?.[SECTION_KEY]) {
           const data = json.data[SECTION_KEY];
           const parsedPortfolios = Array.isArray(data.portfolios)
@@ -53,7 +47,7 @@ export default function PortfolioSection() {
                 ...p,
                 image: p.imageUrl ? [p.imageUrl] : [],
               }))
-            : [];
+            : [defaultPortfolio()];
 
           setFormData({ portfolios: parsedPortfolios });
         }
@@ -110,10 +104,7 @@ export default function PortfolioSection() {
           return {
             id: project.id,
             title: project.title,
-            subtitle: project.subtitle,
-            CTA: project.CTA,
             link: project.link,
-            date: project.date,
             description: project.description,
             imageUrl: validUrl,
           };
@@ -198,40 +189,12 @@ export default function PortfolioSection() {
                           required
                         />
                         <InputField
-                          label="Subtitle / Category"
-                          value={project.subtitle}
-                          onChange={(e) =>
-                            handlePortfolioChange(
-                              idx,
-                              "subtitle",
-                              e.target.value,
-                            )
-                          }
-                          placeholder="e.g. Website Development"
-                        />
-                        <InputField
-                          label="CTA Label / Industry"
-                          value={project.CTA}
-                          onChange={(e) =>
-                            handlePortfolioChange(idx, "CTA", e.target.value)
-                          }
-                          placeholder="e.g. Water Purifier"
-                        />
-                        <InputField
                           label="Project Link"
                           value={project.link}
                           onChange={(e) =>
                             handlePortfolioChange(idx, "link", e.target.value)
                           }
                           placeholder="e.g. #"
-                        />
-                        <InputField
-                          label="Date"
-                          value={project.date}
-                          onChange={(e) =>
-                            handlePortfolioChange(idx, "date", e.target.value)
-                          }
-                          placeholder="e.g. Tue, 8 Mar 2022"
                         />
                         <TextAreaField
                           label="Short Description"
