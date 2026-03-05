@@ -10,6 +10,7 @@ import BlogSection from "../components/BlogSection";
 import OurReputation from "./components/OurReputation";
 import EnquirySection from "./components/EnquirySection";
 import FooterCMS from "../components/FooterCMS";
+import TrustedBySection from "../components/TrustedBySection";
 
 export default function HomeCMSPage() {
   return (
@@ -20,6 +21,7 @@ export default function HomeCMSPage() {
       />
 
       <HeroSection />
+      <TrustedBySection />
       <WhoWeAre />
       <WhatWeDo />
       <Integrations />

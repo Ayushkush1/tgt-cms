@@ -3,8 +3,8 @@ import { CloudUpload, X } from "lucide-react";
 
 interface ImageUploadFieldProps {
   label?: string;
-  images?: File[];
-  onImagesChange?: (images: File[]) => void;
+  images?: (File | string | null)[];
+  onImagesChange?: (images: (File | string | null)[]) => void;
   maxImages?: number;
   containerClassName?: string;
 }
@@ -16,13 +16,13 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
   maxImages = 1,
   containerClassName = "",
 }) => {
-  const [internalImages, setInternalImages] = useState<File[]>([]);
+  const [internalImages, setInternalImages] = useState<(File | string | null)[]>([])
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const images = controlledImages ?? internalImages;
 
-  const handleUpdate = (newImages: File[]) => {
+  const handleUpdate = (newImages: (File | string | null)[]) => {
     if (!controlledImages) {
       setInternalImages(newImages);
     }
@@ -88,16 +88,16 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
             >
               <div className="flex items-center gap-4">
                 <img
-                  src={URL.createObjectURL(img)}
+                  src={typeof img === "string" ? img : URL.createObjectURL(img as Blob)}
                   alt={`Preview ${idx + 1}`}
                   className="w-12 h-12 object-cover rounded-md shadow-sm border border-gray-200"
                 />
                 <div className="flex flex-col">
                   <span className="text-gray-900 font-semibold text-sm truncate max-w-[200px]">
-                    {img.name}
+                    {typeof img === "string" ? "Uploaded Image" : (img as File).name}
                   </span>
                   <span className="text-gray-500 font-medium text-[12px]">
-                    {(img.size / 1024 / 1024).toFixed(2)} MB
+                    {typeof img === "string" ? "Cloud / Remote" : ((img as File).size / 1024 / 1024).toFixed(2) + " MB"}
                   </span>
                 </div>
               </div>

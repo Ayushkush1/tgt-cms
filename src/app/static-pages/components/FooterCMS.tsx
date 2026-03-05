@@ -1,12 +1,83 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
 import { SectionHeader } from "@/components/SectionHeader";
 import { TextAreaField } from "@/components/TextAreaField";
 
+const SECTION_KEY = "FooterCMS";
+
+const defaultFormData = {
+  companyName: "",
+  companyInitials: "",
+  footerDescription: "",
+  loc1Country: "",
+  loc1Address: "",
+  loc2Country: "",
+  loc2Address: "",
+  phoneNumber: "",
+  emailAddress: "",
+  leftText: "",
+  rightText: "",
+  centerText: "",
+  facebookUrl: "",
+  twitterUrl: "",
+  instagramUrl: "",
+  linkedinUrl: "",
+};
+
 export default function FooterCMS() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [formData, setFormData] = useState(defaultFormData);
+
+  useEffect(() => {
+    fetch("/api/home")
+      .then((r) => r.json())
+      .then((json) => {
+        if (json.success && json.data?.[SECTION_KEY]) {
+          setFormData((prev) => ({ ...prev, ...json.data[SECTION_KEY] }));
+        }
+      })
+      .catch(console.error);
+  }, []);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = async () => {
+    const errs: string[] = [];
+    if (!formData.companyName.trim()) errs.push("Company Name is required");
+    if (!formData.emailAddress.trim()) errs.push("Email Address is required");
+
+    if (errs.length > 0) {
+      errs.forEach((m) => toast.error(m));
+      return;
+    }
+
+    setIsSaving(true);
+    const toastId = toast.loading("Saving...");
+    try {
+      const res = await fetch("/api/home", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ section: SECTION_KEY, content: formData }),
+      });
+      const json = await res.json();
+      json.success
+        ? toast.success("Footer details saved!", { id: toastId })
+        : toast.error("Save failed. Please try again.", { id: toastId });
+    } catch {
+      toast.error("Network error. Please try again.", { id: toastId });
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
     <section>
@@ -31,18 +102,25 @@ export default function FooterCMS() {
 
               <InputField
                 label="Company Name"
-                defaultValue="THE GOLD TECHNOLOGIES"
+                name="companyName"
+                value={formData.companyName}
+                onChange={handleChange}
                 containerClassName="col-span-1"
+                required
               />
               <InputField
                 label="Company Initials"
-                defaultValue="GT"
+                name="companyInitials"
+                value={formData.companyInitials}
+                onChange={handleChange}
                 containerClassName="col-span-1"
               />
 
               <TextAreaField
                 label="Footer Description/Tagline"
-                defaultValue="Empowering visionaries with cutting-edge digital solutions. We turn complex challenges into elegant, scalable technology."
+                name="footerDescription"
+                value={formData.footerDescription}
+                onChange={handleChange}
                 containerClassName="col-span-2"
                 rows={2}
               />
@@ -56,10 +134,17 @@ export default function FooterCMS() {
                 <h2 className="text-sm font-semibold text-gray-700">
                   Location 1
                 </h2>
-                <InputField label="Country/Region" defaultValue="INDIA" />
+                <InputField
+                  label="Country/Region"
+                  name="loc1Country"
+                  value={formData.loc1Country}
+                  onChange={handleChange}
+                />
                 <TextAreaField
                   label="Full Address"
-                  defaultValue="SD-369, D block, Shastri Nagar, Ghaziabad, Uttar Pradesh, India - 201002"
+                  name="loc1Address"
+                  value={formData.loc1Address}
+                  onChange={handleChange}
                   rows={3}
                 />
               </div>
@@ -69,10 +154,17 @@ export default function FooterCMS() {
                 <h2 className="text-sm font-semibold text-gray-700">
                   Location 2
                 </h2>
-                <InputField label="Country/Region" defaultValue="USA" />
+                <InputField
+                  label="Country/Region"
+                  name="loc2Country"
+                  value={formData.loc2Country}
+                  onChange={handleChange}
+                />
                 <TextAreaField
                   label="Full Address"
-                  defaultValue="Accessible minds 1309- Coffeen Avenue, STE 1200 Sheridan Wyoming- 82801, USA"
+                  name="loc2Address"
+                  value={formData.loc2Address}
+                  onChange={handleChange}
                   rows={3}
                 />
               </div>
@@ -83,24 +175,41 @@ export default function FooterCMS() {
 
               <InputField
                 label="Phone Number"
-                defaultValue="+91 8368198551"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleChange}
                 containerClassName="col-span-1"
               />
               <InputField
                 label="Email Address"
-                defaultValue="info@thegoldtechnologies.com"
+                name="emailAddress"
+                value={formData.emailAddress}
+                onChange={handleChange}
                 containerClassName="col-span-1"
+                required
               />
 
               <h1 className=" text-base font-bold text-gray-500 col-span-2 mt-4">
                 Background Massive Text
               </h1>
 
-              <InputField label="Left Text" defaultValue="THE" />
-              <InputField label="Right Text" defaultValue="NOLOGIES" />
+              <InputField
+                label="Left Text"
+                name="leftText"
+                value={formData.leftText}
+                onChange={handleChange}
+              />
+              <InputField
+                label="Right Text"
+                name="rightText"
+                value={formData.rightText}
+                onChange={handleChange}
+              />
               <InputField
                 label="Center Main Text"
-                defaultValue="GOLD TECH"
+                name="centerText"
+                value={formData.centerText}
+                onChange={handleChange}
                 containerClassName="col-span-2"
               />
 
@@ -110,23 +219,35 @@ export default function FooterCMS() {
 
               <InputField
                 label="Facebook URL"
+                name="facebookUrl"
+                value={formData.facebookUrl}
+                onChange={handleChange}
                 placeholder="https://facebook.com/..."
               />
               <InputField
                 label="Twitter/X URL"
+                name="twitterUrl"
+                value={formData.twitterUrl}
+                onChange={handleChange}
                 placeholder="https://twitter.com/..."
               />
               <InputField
                 label="Instagram URL"
+                name="instagramUrl"
+                value={formData.instagramUrl}
+                onChange={handleChange}
                 placeholder="https://instagram.com/..."
               />
               <InputField
                 label="LinkedIn URL"
+                name="linkedinUrl"
+                value={formData.linkedinUrl}
+                onChange={handleChange}
                 placeholder="https://linkedin.com/in/..."
               />
 
               <div className="col-span-2 mt-2">
-                <SaveButton />
+                <SaveButton onClick={handleSave} disabled={isSaving} />
               </div>
             </div>
           </div>
