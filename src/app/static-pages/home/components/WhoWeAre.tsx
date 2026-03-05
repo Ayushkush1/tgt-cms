@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { fetchWithCache } from "@/lib/apiCache";
 import toast from "react-hot-toast";
 import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
@@ -33,7 +34,7 @@ export default function WhoWeAre() {
   const [formData, setFormData] = useState(defaultFormData);
 
   useEffect(() => {
-    fetch("/api/home")
+    fetchWithCache("/api/home")
       .then((res) => res.json())
       .then((json) => {
         if (json.success && json.data?.[SECTION_KEY]) {

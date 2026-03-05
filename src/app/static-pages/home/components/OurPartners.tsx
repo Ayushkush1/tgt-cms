@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { fetchWithCache } from "@/lib/apiCache";
 import toast from "react-hot-toast";
 import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
@@ -23,8 +24,7 @@ export default function OurPartners() {
   const [images, setImages] = useState<(File | string | null)[]>([]);
 
   useEffect(() => {
-    fetch("/api/home")
-      .then((r) => r.json())
+    fetchWithCache("/api/home")
       .then((json) => {
         if (json.success && json.data?.[SECTION_KEY]) {
           const data = json.data[SECTION_KEY];

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { fetchWithCache } from "@/lib/apiCache";
 import { CloudUpload, X, Plus, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { InputField } from "@/components/InputField";
@@ -42,8 +43,7 @@ export default function HeroSection() {
   const [formData, setFormData] = useState(defaultFormData);
 
   useEffect(() => {
-    fetch("/api/home")
-      .then((r) => r.json())
+    fetchWithCache("/api/home")
       .then((json) => {
         if (json.success && json.data?.[SECTION_KEY]) {
           const data = json.data[SECTION_KEY];

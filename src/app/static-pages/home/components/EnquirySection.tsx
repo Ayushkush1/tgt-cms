@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { fetchWithCache } from "@/lib/apiCache";
 import toast from "react-hot-toast";
 import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
@@ -27,8 +28,7 @@ export default function EnquirySection() {
   const [formData, setFormData] = useState(defaultFormData);
 
   useEffect(() => {
-    fetch("/api/home")
-      .then((r) => r.json())
+    fetchWithCache("/api/home")
       .then((json) => {
         if (json.success && json.data?.[SECTION_KEY])
           setFormData((prev) => ({ ...prev, ...json.data[SECTION_KEY] }));

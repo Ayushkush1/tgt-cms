@@ -1,12 +1,69 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { fetchWithCache } from "@/lib/apiCache";
+import toast from "react-hot-toast";
 import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
 import { SectionHeader } from "@/components/SectionHeader";
 import { TextAreaField } from "@/components/TextAreaField";
 
+const SECTION_KEY = "VideoSection";
+
+const defaultFormData = {
+  headingPart1: "",
+  headingHighlight1: "",
+  headingPart2: "",
+  headingHighlight2: "",
+  descriptionText: "",
+  videoUrl: "",
+};
+
 export default function VideoSection() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [formData, setFormData] = useState(defaultFormData);
+
+  useEffect(() => {
+    fetchWithCache("/api/about")
+      .then((json) => {
+        if (json.success && json.data?.[SECTION_KEY]) {
+          setFormData((prev) => ({ ...prev, ...json.data[SECTION_KEY] }));
+        }
+      })
+      .catch(console.error);
+  }, []);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = async () => {
+    if (!formData.headingPart1.trim()) {
+      toast.error("Heading Part 1 is required");
+      return;
+    }
+
+    setIsSaving(true);
+    const toastId = toast.loading("Saving...");
+    try {
+      const res = await fetch("/api/about", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ section: SECTION_KEY, content: formData }),
+      });
+      const json = await res.json();
+      json.success
+        ? toast.success("Video section saved!", { id: toastId })
+        : toast.error("Save failed. Please try again.", { id: toastId });
+    } catch {
+      toast.error("Network error. Please try again.", { id: toastId });
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
     <section>
@@ -25,30 +82,58 @@ export default function VideoSection() {
         >
           <div className="overflow-hidden">
             <div className="grid grid-cols-2 gap-4 pt-2">
-              <InputField label="Heading Part 1" defaultValue="Innovation " />
+              <InputField
+                label="Heading Part 1"
+                name="headingPart1"
+                value={formData.headingPart1}
+                onChange={handleChange}
+                placeholder="e.g. Innovation"
+                required
+              />
               <InputField
                 label="Heading Highlight (Italic/Gold)"
-                defaultValue="Crafted"
+                name="headingHighlight1"
+                value={formData.headingHighlight1}
+                onChange={handleChange}
+                placeholder="e.g. Crafted"
               />
-              <InputField label="Heading Part 2" defaultValue="With " />
+              <InputField
+                label="Heading Part 2"
+                name="headingPart2"
+                value={formData.headingPart2}
+                onChange={handleChange}
+                placeholder="e.g. With"
+              />
               <InputField
                 label="Heading Highlight (Underlined)"
-                defaultValue="Excellence"
+                name="headingHighlight2"
+                value={formData.headingHighlight2}
+                onChange={handleChange}
+                placeholder="e.g. Excellence"
               />
 
               <TextAreaField
                 label="Description Text"
-                defaultValue="We help businesses innovate, grow, and scale through smart, reliable technology solutions tailored for real results."
+                name="descriptionText"
+                value={formData.descriptionText}
+                onChange={handleChange}
+                placeholder="e.g. We help businesses innovate..."
                 containerClassName="col-span-2"
+                rows={3}
               />
 
               <InputField
                 label="Video URL (Embed)"
-                defaultValue="https://www.youtube.com/embed/Zp1fuVhlP6o?si=M7ocbQbSEnPKZ0EQ"
+                name="videoUrl"
+                value={formData.videoUrl}
+                onChange={handleChange}
+                placeholder="e.g. https://www.youtube.com/embed/..."
                 containerClassName="col-span-2"
               />
 
-              <SaveButton />
+              <div className="col-span-2 mt-2">
+                <SaveButton onClick={handleSave} disabled={isSaving} />
+              </div>
             </div>
           </div>
         </div>
