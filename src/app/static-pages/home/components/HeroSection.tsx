@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { fetchWithCache } from "@/lib/apiCache";
-import { CloudUpload, X, Plus, Trash2 } from "lucide-react";
+import { CloudUpload, X, Plus, Trash2, CloudCog } from "lucide-react";
 import toast from "react-hot-toast";
 import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
@@ -34,8 +34,10 @@ const defaultFormData = {
 
 export default function HeroSection() {
   const [isOpen, setIsOpen] = useState(false);
-  // Store up to N slider images, synced with projects array length
-  const [sliderImages, setSliderImages] = useState<(File | null)[]>([null]);
+  // Store up to N slider images, synced with projects array length. Can be File (pending) or string (existing URL)
+  const [sliderImages, setSliderImages] = useState<(File | string | null)[]>([
+    null,
+  ]);
   const [isDragging, setIsDragging] = useState<number | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const fileInputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -48,9 +50,9 @@ export default function HeroSection() {
         if (json.success && json.data?.[SECTION_KEY]) {
           const data = json.data[SECTION_KEY];
           setFormData((prev) => ({ ...prev, ...data }));
-          // Ensure sliderImages array matches projects length
+          // Populate sliderImages with existing URLs from database
           if (data.projects) {
-            setSliderImages(Array(data.projects.length).fill(null));
+            setSliderImages(data.projects.map((p: any) => p.image || null));
           }
         }
       })
@@ -138,9 +140,15 @@ export default function HeroSection() {
     const toastId = toast.loading("Saving...");
     try {
       const uploadedUrls = await uploadFiles(sliderImages);
+      // Update sliderImages state with the final URLs (replaces File objects with Supabase URLs)
+      setSliderImages(uploadedUrls.map((url) => url || null));
+
       const payload = {
         ...formData,
-        projects: formData.projects.map((item, idx) => ({ ...item, image: uploadedUrls[idx] }))
+        projects: formData.projects.map((item, idx) => ({
+          ...item,
+          image: uploadedUrls[idx],
+        })),
       };
       const res = await fetch("/api/home", {
         method: "PUT",
@@ -148,10 +156,13 @@ export default function HeroSection() {
         body: JSON.stringify({ section: SECTION_KEY, content: payload }),
       });
       const json = await res.json();
-      json.success
-        ? toast.success("Hero section saved!", { id: toastId })
-        : toast.error("Save failed. Please try again.", { id: toastId });
-    } catch {
+      if (json.success) {
+        toast.success("Hero section saved!", { id: toastId });
+      } else {
+        toast.error("Save failed. Please try again.", { id: toastId });
+      }
+    } catch (error) {
+      console.error("Save Error:", error);
       toast.error("Network error. Please try again.", { id: toastId });
     } finally {
       setIsSaving(false);
@@ -324,22 +335,34 @@ export default function HeroSection() {
                         <div className="w-full border border-gray-200 rounded-xl bg-gray-50 flex items-center justify-between p-3 px-4">
                           <div className="flex items-center gap-4">
                             <img
-                              src={typeof sliderImages[index] === "string" ? sliderImages[index] : URL.createObjectURL(sliderImages[index]!)}
+                              src={
+                                typeof sliderImages[index] === "string"
+                                  ? sliderImages[index]
+                                  : URL.createObjectURL(sliderImages[index]!)
+                              }
                               alt={`Card ${index + 1}`}
                               className="w-12 h-12 object-cover rounded-md shadow-sm border border-gray-200"
                             />
                             <div className="flex flex-col">
                               <span className="text-gray-900 font-semibold text-sm truncate max-w-[200px]">
-                                {sliderImages[index]!.name}
+                                {sliderImages[index] instanceof File
+                                  ? (sliderImages[index] as File).name
+                                  : typeof sliderImages[index] === "string"
+                                    ? (sliderImages[index] as string)
+                                        .split("/")
+                                        .pop()
+                                    : "Image"}
                               </span>
-                              <span className="text-gray-500 text-[12px]">
-                                {(
-                                  sliderImages[index]!.size /
-                                  1024 /
-                                  1024
-                                ).toFixed(2)}{" "}
-                                MB
-                              </span>
+                              {sliderImages[index] instanceof File && (
+                                <span className="text-gray-500 text-[12px]">
+                                  {(
+                                    (sliderImages[index] as File).size /
+                                    1024 /
+                                    1024
+                                  ).toFixed(2)}{" "}
+                                  MB
+                                </span>
+                              )}
                             </div>
                           </div>
                           <button
