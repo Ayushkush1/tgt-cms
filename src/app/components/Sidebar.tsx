@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { fetchWithCache } from "../lib/apiCache";
 import {
   LayoutDashboard,
   Settings,
@@ -23,7 +24,7 @@ type SidebarLink = {
   badge?: string | number;
 };
 
-const sidebarLinks: SidebarLink[] = [
+const staticSidebarLinks: SidebarLink[] = [
   {
     title: "Dashboard",
     href: "/",
@@ -49,15 +50,6 @@ const sidebarLinks: SidebarLink[] = [
     ],
   },
   {
-    title: "Custom pages",
-    icon: Layers,
-    sublinks: [
-      { title: "Services", href: "/ " },
-      { title: "Blog Posts", href: "/blog" },
-      { title: "Metrics & Stats", href: "/metrics" },
-    ],
-  },
-  {
     title: "Settings",
     icon: Settings,
     sublinks: [{ title: "Profile", href: "/settings/profile" }],
@@ -66,6 +58,39 @@ const sidebarLinks: SidebarLink[] = [
 
 export function AdminSidebar() {
   const pathname = usePathname();
+  const [customPages, setCustomPages] = useState<
+    { title: string; href: string }[]
+  >([]);
+
+  useEffect(() => {
+    fetchWithCache("/api/pages")
+      .then((json) => {
+        if (json.success && Array.isArray(json.data)) {
+          const fetchedPages = json.data
+            .filter((p: any) => p.type === "standard")
+            .map((p: any) => ({
+              title: p.title,
+              href: `/custom-pages/${p.slug}`,
+            }));
+          setCustomPages(fetchedPages);
+        }
+      })
+      .catch(console.error);
+  }, []);
+
+  const dynamicCustomSection: SidebarLink = {
+    title: "Custom pages",
+    icon: Layers,
+    sublinks: [...customPages],
+  };
+
+  // Reconstruct full links array
+  const sidebarLinks = [
+    ...staticSidebarLinks.slice(0, 3),
+    dynamicCustomSection,
+    ...staticSidebarLinks.slice(3),
+  ];
+
   const [openGroups, setOpenGroups] = useState<string[]>(() => {
     return sidebarLinks
       .filter((item) =>
