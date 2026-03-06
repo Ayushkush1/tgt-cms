@@ -128,7 +128,7 @@ export default function OurPartners() {
                   label="Upload Partner Logos"
                   images={images}
                   onImagesChange={setImages}
-                  maxImages={10}
+                  maxImages={150}
                   containerClassName="col-span-2"
                 />
                 <p className="text-xs text-gray-500 mx-2">

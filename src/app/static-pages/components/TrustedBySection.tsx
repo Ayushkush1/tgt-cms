@@ -114,7 +114,7 @@ export default function TrustedBySection() {
                   label="Upload Slider Images"
                   images={images}
                   onImagesChange={setImages}
-                  maxImages={4}
+                  maxImages={50}
                   containerClassName="col-span-2"
                 />
                 <p className="text-xs text-gray-500 mx-2">
