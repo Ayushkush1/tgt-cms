@@ -23,7 +23,7 @@ export interface ProductItem {
   title: string;
   shortDesc: string;
   link: string;
-  imageUrl: string;
+  imageUrl: string | File;
   pillars: Pillar[];
 }
 

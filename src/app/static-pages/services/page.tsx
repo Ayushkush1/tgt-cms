@@ -24,6 +24,8 @@ const SERVICE_OPTIONS = [
   { id: "digital-marketing", label: "Digital Marketing" },
 ];
 
+import { uploadFiles } from "@/app/lib/uploadHelpers";
+
 interface ServiceItem {
   number: string;
   title: string;
@@ -40,7 +42,7 @@ interface HeroData {
   paragraphs: string[];
   ctaText: string;
   ctaHref: string;
-  imageUrl: string;
+  imageUrl: string | File;
   statSince: string;
   statProjects: string;
   pillars: any[];
@@ -85,7 +87,7 @@ export default function ServicesCMS() {
   const [selectedServiceId, setSelectedServiceId] = useState(
     SERVICE_OPTIONS[0].id,
   );
-  const [formData, setFormData] = useState(defaultData);
+  const [formData, setFormData] = useState<PageData>(defaultData);
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -136,21 +138,35 @@ export default function ServicesCMS() {
     setIsSaving(true);
     const tid = toast.loading(`Saving ${selectedServiceId}...`);
     try {
+      // 1. Upload Hero Image if it's a File
+      const uploadedUrls = await uploadFiles([formData.hero.imageUrl]);
+      const finalHero = {
+        ...formData.hero,
+        imageUrl: uploadedUrls[0] || "",
+      };
+
+      const finalPayload = {
+        ...formData,
+        hero: finalHero,
+      };
+
       const res = await fetch("/api/services", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id: selectedServiceId,
-          content: formData,
+          content: finalPayload,
         }),
       });
       const json = await res.json();
       if (json.success) {
         toast.success("Saved successfully!", { id: tid });
+        setFormData(finalPayload);
       } else {
         toast.error("Failed to save.", { id: tid });
       }
     } catch (err) {
+      console.error("Save error:", err);
       toast.error("Network error.", { id: tid });
     } finally {
       setIsSaving(false);

@@ -16,7 +16,9 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
   maxImages = 1,
   containerClassName = "",
 }) => {
-  const [internalImages, setInternalImages] = useState<(File | string | null)[]>([])
+  const [internalImages, setInternalImages] = useState<
+    (File | string | null)[]
+  >([]);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -81,37 +83,53 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
 
       {images.length > 0 && (
         <div className="flex flex-col gap-2 mt-1 mb-1">
-          {images.map((img, idx) => (
-            <div
-              key={idx}
-              className="w-full border border-gray-200 rounded-xl bg-gray-50 flex items-center justify-between p-3 px-4 relative overflow-hidden group"
-            >
-              <div className="flex items-center gap-4">
-                <img
-                  src={typeof img === "string" ? img : URL.createObjectURL(img as Blob)}
-                  alt={`Preview ${idx + 1}`}
-                  className="w-12 h-12 object-cover rounded-md shadow-sm border border-gray-200"
-                />
-                <div className="flex flex-col">
-                  <span className="text-gray-900 font-semibold text-sm truncate max-w-[200px]">
-                    {typeof img === "string" ? "Uploaded Image" : (img as File).name}
-                  </span>
-                  <span className="text-gray-500 font-medium text-[12px]">
-                    {typeof img === "string" ? "Cloud / Remote" : ((img as File).size / 1024 / 1024).toFixed(2) + " MB"}
-                  </span>
-                </div>
-              </div>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  removeImage(idx);
-                }}
-                className="p-1.5 bg-white text-gray-500 hover:text-red-500 rounded-full shadow-sm ring-1 ring-gray-100 transition-colors cursor-pointer relative z-10"
+          {images.map((img, idx) => {
+            if (!img) return null;
+            return (
+              <div
+                key={idx}
+                className="w-full border border-gray-200 rounded-xl bg-gray-50 flex items-center justify-between p-3 px-4 relative overflow-hidden group"
               >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-          ))}
+                <div className="flex items-center gap-4">
+                  <img
+                    src={
+                      typeof img === "string"
+                        ? img
+                        : (img as any) instanceof File ||
+                            (img as any) instanceof Blob
+                          ? URL.createObjectURL(img as any)
+                          : ""
+                    }
+                    alt={`Preview ${idx + 1}`}
+                    className="w-12 h-12 object-cover rounded-md shadow-sm border border-gray-200"
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-gray-900 font-semibold text-sm truncate max-w-[200px]">
+                      {typeof img === "string"
+                        ? "Uploaded Image"
+                        : (img as any).name || "Unknown"}
+                    </span>
+                    <span className="text-gray-500 font-medium text-[12px]">
+                      {typeof img === "string"
+                        ? "Cloud / Remote"
+                        : (img as any).size
+                          ? ((img as any).size / 1024 / 1024).toFixed(2) + " MB"
+                          : "Unknown size"}
+                    </span>
+                  </div>
+                </div>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    removeImage(idx);
+                  }}
+                  className="p-1.5 bg-white text-gray-500 hover:text-red-500 rounded-full shadow-sm ring-1 ring-gray-100 transition-colors cursor-pointer relative z-10"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            );
+          })}
         </div>
       )}
 

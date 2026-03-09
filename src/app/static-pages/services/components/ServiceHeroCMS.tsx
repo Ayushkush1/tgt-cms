@@ -19,7 +19,7 @@ interface HeroData {
   paragraphs: string[];
   ctaText: string;
   ctaHref: string;
-  imageUrl: string;
+  imageUrl: string | File;
   statSince: string;
   statProjects: string;
   pillars: Pillar[];
@@ -161,7 +161,7 @@ export function ServiceHeroCMS({
               label="Hero Image"
               images={data.imageUrl ? [data.imageUrl] : []}
               onImagesChange={(imgs) =>
-                onChange({ ...data, imageUrl: (imgs[0] as string) || "" })
+                onChange({ ...data, imageUrl: imgs[0] || "" })
               }
               maxImages={1}
             />

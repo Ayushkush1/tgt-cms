@@ -7,6 +7,8 @@ import { ProductListCMS, ProductItem } from "./components/ProductListCMS";
 import { SaveButton } from "@/components/SaveButton";
 import toast from "react-hot-toast";
 
+import { uploadFiles } from "@/app/lib/uploadHelpers";
+
 interface PageData {
   hero: ProductHeroData;
   products: ProductItem[];
@@ -69,18 +71,36 @@ export default function ProductsPage() {
     setIsSaving(true);
     const tid = toast.loading("Saving products...");
     try {
+      // 1. Upload images first
+      const imagesToUpload = formData.products.map((p) => p.imageUrl);
+      const uploadedUrls = await uploadFiles(imagesToUpload);
+
+      // 2. Map URLs back to products
+      const updatedProducts = formData.products.map((p, i) => ({
+        ...p,
+        imageUrl: uploadedUrls[i] || "",
+      }));
+
+      const finalPayload = {
+        ...formData,
+        products: updatedProducts,
+      };
+
       const res = await fetch("/api/products", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: formData }),
+        body: JSON.stringify({ content: finalPayload }),
       });
       const json = await res.json();
       if (json.success) {
         toast.success("Saved successfully!", { id: tid });
+        // Update local state with the actual URLs to avoid re-uploading on next save
+        setFormData(finalPayload);
       } else {
         toast.error("Failed to save.", { id: tid });
       }
     } catch (err) {
+      console.error("Save error:", err);
       toast.error("Network error.", { id: tid });
     } finally {
       setIsSaving(false);
