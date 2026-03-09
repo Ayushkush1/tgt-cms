@@ -15,6 +15,7 @@ interface TestimonialItem {
   clientName: string;
   clientRole: string;
   quote: string;
+  image?: string | null;
 }
 
 const defaultTestimonial = (): TestimonialItem => ({
@@ -39,7 +40,9 @@ const defaultFormData = {
 export default function OurReputation() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [avatarImages, setAvatarImages] = useState<(File | null)[]>([null]);
+  const [avatarImages, setAvatarImages] = useState<(File | string | null)[]>(
+    [],
+  );
   const [isDragging, setIsDragging] = useState<number | null>(null);
   const fileInputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -52,7 +55,7 @@ export default function OurReputation() {
           const data = json.data[SECTION_KEY];
           setFormData((prev) => ({ ...prev, ...data }));
           if (data.testimonials) {
-            setAvatarImages(Array(data.testimonials.length).fill(null));
+            setAvatarImages(data.testimonials.map((t: any) => t.image || null));
           }
         }
       })
@@ -139,7 +142,10 @@ export default function OurReputation() {
       const uploadedUrls = await uploadFiles(avatarImages);
       const payload = {
         ...formData,
-        testimonials: formData.testimonials.map((item, idx) => ({ ...item, image: uploadedUrls[idx] }))
+        testimonials: formData.testimonials.map((item, idx) => ({
+          ...item,
+          image: uploadedUrls[idx],
+        })),
       };
       const res = await fetch("/api/home", {
         method: "PUT",
@@ -147,9 +153,20 @@ export default function OurReputation() {
         body: JSON.stringify({ section: SECTION_KEY, content: payload }),
       });
       const json = await res.json();
-      json.success
-        ? toast.success("Our Reputation section saved!", { id: toastId })
-        : toast.error("Save failed. Please try again.", { id: toastId });
+      if (json.success) {
+        toast.success("Our Reputation section saved!", { id: toastId });
+        // Update local state with final URLs to avoid re-uploading on next save
+        setAvatarImages(uploadedUrls);
+        setFormData((prev) => ({
+          ...prev,
+          testimonials: prev.testimonials.map((item, idx) => ({
+            ...item,
+            image: uploadedUrls[idx],
+          })),
+        }));
+      } else {
+        toast.error("Save failed. Please try again.", { id: toastId });
+      }
     } catch {
       toast.error("Network error. Please try again.", { id: toastId });
     } finally {
@@ -310,21 +327,26 @@ export default function OurReputation() {
                         <div className="w-full border border-gray-200 rounded-xl bg-gray-50 flex items-center justify-between p-3 px-4">
                           <div className="flex items-center gap-4">
                             <img
-                              src={typeof avatarImages[index] === "string" ? avatarImages[index] : URL.createObjectURL(avatarImages[index] as Blob)}
+                              src={
+                                typeof avatarImages[index] === "string"
+                                  ? (avatarImages[index] as string)
+                                  : URL.createObjectURL(
+                                      avatarImages[index] as Blob,
+                                    )
+                              }
                               alt={`Avatar ${index + 1}`}
                               className="w-12 h-12 object-cover rounded-full shadow-sm border border-gray-200"
                             />
                             <div className="flex flex-col">
                               <span className="text-gray-900 font-semibold text-sm truncate max-w-[200px]">
-                                {typeof avatarImages[index] === "string" ? "Uploaded Image" : (avatarImages[index] as File).name}
+                                {typeof avatarImages[index] === "string"
+                                  ? "Uploaded Image"
+                                  : (avatarImages[index] as File).name}
                               </span>
                               <span className="text-gray-500 text-[12px]">
-                                {(
-                                  avatarImages[index]!.size /
-                                  1024 /
-                                  1024
-                                ).toFixed(2)}{" "}
-                                MB
+                                {avatarImages[index] instanceof File
+                                  ? `${((avatarImages[index] as File).size / 1024 / 1024).toFixed(2)} MB`
+                                  : "Existing Image"}
                               </span>
                             </div>
                           </div>
