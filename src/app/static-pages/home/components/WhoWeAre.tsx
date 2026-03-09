@@ -18,14 +18,12 @@ const defaultFormData = {
   upperTag: "",
   block1Headline: "",
   block1Description: "",
-  block1Bullet1: "",
-  block1Bullet2: "",
-  block1Bullet3: "",
-  block1Bullet4: "",
+  block1Bullets: ["", "", "", ""],
   block2Headline: "",
   block2Description: "",
   block2CtaLabel: "",
   block2CtaUrl: "",
+  block2HeadlineHighlight: "",
 };
 
 export default function WhoWeAre() {
@@ -37,11 +35,29 @@ export default function WhoWeAre() {
     fetchWithCache("/api/home")
       .then((json: any) => {
         if (json.success && json.data?.[SECTION_KEY]) {
-          setFormData((prev) => ({ ...prev, ...json.data[SECTION_KEY] }));
+          const data = json.data[SECTION_KEY];
+          // Fallback for legacy data structure
+          if (!data.block1Bullets) {
+            data.block1Bullets = [
+              data.block1Bullet1 || "",
+              data.block1Bullet2 || "",
+              data.block1Bullet3 || "",
+              data.block1Bullet4 || "",
+            ];
+          }
+          setFormData((prev) => ({ ...prev, ...data }));
         }
       })
       .catch(console.error);
   }, []);
+
+  const handleBulletChange = (index: number, value: string) => {
+    setFormData((prev) => {
+      const newBullets = [...prev.block1Bullets];
+      newBullets[index] = value;
+      return { ...prev, block1Bullets: newBullets };
+    });
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -58,7 +74,10 @@ export default function WhoWeAre() {
       ["block2Headline", "Block 2 Headline"],
     ];
     const errs = required
-      .filter(([key]) => !formData[key as keyof typeof formData]?.trim())
+      .filter(([key]) => {
+        const value = formData[key as keyof typeof formData];
+        return typeof value === "string" && !value.trim();
+      })
       .map(([, label]) => `${label} is required`);
 
     if (errs.length > 0) {
@@ -174,19 +193,12 @@ export default function WhoWeAre() {
                 <label className="text-sm font-medium text-gray-700">
                   Bullet Points (Up to 4)
                 </label>
-                {(
-                  [
-                    "block1Bullet1",
-                    "block1Bullet2",
-                    "block1Bullet3",
-                    "block1Bullet4",
-                  ] as const
-                ).map((key, i) => (
+                {formData.block1Bullets.map((bullet, i) => (
                   <InputField
-                    key={key}
-                    name={key}
-                    value={formData[key]}
-                    onChange={handleChange}
+                    key={i}
+                    name={`bullet-${i}`}
+                    value={bullet}
+                    onChange={(e) => handleBulletChange(i, e.target.value)}
                     placeholder={`Bullet ${i + 1}`}
                   />
                 ))}
@@ -201,7 +213,14 @@ export default function WhoWeAre() {
                 value={formData.block2Headline}
                 onChange={handleChange}
                 placeholder="e.g. Simple & Accessible"
-                containerClassName="col-span-2"
+                required
+              />
+              <InputField
+                label="Headline Highlight (Gold/Italic)"
+                name="block2HeadlineHighlight"
+                value={formData.block2HeadlineHighlight}
+                onChange={handleChange}
+                placeholder="e.g. Simple & Accessible"
                 required
               />
               <TextAreaField

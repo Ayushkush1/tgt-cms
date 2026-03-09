@@ -106,6 +106,7 @@ export default function FooterCMS() {
                 value={formData.companyName}
                 onChange={handleChange}
                 containerClassName="col-span-1"
+                placeholder="e.g. The Gold Technologies"
                 required
               />
               <InputField
@@ -114,6 +115,7 @@ export default function FooterCMS() {
                 value={formData.companyInitials}
                 onChange={handleChange}
                 containerClassName="col-span-1"
+                placeholder="e.g. TGT"
               />
 
               <TextAreaField
@@ -123,6 +125,7 @@ export default function FooterCMS() {
                 onChange={handleChange}
                 containerClassName="col-span-2"
                 rows={2}
+                placeholder="e.g. We build digital products that drive real growth."
               />
 
               <h1 className=" text-base font-bold text-gray-500 col-span-2 mt-4">
@@ -139,6 +142,7 @@ export default function FooterCMS() {
                   name="loc1Country"
                   value={formData.loc1Country}
                   onChange={handleChange}
+                  placeholder="e.g. India"
                 />
                 <TextAreaField
                   label="Full Address"
@@ -146,6 +150,7 @@ export default function FooterCMS() {
                   value={formData.loc1Address}
                   onChange={handleChange}
                   rows={3}
+                  placeholder="e.g. 123 Business Park, Bangalore"
                 />
               </div>
 
@@ -159,6 +164,7 @@ export default function FooterCMS() {
                   name="loc2Country"
                   value={formData.loc2Country}
                   onChange={handleChange}
+                  placeholder="e.g. USA"
                 />
                 <TextAreaField
                   label="Full Address"
@@ -166,6 +172,7 @@ export default function FooterCMS() {
                   value={formData.loc2Address}
                   onChange={handleChange}
                   rows={3}
+                  placeholder="e.g. 456 Tech Ave, San Francisco"
                 />
               </div>
 
@@ -179,6 +186,7 @@ export default function FooterCMS() {
                 value={formData.phoneNumber}
                 onChange={handleChange}
                 containerClassName="col-span-1"
+                placeholder="e.g. +91 98765 43210"
               />
               <InputField
                 label="Email Address"
@@ -186,6 +194,7 @@ export default function FooterCMS() {
                 value={formData.emailAddress}
                 onChange={handleChange}
                 containerClassName="col-span-1"
+                placeholder="e.g. hello@goldtechnologies.com"
                 required
               />
 
@@ -198,12 +207,14 @@ export default function FooterCMS() {
                 name="leftText"
                 value={formData.leftText}
                 onChange={handleChange}
+                placeholder="e.g. Design"
               />
               <InputField
                 label="Right Text"
                 name="rightText"
                 value={formData.rightText}
                 onChange={handleChange}
+                placeholder="e.g. Code"
               />
               <InputField
                 label="Center Main Text"
@@ -211,6 +222,7 @@ export default function FooterCMS() {
                 value={formData.centerText}
                 onChange={handleChange}
                 containerClassName="col-span-2"
+                placeholder="e.g. Innovation"
               />
 
               <h1 className=" text-base font-bold text-gray-500 col-span-2 mt-4">

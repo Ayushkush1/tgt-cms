@@ -15,12 +15,14 @@ interface ServiceItem {
   shortTitle: string;
   fullTitle: string;
   description: string;
+  image?: string;
 }
 
 const defaultService = (): ServiceItem => ({
   shortTitle: "",
   fullTitle: "",
   description: "",
+  image: "",
 });
 
 const defaultFormData = {
@@ -39,7 +41,9 @@ const defaultFormData = {
 export default function WhatWeDo() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [serviceImages, setServiceImages] = useState<(File | null)[]>([null]);
+  const [serviceImages, setServiceImages] = useState<(File | string | null)[]>(
+    [],
+  );
   const [isDragging, setIsDragging] = useState<number | null>(null);
   const fileInputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -52,7 +56,7 @@ export default function WhatWeDo() {
           const data = json.data[SECTION_KEY];
           setFormData((prev) => ({ ...prev, ...data }));
           if (data.services) {
-            setServiceImages(Array(data.services.length).fill(null));
+            setServiceImages(data.services.map((s: any) => s.image || null));
           }
         }
       })
@@ -152,9 +156,20 @@ export default function WhatWeDo() {
         body: JSON.stringify({ section: SECTION_KEY, content: payload }),
       });
       const json = await res.json();
-      json.success
-        ? toast.success("What We Do section saved!", { id: toastId })
-        : toast.error("Save failed. Please try again.", { id: toastId });
+      if (json.success) {
+        toast.success("What We Do section saved!", { id: toastId });
+        // Update local state with final URLs to avoid re-uploading on next save
+        setServiceImages(uploadedUrls);
+        setFormData((prev) => ({
+          ...prev,
+          services: prev.services.map((item: any, idx: number) => ({
+            ...item,
+            image: uploadedUrls[idx],
+          })),
+        }));
+      } else {
+        toast.error("Save failed. Please try again.", { id: toastId });
+      }
     } catch {
       toast.error("Network error. Please try again.", { id: toastId });
     } finally {
@@ -324,12 +339,9 @@ export default function WhatWeDo() {
                                   : (serviceImages[index] as File).name}
                               </span>
                               <span className="text-gray-500 text-[12px]">
-                                {(
-                                  serviceImages[index]!.size /
-                                  1024 /
-                                  1024
-                                ).toFixed(2)}{" "}
-                                MB
+                                {serviceImages[index] instanceof File
+                                  ? `${((serviceImages[index] as File).size / 1024 / 1024).toFixed(2)} MB`
+                                  : "Existing Image"}
                               </span>
                             </div>
                           </div>

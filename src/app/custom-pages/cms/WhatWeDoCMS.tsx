@@ -19,6 +19,7 @@ const defaultService = (): ServiceItem => ({
   shortTitle: "",
   fullTitle: "",
   description: "",
+  image: "",
 });
 
 const defaultFormData = {
@@ -49,9 +50,9 @@ export function WhatWeDoCMS({
 }: WhatWeDoCMSProps) {
   const [isOpen, setIsOpen] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const [serviceImages, setServiceImages] = useState<(File | string | null)[]>([
-    null,
-  ]);
+  const [serviceImages, setServiceImages] = useState<(File | string | null)[]>(
+    initialData?.services?.map((s: any) => s.image || null) || [null],
+  );
   const fileInputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const [formData, setFormData] = useState(initialData || defaultFormData);
@@ -59,9 +60,10 @@ export function WhatWeDoCMS({
   useEffect(() => {
     if (initialData) {
       setFormData(initialData);
-      if (initialData.services) {
-        setServiceImages(initialData.services.map((s: any) => s.image || null));
-      }
+      const images = initialData.services?.map((s: any) => s.image || null) || [
+        null,
+      ];
+      setServiceImages(images);
     }
   }, [initialData]);
 
@@ -150,6 +152,15 @@ export function WhatWeDoCMS({
       const json = await res.json();
       if (json.success) {
         toast.success("Section saved!", { id: toastId });
+        // Update local state with final URLs to avoid re-uploading on next save
+        setServiceImages(uploadedUrls);
+        setFormData((prev: any) => ({
+          ...prev,
+          services: prev.services.map((item: any, idx: number) => ({
+            ...item,
+            image: uploadedUrls[idx],
+          })),
+        }));
         if (onSave) onSave(payload);
       } else {
         toast.error(json.error || "Save failed", { id: toastId });

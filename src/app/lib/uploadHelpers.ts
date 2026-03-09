@@ -1,12 +1,14 @@
+import { supabase } from "@/lib/supabase";
+
 export async function uploadFiles(
   files: (File | string | null)[],
 ): Promise<(string | null)[]> {
   const fileIndices: number[] = [];
-  const formData = new FormData();
+  const filesToUpload: File[] = [];
 
   files.forEach((file, index) => {
     if (file instanceof File) {
-      formData.append(`file_${index}`, file);
+      filesToUpload.push(file);
       fileIndices.push(index);
     }
   });
@@ -17,29 +19,43 @@ export async function uploadFiles(
   }
 
   try {
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
-    const data = await res.json();
+    const uploadedUrls: string[] = [];
 
-    if (data.success) {
-      const result = [...files];
-      let uploadIdx = 0;
-      files.forEach((file, index) => {
-        if (file instanceof File) {
-          result[index] = data.files[uploadIdx++];
-        } else if (typeof file === "string") {
-          result[index] = file;
-        } else {
-          result[index] = null;
-        }
-      });
-      return result as (string | null)[];
-    } else {
-      console.error("Upload handler failed", data.error);
-      throw new Error(data.error || "Upload failed");
+    for (const file of filesToUpload) {
+      const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.\-_]/g, "")}`;
+
+      const { data, error } = await supabase.storage
+        .from("uploadsFiles")
+        .upload(fileName, file, {
+          contentType: file.type,
+          upsert: false,
+        });
+
+      if (error) {
+        console.error("Supabase Storage Error:", error);
+        throw new Error(`Supabase Storage Error: ${error.message}`);
+      }
+
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("uploadsFiles").getPublicUrl(fileName);
+
+      uploadedUrls.push(publicUrl);
     }
+
+    const result = [...files];
+    let uploadIdx = 0;
+    files.forEach((file, index) => {
+      if (file instanceof File) {
+        result[index] = uploadedUrls[uploadIdx++];
+      } else if (typeof file === "string") {
+        result[index] = file;
+      } else {
+        result[index] = null;
+      }
+    });
+
+    return result as (string | null)[];
   } catch (err) {
     console.error("Upload error", err);
     throw err;

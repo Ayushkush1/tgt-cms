@@ -15,10 +15,7 @@ const defaultFormData = {
   upperTag: "",
   block1Headline: "",
   block1Description: "",
-  block1Bullet1: "",
-  block1Bullet2: "",
-  block1Bullet3: "",
-  block1Bullet4: "",
+  block1Bullets: ["", "", "", ""],
   block2Headline: "",
   block2Description: "",
   block2CtaLabel: "",
@@ -45,9 +42,27 @@ export function WhoWeAreCMS({
   // Sync state if initialData changes
   useEffect(() => {
     if (initialData) {
-      setFormData(initialData);
+      const data = { ...initialData };
+      // Fallback for legacy data structure
+      if (!data.block1Bullets) {
+        data.block1Bullets = [
+          data.block1Bullet1 || "",
+          data.block1Bullet2 || "",
+          data.block1Bullet3 || "",
+          data.block1Bullet4 || "",
+        ];
+      }
+      setFormData(data);
     }
   }, [initialData]);
+
+  const handleBulletChange = (index: number, value: string) => {
+    setFormData((prev: any) => {
+      const newBullets = [...prev.block1Bullets];
+      newBullets[index] = value;
+      return { ...prev, block1Bullets: newBullets };
+    });
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -64,7 +79,10 @@ export function WhoWeAreCMS({
       ["block2Headline", "Block 2 Headline"],
     ];
     const errs = required
-      .filter(([key]) => !formData[key as keyof typeof formData]?.trim())
+      .filter(([key]) => {
+        const value = formData[key as keyof typeof formData];
+        return typeof value === "string" && !value.trim();
+      })
       .map(([, label]) => `${label} is required`);
 
     if (errs.length > 0) {
@@ -177,20 +195,13 @@ export function WhoWeAreCMS({
                 containerClassName="col-span-2"
               />
               <div className="col-span-2 grid grid-cols-2 gap-4">
-                {(
-                  [
-                    "block1Bullet1",
-                    "block1Bullet2",
-                    "block1Bullet3",
-                    "block1Bullet4",
-                  ] as const
-                ).map((key, i) => (
+                {formData.block1Bullets.map((bullet: string, i: number) => (
                   <InputField
-                    key={key}
+                    key={i}
                     label={`Bullet ${i + 1}`}
-                    name={key}
-                    value={formData[key]}
-                    onChange={handleChange}
+                    name={`bullet-${i}`}
+                    value={bullet}
+                    onChange={(e) => handleBulletChange(i, e.target.value)}
                   />
                 ))}
               </div>
@@ -203,6 +214,14 @@ export function WhoWeAreCMS({
               <InputField
                 label="Headline"
                 name="block2Headline"
+                value={formData.block2Headline}
+                onChange={handleChange}
+                containerClassName="col-span-2"
+                required
+              />
+              <InputField
+                label="Headline2"
+                name="block2Headline2"
                 value={formData.block2Headline}
                 onChange={handleChange}
                 containerClassName="col-span-2"
