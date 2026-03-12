@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { PageHeader } from "@/components/PageHeader";
 import toast from "react-hot-toast";
 import { Plus, GripVertical, Trash2 } from "lucide-react";
@@ -30,6 +30,7 @@ interface PageData {
 
 export default function CustomPageEditor() {
   const { slug } = useParams();
+  const router = useRouter();
   const [pageData, setPageData] = useState<PageData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -54,6 +55,30 @@ export default function CustomPageEditor() {
       toast.error("Network error");
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const deletePage = async () => {
+    if (
+      !confirm(
+        `Are you sure you want to delete the entire "${pageData?.title}" page? This will remove all sections and cannot be undone.`,
+      )
+    )
+      return;
+
+    try {
+      const res = await fetch(`/api/pages/${slug}`, {
+        method: "DELETE",
+      });
+      const json = await res.json();
+      if (json.success) {
+        toast.success("Page deleted successfully");
+        router.push("/"); // Redirect to dashboard
+      } else {
+        toast.error(json.error || "Failed to delete page");
+      }
+    } catch (err) {
+      toast.error("Failed to delete page");
     }
   };
 
@@ -117,8 +142,12 @@ export default function CustomPageEditor() {
   return (
     <div className="flex flex-col gap-6 max-w-6xl mx-auto pb-20">
       <PageHeader
-        title={`Editing: ${pageData.title}`}
-        description={`Manage sections for the /${pageData.slug} page.`}
+        title={`${pageData.title} Page Content`}
+        description={`Manage the layout and section details for the /${pageData.slug} page.`}
+        deleteAction={{
+          label: "Delete Page",
+          onDelete: deletePage,
+        }}
       />
 
       <div className="flex flex-col gap-8">

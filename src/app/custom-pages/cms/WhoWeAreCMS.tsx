@@ -37,22 +37,27 @@ export function WhoWeAreCMS({
 }: WhoWeAreCMSProps) {
   const [isOpen, setIsOpen] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const [formData, setFormData] = useState(initialData || defaultFormData);
+  const [formData, setFormData] = useState({
+    ...defaultFormData,
+    ...(initialData || {}),
+  });
 
   // Sync state if initialData changes
   useEffect(() => {
     if (initialData) {
-      const data = { ...initialData };
-      // Fallback for legacy data structure
-      if (!data.block1Bullets) {
-        data.block1Bullets = [
-          data.block1Bullet1 || "",
-          data.block1Bullet2 || "",
-          data.block1Bullet3 || "",
-          data.block1Bullet4 || "",
-        ];
-      }
-      setFormData(data);
+      setFormData((prev: any) => {
+        const data = { ...defaultFormData, ...prev, ...initialData };
+        // Fallback for legacy data structure
+        if (!data.block1Bullets) {
+          data.block1Bullets = [
+            data.block1Bullet1 || "",
+            data.block1Bullet2 || "",
+            data.block1Bullet3 || "",
+            data.block1Bullet4 || "",
+          ];
+        }
+        return data;
+      });
     }
   }, [initialData]);
 
@@ -195,15 +200,17 @@ export function WhoWeAreCMS({
                 containerClassName="col-span-2"
               />
               <div className="col-span-2 grid grid-cols-2 gap-4">
-                {formData.block1Bullets.map((bullet: string, i: number) => (
-                  <InputField
-                    key={i}
-                    label={`Bullet ${i + 1}`}
-                    name={`bullet-${i}`}
-                    value={bullet}
-                    onChange={(e) => handleBulletChange(i, e.target.value)}
-                  />
-                ))}
+                {(formData.block1Bullets || []).map(
+                  (bullet: string, i: number) => (
+                    <InputField
+                      key={i}
+                      label={`Bullet ${i + 1}`}
+                      name={`bullet-${i}`}
+                      value={bullet}
+                      onChange={(e) => handleBulletChange(i, e.target.value)}
+                    />
+                  ),
+                )}
               </div>
             </div>
 

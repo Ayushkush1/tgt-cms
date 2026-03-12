@@ -74,7 +74,22 @@ export async function DELETE(
 ) {
   try {
     const { slug } = await params;
+    const urlToDelete = `/custom-pages/${slug}`;
 
+    // Delete the NavLink first if it exists
+    try {
+      // @ts-ignore - resolve type mismatch if any
+      if (prisma.navLink) {
+        // @ts-ignore
+        await prisma.navLink.deleteMany({
+          where: { url: urlToDelete },
+        });
+      }
+    } catch (linkError) {
+      console.error("Error deleting NavLink:", linkError);
+    }
+
+    // Delete the Page
     await prisma.page.delete({
       where: { slug },
     });

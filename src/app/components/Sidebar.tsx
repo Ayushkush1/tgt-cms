@@ -87,7 +87,7 @@ export function AdminSidebar() {
   // Reconstruct full links array
   const sidebarLinks = [
     ...staticSidebarLinks.slice(0, 3),
-    dynamicCustomSection,
+    ...(customPages.length > 0 ? [dynamicCustomSection] : []),
     ...staticSidebarLinks.slice(3),
   ];
 
@@ -98,6 +98,25 @@ export function AdminSidebar() {
       )
       .map((item) => item.title);
   });
+
+  // Ensure active group is open when custom pages load or pathname changes
+  useEffect(() => {
+    const activeGroups = sidebarLinks
+      .filter((item) =>
+        item.sublinks?.some((sublink) => pathname.startsWith(sublink.href)),
+      )
+      .map((item) => item.title);
+
+    setOpenGroups((prev) => {
+      const newGroups = [...prev];
+      activeGroups.forEach((group) => {
+        if (!newGroups.includes(group)) {
+          newGroups.push(group);
+        }
+      });
+      return newGroups;
+    });
+  }, [pathname, customPages.length]);
 
   const toggleGroup = (title: string) => {
     setOpenGroups((prev) =>

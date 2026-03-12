@@ -60,6 +60,27 @@ export async function POST(request: Request) {
       },
     });
 
+    // Automatically create a NavLink for the new page
+    try {
+      // @ts-ignore - resolve type mismatch if any
+      if (prisma.navLink) {
+        // @ts-ignore
+        const linkCount = await prisma.navLink.count();
+        // @ts-ignore
+        await prisma.navLink.create({
+          data: {
+            label: title,
+            url: `/custom-pages/${finalSlug}`,
+            type: "Main Link",
+            order: linkCount + 1,
+          },
+        });
+      }
+    } catch (linkError) {
+      console.error("Error creating NavLink for new page:", linkError);
+      // We don't fail the page creation if link creation fails, but we log it
+    }
+
     return NextResponse.json({ success: true, data: newPage }, { status: 201 });
   } catch (error) {
     console.error("Error creating page:", error);

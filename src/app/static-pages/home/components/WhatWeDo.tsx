@@ -16,6 +16,7 @@ interface ServiceItem {
   fullTitle: string;
   description: string;
   image?: string;
+  link?: string;
 }
 
 const defaultService = (): ServiceItem => ({
@@ -23,6 +24,7 @@ const defaultService = (): ServiceItem => ({
   fullTitle: "",
   description: "",
   image: "",
+  link: "",
 });
 
 const defaultFormData = {
@@ -259,7 +261,7 @@ export default function WhatWeDo() {
                     <h2 className="text-sm font-semibold text-gray-700">
                       Service {index + 1}
                     </h2>
-                    {formData.services.length > 1 && (
+                    {formData?.services?.length > 1 && (
                       <button
                         onClick={() => removeService(index)}
                         className="text-red-500 hover:text-red-600 bg-red-50 hover:bg-red-100 p-1.5 rounded-md transition-colors flex items-center gap-1.5 text-xs font-medium"
@@ -302,6 +304,15 @@ export default function WhatWeDo() {
                           e.target.value,
                         )
                       }
+                    />
+                    <InputField
+                      label="Service Link"
+                      placeholder="e.g. /services/web-development"
+                      value={service.link || ""}
+                      onChange={(e) =>
+                        handleServiceChange(index, "link", e.target.value)
+                      }
+                      containerClassName="col-span-2"
                     />
 
                     {/* Per-card image upload */}

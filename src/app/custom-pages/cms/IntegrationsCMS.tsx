@@ -38,11 +38,18 @@ export function IntegrationsCMS({
 }: IntegrationsCMSProps) {
   const [isOpen, setIsOpen] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const [formData, setFormData] = useState(initialData || defaultFormData);
+  const [formData, setFormData] = useState({
+    ...defaultFormData,
+    ...(initialData || {}),
+  });
 
   useEffect(() => {
     if (initialData) {
-      setFormData(initialData);
+      setFormData((prev: any) => ({
+        ...defaultFormData,
+        ...prev,
+        ...initialData,
+      }));
     }
   }, [initialData]);
 
@@ -139,12 +146,12 @@ export function IntegrationsCMS({
 
             <div className="col-span-2 flex items-center justify-between mt-4">
               <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest">
-                Stats Counters ({formData.stats.length})
+                Stats Counters ({(formData.stats || []).length})
               </h3>
             </div>
 
             <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-              {formData.stats.map((stat: any, index: number) => (
+              {(formData.stats || []).map((stat: any, index: number) => (
                 <div
                   key={index}
                   className="border border-gray-200 rounded-3xl p-6 flex flex-col gap-4 bg-white shadow-sm relative group"
@@ -176,7 +183,7 @@ export function IntegrationsCMS({
                 </div>
               ))}
 
-              {formData.stats.length < 10 && (
+              {(formData.stats || []).length < 10 && (
                 <button
                   onClick={addStat}
                   className="border-2 border-dashed border-gray-200 rounded-3xl flex flex-col items-center justify-center p-12 text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-all gap-2"
