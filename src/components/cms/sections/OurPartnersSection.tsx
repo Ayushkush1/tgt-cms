@@ -8,8 +8,6 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import { uploadFiles } from "@/lib/uploadHelpers";
 
-const SECTION_KEY = "OurPartners";
-
 const defaultFormData = {
   upperTag: "",
   headlinePart1: "",
@@ -17,23 +15,40 @@ const defaultFormData = {
   logos: [] as string[],
 };
 
-export default function OurPartners() {
-  const [isOpen, setIsOpen] = useState(false);
+interface OurPartnersSectionProps {
+  sectionId?: string;
+  initialData?: any;
+  saveUrl?: string; // e.g. /api/home or /api/sections
+  onSave?: (data: any) => void;
+}
+
+export function OurPartnersSection({
+  sectionId,
+  initialData,
+  saveUrl = "/api/home",
+  onSave,
+}: OurPartnersSectionProps) {
+  const [isOpen, setIsOpen] = useState(!initialData);
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState(defaultFormData);
   const [images, setImages] = useState<(File | string | null)[]>([]);
 
   useEffect(() => {
-    fetchWithCache("/api/home")
-      .then((json) => {
-        if (json.success && json.data?.[SECTION_KEY]) {
-          const data = json.data[SECTION_KEY];
-          setFormData((prev) => ({ ...prev, ...data }));
-          if (data.logos) setImages(data.logos);
-        }
-      })
-      .catch(console.error);
-  }, []);
+    if (initialData) {
+      setFormData({ ...defaultFormData, ...initialData });
+      if (initialData.logos) setImages(initialData.logos);
+    } else if (saveUrl === "/api/home") {
+      fetchWithCache("/api/home")
+        .then((json) => {
+          if (json.success && json.data?.OurPartners) {
+            const data = json.data.OurPartners;
+            setFormData((prev) => ({ ...prev, ...data }));
+            if (data.logos) setImages(data.logos);
+          }
+        })
+        .catch(console.error);
+    }
+  }, [initialData, saveUrl]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -56,21 +71,35 @@ export default function OurPartners() {
     const toastId = toast.loading("Saving...");
     try {
       const uploadedUrls = await uploadFiles(images);
-
       const payload = {
         ...formData,
         logos: uploadedUrls.filter((url) => url !== null),
       };
 
-      const res = await fetch("/api/home", {
-        method: "PUT",
+      const body = sectionId
+        ? { id: sectionId, content: payload }
+        : { section: "OurPartners", content: payload };
+
+      const method = sectionId
+        ? "PUT"
+        : saveUrl === "/api/home"
+          ? "PUT"
+          : "POST";
+
+      const res = await fetch(saveUrl, {
+        method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ section: SECTION_KEY, content: payload }),
+        body: JSON.stringify(body),
       });
       const json = await res.json();
-      json.success
-        ? toast.success("Our Partners section saved!", { id: toastId })
-        : toast.error("Save failed. Please try again.", { id: toastId });
+      if (json.success) {
+        toast.success("Our Partners section saved!", { id: toastId });
+        if (onSave) onSave(payload);
+      } else {
+        toast.error(json.error || "Save failed. Please try again.", {
+          id: toastId,
+        });
+      }
     } catch {
       toast.error("Network error. Please try again.", { id: toastId });
     } finally {
@@ -80,7 +109,7 @@ export default function OurPartners() {
 
   return (
     <section>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4 transition-all">
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 flex flex-col gap-6 transition-all">
         <SectionHeader
           title="Our Partners Section"
           description="Manage the marquee of partner logos and header text."
@@ -88,10 +117,12 @@ export default function OurPartners() {
           onToggle={() => setIsOpen(!isOpen)}
         />
         <div
-          className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+          className={`grid transition-all duration-300 ease-in-out ${
+            isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+          }`}
         >
           <div className="overflow-hidden">
-            <div className="grid grid-cols-2 gap-4 pt-2">
+            <div className="grid grid-cols-2 gap-6 pt-4 animate-in fade-in duration-500">
               <h1 className="text-base font-bold text-gray-500 col-span-2">
                 Header Section
               </h1>
@@ -113,7 +144,7 @@ export default function OurPartners() {
                 required
               />
               <InputField
-                label="Headline (Highlight - Italic)"
+                label="Headline (Highlight)"
                 name="headlineHighlight"
                 value={formData.headlineHighlight}
                 onChange={handleChange}
@@ -123,7 +154,7 @@ export default function OurPartners() {
               <h1 className="text-base font-bold text-gray-500 col-span-2 mt-4">
                 Partner Logos
               </h1>
-              <div className="col-span-2 border border-gray-100 rounded-xl p-4 flex flex-col gap-4 bg-gray-50/50">
+              <div className="col-span-2 border border-gray-100 rounded-2xl p-6 bg-gray-50/50">
                 <ImageUploadField
                   label="Upload Partner Logos"
                   images={images}
@@ -131,14 +162,18 @@ export default function OurPartners() {
                   maxImages={150}
                   containerClassName="col-span-2"
                 />
-                <p className="text-xs text-gray-500 mx-2">
+                <p className="text-xs text-gray-500 mt-4 mx-2">
                   Upload SVG or transparent PNG logos for the infinite scrolling
-                  marquee. You can select multiple files at once.
+                  marquee.
                 </p>
               </div>
 
-              <div className="col-span-2 mt-2">
-                <SaveButton onClick={handleSave} disabled={isSaving} />
+              <div className="col-span-2 flex justify-end pt-4">
+                <SaveButton
+                  onClick={handleSave}
+                  disabled={isSaving}
+                  className="w-40"
+                />
               </div>
             </div>
           </div>

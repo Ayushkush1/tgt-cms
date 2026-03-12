@@ -1,13 +1,13 @@
 "use client";
 
 import { PageHeader } from "@/components/PageHeader";
-import HeroSection from "./components/HeroSection";
-import WhoWeAre from "./components/WhoWeAre";
-import WhatWeDo from "./components/WhatWeDo";
-import Integrations from "../components/Integrations";
-import OurPartners from "./components/OurPartners";
-import BlogSection from "../components/BlogSection";
-import OurReputation from "./components/OurReputation";
+import { HeroSection } from "@/components/cms/sections/HeroSection";
+import { WhoWeAreSection } from "@/components/cms/sections/WhoWeAreSection";
+import { WhatWeDoSection } from "@/components/cms/sections/WhatWeDoSection";
+import { IntegrationsSection } from "@/components/cms/sections/IntegrationsSection";
+import { OurPartnersSection } from "@/components/cms/sections/OurPartnersSection";
+import { BlogSection } from "@/components/cms/sections/BlogSection";
+import { OurReputationSection } from "@/components/cms/sections/OurReputationSection";
 import EnquirySection from "./components/EnquirySection";
 import FooterCMS from "../components/FooterCMS";
 import TrustedBySection from "../components/TrustedBySection";
@@ -22,12 +22,12 @@ export default function HomeCMSPage() {
 
       <HeroSection />
       <TrustedBySection />
-      <WhoWeAre />
-      <WhatWeDo />
-      <Integrations />
+      <WhoWeAreSection />
+      <WhatWeDoSection />
+      <IntegrationsSection />
       <BlogSection />
-      <OurReputation />
-      <OurPartners />
+      <OurReputationSection />
+      <OurPartnersSection />
       <EnquirySection />
       <FooterCMS />
     </section>

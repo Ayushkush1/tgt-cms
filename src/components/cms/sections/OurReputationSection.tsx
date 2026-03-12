@@ -9,8 +9,6 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { TextAreaField } from "@/components/TextAreaField";
 import { uploadFiles } from "@/lib/uploadHelpers";
 
-const SECTION_KEY = "OurReputation";
-
 interface TestimonialItem {
   clientName: string;
   clientRole: string;
@@ -37,8 +35,20 @@ const defaultFormData = {
   testimonials: [defaultTestimonial()] as TestimonialItem[],
 };
 
-export default function OurReputation() {
-  const [isOpen, setIsOpen] = useState(false);
+interface OurReputationSectionProps {
+  sectionId?: string;
+  initialData?: any;
+  saveUrl?: string; // e.g. /api/home or /api/sections
+  onSave?: (data: any) => void;
+}
+
+export function OurReputationSection({
+  sectionId,
+  initialData,
+  saveUrl = "/api/home",
+  onSave,
+}: OurReputationSectionProps) {
+  const [isOpen, setIsOpen] = useState(!initialData);
   const [isSaving, setIsSaving] = useState(false);
   const [avatarImages, setAvatarImages] = useState<(File | string | null)[]>(
     [],
@@ -49,18 +59,29 @@ export default function OurReputation() {
   const [formData, setFormData] = useState(defaultFormData);
 
   useEffect(() => {
-    fetchWithCache("/api/home")
-      .then((json) => {
-        if (json.success && json.data?.[SECTION_KEY]) {
-          const data = json.data[SECTION_KEY];
-          setFormData((prev) => ({ ...prev, ...data }));
-          if (data.testimonials) {
-            setAvatarImages(data.testimonials.map((t: any) => t.image || null));
+    if (initialData) {
+      setFormData({ ...defaultFormData, ...initialData });
+      if (initialData.testimonials) {
+        setAvatarImages(
+          initialData.testimonials.map((t: any) => t.image || null),
+        );
+      }
+    } else if (saveUrl === "/api/home") {
+      fetchWithCache("/api/home")
+        .then((json) => {
+          if (json.success && json.data?.OurReputation) {
+            const data = json.data.OurReputation;
+            setFormData((prev) => ({ ...prev, ...data }));
+            if (data.testimonials) {
+              setAvatarImages(
+                data.testimonials.map((t: any) => t.image || null),
+              );
+            }
           }
-        }
-      })
-      .catch(console.error);
-  }, []);
+        })
+        .catch(console.error);
+    }
+  }, [initialData, saveUrl]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -147,15 +168,25 @@ export default function OurReputation() {
           image: uploadedUrls[idx],
         })),
       };
-      const res = await fetch("/api/home", {
-        method: "PUT",
+
+      const body = sectionId
+        ? { id: sectionId, content: payload }
+        : { section: "OurReputation", content: payload };
+
+      const method = sectionId
+        ? "PUT"
+        : saveUrl === "/api/home"
+          ? "PUT"
+          : "POST";
+
+      const res = await fetch(saveUrl, {
+        method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ section: SECTION_KEY, content: payload }),
+        body: JSON.stringify(body),
       });
       const json = await res.json();
       if (json.success) {
         toast.success("Our Reputation section saved!", { id: toastId });
-        // Update local state with final URLs to avoid re-uploading on next save
         setAvatarImages(uploadedUrls);
         setFormData((prev) => ({
           ...prev,
@@ -164,8 +195,11 @@ export default function OurReputation() {
             image: uploadedUrls[idx],
           })),
         }));
+        if (onSave) onSave(payload);
       } else {
-        toast.error("Save failed. Please try again.", { id: toastId });
+        toast.error(json.error || "Save failed. Please try again.", {
+          id: toastId,
+        });
       }
     } catch {
       toast.error("Network error. Please try again.", { id: toastId });
@@ -176,7 +210,7 @@ export default function OurReputation() {
 
   return (
     <section>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4 transition-all">
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 flex flex-col gap-6 transition-all">
         <SectionHeader
           title="Our Reputation Section"
           description="Manage the testimonials and footer content displayed in the Our Reputation block."
@@ -184,10 +218,12 @@ export default function OurReputation() {
           onToggle={() => setIsOpen(!isOpen)}
         />
         <div
-          className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+          className={`grid transition-all duration-300 ease-in-out ${
+            isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+          }`}
         >
           <div className="overflow-hidden">
-            <div className="grid grid-cols-2 gap-4 pt-2">
+            <div className="grid grid-cols-2 gap-6 pt-4 animate-in fade-in duration-500">
               <h1 className="text-base font-bold text-gray-500 col-span-2">
                 Header Section
               </h1>
@@ -209,7 +245,7 @@ export default function OurReputation() {
                 required
               />
               <InputField
-                label="Headline (Highlight 1 - Italic)"
+                label="Headline (Highlight 1)"
                 name="headlineHighlight1"
                 value={formData.headlineHighlight1 || ""}
                 onChange={handleChange}
@@ -223,7 +259,7 @@ export default function OurReputation() {
                 placeholder="e.g. and individuals"
               />
               <InputField
-                label="Headline (Highlight 2 - Underlined)"
+                label="Headline (Highlight 2)"
                 name="headlineHighlight2"
                 value={formData.headlineHighlight2 || ""}
                 onChange={handleChange}
@@ -234,26 +270,22 @@ export default function OurReputation() {
                 name="mainDescription"
                 value={formData.mainDescription || ""}
                 onChange={handleChange}
-                placeholder="e.g. Hear from our partners who have successfully transformed their businesses..."
+                placeholder="e.g. Our commitment to excellence has earned us the trust of industry leaders and innovators worldwide."
                 containerClassName="col-span-2"
                 rows={2}
                 required
               />
 
-              {/* ── Dynamic Testimonials List ── */}
-              <div className="col-span-2 flex items-center justify-between mt-4 mb-2">
-                <h1 className="text-base font-bold text-gray-500">
-                  Testimonials
-                </h1>
-                <span className="text-sm font-medium text-gray-400">
-                  {formData.testimonials.length} mapped
-                </span>
+              <div className="col-span-2 flex items-center justify-between mt-4">
+                <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest">
+                  Testimonials ({formData.testimonials.length})
+                </h3>
               </div>
 
               {formData.testimonials.map((item, index) => (
                 <div
                   key={index}
-                  className="col-span-2 border border-gray-100 rounded-xl p-4 flex flex-col gap-4 bg-gray-50/50"
+                  className="col-span-2 border border-gray-100 rounded-2xl p-6 flex flex-col gap-4 bg-gray-50/50 relative group"
                 >
                   <div className="flex items-center justify-between">
                     <h2 className="text-sm font-semibold text-gray-700">
@@ -262,9 +294,9 @@ export default function OurReputation() {
                     {formData.testimonials.length > 1 && (
                       <button
                         onClick={() => removeTestimonial(index)}
-                        className="text-red-500 hover:text-red-600 bg-red-50 hover:bg-red-100 p-1.5 rounded-md transition-colors flex items-center gap-1.5 text-xs font-medium"
+                        className="text-red-500 hover:text-red-600 bg-red-50 hover:bg-red-100 p-2 rounded-lg transition-colors flex items-center gap-2 text-xs font-semibold"
                       >
-                        <Trash2 className="w-3.5 h-3.5" /> Remove
+                        <Trash2 className="w-4 h-4" /> Remove
                       </button>
                     )}
                   </div>
@@ -281,12 +313,11 @@ export default function OurReputation() {
                           e.target.value,
                         )
                       }
-                      containerClassName="col-span-1"
                       required
                     />
                     <InputField
                       label="Client Role / Company"
-                      placeholder="e.g. CEO, InnovateCo"
+                      placeholder="e.g. Chief Product Officer at FinTech Global"
                       value={item.clientRole}
                       onChange={(e) =>
                         handleTestimonialChange(
@@ -295,13 +326,12 @@ export default function OurReputation() {
                           e.target.value,
                         )
                       }
-                      containerClassName="col-span-1"
                     />
                     <TextAreaField
                       label="Quote block"
                       rows={2}
                       containerClassName="col-span-2"
-                      placeholder="e.g. Working with The Gold Technologies was a game-changer..."
+                      placeholder="e.g. Working with TGT was a game-changer for our platform's scalability and user engagement."
                       value={item.quote}
                       onChange={(e) =>
                         handleTestimonialChange(index, "quote", e.target.value)
@@ -309,8 +339,7 @@ export default function OurReputation() {
                       required
                     />
 
-                    {/* Per-testimonial image upload */}
-                    <div className="col-span-2 flex flex-col gap-1.5 mx-2 mt-2">
+                    <div className="col-span-2 flex flex-col gap-1.5 mx-2">
                       <label className="text-sm font-medium text-gray-700">
                         Client Avatar Image
                       </label>
@@ -320,7 +349,7 @@ export default function OurReputation() {
                           fileInputRefs.current[index] = el;
                         }}
                         onChange={(e) => handleFileChange(index, e)}
-                        accept="image/png, image/jpeg, image/webp"
+                        accept="image/*"
                         className="hidden"
                       />
                       {avatarImages[index] ? (
@@ -337,22 +366,13 @@ export default function OurReputation() {
                               alt={`Avatar ${index + 1}`}
                               className="w-12 h-12 object-cover rounded-full shadow-sm border border-gray-200"
                             />
-                            <div className="flex flex-col">
-                              <span className="text-gray-900 font-semibold text-sm truncate max-w-[200px]">
-                                {typeof avatarImages[index] === "string"
-                                  ? "Uploaded Image"
-                                  : (avatarImages[index] as File).name}
-                              </span>
-                              <span className="text-gray-500 text-[12px]">
-                                {avatarImages[index] instanceof File
-                                  ? `${((avatarImages[index] as File).size / 1024 / 1024).toFixed(2)} MB`
-                                  : "Existing Image"}
-                              </span>
-                            </div>
+                            <span className="text-gray-900 font-semibold text-sm truncate max-w-[200px]">
+                              Image Uploaded
+                            </span>
                           </div>
                           <button
                             onClick={() => removeImage(index)}
-                            className="p-1.5 bg-white text-gray-500 hover:text-red-500 rounded-full shadow-sm ring-1 ring-gray-100 transition-colors cursor-pointer"
+                            className="p-1.5 bg-white text-gray-500 hover:text-red-500 rounded-full shadow-sm ring-1 ring-gray-100 transition-colors"
                           >
                             <X className="w-4 h-4" />
                           </button>
@@ -377,21 +397,18 @@ export default function OurReputation() {
                             }
                           }}
                           onClick={() => fileInputRefs.current[index]?.click()}
-                          className={`w-full border-2 border-dashed rounded-xl flex flex-col items-center justify-center p-6 transition-colors cursor-pointer group ${isDragging === index ? "border-[#0A0F29] border-solid bg-gray-100" : "border-gray-200 bg-gray-50 hover:bg-gray-100"}`}
+                          className={`w-full border-2 border-dashed rounded-xl flex flex-col items-center justify-center p-6 transition-colors cursor-pointer group ${
+                            isDragging === index
+                              ? "border-[#0A0F29] border-solid bg-gray-100"
+                              : "border-gray-200 bg-gray-50 hover:bg-gray-100"
+                          }`}
                         >
-                          <div
-                            className={`p-2.5 rounded-full shadow-sm ring-1 ring-gray-100 mb-2 transition-transform ${isDragging === index ? "bg-[#0A0F29] text-white scale-110" : "bg-white text-[#0A0F29] group-hover:scale-110"}`}
-                          >
-                            <CloudUpload className="w-5 h-5" strokeWidth={2} />
-                          </div>
+                          <CloudUpload className="w-6 h-6 text-gray-400 mb-2" />
                           <p className="text-gray-500 text-sm">
                             <span className="text-[#D3AF37] font-semibold hover:underline mr-1">
                               Click to upload
                             </span>
                             or drag and drop
-                          </p>
-                          <p className="text-gray-400 text-[12px] mt-1">
-                            PNG, JPG or WebP
                           </p>
                         </div>
                       )}
@@ -402,38 +419,45 @@ export default function OurReputation() {
 
               <button
                 onClick={addTestimonial}
-                className="col-span-2 flex items-center justify-center gap-2 py-3 border-2 border-dashed border-gray-200 rounded-xl text-gray-500 font-medium hover:bg-gray-50 hover:border-gray-300 transition-colors"
+                className="col-span-2 flex items-center justify-center gap-2 py-4 border-2 border-dashed border-gray-200 rounded-2xl text-gray-500 font-semibold hover:bg-gray-50 transition-colors"
               >
-                <Plus className="w-4 h-4" /> Add Testimonial
+                <Plus className="w-5 h-5" /> Add Testimonial
               </button>
 
-              <h1 className="text-base font-bold text-gray-500 col-span-2 mt-4">
-                Footer CTA Section
-              </h1>
-              <InputField
-                label="Footer CTA Text"
-                name="footerCtaText"
-                value={formData.footerCtaText || ""}
-                onChange={handleChange}
-                placeholder="e.g. See how impactful design makes a difference?"
-                containerClassName="col-span-2"
-              />
-              <InputField
-                label="Button Label"
-                name="footerButtonLabel"
-                value={formData.footerButtonLabel || ""}
-                onChange={handleChange}
-                placeholder="e.g. SCHEDULE A CALL"
-              />
-              <InputField
-                label="Button URL"
-                name="footerButtonUrl"
-                value={formData.footerButtonUrl || ""}
-                onChange={handleChange}
-                placeholder="e.g. https://calendar.google.com/..."
-              />
-              <div className="col-span-2 mt-2">
-                <SaveButton onClick={handleSave} disabled={isSaving} />
+              <div className="col-span-2 grid grid-cols-2 gap-6 p-6 bg-gray-50 rounded-3xl border border-gray-100">
+                <h3 className="col-span-2 text-sm font-bold text-gray-400 uppercase tracking-widest">
+                  Footer CTA Section
+                </h3>
+                <InputField
+                  label="Footer CTA Text"
+                  name="footerCtaText"
+                  value={formData.footerCtaText || ""}
+                  onChange={handleChange}
+                  placeholder="e.g. See how impactful design makes a difference?"
+                  containerClassName="col-span-2"
+                />
+                <InputField
+                  label="Button Label"
+                  name="footerButtonLabel"
+                  value={formData.footerButtonLabel || ""}
+                  onChange={handleChange}
+                  placeholder="e.g. SCHEDULE A CALL"
+                />
+                <InputField
+                  label="Button URL"
+                  name="footerButtonUrl"
+                  value={formData.footerButtonUrl || ""}
+                  onChange={handleChange}
+                  placeholder="e.g. https://calendar.google.com/..."
+                />
+              </div>
+
+              <div className="col-span-2 flex justify-end pt-4">
+                <SaveButton
+                  onClick={handleSave}
+                  disabled={isSaving}
+                  className="w-40"
+                />
               </div>
             </div>
           </div>

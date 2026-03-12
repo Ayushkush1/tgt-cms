@@ -9,8 +9,6 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { TextAreaField } from "@/components/TextAreaField";
 import { uploadFiles } from "@/lib/uploadHelpers";
 
-const SECTION_KEY = "WhatWeDo";
-
 interface ServiceItem {
   shortTitle: string;
   fullTitle: string;
@@ -40,8 +38,20 @@ const defaultFormData = {
   services: [defaultService()] as ServiceItem[],
 };
 
-export default function WhatWeDo() {
-  const [isOpen, setIsOpen] = useState(false);
+interface WhatWeDoSectionProps {
+  sectionId?: string;
+  initialData?: any;
+  saveUrl?: string; // e.g. /api/home or /api/sections
+  onSave?: (data: any) => void;
+}
+
+export function WhatWeDoSection({
+  sectionId,
+  initialData,
+  saveUrl = "/api/home",
+  onSave,
+}: WhatWeDoSectionProps) {
+  const [isOpen, setIsOpen] = useState(!initialData);
   const [isSaving, setIsSaving] = useState(false);
   const [serviceImages, setServiceImages] = useState<(File | string | null)[]>(
     [],
@@ -52,18 +62,25 @@ export default function WhatWeDo() {
   const [formData, setFormData] = useState(defaultFormData);
 
   useEffect(() => {
-    fetchWithCache("/api/home")
-      .then((json) => {
-        if (json.success && json.data?.[SECTION_KEY]) {
-          const data = json.data[SECTION_KEY];
-          setFormData((prev) => ({ ...prev, ...data }));
-          if (data.services) {
-            setServiceImages(data.services.map((s: any) => s.image || null));
+    if (initialData) {
+      setFormData({ ...defaultFormData, ...initialData });
+      if (initialData.services) {
+        setServiceImages(initialData.services.map((s: any) => s.image || null));
+      }
+    } else if (saveUrl === "/api/home") {
+      fetchWithCache("/api/home")
+        .then((json) => {
+          if (json.success && json.data?.WhatWeDo) {
+            const data = json.data.WhatWeDo;
+            setFormData((prev) => ({ ...prev, ...data }));
+            if (data.services) {
+              setServiceImages(data.services.map((s: any) => s.image || null));
+            }
           }
-        }
-      })
-      .catch(console.error);
-  }, []);
+        })
+        .catch(console.error);
+    }
+  }, [initialData, saveUrl]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -129,9 +146,6 @@ export default function WhatWeDo() {
       errs.push("Headline (Part 1) is required");
     if (!formData.mainDescription?.trim())
       errs.push("Main Description is required");
-    if (!formData.ctaHeadline?.trim()) errs.push("CTA Headline is required");
-    if (!formData.ctaButtonLabel?.trim()) errs.push("Button Label is required");
-    if (!formData.ctaButtonUrl?.trim()) errs.push("Button URL is required");
     formData.services.forEach((s, i) => {
       if (!s.fullTitle.trim())
         errs.push(`Service ${i + 1} Full Title is required`);
@@ -152,15 +166,25 @@ export default function WhatWeDo() {
           image: uploadedUrls[idx],
         })),
       };
-      const res = await fetch("/api/home", {
-        method: "PUT",
+
+      const body = sectionId
+        ? { id: sectionId, content: payload }
+        : { section: "WhatWeDo", content: payload };
+
+      const method = sectionId
+        ? "PUT"
+        : saveUrl === "/api/home"
+          ? "PUT"
+          : "POST";
+
+      const res = await fetch(saveUrl, {
+        method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ section: SECTION_KEY, content: payload }),
+        body: JSON.stringify(body),
       });
       const json = await res.json();
       if (json.success) {
         toast.success("What We Do section saved!", { id: toastId });
-        // Update local state with final URLs to avoid re-uploading on next save
         setServiceImages(uploadedUrls);
         setFormData((prev) => ({
           ...prev,
@@ -169,8 +193,11 @@ export default function WhatWeDo() {
             image: uploadedUrls[idx],
           })),
         }));
+        if (onSave) onSave(payload);
       } else {
-        toast.error("Save failed. Please try again.", { id: toastId });
+        toast.error(json.error || "Save failed. Please try again.", {
+          id: toastId,
+        });
       }
     } catch {
       toast.error("Network error. Please try again.", { id: toastId });
@@ -181,7 +208,7 @@ export default function WhatWeDo() {
 
   return (
     <section>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4 transition-all">
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 flex flex-col gap-6 transition-all">
         <SectionHeader
           title="What We Do Section"
           description="Manage the services and content displayed in the What We Do section."
@@ -189,13 +216,12 @@ export default function WhatWeDo() {
           onToggle={() => setIsOpen(!isOpen)}
         />
         <div
-          className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+          className={`grid transition-all duration-300 ease-in-out ${
+            isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+          }`}
         >
           <div className="overflow-hidden">
-            <div className="grid grid-cols-2 gap-4 pt-2">
-              <h1 className="text-base font-bold text-gray-500 col-span-2">
-                Header Section
-              </h1>
+            <div className="grid grid-cols-2 gap-6 pt-4 animate-in fade-in duration-500">
               <InputField
                 label="Upper Tag"
                 name="upperTag"
@@ -228,7 +254,7 @@ export default function WhatWeDo() {
                 placeholder="e.g. for Your"
               />
               <InputField
-                label="Headline Part 4 (Highlight/Underline)"
+                label="Headline Part 4"
                 name="headlinePart4"
                 value={formData.headlinePart4 || ""}
                 onChange={handleChange}
@@ -239,47 +265,36 @@ export default function WhatWeDo() {
                 name="mainDescription"
                 value={formData.mainDescription || ""}
                 onChange={handleChange}
-                placeholder="e.g. From initial concept to final deployment..."
+                placeholder="e.g. From initial concept to final deployment, we provide a full suite of digital engineering services tailor-made for your business."
                 containerClassName="col-span-2"
                 required
               />
 
-              {/* ── Dynamic Services List ── */}
-              <div className="col-span-2 flex items-center justify-between mt-4 mb-2">
-                <h1 className="text-base font-bold text-gray-500">Services</h1>
-                <span className="text-sm font-medium text-gray-400">
-                  {formData.services.length} mapped
-                </span>
+              <div className="col-span-2 flex items-center justify-between mt-4">
+                <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest">
+                  Services ({formData.services.length})
+                </h3>
               </div>
 
-              {formData.services.map((service, index) => (
-                <div
-                  key={index}
-                  className="col-span-2 border border-gray-100 rounded-xl p-4 flex flex-col gap-4 bg-gray-50/50"
-                >
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-sm font-semibold text-gray-700">
-                      Service {index + 1}
-                    </h2>
-                    {formData?.services?.length > 1 && (
-                      <button
-                        onClick={() => removeService(index)}
-                        className="text-red-500 hover:text-red-600 bg-red-50 hover:bg-red-100 p-1.5 rounded-md transition-colors flex items-center gap-1.5 text-xs font-medium"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" /> Remove
-                      </button>
-                    )}
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
+              <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                {formData.services.map((service, index) => (
+                  <div
+                    key={index}
+                    className="border border-gray-200 rounded-3xl p-6 flex flex-col gap-4 bg-white shadow-sm relative group"
+                  >
+                    <button
+                      onClick={() => removeService(index)}
+                      className="absolute -top-3 -right-3 p-2 bg-red-50 text-red-500 rounded-full shadow-sm hover:bg-red-100 transition-all opacity-0 group-hover:opacity-100"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
                     <InputField
-                      label="Short Title (Vertical Text)"
+                      label="Short Title"
                       placeholder="e.g. Web Dev"
                       value={service.shortTitle}
                       onChange={(e) =>
                         handleServiceChange(index, "shortTitle", e.target.value)
                       }
-                      containerClassName="col-span-1"
                     />
                     <InputField
                       label="Full Title"
@@ -288,13 +303,11 @@ export default function WhatWeDo() {
                       onChange={(e) =>
                         handleServiceChange(index, "fullTitle", e.target.value)
                       }
-                      containerClassName="col-span-1"
                       required
                     />
                     <TextAreaField
                       label="Description"
                       rows={2}
-                      containerClassName="col-span-2"
                       placeholder="e.g. Scalable, high-performance websites..."
                       value={service.description}
                       onChange={(e) =>
@@ -312,11 +325,9 @@ export default function WhatWeDo() {
                       onChange={(e) =>
                         handleServiceChange(index, "link", e.target.value)
                       }
-                      containerClassName="col-span-2"
                     />
 
-                    {/* Per-card image upload */}
-                    <div className="col-span-2 flex flex-col gap-1.5 mx-2">
+                    <div className="flex flex-col gap-1.5">
                       <label className="text-sm font-medium text-gray-700">
                         Service Image
                       </label>
@@ -326,41 +337,27 @@ export default function WhatWeDo() {
                           fileInputRefs.current[index] = el;
                         }}
                         onChange={(e) => handleFileChange(index, e)}
-                        accept="image/png, image/jpeg, image/webp"
+                        accept="image/*"
                         className="hidden"
                       />
                       {serviceImages[index] ? (
-                        <div className="w-full border border-gray-200 rounded-xl bg-gray-50 flex items-center justify-between p-3 px-4">
-                          <div className="flex items-center gap-4">
-                            <img
-                              src={
-                                typeof serviceImages[index] === "string"
-                                  ? serviceImages[index]
-                                  : URL.createObjectURL(
-                                      serviceImages[index] as Blob,
-                                    )
-                              }
-                              alt={`Card ${index + 1}`}
-                              className="w-12 h-12 object-cover rounded-md shadow-sm border border-gray-200"
-                            />
-                            <div className="flex flex-col">
-                              <span className="text-gray-900 font-semibold text-sm truncate max-w-[200px]">
-                                {typeof serviceImages[index] === "string"
-                                  ? "Uploaded Image"
-                                  : (serviceImages[index] as File).name}
-                              </span>
-                              <span className="text-gray-500 text-[12px]">
-                                {serviceImages[index] instanceof File
-                                  ? `${((serviceImages[index] as File).size / 1024 / 1024).toFixed(2)} MB`
-                                  : "Existing Image"}
-                              </span>
-                            </div>
-                          </div>
+                        <div className="relative aspect-video rounded-2xl overflow-hidden border border-gray-200 bg-gray-50 group/img">
+                          <img
+                            src={
+                              typeof serviceImages[index] === "string"
+                                ? (serviceImages[index] as string)
+                                : URL.createObjectURL(
+                                    serviceImages[index] as Blob,
+                                  )
+                            }
+                            className="w-full h-full object-cover"
+                            alt="Service"
+                          />
                           <button
                             onClick={() => removeImage(index)}
-                            className="p-1.5 bg-white text-gray-500 hover:text-red-500 rounded-full shadow-sm ring-1 ring-gray-100 transition-colors cursor-pointer"
+                            className="absolute top-2 right-2 p-1.5 bg-black/60 text-white rounded-full opacity-0 group-hover/img:opacity-100 transition-opacity"
                           >
-                            <X className="w-4 h-4" />
+                            <X className="w-3.5 h-3.5" />
                           </button>
                         </div>
                       ) : (
@@ -383,66 +380,72 @@ export default function WhatWeDo() {
                             }
                           }}
                           onClick={() => fileInputRefs.current[index]?.click()}
-                          className={`w-full border-2 border-dashed rounded-xl flex flex-col items-center justify-center p-6 transition-colors cursor-pointer group ${isDragging === index ? "border-[#0A0F29] border-solid bg-gray-100" : "border-gray-200 bg-gray-50 hover:bg-gray-100"}`}
+                          className={`aspect-video border-2 border-dashed rounded-2xl flex flex-col items-center justify-center transition-colors cursor-pointer group ${
+                            isDragging === index
+                              ? "border-[#0A0F29] border-solid bg-gray-100"
+                              : "border-gray-200 bg-gray-50 hover:bg-gray-100"
+                          }`}
                         >
-                          <div
-                            className={`p-2.5 rounded-full shadow-sm ring-1 ring-gray-100 mb-2 transition-transform ${isDragging === index ? "bg-[#0A0F29] text-white scale-110" : "bg-white text-[#0A0F29] group-hover:scale-110"}`}
-                          >
-                            <CloudUpload className="w-5 h-5" strokeWidth={2} />
-                          </div>
-                          <p className="text-gray-500 text-sm">
-                            <span className="text-[#D3AF37] font-semibold hover:underline mr-1">
-                              Click to upload
-                            </span>
-                            or drag and drop
-                          </p>
-                          <p className="text-gray-400 text-[12px] mt-1">
-                            PNG, JPG or WebP
-                          </p>
+                          <CloudUpload className="w-6 h-6 text-gray-400 mb-2" />
+                          <span className="text-xs text-gray-500 font-medium">
+                            Upload Image
+                          </span>
                         </div>
                       )}
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
 
-              <button
-                onClick={addService}
-                className="col-span-2 flex items-center justify-center gap-2 py-3 border-2 border-dashed border-gray-200 rounded-xl text-gray-500 font-medium hover:bg-gray-50 hover:border-gray-300 transition-colors"
-              >
-                <Plus className="w-4 h-4" /> Add Service
-              </button>
+                {formData.services.length < 10 && (
+                  <button
+                    onClick={addService}
+                    className="border-2 border-dashed border-gray-200 rounded-3xl flex flex-col items-center justify-center p-12 text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-all gap-2"
+                  >
+                    <Plus className="w-6 h-6" />
+                    <span className="font-semibold">Add Service</span>
+                  </button>
+                )}
+              </div>
 
-              <h1 className="text-base font-bold text-gray-500 col-span-2 mt-4">
-                Bottom CTA Section
-              </h1>
-              <TextAreaField
-                label="CTA Headline"
-                name="ctaHeadline"
-                value={formData.ctaHeadline || ""}
-                onChange={handleChange}
-                placeholder="e.g. We deliver the fastest engineering solutions. 👉"
-                containerClassName="col-span-2"
-                rows={2}
-                required
-              />
-              <InputField
-                label="Button Label"
-                name="ctaButtonLabel"
-                value={formData.ctaButtonLabel || ""}
-                onChange={handleChange}
-                placeholder="e.g. View All Services"
-                required
-              />
-              <InputField
-                label="Button URL"
-                name="ctaButtonUrl"
-                value={formData.ctaButtonUrl || ""}
-                onChange={handleChange}
-                placeholder="e.g. /services"
-                required
-              />
-              <SaveButton onClick={handleSave} disabled={isSaving} />
+              <div className="col-span-2 grid grid-cols-2 gap-6 p-6 bg-gray-50 rounded-3xl border border-gray-100">
+                <h3 className="col-span-2 text-sm font-bold text-gray-400 uppercase tracking-widest">
+                  Bottom CTA Section
+                </h3>
+                <TextAreaField
+                  label="CTA Headline"
+                  name="ctaHeadline"
+                  value={formData.ctaHeadline || ""}
+                  onChange={handleChange}
+                  placeholder="e.g. We deliver the fastest engineering solutions. 👉"
+                  containerClassName="col-span-2"
+                  rows={2}
+                  required
+                />
+                <InputField
+                  label="Button Label"
+                  name="ctaButtonLabel"
+                  value={formData.ctaButtonLabel || ""}
+                  onChange={handleChange}
+                  placeholder="e.g. View All Services"
+                  required
+                />
+                <InputField
+                  label="Button URL"
+                  name="ctaButtonUrl"
+                  value={formData.ctaButtonUrl || ""}
+                  onChange={handleChange}
+                  placeholder="e.g. /services"
+                  required
+                />
+              </div>
+
+              <div className="col-span-2 flex justify-end pt-4">
+                <SaveButton
+                  onClick={handleSave}
+                  disabled={isSaving}
+                  className="w-40"
+                />
+              </div>
             </div>
           </div>
         </div>

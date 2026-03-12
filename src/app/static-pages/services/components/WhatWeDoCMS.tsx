@@ -5,7 +5,7 @@ import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { Plus, Trash2 } from "lucide-react";
 
-interface ServiceItem {
+interface WhatWeDoCMSItem {
   number: string;
   title: string;
   category: string;
@@ -18,8 +18,8 @@ export function WhatWeDoCMS({
   services,
   onChange,
 }: {
-  services: ServiceItem[];
-  onChange: (services: ServiceItem[]) => void;
+  services: WhatWeDoCMSItem[];
+  onChange: (services: WhatWeDoCMSItem[]) => void;
 }) {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -44,20 +44,24 @@ export function WhatWeDoCMS({
 
   const handleUpdate = (
     index: number,
-    field: keyof ServiceItem,
+    field: keyof WhatWeDoCMSItem,
     value: any,
   ) => {
-    const updated = [...services];
-    updated[index] = { ...updated[index], [field]: value };
+    const updated = services.map((s, i) =>
+      i === index ? { ...s, [field]: value } : s,
+    );
     onChange(updated);
   };
 
   const handleTagsChange = (index: number, value: string) => {
-    const updated = [...services];
-    updated[index].tags = value
-      .split(",")
-      .map((t) => t.trim())
-      .filter((t) => t !== "");
+    const updated = services.map((s, i) =>
+      i === index
+        ? {
+            ...s,
+            tags: value.split(","),
+          }
+        : s,
+    );
     onChange(updated);
   };
 
@@ -72,7 +76,7 @@ export function WhatWeDoCMS({
 
       {isOpen && (
         <div className="flex flex-col gap-8 pt-4">
-          {services.map((service, idx) => (
+          {services.map((service: WhatWeDoCMSItem, idx: number) => (
             <div
               key={idx}
               className="group p-6 border border-gray-200 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all grid grid-cols-2 gap-x-6 gap-y-4 relative"
@@ -122,7 +126,9 @@ export function WhatWeDoCMS({
               <div className="col-span-1">
                 <InputField
                   label="Tags"
-                  value={service.tags.join(", ")}
+                  value={
+                    Array.isArray(service.tags) ? service.tags.join(",") : ""
+                  }
                   onChange={(e) => handleTagsChange(idx, e.target.value)}
                   placeholder="e.g., Tag 1, Tag 2, Tag 3"
                 />

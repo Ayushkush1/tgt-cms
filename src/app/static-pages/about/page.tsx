@@ -1,5 +1,5 @@
 import { PageHeader } from "@/components/PageHeader";
-import AboutFirm from "./components/AboutFirm";
+import { AboutFirmSection } from "@/components/cms/sections/AboutFirmSection";
 import VideoSection from "./components/VideoSection";
 import VisionSection from "./components/VisionSection";
 import OurTeam from "./components/OurTeam";
@@ -14,7 +14,7 @@ export default function AboutCMSPage() {
       />
 
       {/* Sections */}
-      <AboutFirm />
+      <AboutFirmSection />
       <VideoSection />
       <VisionSection />
       <OurTeam />

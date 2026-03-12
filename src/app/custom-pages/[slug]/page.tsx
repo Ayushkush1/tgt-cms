@@ -15,12 +15,14 @@ import {
 import { motion, Reorder, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
-// Import Modular CMS Components
-import { WhoWeAreCMS } from "../cms/WhoWeAreCMS";
-import { WhatWeDoCMS } from "../cms/WhatWeDoCMS";
-import { BlogSectionCMS } from "../cms/BlogSectionCMS";
-import { IntegrationsCMS } from "../cms/IntegrationsCMS";
-import { HeroSectionCMS } from "../cms/HeroSectionCMS";
+// Import Shared Universal CMS Components
+import { WhoWeAreSection } from "@/components/cms/sections/WhoWeAreSection";
+import { WhatWeDoSection } from "@/components/cms/sections/WhatWeDoSection";
+import { BlogSection } from "@/components/cms/sections/BlogSection";
+import { IntegrationsSection } from "@/components/cms/sections/IntegrationsSection";
+import { OurReputationSection } from "@/components/cms/sections/OurReputationSection";
+import { OurPartnersSection } from "@/components/cms/sections/OurPartnersSection";
+import { AboutFirmSection } from "@/components/cms/sections/AboutFirmSection";
 
 interface SectionData {
   id: string;
@@ -288,6 +290,8 @@ export default function CustomPageEditor() {
                     "WhatWeDo",
                     "BlogSection",
                     "Integrations",
+                    "OurReputation",
+                    "OurPartners",
                   ].map((type) => (
                     <button
                       key={type}
@@ -309,27 +313,27 @@ export default function CustomPageEditor() {
 }
 
 function renderSection(section: SectionData) {
+  const commonProps = {
+    sectionId: section.id,
+    initialData: section.content,
+    saveUrl: "/api/sections",
+  };
+
   switch (section.type) {
     case "HeroSection":
-      return (
-        <HeroSectionCMS sectionId={section.id} initialData={section.content} />
-      );
+      return <AboutFirmSection {...commonProps} />;
     case "WhoWeAre":
-      return (
-        <WhoWeAreCMS sectionId={section.id} initialData={section.content} />
-      );
+      return <WhoWeAreSection {...commonProps} />;
     case "WhatWeDo":
-      return (
-        <WhatWeDoCMS sectionId={section.id} initialData={section.content} />
-      );
+      return <WhatWeDoSection {...commonProps} />;
     case "BlogSection":
-      return (
-        <BlogSectionCMS sectionId={section.id} initialData={section.content} />
-      );
+      return <BlogSection {...commonProps} />;
     case "Integrations":
-      return (
-        <IntegrationsCMS sectionId={section.id} initialData={section.content} />
-      );
+      return <IntegrationsSection {...commonProps} />;
+    case "OurReputation":
+      return <OurReputationSection {...commonProps} />;
+    case "OurPartners":
+      return <OurPartnersSection {...commonProps} />;
     default:
       return (
         <div className="p-8 bg-red-50 text-red-500 rounded-[2.5rem] border border-red-100 flex flex-col items-center gap-2">
