@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { PageHeader } from "@/components/PageHeader";
 import toast from "react-hot-toast";
@@ -8,7 +8,6 @@ import {
   Plus,
   GripVertical,
   Trash2,
-  Loader2,
   FileQuestion,
   ChevronLeft,
 } from "lucide-react";
@@ -27,7 +26,7 @@ import { AboutFirmSection } from "@/components/cms/sections/AboutFirmSection";
 interface SectionData {
   id: string;
   type: string;
-  content: any;
+  content: Record<string, unknown>;
   order: number;
 }
 
@@ -43,15 +42,8 @@ export default function CustomPageEditor() {
   const router = useRouter();
   const [pageData, setPageData] = useState<PageData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
 
-  useEffect(() => {
-    if (slug) {
-      loadPage();
-    }
-  }, [slug]);
-
-  const loadPage = async () => {
+  const loadPage = useCallback(async () => {
     setIsLoading(true);
     try {
       const res = await fetch(`/api/pages/${slug}`);
@@ -61,12 +53,18 @@ export default function CustomPageEditor() {
       } else {
         toast.error(json.error || "Failed to load page");
       }
-    } catch (err) {
+    } catch {
       toast.error("Network error");
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [slug]);
+
+  useEffect(() => {
+    if (slug) {
+      loadPage();
+    }
+  }, [slug, loadPage]);
 
   const deletePage = async () => {
     if (
@@ -87,7 +85,7 @@ export default function CustomPageEditor() {
       } else {
         toast.error(json.error || "Failed to delete page");
       }
-    } catch (err) {
+    } catch {
       toast.error("Failed to delete page");
     }
   };
@@ -115,7 +113,7 @@ export default function CustomPageEditor() {
           sections: [...pageData.sections, json.data],
         });
       }
-    } catch (err) {
+    } catch {
       toast.error("Failed to add section");
     }
   };
@@ -135,7 +133,7 @@ export default function CustomPageEditor() {
           sections: pageData!.sections.filter((s) => s.id !== sectionId),
         });
       }
-    } catch (err) {
+    } catch {
       toast.error("Failed to delete section");
     }
   };
@@ -221,8 +219,9 @@ export default function CustomPageEditor() {
               </h3>
               <p className="text-gray-500 leading-relaxed font-medium">
                 The page with slug{" "}
-                <span className="text-[#0B0F29]">"{slug}"</span> could not be
-                located. It may have been moved, deleted, or never existed.
+                <span className="text-[#0B0F29]">&quot;{slug}&quot;</span> could
+                not be located. It may have been moved, deleted, or never
+                existed.
               </p>
             </div>
             <Link

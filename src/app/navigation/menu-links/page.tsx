@@ -38,7 +38,7 @@ export default function NavLinksPage() {
       } else {
         toast.error("Failed to load navigation links");
       }
-    } catch (error) {
+    } catch {
       toast.error("Network error while loading links");
     } finally {
       setIsLoading(false);
