@@ -284,7 +284,7 @@ export default function CustomPageEditor() {
                 </h3>
                 <div className="flex flex-wrap justify-center gap-3">
                   {[
-                    "HeroSection",
+                    "AboutFirmSection",
                     "WhoWeAre",
                     "WhatWeDo",
                     "BlogSection",
@@ -319,7 +319,7 @@ function renderSection(section: SectionData) {
   };
 
   switch (section.type) {
-    case "HeroSection":
+    case "AboutFirmSection":
       return <AboutFirmSection {...commonProps} />;
     case "WhoWeAre":
       return <WhoWeAreSection {...commonProps} />;

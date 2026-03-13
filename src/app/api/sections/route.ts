@@ -12,11 +12,28 @@ export async function POST(request: Request) {
       );
     }
 
+    let finalContent = content || {};
+
+    // If content is empty, try to fetch default content from the Home page
+    if (Object.keys(finalContent).length === 0) {
+      const homePage = await prisma.page.findUnique({
+        where: { slug: "home" },
+        include: { sections: true },
+      });
+
+      if (homePage) {
+        const homeSection = homePage.sections.find((s) => s.type === type);
+        if (homeSection) {
+          finalContent = homeSection.content || {};
+        }
+      }
+    }
+
     const section = await prisma.section.create({
       data: {
         pageId,
         type,
-        content: content || {},
+        content: finalContent,
         order,
       },
     });
