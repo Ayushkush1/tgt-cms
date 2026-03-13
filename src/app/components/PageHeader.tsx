@@ -8,6 +8,7 @@ interface PageHeaderProps {
     label: string;
     icon?: React.ReactNode;
     href?: string;
+    onClick?: () => void;
   };
   setIsOpen?: Dispatch<SetStateAction<boolean>>;
   deleteAction?: {
@@ -46,7 +47,13 @@ export function PageHeader({
         {action && (
           <div className="mt-4 sm:ml-4 sm:mt-0">
             <button
-              onClick={() => setIsOpen?.(true)}
+              onClick={() => {
+                if (action.onClick) {
+                  action.onClick();
+                } else {
+                  setIsOpen?.(true);
+                }
+              }}
               className="inline-flex items-center gap-2 w-fit px-6 bg-[#0B0F29] text-white font-semibold py-3 rounded-full hover:bg-black transition-all hover:border-[#D4AF37] hover:shadow-[0_0_25px_rgba(212,175,55,0.4)]"
             >
               <Plus

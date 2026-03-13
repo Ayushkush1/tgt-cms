@@ -270,7 +270,7 @@ export default function CustomPageEditor() {
                       </div>
 
                       {/* Dynamically Render CMS Component */}
-                      <div className="border-2 border-transparent hover:border-[#D4AF37]/30 rounded-3xl transition-all">
+                      <div className="rounded-3xl transition-all">
                         {renderSection(section)}
                       </div>
                     </div>
@@ -296,7 +296,7 @@ export default function CustomPageEditor() {
                     <button
                       key={type}
                       onClick={() => addSection(type)}
-                      className="px-6 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-[#D4AF37] hover:text-[#0B0F29] transition-all flex items-center gap-2 shadow-sm"
+                      className="px-6 py-2.5 bg-white border border-gray-200 cursor-pointer rounded-full text-sm font-medium hover:border-[#D4AF37] hover:text-[#0B0F29] transition-all flex items-center gap-2 shadow-sm"
                     >
                       <Plus className="w-4 h-4" />
                       {type}

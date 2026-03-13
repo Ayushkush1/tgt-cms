@@ -81,12 +81,15 @@ model GlobalSettings {
 }
 
 model NavLink {
-  id        String   @id @default(uuid())
-  label     String
-  url       String
-  type      String   @default("Main Link")
-  parent    String   @default("-")
-  order     Int      @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(uuid())
+  label       String
+  url         String
+  type        String   @default("Main Link")
+  parent      String   @default("-")
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  description String?
+  title       String?
+  isStatic    Boolean  @default(false)
 }
