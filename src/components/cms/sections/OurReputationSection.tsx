@@ -37,9 +37,9 @@ const defaultFormData = {
 
 interface OurReputationSectionProps {
   sectionId?: string;
-  initialData?: any;
+  initialData?: Record<string, unknown>;
   saveUrl?: string; // e.g. /api/home or /api/sections
-  onSave?: (data: any) => void;
+  onSave?: (data: Record<string, unknown>) => void;
 }
 
 export function OurReputationSection({
@@ -61,9 +61,11 @@ export function OurReputationSection({
   useEffect(() => {
     if (initialData) {
       setFormData({ ...defaultFormData, ...initialData });
-      if (initialData.testimonials) {
+      if (initialData.testimonials && Array.isArray(initialData.testimonials)) {
         setAvatarImages(
-          initialData.testimonials.map((t: any) => t.image || null),
+          (initialData.testimonials as TestimonialItem[]).map(
+            (t) => t.image || null,
+          ),
         );
       }
     } else if (saveUrl === "/api/home") {
@@ -72,9 +74,11 @@ export function OurReputationSection({
           if (json.success && json.data?.OurReputation) {
             const data = json.data.OurReputation;
             setFormData((prev) => ({ ...prev, ...data }));
-            if (data.testimonials) {
+            if (data.testimonials && Array.isArray(data.testimonials)) {
               setAvatarImages(
-                data.testimonials.map((t: any) => t.image || null),
+                (data.testimonials as TestimonialItem[]).map(
+                  (t) => t.image || null,
+                ),
               );
             }
           }
@@ -165,7 +169,7 @@ export function OurReputationSection({
         ...formData,
         testimonials: formData.testimonials.map((item, idx) => ({
           ...item,
-          image: uploadedUrls[idx],
+          image: uploadedUrls[idx] || undefined,
         })),
       };
 
@@ -195,7 +199,7 @@ export function OurReputationSection({
             image: uploadedUrls[idx],
           })),
         }));
-        if (onSave) onSave(payload);
+        if (onSave) onSave(payload as unknown as Record<string, unknown>);
       } else {
         toast.error(json.error || "Save failed. Please try again.", {
           id: toastId,
@@ -355,6 +359,7 @@ export function OurReputationSection({
                       {avatarImages[index] ? (
                         <div className="w-full border border-gray-200 rounded-xl bg-gray-50 flex items-center justify-between p-3 px-4">
                           <div className="flex items-center gap-4">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                               src={
                                 typeof avatarImages[index] === "string"

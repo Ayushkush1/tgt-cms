@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
-import { CloudUpload, X, Plus, Trash2 } from "lucide-react";
+import { CloudUpload, X, Plus } from "lucide-react";
 import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -40,9 +40,9 @@ const defaultFormData = {
 
 interface BlogSectionCMSProps {
   sectionId?: string;
-  initialData?: any;
+  initialData?: Record<string, unknown>;
   saveUrl?: string;
-  onSave?: (data: any) => void;
+  onSave?: (data: Record<string, unknown>) => void;
 }
 
 export function BlogSectionCMS({
@@ -65,13 +65,17 @@ export function BlogSectionCMS({
 
   useEffect(() => {
     if (initialData) {
-      setFormData((prev: any) => ({
+      setFormData((prev: typeof defaultFormData) => ({
         ...defaultFormData,
         ...prev,
         ...initialData,
       }));
       if (initialData.blogs) {
-        setBlogImages(initialData.blogs.map((b: any) => b.image || null));
+        setBlogImages(
+          (initialData.blogs as Record<string, unknown>[]).map(
+            (b) => (b.image as string) || null,
+          ),
+        );
       }
     }
   }, [initialData]);
@@ -80,7 +84,7 @@ export function BlogSectionCMS({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
-    setFormData((prev: any) => ({ ...prev, [name]: value }));
+    setFormData((prev: typeof defaultFormData) => ({ ...prev, [name]: value }));
   };
 
   const handleBlogChange = (
@@ -88,7 +92,7 @@ export function BlogSectionCMS({
     field: keyof BlogItem,
     value: string,
   ) => {
-    setFormData((prev: any) => {
+    setFormData((prev: typeof defaultFormData) => {
       const updated = [...prev.blogs];
       updated[index] = { ...updated[index], [field]: value };
       return { ...prev, blogs: updated };
@@ -96,7 +100,7 @@ export function BlogSectionCMS({
   };
 
   const addBlog = () => {
-    setFormData((prev: any) => ({
+    setFormData((prev: typeof defaultFormData) => ({
       ...prev,
       blogs: [...prev.blogs, defaultBlog()],
     }));
@@ -104,9 +108,9 @@ export function BlogSectionCMS({
   };
 
   const removeBlog = (indexToRemove: number) => {
-    setFormData((prev: any) => ({
+    setFormData((prev: typeof defaultFormData) => ({
       ...prev,
-      blogs: prev.blogs.filter((_: any, i: number) => i !== indexToRemove),
+      blogs: prev.blogs.filter((_: unknown, i: number) => i !== indexToRemove),
     }));
     setBlogImages((prev) => prev.filter((_, i) => i !== indexToRemove));
   };
@@ -140,7 +144,7 @@ export function BlogSectionCMS({
       const uploadedUrls = await uploadFiles(blogImages);
       const payload = {
         ...formData,
-        blogs: formData.blogs.map((item: any, idx: number) => ({
+        blogs: formData.blogs.map((item: BlogItem, idx: number) => ({
           ...item,
           image: uploadedUrls[idx],
         })),
@@ -223,7 +227,7 @@ export function BlogSectionCMS({
             </div>
 
             <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-              {(formData.blogs || []).map((blog: any, index: number) => (
+              {(formData.blogs || []).map((blog: BlogItem, index: number) => (
                 <div
                   key={index}
                   className="border border-gray-200 rounded-3xl p-6 flex flex-col gap-4 bg-white shadow-sm relative group"
@@ -296,6 +300,7 @@ export function BlogSectionCMS({
                     />
                     {blogImages[index] ? (
                       <div className="relative aspect-video rounded-2xl overflow-hidden border border-gray-200 bg-gray-50 group/img">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={
                             typeof blogImages[index] === "string"

@@ -26,9 +26,9 @@ const defaultFormData = {
 
 interface WhoWeAreSectionProps {
   sectionId?: string;
-  initialData?: any;
+  initialData?: Record<string, unknown>;
   saveUrl?: string; // e.g. /api/home or /api/sections
-  onSave?: (data: any) => void;
+  onSave?: (data: Record<string, unknown>) => void;
 }
 
 export function WhoWeAreSection({
@@ -46,16 +46,17 @@ export function WhoWeAreSection({
       const data = { ...defaultFormData, ...initialData };
       if (!data.block1Bullets) {
         data.block1Bullets = [
-          data.block1Bullet1 || "",
-          data.block1Bullet2 || "",
-          data.block1Bullet3 || "",
-          data.block1Bullet4 || "",
+          ((data as Record<string, unknown>).block1Bullet1 as string) || "",
+          ((data as Record<string, unknown>).block1Bullet2 as string) || "",
+          ((data as Record<string, unknown>).block1Bullet3 as string) || "",
+          ((data as Record<string, unknown>).block1Bullet4 as string) || "",
         ];
       }
       setFormData(data);
     } else if (saveUrl === "/api/home") {
       fetchWithCache("/api/home")
-        .then((json: any) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .then((json: Record<string, any>) => {
           if (json.success && json.data?.WhoWeAre) {
             const data = json.data.WhoWeAre;
             if (!data.block1Bullets) {
@@ -128,7 +129,7 @@ export function WhoWeAreSection({
       const json = await res.json();
       if (json.success) {
         toast.success("Who We Are section saved!", { id: toastId });
-        if (onSave) onSave(formData);
+        if (onSave) onSave(formData as unknown as Record<string, unknown>);
       } else {
         toast.error(json.error || "Save failed. Please try again.", {
           id: toastId,

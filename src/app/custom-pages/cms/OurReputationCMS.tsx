@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
-import { CloudUpload, X, Plus, Trash2 } from "lucide-react";
+import { CloudUpload, X, Plus } from "lucide-react";
 import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -36,9 +36,9 @@ const defaultFormData = {
 
 interface OurReputationCMSProps {
   sectionId?: string;
-  initialData?: any;
+  initialData?: Record<string, unknown>;
   saveUrl?: string;
-  onSave?: (data: any) => void;
+  onSave?: (data: Record<string, unknown>) => void;
 }
 
 export function OurReputationCMS({
@@ -61,14 +61,16 @@ export function OurReputationCMS({
 
   useEffect(() => {
     if (initialData) {
-      setFormData((prev: any) => ({
+      setFormData((prev: typeof defaultFormData) => ({
         ...defaultFormData,
         ...prev,
         ...initialData,
       }));
       if (initialData.testimonials) {
         setAvatarImages(
-          initialData.testimonials.map((t: any) => t.image || null),
+          (initialData.testimonials as Record<string, unknown>[]).map(
+            (t) => (t.image as string) || null,
+          ),
         );
       }
     }
@@ -78,7 +80,7 @@ export function OurReputationCMS({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
-    setFormData((prev: any) => ({ ...prev, [name]: value }));
+    setFormData((prev: typeof defaultFormData) => ({ ...prev, [name]: value }));
   };
 
   const handleTestimonialChange = (
@@ -86,7 +88,7 @@ export function OurReputationCMS({
     field: keyof TestimonialItem,
     value: string,
   ) => {
-    setFormData((prev: any) => {
+    setFormData((prev: typeof defaultFormData) => {
       const updated = [...prev.testimonials];
       updated[index] = { ...updated[index], [field]: value };
       return { ...prev, testimonials: updated };
@@ -94,7 +96,7 @@ export function OurReputationCMS({
   };
 
   const addTestimonial = () => {
-    setFormData((prev: any) => ({
+    setFormData((prev: typeof defaultFormData) => ({
       ...prev,
       testimonials: [...prev.testimonials, defaultTestimonial()],
     }));
@@ -102,10 +104,10 @@ export function OurReputationCMS({
   };
 
   const removeTestimonial = (indexToRemove: number) => {
-    setFormData((prev: any) => ({
+    setFormData((prev: typeof defaultFormData) => ({
       ...prev,
       testimonials: prev.testimonials.filter(
-        (_: any, i: number) => i !== indexToRemove,
+        (_: unknown, i: number) => i !== indexToRemove,
       ),
     }));
     setAvatarImages((prev) => prev.filter((_, i) => i !== indexToRemove));
@@ -140,10 +142,12 @@ export function OurReputationCMS({
       const uploadedUrls = await uploadFiles(avatarImages);
       const payload = {
         ...formData,
-        testimonials: formData.testimonials.map((item: any, idx: number) => ({
-          ...item,
-          image: uploadedUrls[idx],
-        })),
+        testimonials: formData.testimonials.map(
+          (item: TestimonialItem, idx: number) => ({
+            ...item,
+            image: uploadedUrls[idx],
+          }),
+        ),
       };
 
       const body = sectionId
@@ -231,91 +235,96 @@ export function OurReputationCMS({
             </div>
 
             <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-              {(formData.testimonials || []).map((item: any, index: number) => (
-                <div
-                  key={index}
-                  className="border border-gray-200 rounded-3xl p-6 flex flex-col gap-4 bg-white shadow-sm relative group"
-                >
-                  <button
-                    onClick={() => removeTestimonial(index)}
-                    className="absolute -top-3 -right-3 p-2 bg-red-50 text-red-500 rounded-full shadow-sm hover:bg-red-100 transition-all opacity-0 group-hover:opacity-100"
+              {(formData.testimonials || []).map(
+                (item: TestimonialItem, index: number) => (
+                  <div
+                    key={index}
+                    className="border border-gray-200 rounded-3xl p-6 flex flex-col gap-4 bg-white shadow-sm relative group"
                   >
-                    <X className="w-4 h-4" />
-                  </button>
-                  <InputField
-                    label="Client Name"
-                    value={item.clientName}
-                    onChange={(e) =>
-                      handleTestimonialChange(
-                        index,
-                        "clientName",
-                        e.target.value,
-                      )
-                    }
-                    required
-                  />
-                  <InputField
-                    label="Role / Company"
-                    value={item.clientRole}
-                    onChange={(e) =>
-                      handleTestimonialChange(
-                        index,
-                        "clientRole",
-                        e.target.value,
-                      )
-                    }
-                  />
-                  <TextAreaField
-                    label="Quote"
-                    value={item.quote}
-                    onChange={(e) =>
-                      handleTestimonialChange(index, "quote", e.target.value)
-                    }
-                    required
-                  />
-
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-sm font-medium text-gray-700">
-                      Client Avatar
-                    </label>
-                    <input
-                      type="file"
-                      ref={(el) => {
-                        fileInputRefs.current[index] = el;
-                      }}
-                      onChange={(e) => handleFileChange(index, e)}
-                      accept="image/*"
-                      className="hidden"
+                    <button
+                      onClick={() => removeTestimonial(index)}
+                      className="absolute -top-3 -right-3 p-2 bg-red-50 text-red-500 rounded-full shadow-sm hover:bg-red-100 transition-all opacity-0 group-hover:opacity-100"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                    <InputField
+                      label="Client Name"
+                      value={item.clientName}
+                      onChange={(e) =>
+                        handleTestimonialChange(
+                          index,
+                          "clientName",
+                          e.target.value,
+                        )
+                      }
+                      required
                     />
-                    {avatarImages[index] ? (
-                      <div className="relative w-20 h-20 rounded-full overflow-hidden border border-gray-200 bg-gray-50 group/img">
-                        <img
-                          src={
-                            typeof avatarImages[index] === "string"
-                              ? (avatarImages[index] as string)
-                              : URL.createObjectURL(avatarImages[index] as Blob)
-                          }
-                          className="w-full h-full object-cover"
-                          alt="Avatar"
-                        />
-                        <button
-                          onClick={() => removeImage(index)}
-                          className="absolute inset-0 bg-black/40 text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity"
+                    <InputField
+                      label="Role / Company"
+                      value={item.clientRole}
+                      onChange={(e) =>
+                        handleTestimonialChange(
+                          index,
+                          "clientRole",
+                          e.target.value,
+                        )
+                      }
+                    />
+                    <TextAreaField
+                      label="Quote"
+                      value={item.quote}
+                      onChange={(e) =>
+                        handleTestimonialChange(index, "quote", e.target.value)
+                      }
+                      required
+                    />
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-sm font-medium text-gray-700">
+                        Client Avatar
+                      </label>
+                      <input
+                        type="file"
+                        ref={(el) => {
+                          fileInputRefs.current[index] = el;
+                        }}
+                        onChange={(e) => handleFileChange(index, e)}
+                        accept="image/*"
+                        className="hidden"
+                      />
+                      {avatarImages[index] ? (
+                        <div className="relative w-20 h-20 rounded-full overflow-hidden border border-gray-200 bg-gray-50 group/img">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={
+                              typeof avatarImages[index] === "string"
+                                ? (avatarImages[index] as string)
+                                : URL.createObjectURL(
+                                    avatarImages[index] as Blob,
+                                  )
+                            }
+                            className="w-full h-full object-cover"
+                            alt="Avatar"
+                          />
+                          <button
+                            onClick={() => removeImage(index)}
+                            className="absolute inset-0 bg-black/40 text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity"
+                          >
+                            <X className="w-5 h-5" />
+                          </button>
+                        </div>
+                      ) : (
+                        <div
+                          onClick={() => fileInputRefs.current[index]?.click()}
+                          className="w-20 h-20 border-2 border-dashed border-gray-200 rounded-full flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer"
                         >
-                          <X className="w-5 h-5" />
-                        </button>
-                      </div>
-                    ) : (
-                      <div
-                        onClick={() => fileInputRefs.current[index]?.click()}
-                        className="w-20 h-20 border-2 border-dashed border-gray-200 rounded-full flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer"
-                      >
-                        <CloudUpload className="w-5 h-5 text-gray-400" />
-                      </div>
-                    )}
+                          <CloudUpload className="w-5 h-5 text-gray-400" />
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ),
+              )}
 
               {(formData.testimonials || []).length < 10 && (
                 <button

@@ -43,7 +43,7 @@ export default function ProductsPage() {
         } else {
           setFormData(defaultData);
         }
-      } catch (err) {
+      } catch {
         toast.error("Failed to load product content.");
       } finally {
         setIsLoading(false);

@@ -45,7 +45,7 @@ interface HeroData {
   imageUrl: string | File;
   statSince: string;
   statProjects: string;
-  pillars: any[];
+  pillars: { number: string; title: string; desc: string }[];
 }
 
 interface PageData {

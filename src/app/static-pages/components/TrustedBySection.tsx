@@ -63,9 +63,11 @@ export default function TrustedBySection() {
         body: JSON.stringify({ section: SECTION_KEY, content: payload }),
       });
       const json = await res.json();
-      json.success
-        ? toast.success("Trusted By section saved!", { id: toastId })
-        : toast.error("Save failed. Please try again.", { id: toastId });
+      if (json.success) {
+        toast.success("Trusted By section saved!", { id: toastId });
+      } else {
+        toast.error("Save failed. Please try again.", { id: toastId });
+      }
     } catch {
       toast.error("Network error. Please try again.", { id: toastId });
     } finally {

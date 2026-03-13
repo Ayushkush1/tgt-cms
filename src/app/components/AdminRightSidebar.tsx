@@ -1,6 +1,5 @@
-import { ChevronRight, Plus } from "lucide-react";
-
 // Quick helper
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ChevronLeft(props: any) {
   return (
     <svg
@@ -51,6 +50,7 @@ export function AdminRightSidebar() {
 
         {/* Illustration Placeholder */}
         <div className="absolute -bottom-4 right-0 w-36 h-36 opacity-90 pointer-events-none">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="https://api.dicebear.com/7.x/notionists/svg?seed=Illustration&backgroundColor=transparent"
             className="w-full h-full object-contain filter drop-shadow-2xl grayscale contrast-125"

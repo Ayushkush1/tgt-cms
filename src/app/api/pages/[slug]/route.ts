@@ -78,9 +78,7 @@ export async function DELETE(
 
     // Delete the NavLink first if it exists
     try {
-      // @ts-ignore - resolve type mismatch if any
       if (prisma.navLink) {
-        // @ts-ignore
         await prisma.navLink.deleteMany({
           where: { url: urlToDelete },
         });

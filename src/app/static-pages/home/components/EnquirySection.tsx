@@ -69,9 +69,11 @@ export default function EnquirySection() {
         body: JSON.stringify({ section: SECTION_KEY, content: formData }),
       });
       const json = await res.json();
-      json.success
-        ? toast.success("Enquiry section saved!", { id: toastId })
-        : toast.error("Save failed. Please try again.", { id: toastId });
+      if (json.success) {
+        toast.success("Enquiry section saved!", { id: toastId });
+      } else {
+        toast.error("Save failed. Please try again.", { id: toastId });
+      }
     } catch {
       toast.error("Network error. Please try again.", { id: toastId });
     } finally {

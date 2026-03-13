@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { fetchWithCache } from "@/lib/apiCache";
 import toast from "react-hot-toast";
-import { CloudUpload, X, Plus, Trash2 } from "lucide-react";
+import { CloudUpload, X, Plus } from "lucide-react";
 import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -40,9 +40,9 @@ const defaultFormData = {
 
 interface WhatWeDoSectionProps {
   sectionId?: string;
-  initialData?: any;
+  initialData?: Record<string, unknown>;
   saveUrl?: string; // e.g. /api/home or /api/sections
-  onSave?: (data: any) => void;
+  onSave?: (data: Record<string, unknown>) => void;
 }
 
 export function WhatWeDoSection({
@@ -64,17 +64,28 @@ export function WhatWeDoSection({
   useEffect(() => {
     if (initialData) {
       setFormData({ ...defaultFormData, ...initialData });
-      if (initialData.services) {
-        setServiceImages(initialData.services.map((s: any) => s.image || null));
+      if (initialData.services && Array.isArray(initialData.services)) {
+        setServiceImages(
+          (initialData.services as ServiceItem[]).map(
+            (s: ServiceItem) => s.image || null,
+          ),
+        );
       }
     } else if (saveUrl === "/api/home") {
-      fetchWithCache("/api/home")
+      fetchWithCache<Record<string, unknown>>("/api/home")
         .then((json) => {
-          if (json.success && json.data?.WhatWeDo) {
-            const data = json.data.WhatWeDo;
-            setFormData((prev) => ({ ...prev, ...data }));
-            if (data.services) {
-              setServiceImages(data.services.map((s: any) => s.image || null));
+          if (json.success && json.data) {
+            const data = (json.data as Record<string, unknown>)
+              .WhatWeDo as Record<string, unknown>;
+            if (data) {
+              setFormData((prev) => ({ ...prev, ...data }));
+              if (data.services && Array.isArray(data.services)) {
+                setServiceImages(
+                  (data.services as ServiceItem[]).map(
+                    (s: ServiceItem) => s.image || null,
+                  ),
+                );
+              }
             }
           }
         })
@@ -163,7 +174,7 @@ export function WhatWeDoSection({
         ...formData,
         services: formData.services.map((item, idx) => ({
           ...item,
-          image: uploadedUrls[idx],
+          image: uploadedUrls[idx] || undefined,
         })),
       };
 
@@ -188,12 +199,12 @@ export function WhatWeDoSection({
         setServiceImages(uploadedUrls);
         setFormData((prev) => ({
           ...prev,
-          services: prev.services.map((item: any, idx: number) => ({
+          services: prev.services.map((item, idx) => ({
             ...item,
-            image: uploadedUrls[idx],
+            image: uploadedUrls[idx] || undefined,
           })),
         }));
-        if (onSave) onSave(payload);
+        if (onSave) onSave(payload as unknown as Record<string, unknown>);
       } else {
         toast.error(json.error || "Save failed. Please try again.", {
           id: toastId,
@@ -342,6 +353,7 @@ export function WhatWeDoSection({
                       />
                       {serviceImages[index] ? (
                         <div className="relative aspect-video rounded-2xl overflow-hidden border border-gray-200 bg-gray-50 group/img">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={
                               typeof serviceImages[index] === "string"

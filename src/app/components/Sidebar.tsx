@@ -66,8 +66,11 @@ export function AdminSidebar() {
     fetchWithCache("/api/pages")
       .then((json) => {
         if (json.success && Array.isArray(json.data)) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const fetchedPages = json.data
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .filter((p: any) => p.type === "standard")
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .map((p: any) => ({
               title: p.title,
               href: `/custom-pages/${p.slug}`,
@@ -107,6 +110,7 @@ export function AdminSidebar() {
       )
       .map((item) => item.title);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     setOpenGroups((prev) => {
       const newGroups = [...prev];
       activeGroups.forEach((group) => {
@@ -116,6 +120,7 @@ export function AdminSidebar() {
       });
       return newGroups;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, customPages.length]);
 
   const toggleGroup = (title: string) => {
@@ -144,9 +149,6 @@ export function AdminSidebar() {
         <nav className="space-y-1.5 px-6">
           {sidebarLinks.map((item, index) => {
             const isActive = pathname === item.href;
-            const isGroupActive = item.sublinks?.some((sublink) =>
-              pathname.startsWith(sublink.href),
-            );
             const isOpen = openGroups.includes(item.title);
 
             if (item.sublinks) {

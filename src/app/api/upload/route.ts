@@ -6,14 +6,14 @@ export async function POST(req: Request) {
     const formData = await req.formData();
     const uploadedFiles: string[] = [];
 
-    for (const [key, value] of formData.entries()) {
+    for (const [, value] of formData.entries()) {
       const file = value as File;
       if (file && typeof file === "object" && file.name) {
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
         const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.\-_]/g, "")}`;
 
-        const { data, error } = await supabase.storage
+        const { error } = await supabase.storage
           .from("uploadsFiles")
           .upload(fileName, buffer, {
             contentType: file.type,
@@ -39,6 +39,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ success: true, files: uploadedFiles });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("Critical Upload Error:", error);
     return NextResponse.json(

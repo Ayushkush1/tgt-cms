@@ -61,7 +61,7 @@ export function ProductListCMS({
   const updateProduct = (
     index: number,
     field: keyof ProductItem,
-    value: any,
+    value: ProductItem[keyof ProductItem],
   ) => {
     const list = [...products];
     list[index] = { ...list[index], [field]: value };

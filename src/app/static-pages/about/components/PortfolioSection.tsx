@@ -39,13 +39,20 @@ export default function PortfolioSection() {
 
   useEffect(() => {
     fetchWithCache("/api/about")
-      .then((json: any) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .then((json: Record<string, any>) => {
         if (json.success && json.data?.[SECTION_KEY]) {
           const data = json.data[SECTION_KEY];
-          const parsedPortfolios = Array.isArray(data.portfolios)
-            ? data.portfolios.map((p: any) => ({
-                ...p,
-                image: p.imageUrl ? [p.imageUrl] : [],
+          const parsedPortfolios: PortfolioItem[] = Array.isArray(
+            data.portfolios,
+          )
+            ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (data.portfolios as any[]).map((p) => ({
+                id: p.id || Date.now() + Math.random(),
+                title: p.title || "",
+                link: p.link || "",
+                description: p.description || "",
+                image: p.imageUrl ? [p.imageUrl as string] : [],
               }))
             : [defaultPortfolio()];
 
@@ -58,7 +65,7 @@ export default function PortfolioSection() {
   const handlePortfolioChange = (
     index: number,
     field: keyof PortfolioItem,
-    value: any,
+    value: PortfolioItem[keyof PortfolioItem],
   ) => {
     setFormData((prev) => {
       const updated = [...prev.portfolios];
@@ -121,9 +128,11 @@ export default function PortfolioSection() {
         body: JSON.stringify({ section: SECTION_KEY, content: payload }),
       });
       const json = await res.json();
-      json.success
-        ? toast.success("Portfolio section saved!", { id: toastId })
-        : toast.error("Save failed. Please try again.", { id: toastId });
+      if (json.success) {
+        toast.success("Portfolio section saved!", { id: toastId });
+      } else {
+        toast.error("Save failed. Please try again.", { id: toastId });
+      }
     } catch {
       toast.error("Network error. Please try again.", { id: toastId });
     } finally {

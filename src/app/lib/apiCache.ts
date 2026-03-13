@@ -1,5 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const apiCache = new Map<string, Promise<any>>();
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function fetchWithCache<T = any>(url: string): Promise<T> {
   if (apiCache.has(url)) {
     return apiCache.get(url)!;

@@ -32,9 +32,9 @@ const defaultFormData = {
 
 interface HeroSectionProps {
   sectionId?: string;
-  initialData?: any;
+  initialData?: Record<string, unknown>;
   saveUrl?: string;
-  onSave?: (data: any) => void;
+  onSave?: (data: Record<string, unknown>) => void;
 }
 
 export function HeroSection({
@@ -56,8 +56,10 @@ export function HeroSection({
   useEffect(() => {
     if (initialData) {
       setFormData({ ...defaultFormData, ...initialData });
-      if (initialData.projects) {
-        setSliderImages(initialData.projects.map((p: any) => p.image || null));
+      if (initialData.projects && Array.isArray(initialData.projects)) {
+        setSliderImages(
+          (initialData.projects as ProjectCard[]).map((p) => p.image || null),
+        );
       }
     } else if (saveUrl === "/api/home") {
       fetchWithCache("/api/home")
@@ -65,8 +67,10 @@ export function HeroSection({
           if (json.success && json.data?.HeroSection) {
             const data = json.data.HeroSection;
             setFormData((prev) => ({ ...prev, ...data }));
-            if (data.projects) {
-              setSliderImages(data.projects.map((p: any) => p.image || null));
+            if (data.projects && Array.isArray(data.projects)) {
+              setSliderImages(
+                (data.projects as ProjectCard[]).map((p) => p.image || null),
+              );
             }
           }
         })
@@ -159,7 +163,7 @@ export function HeroSection({
         ...formData,
         projects: formData.projects.map((item, idx) => ({
           ...item,
-          image: uploadedUrls[idx],
+          image: uploadedUrls[idx] || undefined,
         })),
       };
 
@@ -182,7 +186,7 @@ export function HeroSection({
       if (json.success) {
         toast.success("Hero section saved!", { id: toastId });
         setSliderImages(uploadedUrls.map((url) => url || null));
-        if (onSave) onSave(payload);
+        if (onSave) onSave(payload as unknown as Record<string, unknown>);
       } else {
         toast.error(json.error || "Save failed. Please try again.", {
           id: toastId,
@@ -353,6 +357,7 @@ export function HeroSection({
                       {sliderImages[index] ? (
                         <div className="w-full border border-gray-200 rounded-xl bg-gray-50 flex items-center justify-between p-3 px-4">
                           <div className="flex items-center gap-4">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                               src={
                                 typeof sliderImages[index] === "string"

@@ -27,7 +27,8 @@ export default function MapSection() {
 
   useEffect(() => {
     fetchWithCache("/api/contact")
-      .then((json) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .then((json: Record<string, any>) => {
         if (json.success && json.data?.[SECTION_KEY]) {
           setFormData((prev) => ({ ...prev, ...json.data[SECTION_KEY] }));
         }
@@ -64,9 +65,11 @@ export default function MapSection() {
         body: JSON.stringify({ section: SECTION_KEY, content: formData }),
       });
       const json = await res.json();
-      json.success
-        ? toast.success("Map Section saved!", { id: toastId })
-        : toast.error("Save failed. Please try again.", { id: toastId });
+      if (json.success) {
+        toast.success("Map Section saved!", { id: toastId });
+      } else {
+        toast.error("Save failed. Please try again.", { id: toastId });
+      }
     } catch {
       toast.error("Network error. Please try again.", { id: toastId });
     } finally {
@@ -147,9 +150,9 @@ export default function MapSection() {
                 Map Embed
               </h1>
               <div className="col-span-2 text-sm text-gray-500 mb-2">
-                Go to Google Maps, search for your location, click "Share",
-                choose "Embed a map", and extract just the {"`src`"} URL from
-                the iframe code.
+                Go to Google Maps, search for your location, click
+                &quot;Share&quot;, choose &quot;Embed a map&quot;, and extract
+                just the {`src`} URL from the iframe code.
               </div>
               <TextAreaField
                 label="Google Maps Embed URL (src only)"

@@ -26,9 +26,9 @@ const defaultFormData = {
 
 interface IntegrationsSectionProps {
   sectionId?: string;
-  initialData?: any;
+  initialData?: Record<string, unknown>;
   saveUrl?: string;
-  onSave?: (data: any) => void;
+  onSave?: (data: Record<string, unknown>) => void;
 }
 
 export function IntegrationsSection({
@@ -46,7 +46,8 @@ export function IntegrationsSection({
       setFormData({ ...defaultFormData, ...initialData });
     } else if (saveUrl === "/api/home") {
       fetchWithCache("/api/home")
-        .then((json) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .then((json: Record<string, any>) => {
           if (json.success && json.data?.Integrations) {
             setFormData((prev) => ({ ...prev, ...json.data.Integrations }));
           }
@@ -111,7 +112,7 @@ export function IntegrationsSection({
       const json = await res.json();
       if (json.success) {
         toast.success("Section saved!", { id: toastId });
-        if (onSave) onSave(formData);
+        if (onSave) onSave(formData as unknown as Record<string, unknown>);
       } else {
         toast.error(json.error || "Save failed", { id: toastId });
       }

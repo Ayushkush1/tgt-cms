@@ -41,9 +41,9 @@ const defaultFormData = {
 
 interface BlogSectionProps {
   sectionId?: string;
-  initialData?: any;
+  initialData?: Record<string, unknown>;
   saveUrl?: string; // e.g. /api/home or /api/sections
-  onSave?: (data: any) => void;
+  onSave?: (data: Record<string, unknown>) => void;
 }
 
 export function BlogSection({
@@ -62,17 +62,22 @@ export function BlogSection({
   useEffect(() => {
     if (initialData) {
       setFormData({ ...defaultFormData, ...initialData });
-      if (initialData.blogs) {
-        setBlogImages(initialData.blogs.map((b: any) => b.image || null));
+      if (initialData.blogs && Array.isArray(initialData.blogs)) {
+        setBlogImages(
+          (initialData.blogs as BlogItem[]).map((b) => b.image || null),
+        );
       }
     } else if (saveUrl === "/api/home") {
       fetchWithCache("/api/home")
-        .then((json) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .then((json: Record<string, any>) => {
           if (json.success && json.data?.BlogSection) {
             const data = json.data.BlogSection;
             setFormData((prev) => ({ ...prev, ...data }));
-            if (data.blogs) {
-              setBlogImages(data.blogs.map((b: any) => b.image || null));
+            if (data.blogs && Array.isArray(data.blogs)) {
+              setBlogImages(
+                (data.blogs as BlogItem[]).map((b) => b.image || null),
+              );
             }
           }
         })
@@ -110,7 +115,7 @@ export function BlogSection({
   const removeBlog = (indexToRemove: number) => {
     setFormData((prev) => ({
       ...prev,
-      blogs: prev.blogs.filter((_: any, i: number) => i !== indexToRemove),
+      blogs: prev.blogs.filter((_, i) => i !== indexToRemove),
     }));
     setBlogImages((prev) => prev.filter((_, i) => i !== indexToRemove));
   };
@@ -144,9 +149,9 @@ export function BlogSection({
       const uploadedUrls = await uploadFiles(blogImages);
       const payload = {
         ...formData,
-        blogs: formData.blogs.map((item: any, idx: number) => ({
+        blogs: formData.blogs.map((item, idx) => ({
           ...item,
-          image: uploadedUrls[idx],
+          image: uploadedUrls[idx] || undefined,
         })),
       };
 
@@ -169,7 +174,7 @@ export function BlogSection({
       const json = await res.json();
       if (json.success) {
         toast.success("Section saved!", { id: toastId });
-        if (onSave) onSave(payload);
+        if (onSave) onSave(payload as unknown as Record<string, unknown>);
       } else {
         toast.error(json.error || "Save failed", { id: toastId });
       }
@@ -238,7 +243,7 @@ export function BlogSection({
               </div>
 
               <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-                {(formData.blogs || []).map((blog: any, index: number) => (
+                {(formData.blogs || []).map((blog, index) => (
                   <div
                     key={index}
                     className="border border-gray-200 rounded-3xl p-6 flex flex-col gap-4 bg-white shadow-sm relative group"
@@ -321,6 +326,7 @@ export function BlogSection({
                       />
                       {blogImages[index] ? (
                         <div className="relative aspect-video rounded-2xl overflow-hidden border border-gray-200 bg-gray-50 group/img">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={
                               typeof blogImages[index] === "string"

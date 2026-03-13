@@ -27,8 +27,8 @@ export function DataTable<T>({
           No data available
         </h3>
         <p className="mt-2 text-sm text-gray-500 font-medium max-w-xs mx-auto">
-          There isn't any data to display right now. Get started by creating a
-          new entry.
+          There isn&apos;t any data to display right now. Get started by
+          creating a new entry.
         </p>
       </div>
     );

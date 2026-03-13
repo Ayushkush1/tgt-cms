@@ -62,11 +62,8 @@ export async function POST(request: Request) {
 
     // Automatically create a NavLink for the new page
     try {
-      // @ts-ignore - resolve type mismatch if any
       if (prisma.navLink) {
-        // @ts-ignore
         const linkCount = await prisma.navLink.count();
-        // @ts-ignore
         await prisma.navLink.create({
           data: {
             label: title,

@@ -45,7 +45,7 @@ export function WhatWeDoCMS({
   const handleUpdate = (
     index: number,
     field: keyof WhatWeDoCMSItem,
-    value: any,
+    value: WhatWeDoCMSItem[keyof WhatWeDoCMSItem],
   ) => {
     const updated = services.map((s, i) =>
       i === index ? { ...s, [field]: value } : s,

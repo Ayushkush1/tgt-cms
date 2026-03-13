@@ -91,14 +91,12 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
                 className="w-full border border-gray-200 rounded-xl bg-gray-50 flex items-center justify-between p-3 px-4 relative overflow-hidden group"
               >
                 <div className="flex items-center gap-4">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={
                       typeof img === "string"
                         ? img
-                        : (img as any) instanceof File ||
-                            (img as any) instanceof Blob
-                          ? URL.createObjectURL(img as any)
-                          : ""
+                        : URL.createObjectURL(img as Blob)
                     }
                     alt={`Preview ${idx + 1}`}
                     className="w-12 h-12 object-cover rounded-md shadow-sm border border-gray-200"
@@ -107,13 +105,14 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
                     <span className="text-gray-900 font-semibold text-sm truncate max-w-[200px]">
                       {typeof img === "string"
                         ? "Uploaded Image"
-                        : (img as any).name || "Unknown"}
+                        : (img as File).name || "Unknown"}
                     </span>
                     <span className="text-gray-500 font-medium text-[12px]">
                       {typeof img === "string"
                         ? "Cloud / Remote"
-                        : (img as any).size
-                          ? ((img as any).size / 1024 / 1024).toFixed(2) + " MB"
+                        : (img as File).size
+                          ? ((img as File).size / 1024 / 1024).toFixed(2) +
+                            " MB"
                           : "Unknown size"}
                     </span>
                   </div>

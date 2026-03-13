@@ -33,7 +33,7 @@ export default function SocialLinksPage() {
     },
     {
       header: "Actions",
-      accessorKey: (row: (typeof dummySocials)[0]) => (
+      accessorKey: () => (
         <div className="flex gap-3">
           <button className="text-brand-navy hover:underline text-sm font-medium">
             Edit

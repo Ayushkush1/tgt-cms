@@ -43,7 +43,7 @@ export const CreatePagePopUp = ({
       } else {
         toast.error(json.error || "Failed to create page", { id: toastId });
       }
-    } catch (error) {
+    } catch {
       toast.error("Network error. Please try again.", { id: toastId });
     } finally {
       setIsSubmitting(false);

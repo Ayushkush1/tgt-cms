@@ -17,9 +17,9 @@ const defaultFormData = {
 
 interface OurPartnersSectionProps {
   sectionId?: string;
-  initialData?: any;
+  initialData?: Record<string, unknown>;
   saveUrl?: string; // e.g. /api/home or /api/sections
-  onSave?: (data: any) => void;
+  onSave?: (data: Record<string, unknown>) => void;
 }
 
 export function OurPartnersSection({
@@ -36,14 +36,19 @@ export function OurPartnersSection({
   useEffect(() => {
     if (initialData) {
       setFormData({ ...defaultFormData, ...initialData });
-      if (initialData.logos) setImages(initialData.logos);
+      if (initialData.logos && Array.isArray(initialData.logos)) {
+        setImages(initialData.logos as (string | File | null)[]);
+      }
     } else if (saveUrl === "/api/home") {
       fetchWithCache("/api/home")
-        .then((json) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .then((json: Record<string, any>) => {
           if (json.success && json.data?.OurPartners) {
             const data = json.data.OurPartners;
             setFormData((prev) => ({ ...prev, ...data }));
-            if (data.logos) setImages(data.logos);
+            if (data.logos && Array.isArray(data.logos)) {
+              setImages(data.logos as (string | File | null)[]);
+            }
           }
         })
         .catch(console.error);
@@ -94,7 +99,7 @@ export function OurPartnersSection({
       const json = await res.json();
       if (json.success) {
         toast.success("Our Partners section saved!", { id: toastId });
-        if (onSave) onSave(payload);
+        if (onSave) onSave(payload as unknown as Record<string, unknown>);
       } else {
         toast.error(json.error || "Save failed. Please try again.", {
           id: toastId,

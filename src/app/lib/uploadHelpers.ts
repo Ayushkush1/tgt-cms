@@ -24,7 +24,7 @@ export async function uploadFiles(
     for (const file of filesToUpload) {
       const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.\-_]/g, "")}`;
 
-      const { data, error } = await supabase.storage
+      const { error } = await supabase.storage
         .from("uploadsFiles")
         .upload(fileName, file, {
           contentType: file.type,

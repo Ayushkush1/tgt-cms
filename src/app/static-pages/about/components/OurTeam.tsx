@@ -47,9 +47,10 @@ export default function OurTeam() {
         if (json.success && json.data?.[SECTION_KEY]) {
           const data = json.data[SECTION_KEY];
           const parsedMembers = Array.isArray(data.members)
-            ? data.members.map((m: any) => ({
+            ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (data.members as Record<string, any>[]).map((m) => ({
                 ...m,
-                image: m.imageUrl ? [m.imageUrl] : [],
+                image: m.imageUrl ? [m.imageUrl as string] : [],
               }))
             : [defaultMember()];
 
@@ -73,7 +74,7 @@ export default function OurTeam() {
   const handleMemberChange = (
     index: number,
     field: keyof TeamMember,
-    value: any,
+    value: TeamMember[keyof TeamMember],
   ) => {
     setFormData((prev) => {
       const updated = [...prev.members];
@@ -142,9 +143,11 @@ export default function OurTeam() {
         body: JSON.stringify({ section: SECTION_KEY, content: payload }),
       });
       const json = await res.json();
-      json.success
-        ? toast.success("Our Team section saved!", { id: toastId })
-        : toast.error("Save failed. Please try again.", { id: toastId });
+      if (json.success) {
+        toast.success("Our Team section saved!", { id: toastId });
+      } else {
+        toast.error("Save failed. Please try again.", { id: toastId });
+      }
     } catch {
       toast.error("Network error. Please try again.", { id: toastId });
     } finally {
