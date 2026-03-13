@@ -67,7 +67,7 @@ export async function POST(request: Request) {
         await prisma.navLink.create({
           data: {
             label: title,
-            url: `/custom-pages/${finalSlug}`,
+            url: `/${finalSlug}`,
             type: "Main Link",
             order: linkCount + 1,
           },

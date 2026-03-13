@@ -74,7 +74,7 @@ export async function DELETE(
 ) {
   try {
     const { slug } = await params;
-    const urlToDelete = `/custom-pages/${slug}`;
+    const urlToDelete = `/${slug}`;
 
     // Delete the NavLink first if it exists
     try {
