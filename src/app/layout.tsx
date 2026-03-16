@@ -19,23 +19,33 @@ export const metadata: Metadata = {
 };
 
 import { AdminSidebar } from "./components/Sidebar";
+import { auth } from "@/auth";
+import { SessionProvider } from "next-auth/react";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
     <html lang="en">
       <body
         className={`${inter.variable} ${playfair.variable} antialiased bg-[#f8f9fa]`}
       >
-        <div className="flex h-screen overflow-hidden font-sans">
-          <AdminSidebar />
-          <main className="flex-1 overflow-y-auto">
-            <div className=" px-12 py-10">{children}</div>
-          </main>
-        </div>
+        <SessionProvider session={session}>
+          {session ? (
+            <div className="flex h-screen overflow-hidden font-sans p-[5px]">
+              <AdminSidebar />
+              <main className="flex-1 overflow-y-auto">
+                <div className=" px-12 py-10">{children}</div>
+              </main>
+            </div>
+          ) : (
+            <div className="font-sans">{children}</div>
+          )}
+        </SessionProvider>
         <Toaster
           position="top-right"
           toastOptions={{

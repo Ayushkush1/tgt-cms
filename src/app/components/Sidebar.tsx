@@ -13,8 +13,10 @@ import {
   ArrowUpRight,
   LucideIcon,
   ChevronDown,
+  LogOut,
 } from "lucide-react";
 import { cn } from "../lib/utils";
+import { signOut } from "next-auth/react";
 
 type SidebarLink = {
   title: string;
@@ -226,60 +228,15 @@ export function AdminSidebar() {
         </nav>
       </div>
 
-      {/* Bottom Card (Mobile App Promo) */}
-      <div className="p-6 mt-4">
-        <div className="relative bg-[#D4AF37] rounded-3xl p-5 text-[#0B0F29] overflow-hidden">
-          {/* Decorative Lines */}
-          <svg
-            className="absolute top-4 right-4 text-[#0B0F29]/20 w-12 h-12"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <line
-              x1="2"
-              y1="12"
-              x2="22"
-              y2="12"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              transform="rotate(-45 12 12) translate(0 -6)"
-            />
-            <line
-              x1="2"
-              y1="12"
-              x2="22"
-              y2="12"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              transform="rotate(-45 12 12)"
-            />
-            <line
-              x1="2"
-              y1="12"
-              x2="22"
-              y2="12"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              transform="rotate(-45 12 12) translate(0 6)"
-            />
-          </svg>
-
-          <div className="absolute -top-4 -right-2 bg-white rounded-full p-2 shadow-sm border border-gray-100 flex items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors">
-            <ArrowUpRight className="w-4 h-4 text-[#0B0F29]" strokeWidth={3} />
-          </div>
-
-          <div className="mt-8">
-            <h4 className="font-bold text-[15px] leading-tight pr-4">
-              Download our
-              <br />
-              mobile app
-            </h4>
-          </div>
-        </div>
+      {/* Logout Button */}
+      <div className="px-6 pb-8 border-t border-gray-800 pt-6">
+        <button
+          onClick={() => signOut({ callbackUrl: "/login" })}
+          className="flex items-center gap-4 w-full px-4 py-3 rounded-2xl text-[14px] font-medium text-gray-400 hover:bg-red-500/10 hover:text-red-500 transition-all duration-200"
+        >
+          <LogOut className="w-5 h-5" />
+          Sign Out
+        </button>
       </div>
     </div>
   );

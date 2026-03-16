@@ -1,58 +1,31 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import NextAuth from "next-auth";
+import authConfig from "./auth.config";
 
-export function middleware(request: NextRequest) {
-  console.log(
-    `Middleware executing for: ${request.nextUrl.pathname} from origin: ${request.headers.get("origin")}`,
-  );
+const { auth } = NextAuth(authConfig);
 
-  const origin = request.headers.get("origin");
-  const allowedOrigins = [
-    "http://localhost:3000",
-    "https://tgt-landing-page-jade.vercel.app",
-    "https://tgt-cms.vercel.app",
-  ];
+export default auth((req) => {
+  const isLoggedIn = !!req.auth;
+  const { nextUrl } = req;
 
-  const response = NextResponse.next();
+  const isApiAuthRoute = nextUrl.pathname.startsWith("/api/auth");
+  const isPublicRoute = ["/login", "/register"].includes(nextUrl.pathname);
 
-  if (origin && allowedOrigins.includes(origin)) {
-    response.headers.set("Access-Control-Allow-Origin", origin);
-  }
+  if (isApiAuthRoute) return;
 
-  response.headers.set(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, OPTIONS",
-  );
-  response.headers.set(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization",
-  );
-
-  // Handle preflight requests
-  if (request.method === "OPTIONS") {
-    const preflightResponse = new NextResponse(null, {
-      status: 200,
-    });
-
-    if (origin && allowedOrigins.includes(origin)) {
-      preflightResponse.headers.set("Access-Control-Allow-Origin", origin);
+  if (isPublicRoute) {
+    if (isLoggedIn) {
+      return Response.redirect(new URL("/", nextUrl));
     }
-
-    preflightResponse.headers.set(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PUT, DELETE, OPTIONS",
-    );
-    preflightResponse.headers.set(
-      "Access-Control-Allow-Headers",
-      "Content-Type, Authorization",
-    );
-
-    return preflightResponse;
+    return;
   }
 
-  return response;
-}
+  if (!isLoggedIn && !isPublicRoute) {
+    return Response.redirect(new URL("/login", nextUrl));
+  }
+
+  return;
+});
 
 export const config = {
-  matcher: "/api/:path*",
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
