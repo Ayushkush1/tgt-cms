@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import { InputField } from "@/app/components/InputField";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -48,33 +49,29 @@ export default function LoginPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Email Address
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder="admin@example.com"
-              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent outline-none transition-all font-medium"
-            />
-          </div>
+          <InputField
+            label="Email Address"
+            name="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            placeholder="admin@example.com"
+            className="w-full px-4 py-2.5  rounded-2xl font-medium"
+            containerClassName="mx-0"
+          />
 
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Password
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              placeholder="••••••••"
-              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent outline-none transition-all font-medium"
-            />
-          </div>
+          <InputField
+            label="Password"
+            name="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            placeholder="••••••••"
+            className="w-full px-4 py-2.5  rounded-2xl font-medium"
+            containerClassName="mx-0"
+          />
 
           <button
             type="submit"
@@ -88,7 +85,10 @@ export default function LoginPage() {
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             Don't have an account?{" "}
-            <Link href="/register" className="text-[#D4AF37] hover:underline font-semibold">
+            <Link
+              href="/register"
+              className="text-[#D4AF37] hover:underline font-semibold"
+            >
               Sign Up
             </Link>
           </p>
