@@ -2,7 +2,15 @@
 import { useState, useEffect, useRef } from "react";
 import { fetchWithCache } from "@/lib/apiCache";
 import toast from "react-hot-toast";
-import { CloudUpload, X, Plus } from "lucide-react";
+import {
+  CloudUpload,
+  X,
+  Plus,
+  Trash2,
+  ChevronDown,
+  ChevronUp,
+  GripVertical,
+} from "lucide-react";
 import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -15,6 +23,7 @@ interface ServiceItem {
   description: string;
   image?: string;
   link?: string;
+  isExpanded?: boolean;
 }
 
 const defaultService = (): ServiceItem => ({
@@ -23,6 +32,7 @@ const defaultService = (): ServiceItem => ({
   description: "",
   image: "",
   link: "",
+  isExpanded: false,
 });
 
 const defaultFormData = {
@@ -78,9 +88,11 @@ export function WhatWeDoSection({
       fetchWithCache<Record<string, unknown>>(saveUrl)
         .then((json) => {
           if (json.success && json.data) {
-            const data = (responseKey
-              ? (json.data as Record<string, unknown>)[responseKey]
-              : json.data) as Record<string, unknown>;
+            const data = (
+              responseKey
+                ? (json.data as Record<string, unknown>)[responseKey]
+                : json.data
+            ) as Record<string, unknown>;
             if (data) {
               setFormData((prev) => ({ ...prev, ...data }));
               if (data.services && Array.isArray(data.services)) {
@@ -112,6 +124,17 @@ export function WhatWeDoSection({
     setFormData((prev) => {
       const updated = [...prev.services];
       updated[index] = { ...updated[index], [field]: value };
+      return { ...prev, services: updated };
+    });
+  };
+
+  const toggleExpand = (index: number) => {
+    setFormData((prev) => {
+      const updated = [...prev.services];
+      updated[index] = {
+        ...updated[index],
+        isExpanded: !updated[index].isExpanded,
+      };
       return { ...prev, services: updated };
     });
   };
@@ -285,134 +308,194 @@ export function WhatWeDoSection({
                 </h3>
               </div>
 
-              <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-6 col-span-2">
                 {formData.services.map((service, index) => (
                   <div
                     key={index}
-                    className="border border-gray-200 rounded-3xl p-6 flex flex-col gap-4 bg-white shadow-sm relative group"
+                    className="bg-gray-50/50 border border-gray-100 rounded-3xl overflow-hidden transition-all duration-300 relative group"
                   >
-                    <button
-                      onClick={() => removeService(index)}
-                      className="absolute -top-3 -right-3 p-2 bg-red-50 text-red-500 rounded-full shadow-sm hover:bg-red-100 transition-all opacity-0 group-hover:opacity-100"
+                    {/* Header */}
+                    <div
+                      className="p-5 px-6 flex items-center justify-between cursor-pointer hover:bg-gray-50 bg-white"
+                      onClick={() => toggleExpand(index)}
                     >
-                      <X className="w-4 h-4" />
-                    </button>
-                    <InputField
-                      label="Short Title"
-                      placeholder="e.g. Web Dev"
-                      value={service.shortTitle}
-                      onChange={(e) =>
-                        handleServiceChange(index, "shortTitle", e.target.value)
-                      }
-                    />
-                    <InputField
-                      label="Full Title"
-                      placeholder="e.g. Web Development"
-                      value={service.fullTitle}
-                      onChange={(e) =>
-                        handleServiceChange(index, "fullTitle", e.target.value)
-                      }
-                      required
-                    />
-                    <TextAreaField
-                      label="Description"
-                      rows={2}
-                      placeholder="e.g. Scalable, high-performance websites..."
-                      value={service.description}
-                      onChange={(e) =>
-                        handleServiceChange(
-                          index,
-                          "description",
-                          e.target.value,
-                        )
-                      }
-                    />
-                    <InputField
-                      label="Service Link"
-                      placeholder="e.g. /services/web-development"
-                      value={service.link || ""}
-                      onChange={(e) =>
-                        handleServiceChange(index, "link", e.target.value)
-                      }
-                    />
-
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-sm font-medium text-gray-700">
-                        Service Image
-                      </label>
-                      <input
-                        type="file"
-                        ref={(el) => {
-                          fileInputRefs.current[index] = el;
-                        }}
-                        onChange={(e) => handleFileChange(index, e)}
-                        accept="image/*"
-                        className="hidden"
-                      />
-                      {serviceImages[index] ? (
-                        <div className="relative aspect-video rounded-2xl overflow-hidden border border-gray-200 bg-gray-50 group/img">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={
-                              typeof serviceImages[index] === "string"
-                                ? (serviceImages[index] as string)
-                                : URL.createObjectURL(
-                                    serviceImages[index] as Blob,
-                                  )
-                            }
-                            className="w-full h-full object-cover"
-                            alt="Service"
-                          />
-                          <button
-                            onClick={() => removeImage(index)}
-                            className="absolute top-2 right-2 p-1.5 bg-black/60 text-white rounded-full opacity-0 group-hover/img:opacity-100 transition-opacity"
-                          >
-                            <X className="w-3.5 h-3.5" />
-                          </button>
+                      <div className="flex items-center gap-4">
+                        <div className="p-2.5 bg-gray-50 hover:bg-white border border-transparent hover:border-gray-200 hover:shadow-sm rounded-xl text-gray-400 cursor-grab active:cursor-grabbing transition-all">
+                          <GripVertical className="w-4 h-4" />
                         </div>
-                      ) : (
-                        <div
-                          onDragOver={(e) => {
-                            e.preventDefault();
-                            setIsDragging(index);
-                          }}
-                          onDragLeave={() => setIsDragging(null)}
-                          onDrop={(e) => {
-                            e.preventDefault();
-                            setIsDragging(null);
-                            const file = e.dataTransfer.files[0];
-                            if (file?.type.startsWith("image/")) {
-                              setServiceImages((prev) => {
-                                const updated = [...prev];
-                                updated[index] = file;
-                                return updated;
-                              });
-                            }
-                          }}
-                          onClick={() => fileInputRefs.current[index]?.click()}
-                          className={`aspect-video border-2 border-dashed rounded-2xl flex flex-col items-center justify-center transition-colors cursor-pointer group ${
-                            isDragging === index
-                              ? "border-[#0A0F29] border-solid bg-gray-100"
-                              : "border-gray-200 bg-gray-50 hover:bg-gray-100"
-                          }`}
-                        >
-                          <CloudUpload className="w-6 h-6 text-gray-400 mb-2" />
-                          <span className="text-xs text-gray-500 font-medium">
-                            Upload Image
+                        <div className="flex flex-col gap-1">
+                          <span className="font-semibold text-gray-900 text-[15px]">
+                            {service.fullTitle || "Untitled Service"}
                           </span>
+                          {service.shortTitle && (
+                            <span className="text-xs text-gray-500 font-medium">
+                              {service.shortTitle}
+                            </span>
+                          )}
                         </div>
-                      )}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {(formData.services || []).length > 1 && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeService(index);
+                            }}
+                            className="text-red-500 hover:text-red-600 bg-red-50 hover:bg-red-100 p-2.5 rounded-xl transition-colors flex items-center gap-2 text-xs font-semibold mr-2"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        )}
+                        {service.isExpanded ? (
+                          <ChevronUp className="w-5 h-5 text-gray-400" />
+                        ) : (
+                          <ChevronDown className="w-5 h-5 text-gray-400" />
+                        )}
+                      </div>
                     </div>
+
+                    {/* Body Content */}
+                    {service.isExpanded && (
+                      <div className="p-6 pt-2 grid grid-cols-2 gap-4 bg-white border-t border-gray-100">
+                        <InputField
+                          label="Short Title"
+                          placeholder="e.g. Web Dev"
+                          value={service.shortTitle}
+                          onChange={(e) =>
+                            handleServiceChange(
+                              index,
+                              "shortTitle",
+                              e.target.value,
+                            )
+                          }
+                        />
+                        <InputField
+                          label="Full Title"
+                          placeholder="e.g. Web Development"
+                          value={service.fullTitle}
+                          onChange={(e) =>
+                            handleServiceChange(
+                              index,
+                              "fullTitle",
+                              e.target.value,
+                            )
+                          }
+                          required
+                        />
+                        <TextAreaField
+                          label="Description"
+                          rows={2}
+                          containerClassName="col-span-2"
+                          placeholder="e.g. Scalable, high-performance websites..."
+                          value={service.description}
+                          onChange={(e) =>
+                            handleServiceChange(
+                              index,
+                              "description",
+                              e.target.value,
+                            )
+                          }
+                        />
+                        <InputField
+                          label="Service Link"
+                          placeholder="e.g. /services/web-development"
+                          value={service.link || ""}
+                          onChange={(e) =>
+                            handleServiceChange(index, "link", e.target.value)
+                          }
+                          containerClassName="col-span-2"
+                        />
+
+                        <div className="col-span-2 flex flex-col gap-1.5 mt-2">
+                          <label className="text-sm font-medium text-gray-700">
+                            Service Image
+                          </label>
+                          <input
+                            type="file"
+                            ref={(el) => {
+                              fileInputRefs.current[index] = el;
+                            }}
+                            onChange={(e) => handleFileChange(index, e)}
+                            accept="image/*"
+                            className="hidden"
+                          />
+                          {serviceImages[index] ? (
+                            <div className="w-full border border-gray-200 rounded-xl bg-gray-50 flex items-center justify-between p-3 px-4">
+                              <div className="flex items-center gap-4">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                  src={
+                                    typeof serviceImages[index] === "string"
+                                      ? (serviceImages[index] as string)
+                                      : URL.createObjectURL(
+                                          serviceImages[index] as Blob,
+                                        )
+                                  }
+                                  alt={`Service Image ${index + 1}`}
+                                  className="w-12 h-12 object-cover rounded-full shadow-sm border border-gray-200"
+                                />
+                                <span className="text-gray-900 font-semibold text-sm truncate max-w-[200px]">
+                                  Image Uploaded
+                                </span>
+                              </div>
+                              <button
+                                onClick={() => removeImage(index)}
+                                className="p-1.5 bg-white text-gray-500 hover:text-red-500 rounded-full shadow-sm ring-1 ring-gray-100 transition-colors"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          ) : (
+                            <div
+                              onDragOver={(e) => {
+                                e.preventDefault();
+                                setIsDragging(index);
+                              }}
+                              onDragLeave={() => setIsDragging(null)}
+                              onDrop={(e) => {
+                                e.preventDefault();
+                                setIsDragging(null);
+                                const file = e.dataTransfer.files[0];
+                                if (file?.type.startsWith("image/")) {
+                                  setServiceImages((prev) => {
+                                    const updated = [...prev];
+                                    updated[index] = file;
+                                    return updated;
+                                  });
+                                }
+                              }}
+                              onClick={() =>
+                                fileInputRefs.current[index]?.click()
+                              }
+                              className={`w-full border-2 border-dashed rounded-xl flex flex-col items-center justify-center p-6 transition-colors cursor-pointer group ${
+                                isDragging === index
+                                  ? "border-[#0A0F29] border-solid bg-gray-100"
+                                  : "border-gray-200 bg-gray-50 hover:bg-gray-100"
+                              }`}
+                            >
+                              <CloudUpload className="w-6 h-6 text-gray-400 mb-2" />
+                              <p className="text-gray-500 text-sm">
+                                <span className="text-[#D3AF37] font-semibold hover:underline mr-1">
+                                  Click to upload
+                                </span>
+                                or drag and drop
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ))}
+              </div>
 
+              <div className="flex pt-2 col-span-2">
                 {formData.services.length < 10 && (
                   <button
                     onClick={addService}
-                    className="border-2 border-dashed border-gray-200 rounded-3xl flex flex-col items-center justify-center p-12 text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-all gap-2"
+                    className="flex w-full items-center justify-center cursor-pointer gap-2 px-6 py-3 bg-white border border-gray-200 rounded-2xl text-gray-700 font-bold hover:bg-gray-50 transition-all shadow-sm active:scale-95 border-dashed"
                   >
-                    <Plus className="w-6 h-6" />
-                    <span className="font-semibold">Add Service</span>
+                    <Plus className="w-5 h-5" /> Add Service
                   </button>
                 )}
               </div>

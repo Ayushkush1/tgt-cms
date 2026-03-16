@@ -1,13 +1,22 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
-import { CloudUpload, X, Plus } from "lucide-react";
+import {
+  CloudUpload,
+  X,
+  Plus,
+  Trash2,
+  ChevronDown,
+  ChevronUp,
+  GripVertical,
+} from "lucide-react";
 import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
 import { SectionHeader } from "@/components/SectionHeader";
 import { TextAreaField } from "@/components/TextAreaField";
 import { uploadFiles } from "@/lib/uploadHelpers";
 import { fetchWithCache } from "@/lib/apiCache";
+import { RichTextEditor } from "@/components/RichTextEditor";
 
 interface BlogItem {
   category: string;
@@ -18,6 +27,8 @@ interface BlogItem {
   readTime: string;
   views: string;
   image?: string;
+  contentHtml?: string;
+  isExpanded?: boolean;
 }
 
 const defaultBlog = (): BlogItem => ({
@@ -28,6 +39,8 @@ const defaultBlog = (): BlogItem => ({
   datePublished: "",
   readTime: "",
   views: "",
+  contentHtml: "",
+  isExpanded: false,
 });
 
 const defaultFormData = {
@@ -55,6 +68,7 @@ export function BlogSection({
   const [isOpen, setIsOpen] = useState(!initialData);
   const [isSaving, setIsSaving] = useState(false);
   const [blogImages, setBlogImages] = useState<(File | string | null)[]>([]);
+  const [isDragging, setIsDragging] = useState<number | null>(null);
   const fileInputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const [formData, setFormData] = useState(defaultFormData);
@@ -100,6 +114,17 @@ export function BlogSection({
     setFormData((prev) => {
       const updated = [...prev.blogs];
       updated[index] = { ...updated[index], [field]: value };
+      return { ...prev, blogs: updated };
+    });
+  };
+
+  const toggleExpand = (index: number) => {
+    setFormData((prev) => {
+      const updated = [...prev.blogs];
+      updated[index] = {
+        ...updated[index],
+        isExpanded: !updated[index].isExpanded,
+      };
       return { ...prev, blogs: updated };
     });
   };
@@ -197,6 +222,7 @@ export function BlogSection({
 
         {isOpen && (
           <div className="flex flex-col gap-8 pt-4 animate-in fade-in duration-500">
+            {/* 1. Header Fields Grid */}
             <div className="grid grid-cols-2 gap-6">
               <InputField
                 label="Upper Tag"
@@ -235,141 +261,235 @@ export function BlogSection({
                 onChange={handleChange}
                 placeholder="e.g. /blog"
               />
+            </div>
 
-              <div className="col-span-2 flex items-center justify-between mt-4">
+            {/* 2. Blog List Section */}
+            <div className="space-y-6">
+              <div className="flex items-center justify-between border-b border-gray-100 pb-4">
                 <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest">
                   Featured Blogs ({formData.blogs.length})
                 </h3>
               </div>
 
-              <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-6">
                 {(formData.blogs || []).map((blog, index) => (
                   <div
                     key={index}
-                    className="border border-gray-200 rounded-3xl p-6 flex flex-col gap-4 bg-white shadow-sm relative group"
+                    className="bg-gray-50/50 border border-gray-100 rounded-3xl overflow-hidden transition-all duration-300 relative group"
                   >
-                    <button
-                      onClick={() => removeBlog(index)}
-                      className="absolute -top-3 -right-3 p-2 bg-red-50 text-red-500 rounded-full shadow-sm hover:bg-red-100 transition-all opacity-0 group-hover:opacity-100"
+                    {/* Header */}
+                    <div
+                      className="p-5 px-6 flex items-center justify-between cursor-pointer hover:bg-gray-50 bg-white"
+                      onClick={() => toggleExpand(index)}
                     >
-                      <X className="w-4 h-4" />
-                    </button>
-                    <InputField
-                      label="Category"
-                      value={blog.category}
-                      onChange={(e) =>
-                        handleBlogChange(index, "category", e.target.value)
-                      }
-                      placeholder="e.g. Technology"
-                    />
-                    <InputField
-                      label="Title"
-                      value={blog.title}
-                      onChange={(e) =>
-                        handleBlogChange(index, "title", e.target.value)
-                      }
-                      placeholder="e.g. The Future of AI in Web Development"
-                      required
-                    />
-                    <TextAreaField
-                      label="Excerpt"
-                      value={blog.excerpt}
-                      onChange={(e) =>
-                        handleBlogChange(index, "excerpt", e.target.value)
-                      }
-                      placeholder="e.g. Exploring how artificial intelligence is reshaping the landscape of modern web development..."
-                    />
-                    <InputField
-                      label="Author"
-                      value={blog.authorName}
-                      onChange={(e) =>
-                        handleBlogChange(index, "authorName", e.target.value)
-                      }
-                      placeholder="e.g. John Doe"
-                    />
-
-                    <div className="grid grid-cols-2 gap-4">
-                      <InputField
-                        label="Published"
-                        value={blog.datePublished}
-                        onChange={(e) =>
-                          handleBlogChange(
-                            index,
-                            "datePublished",
-                            e.target.value,
-                          )
-                        }
-                        placeholder="e.g. Oct 24, 2023"
-                      />
-                      <InputField
-                        label="Read Time"
-                        value={blog.readTime}
-                        onChange={(e) =>
-                          handleBlogChange(index, "readTime", e.target.value)
-                        }
-                        placeholder="e.g. 5 min read"
-                      />
-                    </div>
-
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-sm font-medium text-gray-700">
-                        Cover Image
-                      </label>
-                      <input
-                        type="file"
-                        ref={(el) => {
-                          fileInputRefs.current[index] = el;
-                        }}
-                        onChange={(e) => handleFileChange(index, e)}
-                        accept="image/*"
-                        className="hidden"
-                      />
-                      {blogImages[index] ? (
-                        <div className="relative aspect-video rounded-2xl overflow-hidden border border-gray-200 bg-gray-50 group/img">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={
-                              typeof blogImages[index] === "string"
-                                ? (blogImages[index] as string)
-                                : URL.createObjectURL(blogImages[index] as Blob)
-                            }
-                            className="w-full h-full object-cover"
-                            alt="Blog"
-                          />
-                          <button
-                            onClick={() => removeImage(index)}
-                            className="absolute top-2 right-2 p-1.5 bg-black/60 text-white rounded-full opacity-0 group-hover/img:opacity-100 transition-opacity"
-                          >
-                            <X className="w-3.5 h-3.5" />
-                          </button>
+                      <div className="flex items-center gap-4">
+                        <div className="p-2.5 bg-gray-50 hover:bg-white border border-transparent hover:border-gray-200 hover:shadow-sm rounded-xl text-gray-400 cursor-grab active:cursor-grabbing transition-all">
+                          <GripVertical className="w-4 h-4" />
                         </div>
-                      ) : (
-                        <div
-                          onClick={() => fileInputRefs.current[index]?.click()}
-                          className="aspect-video border-2 border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer"
-                        >
-                          <CloudUpload className="w-6 h-6 text-gray-400 mb-2" />
-                          <span className="text-xs text-gray-500 font-medium">
-                            Upload Image
+                        <div className="flex flex-col gap-1">
+                          <span className="font-semibold text-gray-900 text-[15px]">
+                            {blog.title || "Untitled Blog Post"}
                           </span>
+                          {blog.category && (
+                            <span className="text-xs text-gray-500 font-medium">
+                              {blog.category} • {blog.authorName || "No author"}
+                            </span>
+                          )}
                         </div>
-                      )}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {(formData.blogs || []).length > 1 && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeBlog(index);
+                            }}
+                            className="text-red-500 hover:text-red-600 bg-red-50 hover:bg-red-100 p-2.5 rounded-xl transition-colors flex items-center gap-2 text-xs font-semibold mr-2"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        )}
+                        {blog.isExpanded ? (
+                          <ChevronUp className="w-5 h-5 text-gray-400" />
+                        ) : (
+                          <ChevronDown className="w-5 h-5 text-gray-400" />
+                        )}
+                      </div>
                     </div>
+
+                    {/* Body Content */}
+                    {blog.isExpanded && (
+                      <div className="p-6 pt-2 grid grid-cols-2 gap-4 bg-white border-t border-gray-100">
+                        <InputField
+                          label="Category"
+                          value={blog.category}
+                          onChange={(e) =>
+                            handleBlogChange(index, "category", e.target.value)
+                          }
+                          placeholder="e.g. Technology"
+                        />
+                        <InputField
+                          label="Title"
+                          value={blog.title}
+                          onChange={(e) =>
+                            handleBlogChange(index, "title", e.target.value)
+                          }
+                          placeholder="e.g. The Future of AI in Web Development"
+                          required
+                        />
+                        <TextAreaField
+                          label="Excerpt"
+                          value={blog.excerpt}
+                          onChange={(e) =>
+                            handleBlogChange(index, "excerpt", e.target.value)
+                          }
+                          placeholder="e.g. Exploring how artificial intelligence is reshaping the landscape of modern web development..."
+                        />
+                        <InputField
+                          label="Author"
+                          value={blog.authorName}
+                          onChange={(e) =>
+                            handleBlogChange(
+                              index,
+                              "authorName",
+                              e.target.value,
+                            )
+                          }
+                          placeholder="e.g. John Doe"
+                        />
+
+                        <div className="grid grid-cols-2 gap-4 col-span-2">
+                          <InputField
+                            label="Published"
+                            value={blog.datePublished}
+                            onChange={(e) =>
+                              handleBlogChange(
+                                index,
+                                "datePublished",
+                                e.target.value,
+                              )
+                            }
+                            placeholder="e.g. Oct 24, 2023"
+                          />
+                          <InputField
+                            label="Read Time"
+                            value={blog.readTime}
+                            onChange={(e) =>
+                              handleBlogChange(
+                                index,
+                                "readTime",
+                                e.target.value,
+                              )
+                            }
+                            placeholder="e.g. 5 min read"
+                          />
+                        </div>
+
+                        <div className="flex flex-col gap-1.5 col-span-2">
+                          <label className="text-sm font-medium text-gray-700">
+                            Cover Image
+                          </label>
+                          <input
+                            type="file"
+                            ref={(el) => {
+                              fileInputRefs.current[index] = el;
+                            }}
+                            onChange={(e) => handleFileChange(index, e)}
+                            accept="image/*"
+                            className="hidden"
+                          />
+                          {blogImages[index] ? (
+                            <div className="w-full border border-gray-200 rounded-xl bg-gray-50 flex items-center justify-between p-3 px-4">
+                              <div className="flex items-center gap-4">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                  src={
+                                    typeof blogImages[index] === "string"
+                                      ? (blogImages[index] as string)
+                                      : URL.createObjectURL(
+                                          blogImages[index] as Blob,
+                                        )
+                                  }
+                                  alt={`Blog Image ${index + 1}`}
+                                  className="w-12 h-12 object-cover rounded-full shadow-sm border border-gray-200"
+                                />
+                                <span className="text-gray-900 font-semibold text-sm truncate max-w-[200px]">
+                                  Image Uploaded
+                                </span>
+                              </div>
+                              <button
+                                onClick={() => removeImage(index)}
+                                className="p-1.5 bg-white text-gray-500 hover:text-red-500 rounded-full shadow-sm ring-1 ring-gray-100 transition-colors"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          ) : (
+                            <div
+                              onDragOver={(e) => {
+                                e.preventDefault();
+                                setIsDragging(index);
+                              }}
+                              onDragLeave={() => setIsDragging(null)}
+                              onDrop={(e) => {
+                                e.preventDefault();
+                                setIsDragging(null);
+                                const file = e.dataTransfer.files[0];
+                                if (file?.type.startsWith("image/")) {
+                                  setBlogImages((prev) => {
+                                    const updated = [...prev];
+                                    updated[index] = file;
+                                    return updated;
+                                  });
+                                }
+                              }}
+                              onClick={() =>
+                                fileInputRefs.current[index]?.click()
+                              }
+                              className={`w-full border-2 border-dashed rounded-xl flex flex-col items-center justify-center p-6 transition-colors cursor-pointer group ${
+                                isDragging === index
+                                  ? "border-[#0A0F29] border-solid bg-gray-100"
+                                  : "border-gray-200 bg-gray-50 hover:bg-gray-100"
+                              }`}
+                            >
+                              <CloudUpload className="w-6 h-6 text-gray-400 mb-2" />
+                              <p className="text-gray-500 text-sm">
+                                <span className="text-[#D3AF37] font-semibold hover:underline mr-1">
+                                  Click to upload
+                                </span>
+                                or drag and drop
+                              </p>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex flex-col gap-1.5 col-span-2 mt-4">
+                          <label className="text-sm font-medium text-gray-700">
+                            Blog Content Editor
+                          </label>
+                          <RichTextEditor
+                            value={blog.contentHtml || ""}
+                            onChange={(val) =>
+                              handleBlogChange(index, "contentHtml", val)
+                            }
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ))}
-
-                {(formData.blogs || []).length < 10 && (
-                  <button
-                    onClick={addBlog}
-                    className="border-2 border-dashed border-gray-200 rounded-3xl flex flex-col items-center justify-center p-12 text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-all gap-2"
-                  >
-                    <Plus className="w-6 h-6" />
-                    <span className="font-semibold">Add Blog Post</span>
-                  </button>
-                )}
               </div>
 
-              <div className="col-span-2 flex justify-end pt-4">
+              {(formData.blogs || []).length < 10 && (
+                <button
+                  onClick={addBlog}
+                  className="w-full flex items-center justify-center gap-2 py-4 border-2 border-dashed border-gray-200 rounded-2xl text-gray-500 font-semibold hover:bg-gray-50 transition-colors"
+                >
+                  <Plus className="w-5 h-5" /> Add Blog Post
+                </button>
+              )}
+
+              <div className="flex justify-end pt-4">
                 <SaveButton
                   onClick={handleSave}
                   disabled={isSaving}
