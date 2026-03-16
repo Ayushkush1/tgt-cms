@@ -70,9 +70,26 @@ const defaultPortfolio = (): PortfolioItem => ({
 });
 
 interface PortfolioCMSProps {
+  /** ID of the section record (when saving via /api/sections) */
   sectionId?: string;
+  /** Pre-load data without fetching (skips the GET call) */
   initialData?: PortfolioItem[];
-  saveUrl?: string; // e.g. /api/about or /api/home or /api/portfolio
+  /** API endpoint to GET data from and PUT data to. Default: "/api/about" */
+  saveUrl?: string;
+  /**
+   * Key inside `json.data` where the portfolio array lives.
+   * e.g. "Portfolio" when the API returns { success: true, data: { Portfolio: [...] } }
+   * Set to undefined if the API returns { success: true, data: [...] } directly.
+   * Default: "Portfolio"
+   */
+  responseKey?: string;
+  /**
+   * The key sent in the request body as the section identifier.
+   * e.g. "Portfolio" sends { section: "Portfolio", content: [...] }
+   * Default: "Portfolio"
+   */
+  sectionName?: string;
+  /** Callback fired after a successful save */
   onSave?: (data: PortfolioItem[]) => void;
 }
 
@@ -80,6 +97,8 @@ export function PortfolioCMS({
   sectionId,
   initialData,
   saveUrl = "/api/about",
+  responseKey = "Portfolio",
+  sectionName = "Portfolio",
   onSave,
 }: PortfolioCMSProps) {
   const [isOpen, setIsOpen] = useState(true);
@@ -103,10 +122,8 @@ export function PortfolioCMS({
       fetchWithCache(saveUrl)
         .then((json: any) => {
           if (json.success) {
-            // Support both direct /api/portfolio (data: [...]) and page-based structure (data: { Portfolio: [...] })
-            const data = saveUrl.includes("portfolio")
-              ? json.data
-              : json.data?.Portfolio;
+            // Use responseKey to locate the array, or use json.data directly if responseKey is undefined/empty
+            const data = responseKey ? json.data?.[responseKey] : json.data;
             if (Array.isArray(data)) {
               const mapped = data.map((item: any) => ({
                 ...item,
@@ -258,14 +275,14 @@ export function PortfolioCMS({
         }),
       );
 
-      // Support direct /api/portfolio, unified page API (/api/about), or individual sections
+      // Build request body based on context
       let body: any;
       if (sectionId) {
+        // Saving an individual dynamic page section via /api/sections
         body = { id: sectionId, content: processedItems };
-      } else if (saveUrl.includes("portfolio")) {
-        body = { content: processedItems };
       } else {
-        body = { section: "Portfolio", content: processedItems };
+        // Standard page API: { section: "Portfolio", content: [...] }
+        body = { section: sectionName, content: processedItems };
       }
 
       const res = await fetch(saveUrl, {
@@ -610,7 +627,7 @@ export function PortfolioCMS({
 
               <button
                 onClick={addItem}
-                className="w-full flex items-center justify-center gap-4 py-8 border-2 border-dashed border-gray-200 rounded-4xl text-gray-400 font-black uppercase text-xs tracking-widest hover:bg-white hover:border-[#D4AF37] hover:text-[#0B0F29] transition-all group lg:mt-4"
+                className="w-full flex items-center justify-center gap-4 py-4 border-2 border-dashed border-gray-200 rounded-4xl text-gray-400 font-black uppercase text-xs tracking-widest hover:bg-white hover:border-[#D4AF37] hover:text-[#0B0F29] transition-all group lg:mt-4"
               >
                 <Plus className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 Add New Project Showcase

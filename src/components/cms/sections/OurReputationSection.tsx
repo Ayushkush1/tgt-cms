@@ -38,7 +38,9 @@ const defaultFormData = {
 interface OurReputationSectionProps {
   sectionId?: string;
   initialData?: Record<string, unknown>;
-  saveUrl?: string; // e.g. /api/home or /api/sections
+  saveUrl?: string;
+  /** Key in json.data where this section's data lives. Default: "OurReputation" */
+  responseKey?: string;
   onSave?: (data: Record<string, unknown>) => void;
 }
 
@@ -46,6 +48,7 @@ export function OurReputationSection({
   sectionId,
   initialData,
   saveUrl = "/api/home",
+  responseKey = "OurReputation",
   onSave,
 }: OurReputationSectionProps) {
   const [isOpen, setIsOpen] = useState(!initialData);
@@ -68,11 +71,11 @@ export function OurReputationSection({
           ),
         );
       }
-    } else if (saveUrl === "/api/home") {
-      fetchWithCache("/api/home")
+    } else {
+      fetchWithCache(saveUrl)
         .then((json) => {
-          if (json.success && json.data?.OurReputation) {
-            const data = json.data.OurReputation;
+          const data = responseKey ? json.data?.[responseKey] : json.data;
+          if (json.success && data) {
             setFormData((prev) => ({ ...prev, ...data }));
             if (data.testimonials && Array.isArray(data.testimonials)) {
               setAvatarImages(
@@ -175,16 +178,10 @@ export function OurReputationSection({
 
       const body = sectionId
         ? { id: sectionId, content: payload }
-        : { section: "OurReputation", content: payload };
-
-      const method = sectionId
-        ? "PUT"
-        : saveUrl === "/api/home"
-          ? "PUT"
-          : "POST";
+        : { section: responseKey ?? "OurReputation", content: payload };
 
       const res = await fetch(saveUrl, {
-        method,
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });

@@ -3,15 +3,18 @@
 import { useState } from "react";
 import { Search, Plus } from "lucide-react";
 import { CreatePagePopUp } from "./CreatePagePopUp";
+import { useSession } from "next-auth/react";
 
 export function AdminHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { data: session } = useSession();
+  const userName = session?.user?.name || "Admin";
 
   return (
     <section className=" flex flex-col gap-6">
       <header className=" flex justify-between items-center w-full">
         <h1 className="text-[28px] font-bold tracking-tight text-[#0B0F29] flex items-center gap-2">
-          Welcome back Admin{" "}
+          Welcome back <span className="text-[#D4AF37]">{userName}</span>
           <span className="text-2xl animate-bounce origin-bottom-right delay-700">
             👋
           </span>

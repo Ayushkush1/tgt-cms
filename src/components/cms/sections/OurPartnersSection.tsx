@@ -18,7 +18,9 @@ const defaultFormData = {
 interface OurPartnersSectionProps {
   sectionId?: string;
   initialData?: Record<string, unknown>;
-  saveUrl?: string; // e.g. /api/home or /api/sections
+  saveUrl?: string;
+  /** Key in json.data where this section's data lives. Default: "OurPartners" */
+  responseKey?: string;
   onSave?: (data: Record<string, unknown>) => void;
 }
 
@@ -26,6 +28,7 @@ export function OurPartnersSection({
   sectionId,
   initialData,
   saveUrl = "/api/home",
+  responseKey = "OurPartners",
   onSave,
 }: OurPartnersSectionProps) {
   const [isOpen, setIsOpen] = useState(!initialData);
@@ -39,12 +42,12 @@ export function OurPartnersSection({
       if (initialData.logos && Array.isArray(initialData.logos)) {
         setImages(initialData.logos as (string | File | null)[]);
       }
-    } else if (saveUrl === "/api/home") {
-      fetchWithCache("/api/home")
+    } else {
+      fetchWithCache(saveUrl)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then((json: Record<string, any>) => {
-          if (json.success && json.data?.OurPartners) {
-            const data = json.data.OurPartners;
+          const data = responseKey ? json.data?.[responseKey] : json.data;
+          if (json.success && data) {
             setFormData((prev) => ({ ...prev, ...data }));
             if (data.logos && Array.isArray(data.logos)) {
               setImages(data.logos as (string | File | null)[]);
@@ -83,16 +86,10 @@ export function OurPartnersSection({
 
       const body = sectionId
         ? { id: sectionId, content: payload }
-        : { section: "OurPartners", content: payload };
-
-      const method = sectionId
-        ? "PUT"
-        : saveUrl === "/api/home"
-          ? "PUT"
-          : "POST";
+        : { section: responseKey ?? "OurPartners", content: payload };
 
       const res = await fetch(saveUrl, {
-        method,
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });

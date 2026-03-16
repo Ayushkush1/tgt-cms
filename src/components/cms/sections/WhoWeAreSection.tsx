@@ -27,7 +27,9 @@ const defaultFormData = {
 interface WhoWeAreSectionProps {
   sectionId?: string;
   initialData?: Record<string, unknown>;
-  saveUrl?: string; // e.g. /api/home or /api/sections
+  saveUrl?: string;
+  /** Key in json.data where this section's data lives. Default: "WhoWeAre" */
+  responseKey?: string;
   onSave?: (data: Record<string, unknown>) => void;
 }
 
@@ -35,6 +37,7 @@ export function WhoWeAreSection({
   sectionId,
   initialData,
   saveUrl = "/api/home",
+  responseKey = "WhoWeAre",
   onSave,
 }: WhoWeAreSectionProps) {
   const [isOpen, setIsOpen] = useState(!initialData); // Default open in builder, closed in static
@@ -53,12 +56,13 @@ export function WhoWeAreSection({
         ];
       }
       setFormData(data);
-    } else if (saveUrl === "/api/home") {
-      fetchWithCache("/api/home")
+    } else {
+      fetchWithCache(saveUrl)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then((json: Record<string, any>) => {
-          if (json.success && json.data?.WhoWeAre) {
-            const data = json.data.WhoWeAre;
+          const sectionData = responseKey ? json.data?.[responseKey] : json.data;
+          if (json.success && sectionData) {
+            const data = sectionData;
             if (!data.block1Bullets) {
               data.block1Bullets = [
                 data.block1Bullet1 || "",
@@ -113,16 +117,10 @@ export function WhoWeAreSection({
     try {
       const body = sectionId
         ? { id: sectionId, content: formData }
-        : { section: "WhoWeAre", content: formData };
-
-      const method = sectionId
-        ? "PUT"
-        : saveUrl === "/api/home"
-          ? "PUT"
-          : "POST";
+        : { section: responseKey ?? "WhoWeAre", content: formData };
 
       const res = await fetch(saveUrl, {
-        method,
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });

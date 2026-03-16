@@ -41,7 +41,9 @@ const defaultFormData = {
 interface WhatWeDoSectionProps {
   sectionId?: string;
   initialData?: Record<string, unknown>;
-  saveUrl?: string; // e.g. /api/home or /api/sections
+  saveUrl?: string;
+  /** Key in json.data where this section's data lives. Default: "WhatWeDo" */
+  responseKey?: string;
   onSave?: (data: Record<string, unknown>) => void;
 }
 
@@ -49,6 +51,7 @@ export function WhatWeDoSection({
   sectionId,
   initialData,
   saveUrl = "/api/home",
+  responseKey = "WhatWeDo",
   onSave,
 }: WhatWeDoSectionProps) {
   const [isOpen, setIsOpen] = useState(!initialData);
@@ -71,12 +74,13 @@ export function WhatWeDoSection({
           ),
         );
       }
-    } else if (saveUrl === "/api/home") {
-      fetchWithCache<Record<string, unknown>>("/api/home")
+    } else {
+      fetchWithCache<Record<string, unknown>>(saveUrl)
         .then((json) => {
           if (json.success && json.data) {
-            const data = (json.data as Record<string, unknown>)
-              .WhatWeDo as Record<string, unknown>;
+            const data = (responseKey
+              ? (json.data as Record<string, unknown>)[responseKey]
+              : json.data) as Record<string, unknown>;
             if (data) {
               setFormData((prev) => ({ ...prev, ...data }));
               if (data.services && Array.isArray(data.services)) {
@@ -180,16 +184,10 @@ export function WhatWeDoSection({
 
       const body = sectionId
         ? { id: sectionId, content: payload }
-        : { section: "WhatWeDo", content: payload };
-
-      const method = sectionId
-        ? "PUT"
-        : saveUrl === "/api/home"
-          ? "PUT"
-          : "POST";
+        : { section: responseKey ?? "WhatWeDo", content: payload };
 
       const res = await fetch(saveUrl, {
-        method,
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });

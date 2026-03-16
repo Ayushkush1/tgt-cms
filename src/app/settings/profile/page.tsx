@@ -115,7 +115,7 @@ export default function ProfilePage() {
                 type="email"
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your email"
-                className="mt-2 font-medium"
+                className="mt-2 font-medium opacity-65 cursor-not-allowed"
                 required
                 disabled
               />
