@@ -36,25 +36,22 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  request: Request,
-  { params }: { params: Promise<{ slug: string }> },
-) {
+export async function PUT(request: Request) {
   try {
-    const { slug } = await params;
-    const data = await request.json();
+    const { id, title, slug } = await request.json();
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: "Page id is required" },
+        { status: 400 },
+      );
+    }
 
     const updatedPage = await prisma.page.update({
-      where: { slug },
+      where: { id },
       data: {
-        title: data.title,
-        visibility: data.visibility,
-        metaTitle: data.metaTitle,
-        metaDescription: data.metaDescription,
-        targetKeywords: data.targetKeywords,
-        canonicalUrl: data.canonicalUrl,
-        noIndex: data.noIndex,
-        featuredImage: data.featuredImage,
+        title,
+        slug,
       },
     });
 
@@ -74,22 +71,25 @@ export async function DELETE(
 ) {
   try {
     const { slug } = await params;
-    const urlToDelete = `/${slug}`;
 
-    // Delete the NavLink first if it exists
-    try {
-      if (prisma.navLink) {
-        await prisma.navLink.deleteMany({
-          where: { url: urlToDelete },
-        });
-      }
-    } catch (linkError) {
-      console.error("Error deleting NavLink:", linkError);
+    const page = await prisma.page.findUnique({
+      where: { slug },
+    });
+
+    if (!page) {
+      return NextResponse.json(
+        { success: false, error: "Page not found" },
+        { status: 404 },
+      );
     }
 
-    // Delete the Page
+    // Delete associated NavLink if it exists
+    await prisma.navLink.deleteMany({
+      where: { url: `/${slug}` },
+    });
+
     await prisma.page.delete({
-      where: { slug },
+      where: { id: page.id },
     });
 
     return NextResponse.json({ success: true, message: "Page deleted" });

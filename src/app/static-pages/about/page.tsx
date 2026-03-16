@@ -3,7 +3,7 @@ import { AboutFirmSection } from "@/components/cms/sections/AboutFirmSection";
 import VideoSection from "./components/VideoSection";
 import VisionSection from "./components/VisionSection";
 import OurTeam from "./components/OurTeam";
-import PortfolioSection from "./components/PortfolioSection";
+import { PortfolioCMS } from "@/components/cms/sections/PortfolioCMS";
 
 export default function AboutCMSPage() {
   return (
@@ -18,7 +18,7 @@ export default function AboutCMSPage() {
       <VideoSection />
       <VisionSection />
       <OurTeam />
-      <PortfolioSection />
+      <PortfolioCMS />
     </section>
   );
 }
