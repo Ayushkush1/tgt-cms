@@ -14,6 +14,7 @@ import {
   LucideIcon,
   ChevronDown,
   LogOut,
+  Globe,
 } from "lucide-react";
 import { cn } from "../lib/utils";
 import { signOut } from "next-auth/react";
@@ -50,6 +51,14 @@ const staticSidebarLinks: SidebarLink[] = [
       { title: "Services", href: "/static-pages/services" },
       { title: "Products", href: "/static-pages/products" },
       { title: "Portfolio", href: "/static-pages/portfolio" },
+    ],
+  },
+  {
+    title: "SEO Management",
+    icon: Globe,
+    sublinks: [
+      { title: "Global Settings", href: "/seo/global" },
+      { title: "Page Settings", href: "/seo/pages" },
     ],
   },
   {

@@ -22,9 +22,29 @@ model Page {
   noIndex         Boolean   @default(false)
   featuredImage   String?
   parentPage      String?
+  ogTitle         String?
+  ogDescription   String?
+  ogImage         String?
+  headingOptions  Json?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   sections        Section[]
+}
+
+model GlobalConfig {
+  id                    String   @id @default("global")
+  siteTitle             String?
+  siteDescription       String?
+  favicon               String?
+  googleAnalyticsId     String?
+  gtmId                 String?
+  searchConsoleId       String?
+  customHeaderScripts   String?
+  customFooterScripts   String?
+  socialLinks           Json?
+  canonicalOrdering     String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
 }
 
 model Section {
