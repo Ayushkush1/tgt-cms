@@ -51,7 +51,8 @@ const defaultData: PageSEOData = {
 };
 
 export default function PageSEOEditor() {
-  const { slug } = useParams();
+  const params = useParams();
+  const slug = params?.slug as string;
   const router = useRouter();
   const [formData, setFormData] = useState<PageSEOData>(defaultData);
   const [isLoading, setIsLoading] = useState(true);

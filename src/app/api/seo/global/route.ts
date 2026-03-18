@@ -3,17 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
-    // Basic diagnostic
-    const p = prisma as any;
-    if (!p.globalConfig) {
-      console.error("CRITICAL: prisma.globalConfig is undefined in API route!");
-      return NextResponse.json(
-        { success: false, error: "Prisma model 'globalConfig' not found. Please restart the dev server." },
-        { status: 500 },
-      );
-    }
-
-    let config = await p.globalConfig.findUnique({
+    let config = await prisma.globalConfig.findUnique({
       where: { id: "global" },
     });
 
@@ -53,12 +43,7 @@ export async function PUT(request: Request) {
       );
     }
 
-    const p = prisma as any;
-    if (!p.globalConfig) {
-       throw new Error("Prisma model 'globalConfig' not found on the client. Try restarting the dev server.");
-    }
-
-    const updatedConfig = await p.globalConfig.upsert({
+    const updatedConfig = await prisma.globalConfig.upsert({
       where: { id: "global" },
       update: {
         siteTitle: config.siteTitle,
@@ -90,18 +75,8 @@ export async function PUT(request: Request) {
     return NextResponse.json({ success: true, data: updatedConfig });
   } catch (error: any) {
     console.error("Error updating global SEO config:", error);
-    
-    // Serialize common error properties for debugging
-    const serializedError = {
-      message: error.message,
-      code: error.code,
-      meta: error.meta,
-      name: error.name,
-      stack: error.stack,
-    };
-
     return NextResponse.json(
-      { success: false, error: serializedError },
+      { success: false, error: error.message || "Internal Server Error" },
       { status: 500 },
     );
   }
