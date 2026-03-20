@@ -2,7 +2,7 @@
 
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
-import { Plus, Trash2 } from "lucide-react";
+
 
 export interface PortfolioHeroData {
   eyebrow: string;

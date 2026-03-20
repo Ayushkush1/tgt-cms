@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import Link from "next/link";
-import { Edit2, Eye, Search, ChevronDown, ChevronRight } from "lucide-react";
+import { Edit2, Search, ChevronDown, ChevronRight } from "lucide-react";
 
 interface PageSEOSummary {
   id: string; // NavLink ID

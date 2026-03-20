@@ -41,7 +41,7 @@ export default function ProfilePage() {
         const errorText = await res.text();
         toast.error(errorText || "Profile update failed", { id: toastId });
       }
-    } catch (error) {
+    } catch {
       toast.error("Network error. Please try again.", { id: toastId });
     } finally {
       setIsSavingProfile(false);
@@ -72,7 +72,7 @@ export default function ProfilePage() {
         const errorText = await res.text();
         toast.error(errorText || "Password update failed", { id: toastId });
       }
-    } catch (error) {
+    } catch {
       toast.error("Network error. Please try again.", { id: toastId });
     } finally {
       setIsSavingPassword(false);

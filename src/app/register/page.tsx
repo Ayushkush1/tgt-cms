@@ -30,7 +30,7 @@ export default function RegisterPage() {
         const data = await res.json();
         toast.error(data.message || "Registration failed");
       }
-    } catch (error) {
+    } catch {
       toast.error("Something went wrong");
     } finally {
       setIsLoading(false);

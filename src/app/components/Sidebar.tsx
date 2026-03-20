@@ -10,7 +10,6 @@ import {
   Compass,
   BookOpen,
   Layers,
-  ArrowUpRight,
   LucideIcon,
   ChevronDown,
   LogOut,
