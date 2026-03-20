@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../lib/prisma";
 
-const PAGE_SLUG = "contact";
+const PAGE_SLUG = "contactUs";
 
 export async function GET() {
   try {
@@ -55,7 +55,7 @@ export async function PUT(request: Request) {
     const page = await prisma.page.upsert({
       where: { slug: PAGE_SLUG },
       create: {
-        title: "Contact Us",
+        title: "ContactUs",
         slug: PAGE_SLUG,
         type: "static",
         visibility: "published",

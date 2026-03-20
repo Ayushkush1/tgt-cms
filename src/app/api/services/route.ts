@@ -9,10 +9,31 @@ export async function GET(request: Request) {
     const serviceId = searchParams.get("id");
 
     if (!serviceId) {
-      return NextResponse.json(
-        { success: false, error: "Service ID is required" },
-        { status: 400 },
-      );
+      // Return all services as an array if no ID is provided
+      const page = await prisma.page.findUnique({
+        where: { slug: PAGE_SLUG },
+        include: {
+          sections: {
+            orderBy: { order: "asc" },
+          },
+        },
+      });
+
+      if (!page) {
+        return NextResponse.json({ success: true, data: [] });
+      }
+
+      const services = page.sections.map((section) => {
+        const content = section.content as any;
+        return {
+          id: section.type,
+          ...content,
+          // Explicitly ensure SEO is present if it exists in content
+          seo: content.seo || null,
+        };
+      });
+
+      return NextResponse.json({ success: true, data: services });
     }
 
     const page = await prisma.page.findUnique({
@@ -28,7 +49,15 @@ export async function GET(request: Request) {
       return NextResponse.json({ success: true, data: null });
     }
 
-    return NextResponse.json({ success: true, data: page.sections[0].content });
+    const section = page.sections[0];
+    const content = section.content as any;
+    return NextResponse.json({
+      success: true,
+      data: {
+        ...content,
+        seo: content.seo || null,
+      },
+    });
   } catch (error) {
     console.error("Error fetching service content:", error);
     return NextResponse.json(

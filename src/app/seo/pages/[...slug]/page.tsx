@@ -32,7 +32,8 @@ const defaultData: PageSEOData = {
 
 export default function PageSEOEditor() {
   const params = useParams();
-  const slug = params?.slug as string;
+  const rawSlug = params?.slug;
+  const slug = Array.isArray(rawSlug) ? rawSlug.join("/") : (rawSlug as string);
   const router = useRouter();
   const [formData, setFormData] = useState<PageSEOData>(defaultData);
   const [isLoading, setIsLoading] = useState(true);
@@ -40,6 +41,7 @@ export default function PageSEOEditor() {
 
   useEffect(() => {
     async function fetchSEO() {
+      if (!slug) return;
       try {
         const res = await fetch(`/api/seo/pages/${slug}`);
         const json = await res.json();
