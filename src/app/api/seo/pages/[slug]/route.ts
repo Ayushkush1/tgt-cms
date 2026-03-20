@@ -59,9 +59,9 @@ export async function PUT(
       );
     }
 
-    const updatedPage = await prisma.page.update({
+    const updatedPage = await prisma.page.upsert({
       where: { slug },
-      data: {
+      update: {
         metaTitle: seo.metaTitle,
         metaDescription: seo.metaDescription,
         targetKeywords: seo.targetKeywords,
@@ -72,6 +72,21 @@ export async function PUT(
         ogDescription: seo.ogDescription,
         ogImage: seo.ogImage,
         headingOptions: seo.headingOptions,
+      },
+      create: {
+        slug,
+        title: seo.metaTitle || slug.charAt(0).toUpperCase() + slug.slice(1),
+        metaTitle: seo.metaTitle,
+        metaDescription: seo.metaDescription,
+        targetKeywords: seo.targetKeywords,
+        canonicalUrl: seo.canonicalUrl,
+        noIndex: seo.noIndex || false,
+        featuredImage: seo.featuredImage,
+        ogTitle: seo.ogTitle,
+        ogDescription: seo.ogDescription,
+        ogImage: seo.ogImage,
+        headingOptions: seo.headingOptions || {},
+        visibility: "published",
       },
     });
 

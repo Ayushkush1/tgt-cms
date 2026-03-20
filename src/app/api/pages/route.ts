@@ -12,7 +12,40 @@ export async function GET() {
         },
       },
     });
-    return NextResponse.json({ success: true, data: pages });
+
+    const transformedPages = pages.map((page) => {
+      const {
+        metaTitle,
+        metaDescription,
+        targetKeywords,
+        canonicalUrl,
+        noIndex,
+        featuredImage,
+        ogTitle,
+        ogDescription,
+        ogImage,
+        headingOptions,
+        ...rest
+      } = page;
+
+      return {
+        ...rest,
+        seo: {
+          metaTitle,
+          metaDescription,
+          targetKeywords,
+          canonicalUrl,
+          noIndex,
+          featuredImage,
+          ogTitle,
+          ogDescription,
+          ogImage,
+          headingOptions,
+        },
+      };
+    });
+
+    return NextResponse.json({ success: true, data: transformedPages });
   } catch (error) {
     console.error("Error fetching pages:", error);
     return NextResponse.json(

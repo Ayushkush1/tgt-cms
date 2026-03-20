@@ -26,7 +26,38 @@ export async function GET(
       );
     }
 
-    return NextResponse.json({ success: true, data: page });
+    const {
+      metaTitle,
+      metaDescription,
+      targetKeywords,
+      canonicalUrl,
+      noIndex,
+      featuredImage,
+      ogTitle,
+      ogDescription,
+      ogImage,
+      headingOptions,
+      ...rest
+    } = page;
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        ...rest,
+        seo: {
+          metaTitle,
+          metaDescription,
+          targetKeywords,
+          canonicalUrl,
+          noIndex,
+          featuredImage,
+          ogTitle,
+          ogDescription,
+          ogImage,
+          headingOptions,
+        },
+      },
+    });
   } catch (error) {
     console.error("Error fetching page:", error);
     return NextResponse.json(

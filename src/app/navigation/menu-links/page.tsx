@@ -389,32 +389,33 @@ export default function NavLinksPage() {
                     <option value="Footer Link">Footer Link</option>
                   </select>
                 </div>
-                {formData.type === "Dropdown" && (
-                  <div className="space-y-1.5 flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">
-                      Parent (if dropdown item)
-                    </label>
-                    <select
-                      value={formData.parent || "-"}
-                      onChange={(e) =>
-                        setFormData({ ...formData, parent: e.target.value })
-                      }
-                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent outline-none transition-all"
-                    >
-                      <option value="-">-</option>
-                      {links
-                        .filter(
-                          (l) =>
-                            l.type === "Dropdown" && l.id !== editingLink?.id,
-                        )
-                        .map((l) => (
-                          <option key={l.id} value={l.id}>
-                            {l.label}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-                )}
+                {formData.type === "Dropdown" ||
+                  (formData.type === "Sub-link" && (
+                    <div className="space-y-1.5 flex flex-col">
+                      <label className="text-sm font-medium text-gray-700">
+                        Parent (if dropdown item)
+                      </label>
+                      <select
+                        value={formData.parent || "-"}
+                        onChange={(e) =>
+                          setFormData({ ...formData, parent: e.target.value })
+                        }
+                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent outline-none transition-all"
+                      >
+                        <option value="-">-</option>
+                        {links
+                          .filter(
+                            (l) =>
+                              l.type === "Dropdown" && l.id !== editingLink?.id,
+                          )
+                          .map((l) => (
+                            <option key={l.id} value={l.id}>
+                              {l.label}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                  ))}
               </div>
 
               <div className="grid grid-cols-2 gap-4">
