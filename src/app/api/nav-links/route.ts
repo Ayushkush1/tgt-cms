@@ -33,6 +33,36 @@ export async function POST(request: Request) {
         isStatic: data.isStatic || false,
       },
     });
+
+    // Automatically create a Page for dynamic Main/Sub links
+    if (
+      (data.type === "Main Link" || data.type === "Sub-link") &&
+      !data.isStatic &&
+      data.url?.startsWith("/") &&
+      !data.url.startsWith("/service/") &&
+      data.url !== "/"
+    ) {
+      const slug = data.url.substring(1).split("?")[0].split("#")[0];
+      if (slug) {
+        try {
+          // Use upsert to avoid unique constraint errors if page exists
+          await prisma.page.upsert({
+            where: { slug },
+            update: {}, // Don't change existing page content
+            create: {
+              slug,
+              title: data.label,
+              type: "standard",
+              visibility: "draft",
+            },
+          });
+        } catch (pageError) {
+          console.error("Failed to auto-create page:", pageError);
+          // We don't fail the link creation if the page creation fails
+        }
+      }
+    }
+
     return NextResponse.json({ success: true, data: newLink }, { status: 201 });
   } catch (error) {
     console.error("Create nav link error:", error);
