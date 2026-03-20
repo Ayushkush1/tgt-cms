@@ -385,6 +385,7 @@ export default function NavLinksPage() {
                   >
                     <option value="Main Link">Main Link</option>
                     <option value="Dropdown">Dropdown</option>
+                    <option value="Sub-link">Sub-link</option>
                     <option value="Footer Link">Footer Link</option>
                   </select>
                 </div>
