@@ -19,12 +19,20 @@ export async function GET() {
       orderBy: { order: "asc" },
     });
 
+    const servicesPage = await prisma.page.findUnique({
+      where: { slug: "services" },
+      include: {
+        sections: true,
+      },
+    });
+
     const mergedData = links.map((link) => {
       const urlMatchesSlug = (url: string, slug: string) => {
         if (url === "/" && slug === "home") return true;
         return url === `/${slug}`;
       };
 
+      // 1. Try to match with a regular page
       const matchedPage = pages.find((p) => urlMatchesSlug(link.url, p.slug));
 
       if (matchedPage) {
@@ -43,23 +51,48 @@ export async function GET() {
           navTitle: link.title,
           isStatic: link.isStatic,
         };
-      } else {
-        return {
-          id: link.id,
-          pageId: null,
-          title: link.label,
-          slug: link.url === "/" ? "home" : link.url.replace(/^\//, ""),
-          metaTitle: null,
-          metaDescription: null,
-          type: link.type || "static",
-          visibility: "published",
-          parent: link.parent,
-          order: link.order,
-          description: link.description,
-          navTitle: link.title,
-          isStatic: link.isStatic,
-        };
       }
+
+      // 2. Try to match with a service sub-page
+      if (link.url.startsWith("/service/") && servicesPage) {
+        const serviceId = link.url.split("/service/")[1];
+        const section = servicesPage.sections.find((s) => s.type === serviceId);
+        if (section) {
+          const content = section.content as any;
+          return {
+            id: link.id,
+            pageId: `${servicesPage.id}-${serviceId}`,
+            title: link.label,
+            slug: link.url.replace(/^\//, ""),
+            metaTitle: content.seo?.metaTitle || null,
+            metaDescription: content.seo?.metaDescription || null,
+            type: link.type || "sub-link",
+            visibility: "published",
+            parent: link.parent,
+            order: link.order,
+            description: link.description,
+            navTitle: link.title,
+            isStatic: link.isStatic,
+          };
+        }
+      }
+
+      // 3. Fallback for static/missing links
+      return {
+        id: link.id,
+        pageId: null,
+        title: link.label,
+        slug: link.url === "/" ? "home" : link.url.replace(/^\//, ""),
+        metaTitle: null,
+        metaDescription: null,
+        type: link.type || "static",
+        visibility: "published",
+        parent: link.parent,
+        order: link.order,
+        description: link.description,
+        navTitle: link.title,
+        isStatic: link.isStatic,
+      };
     });
 
     return NextResponse.json({ success: true, data: mergedData });

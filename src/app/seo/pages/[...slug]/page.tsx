@@ -117,16 +117,16 @@ export default function PageSEOEditor() {
           <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           Back to Pages
         </Link>
-        <div className="flex justify-between items-end">
+        <div className="flex justify-between gap-5">
           <PageHeader
             title={`SEO: ${formData.title}`}
             description={`Manage the search engine visibility and social appearance for the /${formData.slug} page.`}
           />
-          <div className="mb-2">
+          <div className="mb-2 shrink-0">
             <SaveButton
               onClick={handleSave}
               disabled={isSaving}
-              className="w-auto px-10"
+              className="w-auto px-10 shrink-0"
             />
           </div>
         </div>
