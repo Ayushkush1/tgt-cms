@@ -14,6 +14,8 @@ import {
   ChevronDown,
   LogOut,
   Globe,
+  ShoppingCart,
+  Image as ImageIcon,
 } from "lucide-react";
 import { cn } from "../lib/utils";
 import { signOut } from "next-auth/react";
@@ -58,6 +60,13 @@ const staticSidebarLinks: SidebarLink[] = [
     sublinks: [
       { title: "Global Settings", href: "/seo/global" },
       { title: "Page Settings", href: "/seo/pages" },
+    ],
+  },
+  {
+    title: "Marketing",
+    icon: ShoppingCart,
+    sublinks: [
+      { title: "Banners", href: "/ecommerce/banners" },
     ],
   },
   {
