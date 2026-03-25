@@ -150,7 +150,7 @@ export default function BannersPage() {
         {banners.map((banner, index) => (
           <div
             key={index}
-            className="bg-white rounded-[2rem] p-6 shadow-sm border border-gray-100 flex gap-6 items-start animate-in fade-in slide-in-from-bottom-2 duration-300"
+            className="bg-white rounded-4xl p-6 shadow-sm border border-gray-100 flex gap-6 items-start animate-in fade-in slide-in-from-bottom-2 duration-300"
           >
             <div className="pt-2 text-gray-300 cursor-grab active:cursor-grabbing">
               <GripVertical className="w-5 h-5" />
@@ -222,7 +222,7 @@ export default function BannersPage() {
 
         <button
           onClick={handleAddBanner}
-          className="w-full py-6 border-2 border-dashed border-gray-200 rounded-[2rem] text-gray-400 font-bold flex items-center justify-center gap-2 hover:bg-gray-50 hover:border-gray-300 transition-all uppercase tracking-widest text-xs"
+          className="w-full py-6 border-2 border-dashed border-gray-200 rounded-4xl text-gray-400 font-bold flex items-center justify-center gap-2 hover:bg-gray-50 hover:border-gray-300 transition-all uppercase tracking-widest text-xs"
         >
           <Plus className="w-4 h-4" />
           Add New Banner

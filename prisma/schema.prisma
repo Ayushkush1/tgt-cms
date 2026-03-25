@@ -166,3 +166,30 @@ model Banner {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  slug      String    @unique
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Product {
+  id          String    @id @default(uuid())
+  title       String
+  slug        String    @unique
+  shortDesc   String?
+  description String?   @db.Text
+  price       Float?
+  images      String[]
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  isActive    Boolean   @default(true)
+  order       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([categoryId])
+}

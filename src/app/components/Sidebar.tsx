@@ -63,9 +63,11 @@ const staticSidebarLinks: SidebarLink[] = [
     ],
   },
   {
-    title: "Marketing",
+    title: "Ecommerce",
     icon: ShoppingCart,
     sublinks: [
+      { title: "Products", href: "/ecommerce/products" },
+      { title: "Categories", href: "/ecommerce/categories" },
       { title: "Banners", href: "/ecommerce/banners" },
     ],
   },
