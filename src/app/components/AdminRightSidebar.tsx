@@ -9,9 +9,9 @@ export function AdminRightSidebar() {
 
         <div className="flex items-center gap-2 font-bold tracking-tight text-white/90 mb-6">
           <div className="w-6 h-6 rounded-full bg-white text-[#0B0F29] flex items-center justify-center font-serif italic text-sm">
-            e
+            T
           </div>
-          Eduplex Setup
+          TGT Setup
         </div>
 
         <h2 className="text-[26px] font-black leading-[1.1] mb-3">

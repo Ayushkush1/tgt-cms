@@ -46,8 +46,8 @@ export function ProductListCMS({
       imageUrl: "",
       pillars: [{ number: "01", title: "", desc: "" }],
     };
-    onChange([...products, newProduct]);
-    setExpandedIndex(products.length);
+    onChange([newProduct, ...products]);
+    setExpandedIndex(0);
   };
 
   const removeProduct = (index: number) => {

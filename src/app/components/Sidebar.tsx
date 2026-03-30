@@ -159,10 +159,12 @@ export function AdminSidebar() {
           href="/"
           className="flex items-center gap-3 hover:opacity-80 transition-opacity"
         >
-          <div className="h-8 w-8 rounded-full bg-white flex items-center justify-center text-[#0B0F29] font-black italic shadow-sm">
-            e
+          <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center text-[#0B0F29] font-black italic shadow-sm text-lg">
+            T
           </div>
-          <span className="font-semibold text-xl tracking-tight">Eduplex</span>
+          <span className="font-bold text-2xl tracking-tighter italic">
+            TGT <span className="text-[#D4AF37]">CMS</span>
+          </span>
         </Link>
       </div>
 

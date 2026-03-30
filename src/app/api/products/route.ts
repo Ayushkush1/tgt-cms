@@ -71,6 +71,63 @@ export async function PUT(request: Request) {
       });
     }
 
+    // --- AUTOMATION: Sync NavLinks ---
+    try {
+      // Get the Products dropdown to use as parent
+      const parentNav = await prisma.navLink.findFirst({
+        where: { label: "Products", type: "Dropdown" },
+      });
+
+      if (parentNav && content.products && Array.isArray(content.products)) {
+        // Current product links in NavLink
+        const existingLinks = await prisma.navLink.findMany({
+          where: { parent: parentNav.id, type: "Sub-link" },
+        });
+
+        const productTitles = content.products.map((p: any) => p.title);
+
+        // Create or Update links for each product in the content
+        for (let i = 0; i < content.products.length; i++) {
+          const product = content.products[i];
+          const existing = existingLinks.find((l) => l.label === product.title);
+
+          if (existing) {
+            await prisma.navLink.update({
+              where: { id: existing.id },
+              data: {
+                description: product.shortDesc || "",
+                order: i + 1,
+              },
+            });
+          } else {
+            await prisma.navLink.create({
+              data: {
+                label: product.title,
+                url: "/products",
+                type: "Sub-link",
+                parent: parentNav.id,
+                description: product.shortDesc || "",
+                order: i + 1,
+                isStatic: false,
+              },
+            });
+          }
+        }
+
+        // Delete links for products that were removed from the content
+        const linksToDelete = existingLinks.filter(
+          (l) => !productTitles.includes(l.label),
+        );
+        for (const link of linksToDelete) {
+          await prisma.navLink.delete({ where: { id: link.id } });
+        }
+      }
+    } catch (syncError) {
+      console.error("Error synchronizing NavLinks:", syncError);
+      // We don't fail the entire request if sync fails, but we log it
+    }
+    // ---------------------------------
+
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error saving product content:", error);
