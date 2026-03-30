@@ -148,6 +148,7 @@ export default function GlobalSEOPage() {
               setFormData({ ...formData, siteTitle: e.target.value })
             }
             placeholder="e.g. My Awesome Agency"
+            tooltip="The main title of your website. Appears in browser tabs and search results."
           />
           <TextAreaField
             label="Default Site Description"
@@ -157,6 +158,7 @@ export default function GlobalSEOPage() {
             }
             placeholder="A short summary of what your site is about."
             rows={3}
+            tooltip="A summary of your website (approx. 150-160 characters). Used by search engines for the result snippet."
           />
           <div className="mt-2">
             <ImageUploadField
@@ -166,6 +168,7 @@ export default function GlobalSEOPage() {
                 setFormData({ ...formData, favicon: imgs })
               }
               maxImages={1}
+              tooltip="The small icon shown in browser tabs. Use a .ico file or a 32x32px .png for best results."
             />
           </div>
         </div>
@@ -189,6 +192,8 @@ export default function GlobalSEOPage() {
                 setFormData({ ...formData, googleAnalyticsId: e.target.value })
               }
               placeholder="e.g. G-XXXXXXX"
+              tooltip="Measurement ID (G-XXXXXXX). 
+Go to Google Analytics → Admin → Data Streams → select your website → copy the ID starting with G-."
             />
             <InputField
               label="GTM Container ID"
@@ -197,6 +202,8 @@ export default function GlobalSEOPage() {
                 setFormData({ ...formData, gtmId: e.target.value })
               }
               placeholder="e.g. GTM-XXXXXXX"
+              tooltip="Container ID (GTM-XXXXXXX). 
+Open Google Tag Manager → select workspace → copy the ID at the top starting with GTM-."
             />
           </div>
           <InputField
@@ -206,6 +213,10 @@ export default function GlobalSEOPage() {
               setFormData({ ...formData, searchConsoleId: e.target.value })
             }
             placeholder="Enter the google-site-verification code"
+            tooltip={`Copy the verification code from the HTML tag in Google Search Console.
+Example tag:
+<meta name="google-site-verification" content="XXXXXXXX" />
+Paste only XXXXXXXX`}
           />
         </div>
 

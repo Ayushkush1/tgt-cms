@@ -151,6 +151,7 @@ export default function PageSEOEditor() {
               setFormData({ ...formData, metaTitle: e.target.value })
             }
             placeholder="e.g. Services | My Awesome Agency"
+            tooltip="Page-specific title. Overrides the default site title to improve search relevance for this page."
           />
           <TextAreaField
             label="Meta Description"
@@ -160,6 +161,7 @@ export default function PageSEOEditor() {
             }
             placeholder="A compelling summary for search result snippets (keep under 160 chars)."
             rows={4}
+            tooltip="A brief summary of this specific page's content. Search engines use this for the result snippet."
           />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <InputField
@@ -169,6 +171,7 @@ export default function PageSEOEditor() {
                 setFormData({ ...formData, targetKeywords: e.target.value })
               }
               placeholder="e.g. web design, dev, agency"
+              tooltip="Comma-separated keywords or phrases you want this specific page to rank for."
             />
             <InputField
               label="Canonical URL"
@@ -177,6 +180,7 @@ export default function PageSEOEditor() {
                 setFormData({ ...formData, canonicalUrl: e.target.value })
               }
               placeholder="https://mysite.com/page"
+              tooltip="The preferred URL for this page. Helps prevent duplicate content issues if the page is accessible via multiple URLs."
             />
           </div>
 

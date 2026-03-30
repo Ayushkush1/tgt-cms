@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { CloudUpload, X } from "lucide-react";
+import { CloudUpload, X, HelpCircle } from "lucide-react";
 
 interface ImageUploadFieldProps {
   label?: string;
@@ -7,6 +7,7 @@ interface ImageUploadFieldProps {
   onImagesChange?: (images: (File | string | null)[]) => void;
   maxImages?: number;
   containerClassName?: string;
+  tooltip?: string;
 }
 
 export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
@@ -15,6 +16,7 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
   onImagesChange,
   maxImages = 1,
   containerClassName = "",
+  tooltip,
 }) => {
   const [internalImages, setInternalImages] = useState<
     (File | string | null)[]
@@ -67,9 +69,21 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
   };
 
   return (
-    <div className={`flex flex-col gap-1.5 mx-2 ${containerClassName}`}>
+    <div className={`flex flex-col gap-1.5 ${containerClassName}`}>
       {label && (
-        <label className="text-sm font-medium text-gray-700">{label}</label>
+        <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-4 flex items-center gap-1.5 relative">
+          {label}
+          {tooltip && (
+            <div className="group relative flex items-center">
+              <HelpCircle className="w-3.5 h-3.5 cursor-help text-gray-300 hover:text-[#D4AF37] transition-colors" />
+              {/* Tooltip Bubble */}
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-max max-w-[280px] px-4 py-3 bg-white text-gray-900 text-[11px] font-medium rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-gray-100 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-50 normal-case tracking-normal text-center leading-relaxed backdrop-blur-sm">
+                {tooltip}
+                <div className="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-white"></div>
+              </div>
+            </div>
+          )}
+        </label>
       )}
 
       <input
