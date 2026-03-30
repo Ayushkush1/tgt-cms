@@ -8,7 +8,7 @@ export function ActivityCharts() {
         <div className="flex items-center justify-between mb-8">
           <h3 className="font-bold text-lg text-[#0B0F29]">Site Traffic</h3>
           <div className="px-3 py-1.5 rounded-full border border-gray-200 text-[13px] font-semibold flex items-center gap-2 cursor-pointer hover:bg-gray-50">
-            Weekly <ChevronRight className="w-3.5 h-3.5 translate-y-[1px]" />
+            Weekly <ChevronRight className="w-3.5 h-3.5 translate-y-px" />
           </div>
         </div>
         <div className="flex items-center gap-2 mb-8">

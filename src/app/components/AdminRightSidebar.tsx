@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function AdminRightSidebar() {
   return (
     <>
@@ -6,14 +8,12 @@ export function AdminRightSidebar() {
         {/* Decorative Bubbles */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
         <div className="absolute bottom-0 left-0 w-24 h-24 bg-[#D4AF37]/10 rounded-full blur-xl translate-y-1/2 -translate-x-1/2"></div>
-
         <div className="flex items-center gap-2 font-bold tracking-tight text-white/90 mb-6">
           <div className="w-6 h-6 rounded-full bg-white text-[#0B0F29] flex items-center justify-center font-serif italic text-sm">
             T
           </div>
           TGT Setup
         </div>
-
         <h2 className="text-[26px] font-black leading-[1.1] mb-3">
           Optimize <br />
           Performance
@@ -22,11 +22,12 @@ export function AdminRightSidebar() {
           Enable advanced analytics and track 25k+ user interactions
           effortlessly.
         </p>
-
-        <button className="bg-[#D4AF37] text-[#0B0F29] px-6 py-2.5 rounded-full text-sm font-bold hover:bg-white transition-colors transform hover:scale-105 shadow-[0_0_20px_rgba(217,249,105,0.3)]">
+        <Link
+          href="/seo/global"
+          className="inline-block bg-[#D4AF37] text-[#0B0F29] px-6 py-2.5 rounded-full text-sm font-bold hover:bg-white transition-colors transform hover:scale-105 shadow-[0_0_20px_rgba(217,249,105,0.3)] relative z-10"
+        >
           Get Access
-        </button>
-
+        </Link>
         {/* Illustration Placeholder */}
         <div className="absolute -bottom-4 right-0 w-36 h-36 opacity-90 pointer-events-none">
           {/* eslint-disable-next-line @next/next/no-img-element */}
