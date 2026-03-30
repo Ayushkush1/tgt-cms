@@ -9,7 +9,7 @@ export async function GET(request: Request) {
     const search = searchParams.get("search") || "";
     const skip = (page - 1) * limit;
 
-    const where = search 
+    const where = search
       ? {
           OR: [
             { name: { contains: search, mode: "insensitive" as any } },
@@ -42,7 +42,7 @@ export async function GET(request: Request) {
     console.error("Enquiries fetch error:", error);
     return NextResponse.json(
       { success: false, error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -83,15 +83,4 @@ export async function POST(request: Request) {
       { status: 500, headers: { "Access-Control-Allow-Origin": "*" } },
     );
   }
-}
-
-export async function OPTIONS() {
-  return new Response(null, {
-    status: 204,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-    },
-  });
 }
