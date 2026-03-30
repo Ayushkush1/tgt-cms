@@ -72,6 +72,14 @@ const staticSidebarLinks: SidebarLink[] = [
     ],
   },
   {
+    title: "Submissions",
+    icon: Layers,
+    sublinks: [
+      { title: "Enquiries", href: "/submissions/enquiries" },
+      { title: "Audits", href: "/submissions/audits" },
+    ],
+  },
+  {
     title: "Settings",
     icon: Settings,
     sublinks: [{ title: "Profile", href: "/settings/profile" }],
