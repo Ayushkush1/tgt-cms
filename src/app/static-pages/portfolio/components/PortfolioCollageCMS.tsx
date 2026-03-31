@@ -127,6 +127,7 @@ export function PortfolioCollageCMS({ data, onChange }: Props) {
                   onChange({ ...data, liveStatusText: e.target.value })
                 }
                 placeholder="e.g. Live Project"
+                className=" bg-white"
               />
               <InputField
                 label="Badge Subtext"
@@ -135,6 +136,7 @@ export function PortfolioCollageCMS({ data, onChange }: Props) {
                   onChange({ ...data, liveStatusSubtext: e.target.value })
                 }
                 placeholder="e.g. Deployment ready"
+                className=" bg-white"
               />
             </div>
           </div>
@@ -151,6 +153,7 @@ export function PortfolioCollageCMS({ data, onChange }: Props) {
                 onChange={(e) =>
                   onChange({ ...data, ratingValue: e.target.value })
                 }
+                className=" bg-white"
                 placeholder="e.g. 5.0"
               />
               <InputField
@@ -160,6 +163,7 @@ export function PortfolioCollageCMS({ data, onChange }: Props) {
                   onChange({ ...data, ratingText: e.target.value })
                 }
                 placeholder="e.g. 5.0 Rating"
+                className=" bg-white"
               />
               <InputField
                 label="Badge Subtext"
@@ -168,6 +172,7 @@ export function PortfolioCollageCMS({ data, onChange }: Props) {
                   onChange({ ...data, ratingSubtext: e.target.value })
                 }
                 placeholder="e.g. 50+ happy clients"
+                className=" bg-white"
               />
             </div>
           </div>

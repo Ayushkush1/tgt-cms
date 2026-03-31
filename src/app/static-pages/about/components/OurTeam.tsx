@@ -240,6 +240,7 @@ export default function OurTeam() {
                         }
                         placeholder="e.g. Meghna Tiwari"
                         required
+                        className=" bg-white"
                       />
                       <InputField
                         label="Designation"
@@ -248,6 +249,7 @@ export default function OurTeam() {
                           handleMemberChange(idx, "designation", e.target.value)
                         }
                         placeholder="e.g. Founder & CEO"
+                        className=" bg-white"
                       />
                       <InputField
                         label="Column Position (0-7)"
@@ -257,6 +259,7 @@ export default function OurTeam() {
                         }
                         placeholder="e.g. 3"
                         type="number"
+                        className=" bg-white"
                       />
                       <InputField
                         label="LinkedIn URL"
@@ -265,6 +268,7 @@ export default function OurTeam() {
                           handleMemberChange(idx, "linkedinUrl", e.target.value)
                         }
                         placeholder="https://linkedin.com/in/..."
+                        className=" bg-white"
                       />
                       <div className="col-span-2">
                         <ImageUploadField

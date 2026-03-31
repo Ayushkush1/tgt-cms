@@ -70,26 +70,11 @@ const defaultPortfolio = (): PortfolioItem => ({
 });
 
 interface PortfolioCMSProps {
-  /** ID of the section record (when saving via /api/sections) */
   sectionId?: string;
-  /** Pre-load data without fetching (skips the GET call) */
   initialData?: PortfolioItem[];
-  /** API endpoint to GET data from and PUT data to. Default: "/api/about" */
   saveUrl?: string;
-  /**
-   * Key inside `json.data` where the portfolio array lives.
-   * e.g. "Portfolio" when the API returns { success: true, data: { Portfolio: [...] } }
-   * Set to undefined if the API returns { success: true, data: [...] } directly.
-   * Default: "Portfolio"
-   */
   responseKey?: string;
-  /**
-   * The key sent in the request body as the section identifier.
-   * e.g. "Portfolio" sends { section: "Portfolio", content: [...] }
-   * Default: "Portfolio"
-   */
   sectionName?: string;
-  /** Callback fired after a successful save */
   onSave?: (data: PortfolioItem[]) => void;
 }
 

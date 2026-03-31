@@ -75,6 +75,7 @@ export function PortfolioCTACMS({ data, onChange }: Props) {
               onChange({ ...data, primaryButtonText: e.target.value })
             }
             placeholder="e.g. Book Free Consultation"
+            className=" bg-white"
           />
           <InputField
             label="Link"
@@ -83,6 +84,7 @@ export function PortfolioCTACMS({ data, onChange }: Props) {
               onChange({ ...data, primaryButtonLink: e.target.value })
             }
             placeholder="e.g. https://..."
+            className=" bg-white"
           />
         </div>
 
@@ -95,6 +97,7 @@ export function PortfolioCTACMS({ data, onChange }: Props) {
               onChange({ ...data, secondaryButtonText: e.target.value })
             }
             placeholder="e.g. View All Services"
+            className=" bg-white"
           />
           <InputField
             label="Link"
@@ -103,6 +106,7 @@ export function PortfolioCTACMS({ data, onChange }: Props) {
               onChange({ ...data, secondaryButtonLink: e.target.value })
             }
             placeholder="e.g. /services"
+            className=" bg-white"
           />
         </div>
       </div>

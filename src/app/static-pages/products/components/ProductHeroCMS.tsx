@@ -88,18 +88,21 @@ export function ProductHeroCMS({
               value={data.ctaText}
               onChange={(e) => onChange({ ...data, ctaText: e.target.value })}
               placeholder="Explore Product"
+              className=" bg-white"
             />
             <InputField
               label="CTA Link"
               value={data.ctaHref}
               onChange={(e) => onChange({ ...data, ctaHref: e.target.value })}
               placeholder="/products"
+              className=" bg-white"
             />
             <InputField
               label="Since (Year)"
               value={data.statSince}
               onChange={(e) => onChange({ ...data, statSince: e.target.value })}
               placeholder="2015"
+              className=" bg-white"
             />
             <InputField
               label="Projects Count"
@@ -108,6 +111,7 @@ export function ProductHeroCMS({
                 onChange({ ...data, statProjects: e.target.value })
               }
               placeholder="500+"
+              className=" bg-white"
             />
           </div>
         </div>
