@@ -129,18 +129,21 @@ export function ServiceHeroCMS({
               value={data.ctaText}
               onChange={(e) => onChange({ ...data, ctaText: e.target.value })}
               placeholder="Text for the main action button"
+              className=" bg-white"
             />
             <InputField
               label="CTA Link"
               value={data.ctaHref}
               onChange={(e) => onChange({ ...data, ctaHref: e.target.value })}
               placeholder="URL for the action (e.g., /contact)"
+              className=" bg-white"
             />
             <InputField
               label="Stat: Since (Year)"
               value={data.statSince}
               onChange={(e) => onChange({ ...data, statSince: e.target.value })}
               placeholder="Starting year (e.g., 2015)"
+              className=" bg-white"
             />
             <InputField
               label="Stat: Projects Completed"
@@ -149,6 +152,7 @@ export function ServiceHeroCMS({
                 onChange({ ...data, statProjects: e.target.value })
               }
               placeholder="Total project count"
+              className=" bg-white"
             />
           </div>
 

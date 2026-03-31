@@ -51,7 +51,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   );
 
   return (
-    <div className={`flex flex-col gap-1.5 ${containerClassName}`}>
+    <div className={`flex flex-col gap-1.5 ${containerClassName} px-0.5`}>
       {label && (
         <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-4 flex items-center gap-1.5 relative">
           {label}

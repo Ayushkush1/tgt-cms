@@ -1,14 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import {
-  BookOpen,
-  Star,
-  MessageSquare,
-  Activity,
-  Layers,
-  Zap,
-} from "lucide-react";
+import { Star, MessageSquare, Activity, Zap } from "lucide-react";
 
 export function OverviewStats() {
   const [stats, setStats] = useState({
@@ -40,8 +33,8 @@ export function OverviewStats() {
     <div>
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-bold text-[#0B0F29]">Overview Stats</h2>
-        <Link 
-          href="/submissions/enquiries" 
+        <Link
+          href="/submissions/enquiries"
           className="text-sm font-semibold text-gray-500 hover:text-[#0B0F29] underline decoration-gray-300 underline-offset-4 transition-colors"
         >
           View All
