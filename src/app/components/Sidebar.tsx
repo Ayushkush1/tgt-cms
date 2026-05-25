@@ -15,7 +15,6 @@ import {
   LogOut,
   Globe,
   ShoppingCart,
-  Image as ImageIcon,
 } from "lucide-react";
 import { cn } from "../lib/utils";
 import { signOut } from "next-auth/react";
@@ -96,7 +95,6 @@ export function AdminSidebar() {
     fetchWithCache("/api/pages")
       .then((json) => {
         if (json.success && Array.isArray(json.data)) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const fetchedPages = json.data
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .filter((p: any) => p.type === "standard")
@@ -140,7 +138,6 @@ export function AdminSidebar() {
       )
       .map((item) => item.title);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     setOpenGroups((prev) => {
       const newGroups = [...prev];
       activeGroups.forEach((group) => {
@@ -150,7 +147,6 @@ export function AdminSidebar() {
       });
       return newGroups;
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, customPages.length]);
 
   const toggleGroup = (title: string) => {

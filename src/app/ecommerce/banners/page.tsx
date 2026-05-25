@@ -6,8 +6,6 @@ import {
   Trash2,
   Plus,
   GripVertical,
-  Image as ImageIcon,
-  Link as LinkIcon,
 } from "lucide-react";
 import { ImageUploadField } from "@/app/components/ImageUploadField";
 import { InputField } from "@/app/components/InputField";
@@ -26,7 +24,7 @@ interface Banner {
 export default function BannersPage() {
   const [banners, setBanners] = useState<Banner[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
+
 
   const fetchBanners = async () => {
     setIsLoading(true);
@@ -36,7 +34,7 @@ export default function BannersPage() {
       if (json.success) {
         setBanners(json.data);
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to load banners");
     } finally {
       setIsLoading(false);
@@ -72,7 +70,7 @@ export default function BannersPage() {
         if (json.success) {
           toast.success("Banner deleted");
         }
-      } catch (error) {
+      } catch {
         toast.error("Failed to delete banner");
         return;
       }
@@ -92,7 +90,6 @@ export default function BannersPage() {
   };
 
   const handleSave = async () => {
-    setIsSaving(true);
     try {
       // 1. Handle image uploads first
       const updatedBanners = await Promise.all(
@@ -130,8 +127,6 @@ export default function BannersPage() {
       }
     } catch (error: any) {
       toast.error(error.message || "Network error");
-    } finally {
-      setIsSaving(false);
     }
   };
 

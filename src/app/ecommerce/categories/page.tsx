@@ -30,7 +30,7 @@ export default function CategoriesPage() {
       if (json.success) {
         setCategories(json.data);
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to load categories");
     } finally {
       setIsLoading(false);
@@ -66,7 +66,7 @@ export default function CategoriesPage() {
       } else {
         toast.error(json.error || "Failed to save category");
       }
-    } catch (error) {
+    } catch {
       toast.error("Network error");
     }
   };
@@ -86,7 +86,7 @@ export default function CategoriesPage() {
       } else {
         toast.error(json.error || "Failed to delete category");
       }
-    } catch (error) {
+    } catch {
       toast.error("Network error");
     }
   };

@@ -4,12 +4,10 @@ import { useState, useEffect } from "react";
 import { PageHeader } from "@/app/components/PageHeader";
 import {
   Trash2,
-  Plus,
   Edit2,
   Search,
   Filter,
   Layers,
-  ChevronDown,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { InputField } from "@/app/components/InputField";
@@ -56,7 +54,7 @@ export default function ProductsPage() {
 
       if (prodJson.success) setProducts(prodJson.data);
       if (catJson.success) setCategories(catJson.data);
-    } catch (error) {
+    } catch {
       toast.error("Failed to load products");
     } finally {
       setIsLoading(false);
@@ -81,7 +79,7 @@ export default function ProductsPage() {
       } else {
         toast.error(json.error || "Failed to delete product");
       }
-    } catch (error) {
+    } catch {
       toast.error("Network error");
     }
   };

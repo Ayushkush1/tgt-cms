@@ -75,7 +75,7 @@ function ProductEditorInternal() {
             });
           }
         }
-      } catch (error) {
+      } catch {
         toast.error("Failed to load data");
       } finally {
         setIsLoading(false);

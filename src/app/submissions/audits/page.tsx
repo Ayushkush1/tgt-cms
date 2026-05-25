@@ -41,7 +41,7 @@ export default function AuditsPage() {
       } else {
         toast.error(json.error || "Failed to fetch audits");
       }
-    } catch (error) {
+    } catch {
       toast.error("Network error");
     } finally {
       setIsLoading(false);

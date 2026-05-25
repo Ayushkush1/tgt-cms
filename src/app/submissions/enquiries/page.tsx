@@ -42,7 +42,7 @@ export default function EnquiriesPage() {
       } else {
         toast.error(json.error || "Failed to fetch enquiries");
       }
-    } catch (error) {
+    } catch {
       toast.error("Network error");
     } finally {
       setIsLoading(false);
