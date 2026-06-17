@@ -6,6 +6,7 @@ import { fetchWithCache } from "@/lib/apiCache";
 import toast from "react-hot-toast";
 import { ServiceHeroCMS } from "./components/ServiceHeroCMS";
 import { WhatWeDoCMS } from "./components/WhatWeDoCMS";
+import { InputField } from "@/components/InputField";
 
 const SERVICE_OPTIONS = [
   { id: "accessibility-services", label: "Accessibility Services" },
@@ -51,6 +52,11 @@ interface HeroData {
 interface PageData {
   hero: HeroData;
   services: ServiceItem[];
+  servicesHeader?: {
+    upperTag: string;
+    title: string;
+    titleHighlight: string;
+  };
 }
 
 const defaultData: PageData = {
@@ -81,6 +87,11 @@ const defaultData: PageData = {
       outcome: "",
     },
   ],
+  servicesHeader: {
+    upperTag: "",
+    title: "",
+    titleHighlight: "",
+  },
 };
 
 export default function ServicesCMS() {
@@ -97,7 +108,13 @@ export default function ServicesCMS() {
     fetchWithCache(`/api/services?id=${selectedServiceId}`)
       .then((json) => {
         if (json.success && json.data) {
-          setFormData(json.data);
+          setFormData({
+            ...defaultData,
+            ...json.data,
+            hero: { ...defaultData.hero, ...json.data.hero },
+            services: json.data.services || defaultData.services,
+            servicesHeader: json.data.servicesHeader || defaultData.servicesHeader,
+          });
         } else {
           setFormData(defaultData); // Fallback to default
         }
@@ -206,6 +223,54 @@ export default function ServicesCMS() {
             data={formData.hero}
             onChange={(hero) => setFormData({ ...formData, hero })}
           />
+
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4">
+            <h3 className="text-lg font-bold text-gray-800 mb-2">Services Section Heading</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <InputField
+                label="Upper Tag"
+                value={formData.servicesHeader?.upperTag || ""}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    servicesHeader: {
+                      ...(formData.servicesHeader || defaultData.servicesHeader!),
+                      upperTag: e.target.value,
+                    },
+                  })
+                }
+                placeholder="e.g. What We Do"
+              />
+              <InputField
+                label="Title (Prefix)"
+                value={formData.servicesHeader?.title || ""}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    servicesHeader: {
+                      ...(formData.servicesHeader || defaultData.servicesHeader!),
+                      title: e.target.value,
+                    },
+                  })
+                }
+                placeholder="e.g. Services That"
+              />
+              <InputField
+                label="Title (Highlight)"
+                value={formData.servicesHeader?.titleHighlight || ""}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    servicesHeader: {
+                      ...(formData.servicesHeader || defaultData.servicesHeader!),
+                      titleHighlight: e.target.value,
+                    },
+                  })
+                }
+                placeholder="e.g. Drive Results"
+              />
+            </div>
+          </div>
 
           <WhatWeDoCMS
             services={formData.services}
