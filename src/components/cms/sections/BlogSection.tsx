@@ -23,6 +23,7 @@ interface BlogItem {
   title: string;
   excerpt: string;
   authorName: string;
+  authorTitle?: string;
   datePublished: string;
   readTime: string;
   views: string;
@@ -36,6 +37,7 @@ const defaultBlog = (): BlogItem => ({
   title: "",
   excerpt: "",
   authorName: "",
+  authorTitle: "",
   datePublished: "",
   readTime: "",
   views: "",
@@ -49,6 +51,8 @@ const defaultFormData = {
   headlineHighlight: "",
   viewAllLabel: "",
   viewAllUrl: "",
+  relatedTitle: "",
+  relatedDescription: "",
   blogs: [defaultBlog()] as BlogItem[],
 };
 
@@ -261,6 +265,21 @@ export function BlogSection({
                 onChange={handleChange}
                 placeholder="e.g. /blog"
               />
+              <InputField
+                label="Related Posts Title (Blog Page)"
+                name="relatedTitle"
+                value={formData.relatedTitle || ""}
+                onChange={handleChange}
+                placeholder="e.g. Continue Reading"
+              />
+              <InputField
+                label="Related Posts Subtitle (Blog Page)"
+                name="relatedDescription"
+                value={formData.relatedDescription || ""}
+                onChange={handleChange}
+                placeholder="e.g. More on design, engineering, and craft"
+                containerClassName="col-span-2"
+              />
             </div>
 
             {/* 2. Blog List Section */}
@@ -356,6 +375,18 @@ export function BlogSection({
                             )
                           }
                           placeholder="e.g. John Doe"
+                        />
+                        <InputField
+                          label="Author Title / Designation"
+                          value={blog.authorTitle || ""}
+                          onChange={(e) =>
+                            handleBlogChange(
+                              index,
+                              "authorTitle",
+                              e.target.value,
+                            )
+                          }
+                          placeholder="e.g. Senior Design Engineer · Studio Volta"
                         />
 
                         <div className="grid grid-cols-2 gap-4 col-span-2">
