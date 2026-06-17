@@ -10,6 +10,7 @@ export interface PortfolioHeroData {
   titleHighlight: string;
   titleSuffix: string;
   description: string;
+  description2: string;
   ctaText: string;
   ctaHref: string;
   viewProjectsText: string;
@@ -69,12 +70,21 @@ export function PortfolioHeroCMS({ hero, onHeroChange }: Props) {
             />
           </div>
           <TextAreaField
-            label="Hero Description"
+            label="Hero Description (Paragraph 1)"
             value={hero.description}
             onChange={(e) =>
               onHeroChange({ ...hero, description: e.target.value })
             }
             placeholder="Enter hero description..."
+            containerClassName="md:col-span-2"
+          />
+          <TextAreaField
+            label="Hero Description (Paragraph 2)"
+            value={hero.description2 || ""}
+            onChange={(e) =>
+              onHeroChange({ ...hero, description2: e.target.value })
+            }
+            placeholder="Enter second paragraph description (from CMS)..."
             containerClassName="md:col-span-2"
           />
           <InputField

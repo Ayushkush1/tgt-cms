@@ -17,10 +17,15 @@ import {
   PortfolioCTACMS,
   PortfolioCTAData,
 } from "./components/PortfolioCTACMS";
+import {
+  PortfolioShowcaseCMS,
+  PortfolioShowcaseData,
+} from "./components/PortfolioShowcaseCMS";
 
 interface PageData {
   hero: PortfolioHeroData;
   collage: PortfolioCollageData;
+  showcase?: PortfolioShowcaseData;
   cta: PortfolioCTAData;
 }
 
@@ -31,6 +36,7 @@ const defaultData: PageData = {
     titleHighlight: "",
     titleSuffix: "",
     description: "",
+    description2: "",
     ctaText: "",
     ctaHref: "",
     viewProjectsText: "",
@@ -49,6 +55,14 @@ const defaultData: PageData = {
     ratingValue: "",
     ratingText: "",
     ratingSubtext: "",
+  },
+  showcase: {
+    upperTag: "",
+    headlinePart1: "",
+    headlineHighlight: "",
+    headlinePart3: "",
+    headlinePart4: "",
+    mainDescription: "",
   },
   cta: {
     eyebrow: "",
@@ -81,6 +95,7 @@ export default function PortfolioCMSPage() {
             ...json.data,
             hero: { ...defaultData.hero, ...json.data.hero },
             collage: { ...defaultData.collage, ...json.data.collage },
+            showcase: { ...defaultData.showcase, ...json.data.showcase },
             cta: { ...defaultData.cta, ...json.data.cta },
           });
         }
@@ -144,7 +159,7 @@ export default function PortfolioCMSPage() {
       <div className="flex justify-between items-end">
         <PageHeader
           title="Portfolio Content Management"
-          description="Manage the hero text and the decorative image collage for the Portfolio section."
+          description="Manage the hero text, showcase header, and the decorative image collage for the Portfolio section."
         />
         <div className="mb-2">
           <SaveButton
@@ -164,6 +179,10 @@ export default function PortfolioCMSPage() {
           <PortfolioHeroCMS
             hero={formData.hero}
             onHeroChange={(hero) => setFormData({ ...formData, hero })}
+          />
+          <PortfolioShowcaseCMS
+            showcase={formData.showcase || defaultData.showcase!}
+            onShowcaseChange={(showcase) => setFormData({ ...formData, showcase })}
           />
           <PortfolioCollageCMS
             data={formData.collage}
