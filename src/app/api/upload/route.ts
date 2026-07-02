@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import path from "path";
+import sharp from "sharp";
 
 export async function POST(req: Request) {
   try {
@@ -13,10 +15,35 @@ export async function POST(req: Request) {
         const buffer = Buffer.from(bytes);
         const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.\-_]/g, "")}`;
 
+        let uploadBuffer: Buffer = buffer;
+        let mimeType = file.type;
+        let finalFileName = fileName;
+
+        // Automatically optimize images (excluding GIFs)
+        if (file.type.startsWith("image/") && !file.type.includes("gif")) {
+          try {
+            uploadBuffer = await sharp(buffer)
+              .resize({ width: 1920, withoutEnlargement: true })
+              .webp({ quality: 80 })
+              .toBuffer();
+
+            mimeType = "image/webp";
+            const ext = path.extname(fileName);
+            const baseName = fileName.slice(0, fileName.length - ext.length);
+            finalFileName = `${baseName}.webp`;
+          } catch (sharpError) {
+            console.error(
+              "Image compression failed, uploading original:",
+              sharpError,
+            );
+          }
+        }
+
         const { error } = await supabase.storage
           .from("uploadsFiles")
-          .upload(fileName, buffer, {
-            contentType: file.type,
+          .upload(finalFileName, uploadBuffer, {
+            contentType: mimeType,
+            cacheControl: "31536000",
             upsert: false,
           });
 
@@ -33,7 +60,7 @@ export async function POST(req: Request) {
 
         const {
           data: { publicUrl },
-        } = supabase.storage.from("uploadsFiles").getPublicUrl(fileName);
+        } = supabase.storage.from("uploadsFiles").getPublicUrl(finalFileName);
         uploadedFiles.push(publicUrl);
       }
     }
