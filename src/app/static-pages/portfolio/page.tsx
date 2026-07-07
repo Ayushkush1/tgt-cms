@@ -41,6 +41,7 @@ const defaultData: PageData = {
     ctaHref: "",
     viewProjectsText: "",
     viewProjectsHref: "",
+    headingTag: "h1",
   },
   collage: {
     mainImage: [],

@@ -47,6 +47,7 @@ interface HeroData {
   statSince: string;
   statProjects: string;
   pillars: { number: string; title: string; desc: string }[];
+  headingTag?: string;
 }
 
 interface PageData {
@@ -70,6 +71,7 @@ const defaultData: PageData = {
     imageUrl: "",
     statSince: "",
     statProjects: "",
+    headingTag: "h1",
     pillars: [
       { number: "01", title: "", desc: "" },
       { number: "02", title: "", desc: "" },

@@ -6,6 +6,7 @@ import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
 import { SectionHeader } from "@/components/SectionHeader";
 import { TextAreaField } from "@/components/TextAreaField";
+import { SelectField } from "@/components/SelectField";
 
 const SECTION_KEY = "EnquirySection";
 
@@ -20,6 +21,7 @@ const defaultFormData = {
   interestedInOptions: "",
   budgetOptions: "",
   submitButtonText: "",
+  headingTag: "h2",
 };
 
 export default function EnquirySection() {
@@ -37,7 +39,7 @@ export default function EnquirySection() {
   }, []);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -121,6 +123,21 @@ export default function EnquirySection() {
                 value={formData.headlineHighlight}
                 onChange={handleChange}
                 placeholder="e.g. something amazing"
+              />
+              <SelectField
+                label="Heading HTML Tag"
+                name="headingTag"
+                value={formData.headingTag || "h2"}
+                onChange={handleChange}
+                options={[
+                  { value: "h1", label: "H1" },
+                  { value: "h2", label: "H2" },
+                  { value: "h3", label: "H3" },
+                  { value: "h4", label: "H4" },
+                  { value: "h5", label: "H5" },
+                  { value: "h6", label: "H6" },
+                ]}
+                containerClassName="col-span-2"
               />
               <TextAreaField
                 label="Intro Description"

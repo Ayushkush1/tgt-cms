@@ -5,6 +5,7 @@ import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import { Plus, Trash2 } from "lucide-react";
+import { SelectField } from "@/components/SelectField";
 
 interface Pillar {
   number: string;
@@ -23,6 +24,7 @@ interface HeroData {
   statSince: string;
   statProjects: string;
   pillars: Pillar[];
+  headingTag?: string;
 }
 
 export function ServiceHeroCMS({
@@ -100,6 +102,21 @@ export function ServiceHeroCMS({
               }
               placeholder="First line of main heading"
               required
+            />
+
+            <SelectField
+              label="Heading HTML Tag"
+              value={data.headingTag || "h1"}
+              onChange={(e) => onChange({ ...data, headingTag: e.target.value })}
+              options={[
+                { value: "h1", label: "H1" },
+                { value: "h2", label: "H2" },
+                { value: "h3", label: "H3" },
+                { value: "h4", label: "H4" },
+                { value: "h5", label: "H5" },
+                { value: "h6", label: "H6" },
+              ]}
+              containerClassName="col-span-2"
             />
 
             <TextAreaField

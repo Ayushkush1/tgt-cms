@@ -3,6 +3,7 @@ import { useState } from "react";
 import { SectionHeader } from "@/components/SectionHeader";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
+import { SelectField } from "@/components/SelectField";
 
 export interface ProductHeroData {
   label: string;
@@ -12,6 +13,7 @@ export interface ProductHeroData {
   ctaHref: string;
   statSince: string;
   statProjects: string;
+  headingTag?: string;
 }
 
 export function ProductHeroCMS({
@@ -60,6 +62,20 @@ export function ProductHeroCMS({
                 onChange({ ...data, headingLine: e.target.value })
               }
               placeholder="Primary heading line"
+              containerClassName="col-span-2"
+            />
+            <SelectField
+              label="Heading HTML Tag"
+              value={data.headingTag || "h1"}
+              onChange={(e) => onChange({ ...data, headingTag: e.target.value })}
+              options={[
+                { value: "h1", label: "H1" },
+                { value: "h2", label: "H2" },
+                { value: "h3", label: "H3" },
+                { value: "h4", label: "H4" },
+                { value: "h5", label: "H5" },
+                { value: "h6", label: "H6" },
+              ]}
               containerClassName="col-span-2"
             />
             <TextAreaField

@@ -23,6 +23,7 @@ const defaultData: PageData = {
     ctaHref: "",
     statSince: "",
     statProjects: "",
+    headingTag: "h1",
   },
   products: [],
 };
