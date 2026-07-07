@@ -25,6 +25,7 @@ model Page {
   ogTitle         String?
   ogDescription   String?
   ogImage         String?
+  schema          String?
   headingOptions  Json?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
@@ -46,6 +47,7 @@ model GlobalConfig {
   sitemapEnabled        Boolean  @default(true)
   sitemapCustomContent  String?
   robotsTxt             String?
+  schema                String?
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 }

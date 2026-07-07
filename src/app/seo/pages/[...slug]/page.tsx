@@ -18,6 +18,7 @@ interface PageSEOData {
   targetKeywords: string;
   canonicalUrl: string;
   noIndex: boolean;
+  schema?: string;
 }
 
 const defaultData: PageSEOData = {
@@ -28,6 +29,7 @@ const defaultData: PageSEOData = {
   targetKeywords: "",
   canonicalUrl: "",
   noIndex: false,
+  schema: "",
 };
 
 export default function PageSEOEditor() {
@@ -54,6 +56,7 @@ export default function PageSEOEditor() {
             metaDescription: data.metaDescription || "",
             targetKeywords: data.targetKeywords || "",
             canonicalUrl: data.canonicalUrl || "",
+            schema: data.schema || "",
           });
         }
       } catch (error) {
@@ -181,6 +184,17 @@ export default function PageSEOEditor() {
               }
               placeholder="https://mysite.com/page"
               tooltip="The preferred URL for this page. Helps prevent duplicate content issues if the page is accessible via multiple URLs."
+            />
+            <TextAreaField
+              label="Structured Data (Schema Markup JSON-LD)"
+              value={formData.schema || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, schema: e.target.value })
+              }
+              placeholder='e.g. { "@context": "https://schema.org", "@type": "WebPage", "name": "Portfolio" }'
+              rows={6}
+              className="font-mono text-xs md:col-span-2"
+              containerClassName="md:col-span-2"
             />
           </div>
 

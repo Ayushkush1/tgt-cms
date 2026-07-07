@@ -19,6 +19,7 @@ interface GlobalConfig {
   searchConsoleId: string;
   customHeaderScripts: string;
   customFooterScripts: string;
+  schema?: string;
 }
 
 const defaultData: GlobalConfig = {
@@ -30,6 +31,7 @@ const defaultData: GlobalConfig = {
   searchConsoleId: "",
   customHeaderScripts: "",
   customFooterScripts: "",
+  schema: "",
 };
 
 export default function GlobalSEOPage() {
@@ -257,6 +259,20 @@ Paste only XXXXXXXX`}
               placeholder="Paste your scripts to be injected before the closing body tag..."
               rows={8}
               className="font-mono text-xs"
+            />
+            <TextAreaField
+              label="Structured Data (Schema Markup JSON-LD)"
+              value={formData.schema || ""}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  schema: e.target.value,
+                })
+              }
+              placeholder='e.g. { "@context": "https://schema.org", "@type": "Organization", "name": "The Gold Technologies" }'
+              rows={8}
+              className="font-mono text-xs md:col-span-2"
+              containerClassName="md:col-span-2"
             />
           </div>
         </div>

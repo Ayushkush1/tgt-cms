@@ -42,6 +42,7 @@ export async function GET(
           targetKeywords: content.seo?.targetKeywords || "",
           canonicalUrl: content.seo?.canonicalUrl || "",
           noIndex: content.seo?.noIndex || false,
+          schema: content.seo?.schema || "",
         },
       });
     }
@@ -61,6 +62,7 @@ export async function GET(
         ogTitle: true,
         ogDescription: true,
         ogImage: true,
+        schema: true,
         headingOptions: true,
       },
     });
@@ -135,6 +137,7 @@ export async function PUT(
           ogDescription: seo.ogDescription,
           ogImage: seo.ogImage,
           headingOptions: seo.headingOptions,
+          schema: seo.schema,
         },
       };
 
@@ -154,10 +157,10 @@ export async function PUT(
         targetKeywords: seo.targetKeywords,
         canonicalUrl: seo.canonicalUrl,
         noIndex: seo.noIndex,
-        featuredImage: seo.featuredImage,
         ogTitle: seo.ogTitle,
         ogDescription: seo.ogDescription,
         ogImage: seo.ogImage,
+        schema: seo.schema,
         headingOptions: seo.headingOptions,
       },
       create: {
@@ -172,6 +175,7 @@ export async function PUT(
         ogTitle: seo.ogTitle,
         ogDescription: seo.ogDescription,
         ogImage: seo.ogImage,
+        schema: seo.schema,
         headingOptions: seo.headingOptions || {},
         visibility: "published",
       },

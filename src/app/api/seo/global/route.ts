@@ -59,6 +59,7 @@ export async function PUT(request: Request) {
         sitemapEnabled: config.sitemapEnabled,
         sitemapCustomContent: config.sitemapCustomContent,
         robotsTxt: config.robotsTxt,
+        schema: config.schema,
       },
       create: {
         id: "global",
@@ -75,6 +76,7 @@ export async function PUT(request: Request) {
         sitemapEnabled: config.sitemapEnabled !== undefined ? config.sitemapEnabled : true,
         sitemapCustomContent: config.sitemapCustomContent,
         robotsTxt: config.robotsTxt,
+        schema: config.schema,
       },
     });
 
