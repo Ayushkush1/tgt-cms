@@ -273,6 +273,7 @@ Paste only XXXXXXXX`}
               rows={8}
               className="font-mono text-xs md:col-span-2"
               containerClassName="md:col-span-2"
+              allowJsonUpload={true}
             />
           </div>
         </div>

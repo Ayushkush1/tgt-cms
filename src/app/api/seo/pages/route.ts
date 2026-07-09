@@ -95,7 +95,62 @@ export async function GET() {
       };
     });
 
-    return NextResponse.json({ success: true, data: mergedData });
+    // 4. Find pages that are not linked in NavLinks (only allow CEO page)
+    const unmatchedPages = pages.filter((page) => {
+      if (page.slug !== "ceo") return false;
+      const isMatched = links.some((link) => {
+        if (link.url === "/" && page.slug === "home") return true;
+        return link.url === `/${page.slug}`;
+      });
+      return !isMatched;
+    });
+
+    const unmatchedData = unmatchedPages.map((page) => {
+      return {
+        id: page.id,
+        pageId: page.id as string | null,
+        title: page.title,
+        slug: page.slug,
+        metaTitle: page.metaTitle,
+        metaDescription: page.metaDescription,
+        type: page.type || "static",
+        visibility: page.visibility,
+        parent: "-",
+        order: 100,
+        description: null as string | null,
+        navTitle: page.title,
+        isStatic: true,
+      };
+    });
+
+    // 5. Ensure known static pages like "ceo" are included even if not in Page table yet
+    const knownStaticSlugs = ["ceo"];
+    knownStaticSlugs.forEach((slug) => {
+      const isRepresented = [...mergedData, ...unmatchedData].some(
+        (item) => item.slug === slug
+      );
+      if (!isRepresented) {
+        unmatchedData.push({
+          id: `static-${slug}`,
+          pageId: null,
+          title: slug.charAt(0).toUpperCase() + slug.slice(1),
+          slug: slug,
+          metaTitle: null,
+          metaDescription: null,
+          type: "static",
+          visibility: "published",
+          parent: "-",
+          order: 101,
+          description: null,
+          navTitle: slug.charAt(0).toUpperCase() + slug.slice(1),
+          isStatic: true,
+        });
+      }
+    });
+
+    const finalData = [...mergedData, ...unmatchedData];
+
+    return NextResponse.json({ success: true, data: finalData });
   } catch (error) {
     console.error("Error fetching pages for SEO:", error);
     return NextResponse.json(

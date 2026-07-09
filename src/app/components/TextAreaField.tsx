@@ -1,10 +1,12 @@
 import React, { useState, useRef } from "react";
-import { HelpCircle, Link as LinkIcon, X } from "lucide-react";
+import { HelpCircle, Link as LinkIcon, X, Upload } from "lucide-react";
+import toast from "react-hot-toast";
 
 interface TextAreaFieldProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   containerClassName?: string;
   tooltip?: string;
+  allowJsonUpload?: boolean;
 }
 
 export const TextAreaField: React.FC<TextAreaFieldProps> = ({
@@ -13,12 +15,52 @@ export const TextAreaField: React.FC<TextAreaFieldProps> = ({
   className = "",
   rows = 4,
   tooltip,
+  allowJsonUpload = false,
   ...props
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [showLinkModal, setShowLinkModal] = useState(false);
   const [linkUrl, setLinkUrl] = useState("");
   const [linkText, setLinkText] = useState("");
+
+  const handleUploadClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const text = event.target?.result as string;
+      try {
+        const parsed = JSON.parse(text);
+        const formatted = JSON.stringify(parsed, null, 2);
+
+        const textarea = textareaRef.current;
+        if (!textarea) return;
+
+        const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+          HTMLTextAreaElement.prototype,
+          "value"
+        )?.set;
+        nativeInputValueSetter?.call(textarea, formatted);
+
+        const changeEvent = new Event("input", { bubbles: true });
+        textarea.dispatchEvent(changeEvent);
+
+        toast.success("JSON loaded successfully!");
+      } catch (err) {
+        console.error("Invalid JSON file:", err);
+        toast.error("Invalid JSON file format. Please upload valid JSON.");
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = "";
+  };
 
   const textareaClass = `w-full px-6 py-4 bg-gray-50 border-none rounded-2xl text-sm focus:ring-2 focus:outline-none focus:border-[#0A0F29] focus:ring-1 focus:ring-[#0A0F29] outline-none transition-all text-gray-800 ${className}`;
 
@@ -90,16 +132,39 @@ export const TextAreaField: React.FC<TextAreaFieldProps> = ({
           </label>
         )}
         
-        {/* Sleek link button */}
-        <button
-          type="button"
-          onClick={handleOpenLinkModal}
-          className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#0A0F29] hover:text-[#D4AF37] transition-colors cursor-pointer"
-          title="Insert link formatting"
-        >
-          <LinkIcon className="w-3.5 h-3.5" />
-          Add Link
-        </button>
+        <div className="flex items-center gap-4">
+          {allowJsonUpload && (
+            <>
+              <button
+                type="button"
+                onClick={handleUploadClick}
+                className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#0A0F29] hover:text-[#D4AF37] transition-colors cursor-pointer"
+                title="Upload JSON schema file"
+              >
+                <Upload className="w-3.5 h-3.5" />
+                Upload JSON
+              </button>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept=".json,application/json"
+                className="hidden"
+              />
+            </>
+          )}
+
+          {/* Sleek link button */}
+          <button
+            type="button"
+            onClick={handleOpenLinkModal}
+            className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#0A0F29] hover:text-[#D4AF37] transition-colors cursor-pointer"
+            title="Insert link formatting"
+          >
+            <LinkIcon className="w-3.5 h-3.5" />
+            Add Link
+          </button>
+        </div>
       </div>
 
       <textarea

@@ -195,6 +195,7 @@ export default function PageSEOEditor() {
               rows={6}
               className="font-mono text-xs md:col-span-2"
               containerClassName="md:col-span-2"
+              allowJsonUpload={true}
             />
           </div>
 

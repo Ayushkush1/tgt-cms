@@ -68,6 +68,22 @@ export async function GET(
     });
 
     if (!page) {
+      if (slug === "ceo") {
+        return NextResponse.json({
+          success: true,
+          data: {
+            id: null,
+            title: "CEO",
+            slug: slug,
+            metaTitle: "",
+            metaDescription: "",
+            targetKeywords: "",
+            canonicalUrl: "",
+            noIndex: false,
+            schema: "",
+          },
+        });
+      }
       return NextResponse.json(
         { success: false, error: "Page not found" },
         { status: 404 },
@@ -166,6 +182,7 @@ export async function PUT(
       create: {
         slug,
         title: seo.metaTitle || slug.charAt(0).toUpperCase() + slug.slice(1),
+        type: slug === "ceo" ? "static" : "standard",
         metaTitle: seo.metaTitle,
         metaDescription: seo.metaDescription,
         targetKeywords: seo.targetKeywords,
