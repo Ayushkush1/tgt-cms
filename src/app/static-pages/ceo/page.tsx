@@ -26,6 +26,7 @@ interface PageData {
 
 const defaultData: PageData = {
   message: {
+    headingTag: "h1",
     name: "",
     role: "",
     avatar: [],
