@@ -1989,23 +1989,6 @@
     "updatedAt": "2026-06-17T08:13:41.395Z"
   },
   {
-    "id": "c31aeda9-e609-485b-bb63-f8202c808529",
-    "pageId": "c0106638-9192-41b3-8887-4e053598d6c0",
-    "type": "MapSection",
-    "content": {
-      "upperTag": "Our Location",
-      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.1715555629503!2d77.3861676!3d28.624620000000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cf120b6d88c5d%3A0x4365a1bad9758ff6!2sThe%20Gold%20Technologies!5e0!3m2!1sen!2sin!4v1771399558865!5m2!1sen!2sin",
-      "headlinePart1": "Visit",
-      "headlinePart3": "And Let's Build",
-      "headlinePart4": "Something Great.",
-      "mainParagraph": "  Find us at our office location. We’d love to meet you and discuss how The Gold Technologies can help your business grow.",
-      "headlineHighlight": "Our Office "
-    },
-    "order": 0,
-    "createdAt": "2026-03-20T07:21:06.360Z",
-    "updatedAt": "2026-03-20T07:24:01.335Z"
-  },
-  {
     "id": "1dc54c44-2993-489d-8700-5c8f0ad07ff3",
     "pageId": "bc99d002-d4f3-46d6-b127-3f79db5da8a8",
     "type": "main",
@@ -3963,5 +3946,54 @@
     "order": 1,
     "createdAt": "2026-11-10T10:42:08.575Z",
     "updatedAt": "2026-11-10T10:42:08.575Z"
+  },
+  {
+    "id": "267b7574-87ce-4994-9855-cd183be09ceb",
+    "pageId": "c0106638-9192-41b3-8887-4e053598d6c0",
+    "type": "ContactHero",
+    "content": {
+      "label": "(Contact)",
+      "headlineTop": "Let's build",
+      "headlineHighlight": "something great.",
+      "description": "Tell us where you want to grow. You'll get a reply within 24 hours with clear next steps, whether you work with us or not.",
+      "imageUrl": "",
+      "primaryLabel": "Book a free strategy call",
+      "primaryUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
+      "secondaryLabel": "Send a brief",
+      "secondaryUrl": "#brief"
+    },
+    "order": 0,
+    "createdAt": "2026-11-10T10:51:16.739Z",
+    "updatedAt": "2026-11-10T10:51:16.739Z"
+  },
+  {
+    "id": "242db350-0f89-41b9-b14e-7466db715ca7",
+    "pageId": "c0106638-9192-41b3-8887-4e053598d6c0",
+    "type": "ContactDirect",
+    "content": {
+      "label": "(Direct lines)",
+      "emailLabel": "Email",
+      "phoneLabel": "Call or WhatsApp",
+      "socialLabel": "Follow",
+      "replyNote": "Average first reply: under 4 working hours."
+    },
+    "order": 1,
+    "createdAt": "2026-11-10T10:51:16.739Z",
+    "updatedAt": "2026-11-10T10:51:16.739Z"
+  },
+  {
+    "id": "c31aeda9-e609-485b-bb63-f8202c808529",
+    "pageId": "c0106638-9192-41b3-8887-4e053598d6c0",
+    "type": "MapSection",
+    "content": {
+      "label": "(Visit us)",
+      "headlineMain": "Two offices,",
+      "headlineHighlight": "one team.",
+      "directionsLabel": "Get directions",
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.1715555629503!2d77.3861676!3d28.624620000000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cf120b6d88c5d%3A0x4365a1bad9758ff6!2sThe%20Gold%20Technologies!5e0!3m2!1sen!2sin!4v1771399558865!5m2!1sen!2sin"
+    },
+    "order": 2,
+    "createdAt": "2026-03-20T07:21:06.360Z",
+    "updatedAt": "2026-11-10T10:51:16.739Z"
   }
 ]

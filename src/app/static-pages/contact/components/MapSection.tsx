@@ -1,167 +1,88 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { fetchWithCache } from "@/lib/apiCache";
-import toast from "react-hot-toast";
+import React, { useState } from "react";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
-import { SaveButton } from "@/components/SaveButton";
-import { SectionHeader } from "@/components/SectionHeader";
+import { StaticSectionCard, useStaticSection } from "@/app/components/StaticSectionCard";
 
-const SECTION_KEY = "MapSection";
+interface MapSectionData {
+  [key: string]: unknown;
+  label: string;
+  headlineMain: string;
+  headlineHighlight: string;
+  directionsLabel: string;
+  mapEmbedUrl: string;
+}
 
-const defaultFormData = {
-  upperTag: "",
-  headlinePart1: "",
+const DEFAULT_DATA: MapSectionData = {
+  label: "",
+  headlineMain: "",
   headlineHighlight: "",
-  headlinePart3: "",
-  headlinePart4: "",
-  mainParagraph: "",
+  directionsLabel: "",
   mapEmbedUrl: "",
 };
 
 export default function MapSection() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [formData, setFormData] = useState(defaultFormData);
+  const { formData, setFormData, isSaving, save } = useStaticSection(
+    "/api/contact",
+    "MapSection",
+    DEFAULT_DATA,
+    "Offices & Map",
+  );
 
-  useEffect(() => {
-    fetchWithCache("/api/contact")
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .then((json: Record<string, any>) => {
-        if (json.success && json.data?.[SECTION_KEY]) {
-          setFormData((prev) => ({ ...prev, ...json.data[SECTION_KEY] }));
-        }
-      })
-      .catch(console.error);
-  }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSave = async () => {
-    const errs: string[] = [];
-    if (!formData.upperTag.trim()) errs.push("Upper Tag is required");
-    if (!formData.headlinePart1.trim()) errs.push("Headline Part 1 is required");
-    if (!formData.mainParagraph.trim()) errs.push("Main Paragraph is required");
-    if (!formData.mapEmbedUrl.trim()) errs.push("Map Embed URL is required");
-
-    if (errs.length > 0) {
-      errs.forEach((m) => toast.error(m));
-      return;
-    }
-
-    setIsSaving(true);
-    const toastId = toast.loading("Saving...");
-    try {
-      const res = await fetch("/api/contact", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ section: SECTION_KEY, content: formData }),
-      });
-      const json = await res.json();
-      if (json.success) {
-        toast.success("Map Section saved!", { id: toastId });
-      } else {
-        toast.error("Save failed. Please try again.", { id: toastId });
-      }
-    } catch {
-      toast.error("Network error. Please try again.", { id: toastId });
-    } finally {
-      setIsSaving(false);
-    }
-  };
+  const setField =
+    (key: keyof MapSectionData) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setFormData((prev) => ({ ...prev, [key]: e.target.value }));
 
   return (
-    <section>
-      <div className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all">
-        <SectionHeader
-          title="Map Section"
-          description="Manage the map embed and heading text for the location section."
-          isOpen={isOpen}
-          onToggle={() => setIsOpen(!isOpen)}
+    <StaticSectionCard
+      title="3. Offices & Map (MapSection)"
+      description="Offices heading, directions link label, and Google Maps embed iframe URL."
+      isOpen={isOpen}
+      onToggle={() => setIsOpen((v) => !v)}
+      isSaving={isSaving}
+      onSave={() => save()}
+    >
+      <div className="grid grid-cols-1 items-end gap-4 md:grid-cols-2">
+        <InputField
+          label="Eyebrow Label"
+          value={formData.label || ""}
+          onChange={setField("label")}
+          placeholder="e.g. (Visit us)"
         />
-        <div
-          className={`grid transition-all duration-300 ease-in-out ${
-            isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-          }`}
-        >
-          <div className={isOpen ? "overflow-visible" : "overflow-hidden"}>
-            <div className="grid grid-cols-2 gap-4 pt-2">
-              <h1 className="col-span-2 text-base font-bold text-gray-500">Header text</h1>
-              <InputField
-                label="Upper Tag"
-                name="upperTag"
-                value={formData.upperTag}
-                onChange={handleChange}
-                placeholder="e.g. Our Location"
-                containerClassName="col-span-2"
-                required
-              />
-              <InputField
-                label="Headline Part 1"
-                name="headlinePart1"
-                value={formData.headlinePart1}
-                onChange={handleChange}
-                placeholder="e.g. Visit"
-                required
-              />
-              <InputField
-                label="Headline (Highlight - Italic/Gold)"
-                name="headlineHighlight"
-                value={formData.headlineHighlight}
-                onChange={handleChange}
-                placeholder="e.g. Our Office"
-              />
-              <InputField
-                label="Headline Part 3"
-                name="headlinePart3"
-                value={formData.headlinePart3}
-                onChange={handleChange}
-                placeholder="e.g. And Let's Build"
-              />
-              <InputField
-                label="Headline Part 4 (Highlight/Underline)"
-                name="headlinePart4"
-                value={formData.headlinePart4}
-                onChange={handleChange}
-                placeholder="e.g. Something Great"
-              />
-
-              <TextAreaField
-                label="Main Paragraph"
-                name="mainParagraph"
-                value={formData.mainParagraph}
-                onChange={handleChange}
-                placeholder="e.g. Find us at our office location..."
-                containerClassName="col-span-2"
-                required
-                rows={3}
-              />
-
-              <h1 className="col-span-2 mt-4 text-base font-bold text-gray-500">Map Embed</h1>
-              <div className="col-span-2 mb-2 text-sm text-gray-500">
-                Go to Google Maps, search for your location, click &quot;Share&quot;, choose
-                &quot;Embed a map&quot;, and extract just the {`src`} URL from the iframe code.
-              </div>
-              <TextAreaField
-                label="Google Maps Embed URL (src only)"
-                name="mapEmbedUrl"
-                value={formData.mapEmbedUrl}
-                onChange={handleChange}
-                placeholder="e.g. https://www.google.com/maps/embed?pb=!1m18..."
-                containerClassName="col-span-2"
-                required
-                rows={3}
-              />
-
-              <SaveButton onClick={handleSave} disabled={isSaving} />
-            </div>
-          </div>
+        <InputField
+          label="Directions Link Label"
+          value={formData.directionsLabel || ""}
+          onChange={setField("directionsLabel")}
+          placeholder="e.g. Get directions"
+        />
+        <InputField
+          label="Headline Main"
+          value={formData.headlineMain || ""}
+          onChange={setField("headlineMain")}
+          placeholder="e.g. Two offices,"
+        />
+        <InputField
+          label="Headline Gold Italic Highlight"
+          value={formData.headlineHighlight || ""}
+          onChange={setField("headlineHighlight")}
+          placeholder="e.g. one team."
+        />
+        <div className="text-xs text-gray-500 md:col-span-2">
+          In Google Maps, click <span className="font-semibold">Share</span> →{" "}
+          <span className="font-semibold">Embed a map</span> and paste only the{" "}
+          <code className="rounded bg-gray-100 px-1 py-0.5">src</code> URL below.
         </div>
+        <TextAreaField
+          label="Google Maps Embed URL (src only)"
+          value={formData.mapEmbedUrl || ""}
+          onChange={setField("mapEmbedUrl")}
+          rows={3}
+          containerClassName="md:col-span-2"
+          placeholder="https://www.google.com/maps/embed?pb=..."
+        />
       </div>
-    </section>
+    </StaticSectionCard>
   );
 }
