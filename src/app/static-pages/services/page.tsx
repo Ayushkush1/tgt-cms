@@ -271,11 +271,7 @@ export default function ServicesCMS() {
             onChange={(services) => setFormData({ ...formData, services })}
           />
 
-          <div className="sticky bottom-6 flex justify-end">
-            <div className="w-full max-w-xs overflow-hidden rounded-xl shadow-2xl">
-              <SaveButton onClick={handleSave} disabled={isSaving} />
-            </div>
-          </div>
+          <SaveButton onClick={handleSave} disabled={isSaving} />
         </>
       )}
     </div>

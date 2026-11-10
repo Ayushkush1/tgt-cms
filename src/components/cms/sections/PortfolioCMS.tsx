@@ -297,7 +297,7 @@ export function PortfolioCMS({
             isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
           }`}
         >
-          <div className="overflow-hidden">
+          <div className={isOpen ? "overflow-visible" : "overflow-hidden"}>
             <div className="flex flex-col gap-8 pt-4">
               <div className="flex flex-col gap-6">
                 {items.map((item, idx) => (
@@ -551,13 +551,7 @@ export function PortfolioCMS({
                 Add New Project Showcase
               </button>
 
-              <div className="flex justify-end border-t border-gray-100 pt-8">
-                <SaveButton
-                  onClick={handleSave}
-                  disabled={isSaving}
-                  className="h-14 w-52 text-sm"
-                />
-              </div>
+              <SaveButton onClick={handleSave} disabled={isSaving} />
             </div>
           </div>
         </div>

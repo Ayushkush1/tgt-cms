@@ -147,7 +147,12 @@ export default function CeoCMSPage() {
           description="Manage the CEO greeting statement, core philosophies, and journey milestone timeline."
         />
         <div className="mb-2">
-          <SaveButton onClick={handleSave} disabled={isSaving} className="w-auto px-10" />
+          <SaveButton
+            onClick={handleSave}
+            disabled={isSaving}
+            sticky={false}
+            className="w-auto px-10"
+          />
         </div>
       </div>
 
@@ -169,6 +174,7 @@ export default function CeoCMSPage() {
             timeline={formData.timeline}
             onTimelineChange={(timeline) => setFormData({ ...formData, timeline })}
           />
+          <SaveButton onClick={handleSave} disabled={isSaving} />
         </div>
       )}
     </div>

@@ -1,12 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { clearCache, fetchWithCache } from "@/lib/apiCache";
+import { uploadFiles } from "@/lib/uploadHelpers";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
-import { HomeSectionCard, StringListField, useHomeSection } from "./HomeSectionCard";
+import { ImageUploadField } from "@/components/ImageUploadField";
+import { HomeSectionCard, StringListField } from "./HomeSectionCard";
 
 interface GrowthHeroData {
-  [key: string]: unknown;
   headlineTop: string;
   headlineWords: string[];
   headlinePrefix: string;
@@ -44,11 +47,31 @@ const DEFAULT_DATA: GrowthHeroData = {
 
 export function GrowthHero() {
   const [isOpen, setIsOpen] = useState(true);
-  const { formData, setFormData, isSaving, save } = useHomeSection(
-    "GrowthHero",
-    DEFAULT_DATA,
-    "Growth Hero",
-  );
+  const [isSaving, setIsSaving] = useState(false);
+  const [formData, setFormData] = useState<GrowthHeroData>(DEFAULT_DATA);
+  const [trustedByMeta, setTrustedByMeta] = useState<Record<string, unknown>>({});
+  const [logoImages, setLogoImages] = useState<(File | string | null)[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    fetchWithCache("/api/home")
+      .then((json) => {
+        if (!active || !json?.success) return;
+        const hero = json.data?.GrowthHero;
+        if (hero && typeof hero === "object") {
+          setFormData({ ...DEFAULT_DATA, ...hero });
+        }
+        const trusted = json.data?.TrustedBySection;
+        if (trusted && typeof trusted === "object") {
+          setTrustedByMeta(trusted as Record<string, unknown>);
+          setLogoImages(Array.isArray(trusted.images) ? trusted.images : []);
+        }
+      })
+      .catch(console.error);
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const setText =
     (key: keyof GrowthHeroData) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -62,20 +85,60 @@ export function GrowthHero() {
       return { ...prev, headlineWords: next };
     });
 
+  const handleSave = async () => {
+    setIsSaving(true);
+    const toastId = toast.loading("Saving Growth Hero…");
+    try {
+      const uploadedLogos = await uploadFiles(logoImages);
+      const cleanLogos = uploadedLogos.filter((u): u is string => Boolean(u));
+
+      const heroPayload = {
+        ...formData,
+        headlineWords: [words[0] || "", words[1] || ""],
+        ticker: (formData.ticker || []).map((t) => t.trim()).filter(Boolean),
+      };
+
+      const [heroRes, trustedRes] = await Promise.all([
+        fetch("/api/home", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ section: "GrowthHero", content: heroPayload }),
+        }),
+        fetch("/api/home", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            section: "TrustedBySection",
+            content: { ...trustedByMeta, images: cleanLogos },
+          }),
+        }),
+      ]);
+
+      const [heroJson, trustedJson] = await Promise.all([heroRes.json(), trustedRes.json()]);
+      if (!heroRes.ok || !heroJson.success || !trustedRes.ok || !trustedJson.success) {
+        throw new Error(heroJson?.error || trustedJson?.error || "Save failed");
+      }
+
+      setLogoImages(cleanLogos);
+      clearCache("/api/home");
+      toast.success("Growth Hero saved and published!", { id: toastId });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not save. Please try again.", {
+        id: toastId,
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <HomeSectionCard
       title="Growth Hero"
-      description="Main landing hero headline, CTAs, proof rating card, and outlined service ticker."
+      description="Main landing hero headline, client logos pill, CTAs, proof rating card, and service ticker."
       isOpen={isOpen}
       onToggle={() => setIsOpen((v) => !v)}
       isSaving={isSaving}
-      onSave={() =>
-        save({
-          ...formData,
-          headlineWords: [words[0] || "", words[1] || ""],
-          ticker: (formData.ticker || []).map((t) => t.trim()).filter(Boolean),
-        })
-      }
+      onSave={handleSave}
     >
       <div className="grid grid-cols-1 items-end gap-4 md:grid-cols-2">
         <div className="grid grid-cols-1 items-end gap-4 md:col-span-2 md:grid-cols-3">
@@ -180,6 +243,16 @@ export function GrowthHero() {
           value={formData.responseLine || ""}
           onChange={setText("responseLine")}
           placeholder="e.g. Reply within 24 hours"
+        />
+      </div>
+
+      <div className="rounded-2xl border border-gray-100 bg-gray-50/70 p-4">
+        <ImageUploadField
+          label="Headline Client Logos Pill"
+          images={logoImages}
+          onImagesChange={setLogoImages}
+          maxImages={50}
+          tooltip="Logos displayed inside the animated headline pill and marquee."
         />
       </div>
 

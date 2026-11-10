@@ -119,9 +119,7 @@ export default function ProfilePage() {
               />
             </div>
 
-            <div className="flex justify-end pt-2">
-              <SaveButton disabled={isSavingProfile} className="w-max" />
-            </div>
+            <SaveButton disabled={isSavingProfile} />
           </form>
         </div>
 
@@ -155,9 +153,7 @@ export default function ProfilePage() {
               />
             </div>
 
-            <div className="flex justify-end pt-2">
-              <SaveButton disabled={isSavingPassword} className="w-max" />
-            </div>
+            <SaveButton disabled={isSavingPassword} />
           </form>
         </div>
       </div>

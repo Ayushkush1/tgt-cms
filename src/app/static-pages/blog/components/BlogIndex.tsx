@@ -99,7 +99,7 @@ export function BlogIndex() {
             isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
           }`}
         >
-          <div className="overflow-hidden">
+          <div className={isOpen ? "overflow-visible" : "overflow-hidden"}>
             <div className="flex flex-col gap-5 pt-2">
               <div className="grid grid-cols-1 items-end gap-4 md:grid-cols-3">
                 <InputField
@@ -166,9 +166,7 @@ export function BlogIndex() {
                 />
               </div>
 
-              <div className="pt-2">
-                <SaveButton onClick={handleSave} disabled={isSaving} />
-              </div>
+              <SaveButton onClick={handleSave} disabled={isSaving} />
             </div>
           </div>
         </div>
@@ -176,4 +174,3 @@ export function BlogIndex() {
     </section>
   );
 }
-

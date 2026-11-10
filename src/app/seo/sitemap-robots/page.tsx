@@ -337,9 +337,7 @@ export default function SitemapRobotsPage() {
             </div>
           </div>
 
-          <div className="flex justify-end border-t border-gray-100 pt-4">
-            <SaveButton onClick={handleSave} disabled={isSaving} />
-          </div>
+          <SaveButton onClick={handleSave} disabled={isSaving} />
         </div>
       </div>
     </div>

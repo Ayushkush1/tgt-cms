@@ -168,7 +168,7 @@ export default function OurTeam() {
             isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
           }`}
         >
-          <div className="overflow-hidden">
+          <div className={isOpen ? "overflow-visible" : "overflow-hidden"}>
             <div className="grid grid-cols-2 gap-4 pt-2">
               <h1 className="col-span-2 mt-2 text-base font-bold text-gray-500">Section Content</h1>
               <InputField
@@ -276,9 +276,7 @@ export default function OurTeam() {
                 </button>
               </div>
 
-              <div className="col-span-2 mt-4">
-                <SaveButton onClick={handleSave} disabled={isSaving} />
-              </div>
+              <SaveButton onClick={handleSave} disabled={isSaving} />
             </div>
           </div>
         </div>

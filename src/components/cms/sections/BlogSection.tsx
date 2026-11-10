@@ -522,9 +522,7 @@ export function BlogSection({
                 <Plus className="h-5 w-5" /> Add Blog Post
               </button>
 
-              <div className="flex justify-end pt-4">
-                <SaveButton onClick={handleSave} disabled={isSaving} className="w-40" />
-              </div>
+              <SaveButton onClick={handleSave} disabled={isSaving} />
             </div>
           </div>
         )}

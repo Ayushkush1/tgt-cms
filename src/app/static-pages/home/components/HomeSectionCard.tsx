@@ -99,12 +99,10 @@ export function HomeSectionCard({
             isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
           }`}
         >
-          <div className="overflow-hidden">
+          <div className={isOpen ? "overflow-visible" : "overflow-hidden"}>
             <div className="flex flex-col gap-5 pt-2">
               {children}
-              <div className="pt-2">
-                <SaveButton onClick={onSave} disabled={isSaving} />
-              </div>
+              <SaveButton onClick={onSave} disabled={isSaving} />
             </div>
           </div>
         </div>

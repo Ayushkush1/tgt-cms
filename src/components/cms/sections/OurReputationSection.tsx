@@ -203,7 +203,7 @@ export function OurReputationSection({
             isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
           }`}
         >
-          <div className="overflow-hidden">
+          <div className={isOpen ? "overflow-visible" : "overflow-hidden"}>
             <div className="animate-in fade-in grid grid-cols-2 gap-6 pt-4 duration-500">
               <h1 className="col-span-2 text-base font-bold text-gray-500">Header Section</h1>
               <InputField
@@ -414,9 +414,7 @@ export function OurReputationSection({
                 />
               </div>
 
-              <div className="col-span-2 flex justify-end pt-4">
-                <SaveButton onClick={handleSave} disabled={isSaving} className="w-40" />
-              </div>
+              <SaveButton onClick={handleSave} disabled={isSaving} />
             </div>
           </div>
         </div>

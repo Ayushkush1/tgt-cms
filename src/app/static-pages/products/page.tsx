@@ -114,7 +114,12 @@ export default function ProductsPage() {
           description="Manage the top-level hero wrapper and define dynamically scaled products for the dropdown & features."
         />
         <div className="mb-2">
-          <SaveButton onClick={handleSave} disabled={isSaving} className="w-auto px-10" />
+          <SaveButton
+            onClick={handleSave}
+            disabled={isSaving}
+            sticky={false}
+            className="w-auto px-10"
+          />
         </div>
       </div>
 
@@ -132,6 +137,7 @@ export default function ProductsPage() {
             products={formData.products}
             onChange={(products) => setFormData({ ...formData, products })}
           />
+          <SaveButton onClick={handleSave} disabled={isSaving} />
         </div>
       )}
     </div>

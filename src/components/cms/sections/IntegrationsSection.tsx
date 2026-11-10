@@ -191,9 +191,7 @@ export function IntegrationsSection({
                 )}
               </div>
 
-              <div className="col-span-2 flex justify-end pt-4">
-                <SaveButton onClick={handleSave} disabled={isSaving} className="w-40" />
-              </div>
+              <SaveButton onClick={handleSave} disabled={isSaving} />
             </div>
           </div>
         )}

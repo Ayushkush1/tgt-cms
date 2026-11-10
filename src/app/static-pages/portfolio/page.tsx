@@ -151,7 +151,12 @@ export default function PortfolioCMSPage() {
           description="Manage the hero text, showcase header, and the decorative image collage for the Portfolio section."
         />
         <div className="mb-2">
-          <SaveButton onClick={handleSave} disabled={isSaving} className="w-auto px-10" />
+          <SaveButton
+            onClick={handleSave}
+            disabled={isSaving}
+            sticky={false}
+            className="w-auto px-10"
+          />
         </div>
       </div>
 
@@ -177,6 +182,7 @@ export default function PortfolioCMSPage() {
             data={formData.cta}
             onChange={(cta) => setFormData({ ...formData, cta })}
           />
+          <SaveButton onClick={handleSave} disabled={isSaving} />
         </div>
       )}
     </div>

@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
+import { ArrowUpRight, FileText } from "lucide-react";
 import { InputField } from "@/components/InputField";
 import { HomeSectionCard, useHomeSection } from "./HomeSectionCard";
 
@@ -33,13 +35,13 @@ export function Insights() {
   return (
     <HomeSectionCard
       title="Insights"
-      description="Blog section header & View All label (articles are managed in Blog Section below)."
+      description="Blog section header & View All label (manage blog articles in Static Pages → Blog)."
       isOpen={isOpen}
       onToggle={() => setIsOpen((v) => !v)}
       isSaving={isSaving}
       onSave={() => save()}
     >
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="grid grid-cols-1 items-end gap-4 md:grid-cols-2">
         <InputField
           label="Eyebrow Label"
           value={formData.label || ""}
@@ -64,6 +66,28 @@ export function Insights() {
           onChange={setText("headlineHighlight")}
           placeholder="e.g. grow businesses."
         />
+      </div>
+
+      <div className="flex flex-col justify-between gap-4 rounded-2xl border border-gray-200/80 bg-gray-50/70 px-5 py-4 sm:flex-row sm:items-center">
+        <div className="flex items-start gap-3">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-[#B8932A]">
+            <FileText className="h-4 w-4" />
+          </div>
+          <div>
+            <p className="text-sm font-bold text-[#0B0F29]">Blog Posts &amp; Articles</p>
+            <p className="text-xs text-gray-500">
+              All blog articles for Home (Insights), /blog, and /blog/[slug] are managed in Static
+              Pages → Blog.
+            </p>
+          </div>
+        </div>
+        <Link
+          href="/static-pages/blog"
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#0B0F29] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-black"
+        >
+          Manage Blog Page
+          <ArrowUpRight className="h-3.5 w-3.5 text-[#D4AF37]" />
+        </Link>
       </div>
     </HomeSectionCard>
   );

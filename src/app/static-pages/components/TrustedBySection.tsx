@@ -90,7 +90,7 @@ export default function TrustedBySection() {
             isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
           }`}
         >
-          <div className="overflow-hidden">
+          <div className={isOpen ? "overflow-visible" : "overflow-hidden"}>
             <div className="grid grid-cols-2 gap-4 pt-2">
               <InputField
                 label="Main Label"
@@ -123,9 +123,7 @@ export default function TrustedBySection() {
                 </p>
               </div>
 
-              <div className="col-span-2 mt-2">
-                <SaveButton onClick={handleSave} disabled={isSaving} />
-              </div>
+              <SaveButton onClick={handleSave} disabled={isSaving} />
             </div>
           </div>
         </div>
