@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { PageHeader } from "@/app/components/PageHeader";
+import { useConfirmDelete } from "@/app/components/ConfirmDeleteModal";
 import { NAV_PLACEMENTS, navPlacementLabel, type NavPlacement } from "@/lib/navPlacement";
 
 /** A row of the NavLink table, as returned by /api/nav-links. */
@@ -100,6 +101,7 @@ const ROW_GRID =
   "grid grid-cols-[44px_1fr_auto] md:grid-cols-[52px_minmax(180px,1.4fr)_140px_minmax(170px,1.2fr)_auto] items-center gap-3 md:gap-4";
 
 export default function NavLinksPage() {
+  const confirmDelete = useConfirmDelete();
   const [links, setLinks] = useState<NavLink[]>([]);
   const [suggestions, setSuggestions] = useState<{ url: string; label: string }[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -275,12 +277,22 @@ export default function NavLinksPage() {
 
   const remove = async (link: NavLink) => {
     const children = isMenu(link) ? childrenOf(link.id) : [];
+    const placementText = placementOf(link) === "both" ? "navbar and footer" : placementOf(link);
     const message = isMenu(link)
-      ? `Delete the "${link.label}" dropdown${children.length ? ` and the ${children.length} links inside it` : ""}?`
+      ? children.length
+        ? `Removing this dropdown will also remove the ${children.length} ${children.length === 1 ? "link" : "links"} inside it from your website ${placementText}.`
+        : `This dropdown menu will be removed from your website ${placementText}.`
       : deletesPage(link)
-        ? `Delete "${link.label}"? This also deletes its page (${link.url}).`
-        : `Delete "${link.label}"?`;
-    if (!confirm(message)) return;
+        ? `This will remove the navigation link and permanently delete its associated page (${link.url}) and all of its content.`
+        : `This navigation link (${link.url || "no URL"}) will be removed from your website ${placementText}.`;
+    const confirmed = await confirmDelete({
+      title: isMenu(link) ? `Delete “${link.label}” dropdown?` : `Delete “${link.label}”?`,
+      message,
+      warning: deletesPage(link)
+        ? "Both the menu link and its page content will be permanently deleted."
+        : undefined,
+    });
+    if (!confirmed) return;
 
     try {
       for (const item of [...children, link]) {

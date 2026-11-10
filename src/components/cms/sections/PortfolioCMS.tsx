@@ -8,6 +8,7 @@ import { SaveButton } from "@/app/components/SaveButton";
 import { SectionHeader } from "@/app/components/SectionHeader";
 import { TextAreaField } from "@/app/components/TextAreaField";
 import { ImageUploadField } from "@/app/components/ImageUploadField";
+import { useConfirmDelete } from "@/app/components/ConfirmDeleteModal";
 import { uploadFiles } from "@/lib/uploadHelpers";
 
 interface PortfolioStat {
@@ -80,6 +81,7 @@ export function PortfolioCMS({
   sectionName = "Portfolio",
   onSave,
 }: PortfolioCMSProps) {
+  const confirmDelete = useConfirmDelete();
   const [isOpen, setIsOpen] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [items, setItems] = useState<PortfolioItem[]>([]);
@@ -147,8 +149,15 @@ export function PortfolioCMS({
     setItems((prev) => [...prev, defaultPortfolio()]);
   };
 
-  const removeItem = (idx: number) => {
-    if (confirm("Are you sure you want to remove this project?")) {
+  const removeItem = async (idx: number) => {
+    const target = items[idx];
+    const confirmed = await confirmDelete({
+      title: target?.title ? `Remove “${target.title}”?` : "Remove this project?",
+      message: "This project case study and its metrics will be removed from the portfolio list.",
+      warning: "Save the section afterwards to publish this removal to the live website.",
+      confirmLabel: "Remove",
+    });
+    if (confirmed) {
       setItems((prev) => prev.filter((_, i) => i !== idx));
     }
   };

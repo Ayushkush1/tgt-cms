@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { PageHeader } from "@/components/PageHeader";
+import { useConfirmDelete } from "@/app/components/ConfirmDeleteModal";
 import toast from "react-hot-toast";
 import { Plus, GripVertical, Trash2, FileQuestion, ChevronLeft } from "lucide-react";
 import { motion, Reorder, AnimatePresence } from "framer-motion";
@@ -34,6 +35,7 @@ interface PageData {
 export default function CustomPageEditor() {
   const { slug } = useParams();
   const router = useRouter();
+  const confirmDelete = useConfirmDelete();
   const [pageData, setPageData] = useState<PageData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -61,12 +63,11 @@ export default function CustomPageEditor() {
   }, [slug, loadPage]);
 
   const deletePage = async () => {
-    if (
-      !confirm(
-        `Are you sure you want to delete the entire "${pageData?.title}" page? This will remove all sections and cannot be undone.`,
-      )
-    )
-      return;
+    const confirmed = await confirmDelete({
+      title: `Delete “${pageData?.title}” page?`,
+      message: `All sections and content inside the “${pageData?.title}” page will be permanently removed.`,
+    });
+    if (!confirmed) return;
 
     try {
       const res = await fetch(`/api/pages/${slug}`, {
@@ -113,7 +114,11 @@ export default function CustomPageEditor() {
   };
 
   const deleteSection = async (sectionId: string) => {
-    if (!confirm("Are you sure you want to delete this section?")) return;
+    const confirmed = await confirmDelete({
+      title: "Delete this section?",
+      message: "This section and all of its configured content will be removed from the page.",
+    });
+    if (!confirmed) return;
 
     try {
       const res = await fetch(`/api/sections?id=${sectionId}`, {

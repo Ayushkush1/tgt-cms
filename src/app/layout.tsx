@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 };
 
 import { AdminSidebar } from "./components/Sidebar";
+import { ConfirmDeleteProvider } from "./components/ConfirmDeleteModal";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 
@@ -36,16 +37,18 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         <SessionProvider session={session}>
-          {session ? (
-            <div className="flex h-screen overflow-hidden p-[5px] font-sans">
-              <AdminSidebar />
-              <main className="flex-1 overflow-y-auto">
-                <div className="px-12 py-10">{children}</div>
-              </main>
-            </div>
-          ) : (
-            <div className="font-sans">{children}</div>
-          )}
+          <ConfirmDeleteProvider>
+            {session ? (
+              <div className="flex h-screen overflow-hidden p-[5px] font-sans">
+                <AdminSidebar />
+                <main className="flex-1 overflow-y-auto">
+                  <div className="px-12 py-10">{children}</div>
+                </main>
+              </div>
+            ) : (
+              <div className="font-sans">{children}</div>
+            )}
+          </ConfirmDeleteProvider>
         </SessionProvider>
         <Toaster
           position="top-right"

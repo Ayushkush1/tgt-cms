@@ -5,6 +5,7 @@ import { PageHeader } from "@/app/components/PageHeader";
 import { Trash2, Plus, GripVertical } from "lucide-react";
 import { ImageUploadField } from "@/app/components/ImageUploadField";
 import { InputField } from "@/app/components/InputField";
+import { useConfirmDelete } from "@/app/components/ConfirmDeleteModal";
 import toast from "react-hot-toast";
 
 interface Banner {
@@ -18,6 +19,7 @@ interface Banner {
 }
 
 export default function BannersPage() {
+  const confirmDelete = useConfirmDelete();
   const [banners, setBanners] = useState<Banner[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -55,7 +57,11 @@ export default function BannersPage() {
   const handleRemoveBanner = async (index: number) => {
     const banner = banners[index];
     if (banner.id) {
-      if (!confirm("Are you sure? This will delete the banner immediately.")) return;
+      const confirmed = await confirmDelete({
+        title: "Delete this banner?",
+        message: "This promotional banner will be removed from your store immediately.",
+      });
+      if (!confirmed) return;
       try {
         const res = await fetch(`/api/ecommerce/banners?id=${banner.id}`, {
           method: "DELETE",

@@ -6,6 +6,7 @@ import { Trash2, Edit2, Search, Filter, Layers } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { InputField } from "@/app/components/InputField";
 import { SelectField } from "@/app/components/SelectField";
+import { useConfirmDelete } from "@/app/components/ConfirmDeleteModal";
 import toast from "react-hot-toast";
 
 interface Product {
@@ -28,6 +29,7 @@ interface Category {
 
 export default function ProductsPage() {
   const router = useRouter();
+  const confirmDelete = useConfirmDelete();
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -57,7 +59,12 @@ export default function ProductsPage() {
   }, []);
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this product?")) return;
+    const confirmed = await confirmDelete({
+      title: "Delete this product?",
+      message:
+        "This product and its storefront listing will be permanently removed from your catalog.",
+    });
+    if (!confirmed) return;
 
     try {
       const res = await fetch(`/api/ecommerce/products?id=${id}`, {

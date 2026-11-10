@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { PageHeader } from "@/app/components/PageHeader";
 import { Trash2, Plus, Edit2, X, Check } from "lucide-react";
 import { InputField } from "@/app/components/InputField";
+import { useConfirmDelete } from "@/app/components/ConfirmDeleteModal";
 import { slugify } from "../../../lib/utils";
 import toast from "react-hot-toast";
 
@@ -17,6 +18,7 @@ interface Category {
 }
 
 export default function CategoriesPage() {
+  const confirmDelete = useConfirmDelete();
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -72,7 +74,11 @@ export default function CategoriesPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure? This cannot be undone if no products are linked.")) return;
+    const confirmed = await confirmDelete({
+      title: "Delete this category?",
+      message: "This category will be permanently removed if no products are linked to it.",
+    });
+    if (!confirmed) return;
 
     try {
       const res = await fetch(`/api/ecommerce/categories?id=${id}`, {

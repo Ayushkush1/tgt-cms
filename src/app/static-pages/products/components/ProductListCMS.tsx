@@ -4,6 +4,7 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { ImageUploadField } from "@/components/ImageUploadField";
+import { useConfirmDelete } from "@/app/components/ConfirmDeleteModal";
 import { Plus, Trash2, ChevronDown, ChevronRight, GripVertical } from "lucide-react";
 
 export interface Pillar {
@@ -28,6 +29,7 @@ export function ProductListCMS({
   products: ProductItem[];
   onChange: (products: ProductItem[]) => void;
 }) {
+  const confirmDelete = useConfirmDelete();
   const [isOpen, setIsOpen] = useState(true);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
 
@@ -44,8 +46,15 @@ export function ProductListCMS({
     setExpandedIndex(0);
   };
 
-  const removeProduct = (index: number) => {
-    if (confirm("Are you sure you want to remove this product?")) {
+  const removeProduct = async (index: number) => {
+    const target = products[index];
+    const confirmed = await confirmDelete({
+      title: target?.title ? `Remove “${target.title}”?` : "Remove this product?",
+      message: "This product card and its feature pillars will be removed from the list.",
+      warning: "Save the Products page afterwards to publish this removal to the live website.",
+      confirmLabel: "Remove",
+    });
+    if (confirmed) {
       const newList = products.filter((_, i) => i !== index);
       onChange(newList);
       if (expandedIndex === index) setExpandedIndex(null);
