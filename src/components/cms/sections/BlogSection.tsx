@@ -6,7 +6,7 @@ import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
 import { SectionHeader } from "@/components/SectionHeader";
 import { TextAreaField } from "@/components/TextAreaField";
-import { uploadFiles } from "@/lib/uploadHelpers";
+import { hasInlineImages, uploadFiles, uploadInlineImages } from "@/lib/uploadHelpers";
 import { fetchWithCache } from "@/lib/apiCache";
 import { RichTextEditor } from "@/components/RichTextEditor";
 
@@ -155,13 +155,26 @@ export function BlogSection({
     const toastId = toast.loading("Saving...");
     try {
       const uploadedUrls = await uploadFiles(blogImages);
+      // Images inside the posts are only uploaded now, on save (see uploadInlineImages)
+      if (formData.blogs.some((item) => hasInlineImages(item.contentHtml ?? ""))) {
+        toast.loading("Uploading images in the posts…", { id: toastId });
+      }
+      const contents = await Promise.all(
+        formData.blogs.map((item) => uploadInlineImages(item.contentHtml ?? "")),
+      );
       const payload = {
         ...formData,
         blogs: formData.blogs.map((item, idx) => ({
           ...item,
           image: uploadedUrls[idx] || undefined,
+          contentHtml: contents[idx],
         })),
       };
+      // The editors now point at the uploaded URLs, so saving again won't upload twice
+      setFormData((prev) => ({
+        ...prev,
+        blogs: prev.blogs.map((item, idx) => ({ ...item, contentHtml: contents[idx] ?? item.contentHtml })),
+      }));
 
       const body = sectionId
         ? { id: sectionId, content: payload }

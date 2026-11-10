@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import pg from "pg";
 import { createClient } from "@supabase/supabase-js";
+import { deleteFromCloudinary, isOwnCloudinaryUrl } from "./cloudinary";
 
 const globalForPrisma = globalThis as unknown as {
   prisma: any;
@@ -23,31 +24,39 @@ function extractFilePath(publicUrl: string): string | null {
   }
 }
 
-async function deleteFromSupabase(url: string) {
+/** Deletes a file this CMS stored: on Cloudinary (current) or Supabase Storage (older uploads). */
+async function deleteStoredFile(url: string) {
+  if (isOwnCloudinaryUrl(url)) return deleteFromCloudinary(url);
   const path = extractFilePath(url);
   if (!path) return;
   const { error } = await supabase.storage.from(BUCKET).remove([path]);
   if (error) {
-    console.warn("Prisma Hook: Failed to delete old file:", error.message);
+    console.warn("[cleanup] Failed to delete old file:", error.message);
   } else {
-    console.log(`Prisma Hook: Successfully deleted orphaned file: ${path}`);
+    console.log(`[cleanup] Deleted unused file: ${path}`);
   }
 }
 
-function findSupabaseUrls(obj: unknown): string[] {
+/** Every stored-file URL anywhere inside a record (fields, JSON content, arrays, rich-text HTML). */
+function findStoredUrls(obj: unknown): string[] {
   const urls: string[] = [];
   if (typeof obj === "string") {
-    if (obj.includes(`/object/public/${BUCKET}/`)) {
+    if (obj.includes(`/object/public/${BUCKET}/`) || isOwnCloudinaryUrl(obj)) {
       urls.push(obj);
+    } else if (obj.includes("res.cloudinary.com/")) {
+      // Rich text (e.g. a blog body): pick out the Cloudinary images inside the HTML
+      for (const match of obj.matchAll(/https:\/\/res\.cloudinary\.com\/[^\s"'<>)]+/g)) {
+        if (isOwnCloudinaryUrl(match[0])) urls.push(match[0]);
+      }
     }
   } else if (Array.isArray(obj)) {
     for (const item of obj) {
-      urls.push(...findSupabaseUrls(item));
+      urls.push(...findStoredUrls(item));
     }
-  } else if (obj && typeof obj === "object") {
+  } else if (obj && typeof obj === "object" && !(obj instanceof Date)) {
     const record = obj as Record<string, unknown>;
     for (const key of Object.keys(record)) {
-      urls.push(...findSupabaseUrls(record[key]));
+      urls.push(...findStoredUrls(record[key]));
     }
   }
   return urls;
@@ -63,260 +72,94 @@ function createPrismaClient() {
     log: ["query"],
   });
 
+  // ---------- Cleanup of replaced / removed files ----------
+  //
+  // After a save or delete succeeds, every file URL the old record had that the new one no
+  // longer has is deleted from storage, unless some other record still uses it (the same
+  // image can be shared, e.g. the logo is in the global footer and the old home footer).
+
+  const likePattern = (url: string) => `%${url.replace(/[\\%_]/g, (c) => `\\${c}`)}%`;
+
+  /** True if any row in the database still refers to this file. Errs on the side of "yes". */
+  async function isStillUsed(url: string): Promise<boolean> {
+    try {
+      const rows = await rawPrisma.$queryRawUnsafe<{ used: boolean }[]>(
+        `SELECT EXISTS (
+           SELECT 1 FROM "Section" WHERE content::text LIKE $1
+           UNION ALL SELECT 1 FROM "Page"
+             WHERE concat_ws(' ', "featuredImage", "ogImage", content) LIKE $1
+           UNION ALL SELECT 1 FROM "GlobalConfig"
+             WHERE concat_ws(' ', favicon, footer::text, "socialLinks"::text) LIKE $1
+           UNION ALL SELECT 1 FROM "Banner" WHERE "imageUrl" LIKE $1
+           UNION ALL SELECT 1 FROM "Product" WHERE array_to_string(images, ' ') LIKE $1
+           UNION ALL SELECT 1 FROM "User" WHERE image LIKE $1
+         ) AS used`,
+        likePattern(url),
+      );
+      return rows[0]?.used !== false;
+    } catch (error) {
+      console.warn("[cleanup] Could not check whether a file is still used; keeping it:", error);
+      return true;
+    }
+  }
+
+  async function deleteIfUnused(urls: Iterable<string>) {
+    for (const url of new Set(urls)) {
+      if (!(await isStillUsed(url))) await deleteStoredFile(url);
+    }
+  }
+
+  /** Files the old record(s) had that the new record(s) no longer have. */
+  async function cleanupReplaced(before: unknown, after: unknown) {
+    const kept = new Set(findStoredUrls(after));
+    await deleteIfUnused(findStoredUrls(before).filter((url) => !kept.has(url)));
+  }
+
+  /* eslint-disable @typescript-eslint/no-explicit-any -- Prisma's query-extension types don't generalise across models */
+  // update/upsert/delete hooks for a model: read the old row, run the query, then clean up.
+  // `include` adds related rows whose files go away with the record (a page's sections).
+  function cleanupHooks<Model extends { findUnique: any; findMany: any }>(
+    model: Model,
+    include?: Record<string, unknown>,
+  ) {
+    return {
+      async update({ args, query }: any) {
+        const before = await model.findUnique({ where: args.where });
+        const result = await query(args);
+        await cleanupReplaced(before, result);
+        return result;
+      },
+      async upsert({ args, query }: any) {
+        const before = await model.findUnique({ where: args.where });
+        const result = await query(args);
+        await cleanupReplaced(before, result);
+        return result;
+      },
+      async delete({ args, query }: any) {
+        const before = await model.findUnique({ where: args.where, ...(include && { include }) });
+        const result = await query(args);
+        await cleanupReplaced(before, null);
+        return result;
+      },
+      async deleteMany({ args, query }: any) {
+        const before = await model.findMany({ where: args?.where, ...(include && { include }) });
+        const result = await query(args);
+        await cleanupReplaced(before, null);
+        return result;
+      },
+    };
+  }
+
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+
   return rawPrisma.$extends({
     query: {
-      page: {
-        async update({ args, query }) {
-          const oldPage = await rawPrisma.page.findUnique({
-            where: args.where,
-            select: { featuredImage: true, ogImage: true },
-          });
-
-          const result = await query(args);
-
-          if (oldPage) {
-            const newFeatured = (result as { featuredImage?: string | null }).featuredImage;
-            const oldFeatured = oldPage.featuredImage;
-            if (oldFeatured && oldFeatured !== newFeatured) {
-              await deleteFromSupabase(oldFeatured);
-            }
-
-            const newOg = (result as { ogImage?: string | null }).ogImage;
-            const oldOg = oldPage.ogImage;
-            if (oldOg && oldOg !== newOg) {
-              await deleteFromSupabase(oldOg);
-            }
-          }
-          return result;
-        },
-        async upsert({ args, query }) {
-          const oldPage = await rawPrisma.page.findUnique({
-            where: args.where,
-            select: { featuredImage: true, ogImage: true },
-          });
-
-          const result = await query(args);
-
-          if (oldPage) {
-            const newFeatured = (result as { featuredImage?: string | null }).featuredImage;
-            const oldFeatured = oldPage.featuredImage;
-            if (oldFeatured && oldFeatured !== newFeatured) {
-              await deleteFromSupabase(oldFeatured);
-            }
-
-            const newOg = (result as { ogImage?: string | null }).ogImage;
-            const oldOg = oldPage.ogImage;
-            if (oldOg && oldOg !== newOg) {
-              await deleteFromSupabase(oldOg);
-            }
-          }
-          return result;
-        },
-        async delete({ args, query }) {
-          const oldPage = await rawPrisma.page.findUnique({
-            where: args.where,
-            select: { featuredImage: true, ogImage: true, sections: { select: { content: true } } },
-          });
-
-          const result = await query(args);
-
-          if (oldPage) {
-            if (oldPage.featuredImage) await deleteFromSupabase(oldPage.featuredImage);
-            if (oldPage.ogImage) await deleteFromSupabase(oldPage.ogImage);
-            if (oldPage.sections) {
-              for (const section of oldPage.sections) {
-                const urls = findSupabaseUrls(section.content);
-                for (const url of urls) {
-                  await deleteFromSupabase(url);
-                }
-              }
-            }
-          }
-          return result;
-        },
-      },
-      globalConfig: {
-        async update({ args, query }) {
-          const oldConfig = await rawPrisma.globalConfig.findUnique({
-            where: args.where,
-            select: { favicon: true },
-          });
-
-          const result = await query(args);
-
-          if (oldConfig) {
-            const newFavicon = (result as { favicon?: string | null }).favicon;
-            const oldFavicon = oldConfig.favicon;
-            if (oldFavicon && oldFavicon !== newFavicon) {
-              await deleteFromSupabase(oldFavicon);
-            }
-          }
-          return result;
-        },
-        async upsert({ args, query }) {
-          const oldConfig = await rawPrisma.globalConfig.findUnique({
-            where: args.where,
-            select: { favicon: true },
-          });
-
-          const result = await query(args);
-
-          if (oldConfig) {
-            const newFavicon = (result as { favicon?: string | null }).favicon;
-            const oldFavicon = oldConfig.favicon;
-            if (oldFavicon && oldFavicon !== newFavicon) {
-              await deleteFromSupabase(oldFavicon);
-            }
-          }
-          return result;
-        },
-      },
-      user: {
-        async update({ args, query }) {
-          const oldUser = await rawPrisma.user.findUnique({
-            where: args.where,
-            select: { image: true },
-          });
-
-          const result = await query(args);
-
-          if (oldUser) {
-            const newImg = (result as { image?: string | null }).image;
-            const oldImg = oldUser.image;
-            if (oldImg && oldImg !== newImg) {
-              await deleteFromSupabase(oldImg);
-            }
-          }
-          return result;
-        },
-      },
-      section: {
-        async update({ args, query }) {
-          const oldSection = await rawPrisma.section.findUnique({
-            where: args.where,
-            select: { content: true },
-          });
-
-          const result = await query(args);
-
-          if (oldSection && args.data.content !== undefined) {
-            const oldUrls = findSupabaseUrls(oldSection.content);
-            const newUrls = findSupabaseUrls((result as { content?: unknown }).content);
-            const orphanedUrls = oldUrls.filter((url) => !newUrls.includes(url));
-
-            for (const url of orphanedUrls) {
-              await deleteFromSupabase(url);
-            }
-          }
-          return result;
-        },
-        async upsert({ args, query }) {
-          const oldSection = await rawPrisma.section.findUnique({
-            where: args.where,
-            select: { content: true },
-          });
-
-          const result = await query(args);
-
-          if (
-            oldSection &&
-            (args.update.content !== undefined || args.create.content !== undefined)
-          ) {
-            const oldUrls = findSupabaseUrls(oldSection.content);
-            const newUrls = findSupabaseUrls((result as { content?: unknown }).content);
-            const orphanedUrls = oldUrls.filter((url) => !newUrls.includes(url));
-
-            for (const url of orphanedUrls) {
-              await deleteFromSupabase(url);
-            }
-          }
-          return result;
-        },
-        async delete({ args, query }) {
-          const oldSection = await rawPrisma.section.findUnique({
-            where: args.where,
-            select: { content: true },
-          });
-
-          const result = await query(args);
-
-          if (oldSection) {
-            const urls = findSupabaseUrls(oldSection.content);
-            for (const url of urls) {
-              await deleteFromSupabase(url);
-            }
-          }
-          return result;
-        },
-      },
-      banner: {
-        async update({ args, query }) {
-          const oldBanner = await rawPrisma.banner.findUnique({
-            where: args.where,
-            select: { imageUrl: true },
-          });
-
-          const result = await query(args);
-
-          if (oldBanner) {
-            const newImg = (result as { imageUrl?: string }).imageUrl;
-            const oldImg = oldBanner.imageUrl;
-            if (oldImg && oldImg !== newImg) {
-              await deleteFromSupabase(oldImg);
-            }
-          }
-          return result;
-        },
-        async delete({ args, query }) {
-          const oldBanner = await rawPrisma.banner.findUnique({
-            where: args.where,
-            select: { imageUrl: true },
-          });
-
-          const result = await query(args);
-
-          if (oldBanner && oldBanner.imageUrl) {
-            await deleteFromSupabase(oldBanner.imageUrl);
-          }
-          return result;
-        },
-      },
-      product: {
-        async update({ args, query }) {
-          const oldProduct = await rawPrisma.product.findUnique({
-            where: args.where,
-            select: { images: true },
-          });
-
-          const result = await query(args);
-
-          if (oldProduct && args.data.images !== undefined) {
-            const oldImages = oldProduct.images || [];
-            const newImages = (result as { images?: string[] }).images || [];
-            const orphanedImages = oldImages.filter((img) => !newImages.includes(img));
-
-            for (const img of orphanedImages) {
-              await deleteFromSupabase(img);
-            }
-          }
-          return result;
-        },
-        async delete({ args, query }) {
-          const oldProduct = await rawPrisma.product.findUnique({
-            where: args.where,
-            select: { images: true },
-          });
-
-          const result = await query(args);
-
-          if (oldProduct && oldProduct.images) {
-            for (const img of oldProduct.images) {
-              await deleteFromSupabase(img);
-            }
-          }
-          return result;
-        },
-      },
+      page: cleanupHooks(rawPrisma.page, { sections: { select: { content: true } } }),
+      section: cleanupHooks(rawPrisma.section),
+      globalConfig: cleanupHooks(rawPrisma.globalConfig),
+      banner: cleanupHooks(rawPrisma.banner),
+      product: cleanupHooks(rawPrisma.product),
+      user: cleanupHooks(rawPrisma.user),
     },
   });
 }

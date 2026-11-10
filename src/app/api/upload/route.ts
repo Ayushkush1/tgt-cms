@@ -1,73 +1,47 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
-import path from "path";
-import sharp from "sharp";
+import { compressUpload, UnsupportedUploadError } from "@/lib/compressUpload";
+import { uploadToCloudinary } from "@/lib/cloudinary";
 
+/**
+ * POST /api/upload (multipart form data, one or more files)
+ *
+ * Every file is compressed first (images → WebP, max 2000px; PDFs repacked), then
+ * uploaded to Cloudinary. Response: { success, files: [url, …], details: [...] }
+ */
 export async function POST(req: Request) {
   try {
     const formData = await req.formData();
-    const uploadedFiles: string[] = [];
+    const files = [...formData.values()].filter(
+      (value): value is File => typeof value === "object" && !!value && "arrayBuffer" in value,
+    );
 
-    for (const [, value] of formData.entries()) {
-      const file = value as File;
-      if (file && typeof file === "object" && file.name) {
-        const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.\-_]/g, "")}`;
-
-        let uploadBuffer: Buffer = buffer;
-        let mimeType = file.type;
-        let finalFileName = fileName;
-
-        // Automatically optimize images (excluding GIFs)
-        if (file.type.startsWith("image/") && !file.type.includes("gif")) {
-          try {
-            uploadBuffer = await sharp(buffer)
-              .resize({ width: 1920, withoutEnlargement: true })
-              .webp({ quality: 80 })
-              .toBuffer();
-
-            mimeType = "image/webp";
-            const ext = path.extname(fileName);
-            const baseName = fileName.slice(0, fileName.length - ext.length);
-            finalFileName = `${baseName}.webp`;
-          } catch (sharpError) {
-            console.error("Image compression failed, uploading original:", sharpError);
-          }
-        }
-
-        const { error } = await supabase.storage
-          .from("uploadsFiles")
-          .upload(finalFileName, uploadBuffer, {
-            contentType: mimeType,
-            cacheControl: "31536000",
-            upsert: false,
-          });
-
-        if (error) {
-          console.error("Supabase Storage Error:", error);
-          return NextResponse.json(
-            {
-              success: false,
-              error: `Supabase Storage Error: ${error.message}`,
-            },
-            { status: 500 },
-          );
-        }
-
-        const {
-          data: { publicUrl },
-        } = supabase.storage.from("uploadsFiles").getPublicUrl(finalFileName);
-        uploadedFiles.push(publicUrl);
-      }
+    if (files.length === 0) {
+      return NextResponse.json({ success: false, error: "No file received" }, { status: 400 });
     }
 
-    return NextResponse.json({ success: true, files: uploadedFiles });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    console.error("Critical Upload Error:", error);
+    const details = [];
+    for (const file of files) {
+      const compressed = await compressUpload(file);
+      const url = await uploadToCloudinary(compressed);
+      details.push({
+        name: file.name,
+        url,
+        originalKB: Math.round(compressed.originalBytes / 1024),
+        finalKB: Math.round(compressed.finalBytes / 1024),
+      });
+      console.log(
+        `[upload] ${file.name}: ${Math.round(compressed.originalBytes / 1024)}KB → ${Math.round(compressed.finalBytes / 1024)}KB`,
+      );
+    }
+
+    return NextResponse.json({ success: true, files: details.map((d) => d.url), details });
+  } catch (error) {
+    if (error instanceof UnsupportedUploadError) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 415 });
+    }
+    console.error("[upload] Failed:", error);
     return NextResponse.json(
-      { success: false, error: `Server Error: ${error.message}` },
+      { success: false, error: error instanceof Error ? error.message : "Upload failed" },
       { status: 500 },
     );
   }

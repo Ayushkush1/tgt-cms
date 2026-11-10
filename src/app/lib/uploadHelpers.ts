@@ -36,10 +36,10 @@ export async function deleteFileFromSupabase(publicUrl: string): Promise<void> {
  * Compresses an image file on the client side using HTML5 Canvas
  * and outputs a WebP file.
  */
-async function compressImageToWebP(file: File, maxWidth = 1920, quality = 0.8): Promise<File> {
+async function compressImageToWebP(file: File, maxWidth = 2000, quality = 0.8): Promise<File> {
   return new Promise((resolve) => {
-    // Only compress standard images (excluding GIFs)
-    if (!file.type.startsWith("image/") || file.type.includes("gif")) {
+    // Only compress raster images: GIFs would lose animation, SVGs would stop being vectors
+    if (!file.type.startsWith("image/") || file.type.includes("gif") || file.type.includes("svg")) {
       return resolve(file);
     }
 
@@ -92,7 +92,7 @@ async function compressImageToWebP(file: File, maxWidth = 1920, quality = 0.8): 
 }
 
 /**
- * Uploads new File objects to Supabase storage.
+ * Uploads new File objects through /api/upload (compressed, then stored on Cloudinary).
  *
  * @param files    Array of File objects (new upload) or existing string URLs / null (kept as-is).
  * @param oldUrls  Optional array of old public URLs to delete before uploading.
@@ -172,4 +172,47 @@ export async function uploadFiles(
     console.error("Upload error", err);
     throw err;
   }
+}
+
+// ---------- Images inside rich text (blog posts) ----------
+//
+// While editing, an inserted image lives inside the post as a compressed data: URL, so
+// nothing reaches Cloudinary unless the post is saved. On save, uploadInlineImages()
+// uploads each one and swaps it for its Cloudinary URL.
+
+const readAsDataUrl = (blob: Blob) =>
+  new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(blob);
+  });
+
+/** A picked image, compressed to WebP in the browser, as a data: URL for the editor. */
+export async function imageFileToDataUrl(file: File): Promise<string> {
+  return readAsDataUrl(await compressImageToWebP(file));
+}
+
+const INLINE_IMAGE = /<img\b[^>]*?\bsrc=(["'])(data:image\/[a-z0-9.+-]+;base64,[^"']+)\1/gi;
+
+/** True if the HTML has images that haven't been uploaded yet. */
+export const hasInlineImages = (html: string) => new RegExp(INLINE_IMAGE.source, "i").test(html);
+
+/**
+ * Uploads every data: URL image in the HTML (compressed, then stored on Cloudinary) and
+ * returns the HTML pointing at the uploaded URLs. HTML without such images is returned as is.
+ */
+export async function uploadInlineImages(html: string): Promise<string> {
+  const dataUrls = [...new Set([...html.matchAll(INLINE_IMAGE)].map((match) => match[2]))];
+  if (dataUrls.length === 0) return html;
+
+  let result = html;
+  for (const [i, dataUrl] of dataUrls.entries()) {
+    const blob = await (await fetch(dataUrl)).blob();
+    const ext = blob.type.split("/")[1]?.replace("svg+xml", "svg") ?? "png";
+    const [url] = await uploadFiles([new File([blob], `blog-image-${i + 1}.${ext}`, { type: blob.type })]);
+    if (!url) throw new Error("Image upload failed");
+    result = result.split(dataUrl).join(url);
+  }
+  return result;
 }
