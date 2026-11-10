@@ -58,9 +58,7 @@ export function OurPartnersSection({
     }
   }, [initialData, saveUrl]);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -111,7 +109,7 @@ export function OurPartnersSection({
 
   return (
     <section>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 flex flex-col gap-6 transition-all">
+      <div className="flex flex-col gap-6 rounded-2xl border border-gray-100 bg-white p-8 shadow-sm transition-all">
         <SectionHeader
           title="Our Partners Section"
           description="Manage the marquee of partner logos and header text."
@@ -124,10 +122,8 @@ export function OurPartnersSection({
           }`}
         >
           <div className="overflow-hidden">
-            <div className="grid grid-cols-2 gap-6 pt-4 animate-in fade-in duration-500">
-              <h1 className="text-base font-bold text-gray-500 col-span-2">
-                Header Section
-              </h1>
+            <div className="animate-in fade-in grid grid-cols-2 gap-6 pt-4 duration-500">
+              <h1 className="col-span-2 text-base font-bold text-gray-500">Header Section</h1>
               <InputField
                 label="Upper Tag"
                 name="upperTag"
@@ -153,10 +149,8 @@ export function OurPartnersSection({
                 placeholder="e.g. Industry Leaders"
               />
 
-              <h1 className="text-base font-bold text-gray-500 col-span-2 mt-4">
-                Partner Logos
-              </h1>
-              <div className="col-span-2 border border-gray-100 rounded-2xl p-6 bg-gray-50/50">
+              <h1 className="col-span-2 mt-4 text-base font-bold text-gray-500">Partner Logos</h1>
+              <div className="col-span-2 rounded-2xl border border-gray-100 bg-gray-50/50 p-6">
                 <ImageUploadField
                   label="Upload Partner Logos"
                   images={images}
@@ -164,18 +158,13 @@ export function OurPartnersSection({
                   maxImages={150}
                   containerClassName="col-span-2"
                 />
-                <p className="text-xs text-gray-500 mt-4 mx-2">
-                  Upload SVG or transparent PNG logos for the infinite scrolling
-                  marquee.
+                <p className="mx-2 mt-4 text-xs text-gray-500">
+                  Upload SVG or transparent PNG logos for the infinite scrolling marquee.
                 </p>
               </div>
 
               <div className="col-span-2 flex justify-end pt-4">
-                <SaveButton
-                  onClick={handleSave}
-                  disabled={isSaving}
-                  className="w-40"
-                />
+                <SaveButton onClick={handleSave} disabled={isSaving} className="w-40" />
               </div>
             </div>
           </div>

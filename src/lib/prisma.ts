@@ -133,7 +133,7 @@ function createPrismaClient() {
             }
           }
           return result;
-        }
+        },
       },
       globalConfig: {
         async update({ args, query }) {
@@ -169,7 +169,7 @@ function createPrismaClient() {
             }
           }
           return result;
-        }
+        },
       },
       user: {
         async update({ args, query }) {
@@ -188,7 +188,7 @@ function createPrismaClient() {
             }
           }
           return result;
-        }
+        },
       },
       section: {
         async update({ args, query }) {
@@ -202,7 +202,7 @@ function createPrismaClient() {
           if (oldSection && args.data.content !== undefined) {
             const oldUrls = findSupabaseUrls(oldSection.content);
             const newUrls = findSupabaseUrls((result as { content?: unknown }).content);
-            const orphanedUrls = oldUrls.filter(url => !newUrls.includes(url));
+            const orphanedUrls = oldUrls.filter((url) => !newUrls.includes(url));
 
             for (const url of orphanedUrls) {
               await deleteFromSupabase(url);
@@ -218,10 +218,13 @@ function createPrismaClient() {
 
           const result = await query(args);
 
-          if (oldSection && (args.update.content !== undefined || args.create.content !== undefined)) {
+          if (
+            oldSection &&
+            (args.update.content !== undefined || args.create.content !== undefined)
+          ) {
             const oldUrls = findSupabaseUrls(oldSection.content);
             const newUrls = findSupabaseUrls((result as { content?: unknown }).content);
-            const orphanedUrls = oldUrls.filter(url => !newUrls.includes(url));
+            const orphanedUrls = oldUrls.filter((url) => !newUrls.includes(url));
 
             for (const url of orphanedUrls) {
               await deleteFromSupabase(url);
@@ -244,7 +247,7 @@ function createPrismaClient() {
             }
           }
           return result;
-        }
+        },
       },
       banner: {
         async update({ args, query }) {
@@ -276,7 +279,7 @@ function createPrismaClient() {
             await deleteFromSupabase(oldBanner.imageUrl);
           }
           return result;
-        }
+        },
       },
       product: {
         async update({ args, query }) {
@@ -290,7 +293,7 @@ function createPrismaClient() {
           if (oldProduct && args.data.images !== undefined) {
             const oldImages = oldProduct.images || [];
             const newImages = (result as { images?: string[] }).images || [];
-            const orphanedImages = oldImages.filter(img => !newImages.includes(img));
+            const orphanedImages = oldImages.filter((img) => !newImages.includes(img));
 
             for (const img of orphanedImages) {
               await deleteFromSupabase(img);
@@ -312,12 +315,13 @@ function createPrismaClient() {
             }
           }
           return result;
-        }
-      }
-    }
+        },
+      },
+    },
   });
 }
 
-export const prisma = (globalForPrisma.prisma as PrismaClient) ?? (createPrismaClient() as unknown as PrismaClient);
+export const prisma =
+  (globalForPrisma.prisma as PrismaClient) ?? (createPrismaClient() as unknown as PrismaClient);
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;

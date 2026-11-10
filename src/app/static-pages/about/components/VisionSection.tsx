@@ -39,8 +39,7 @@ export default function VisionSection() {
             ...prev,
             ...data,
             block1Checklist:
-              Array.isArray(data.block1Checklist) &&
-              data.block1Checklist.length > 0
+              Array.isArray(data.block1Checklist) && data.block1Checklist.length > 0
                 ? data.block1Checklist
                 : [""],
           }));
@@ -49,9 +48,7 @@ export default function VisionSection() {
       .catch(console.error);
   }, []);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -93,7 +90,7 @@ export default function VisionSection() {
 
   return (
     <section>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4 transition-all">
+      <div className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all">
         <SectionHeader
           title="Vision Section"
           description="Manage the content displayed on the Vision Section."
@@ -108,9 +105,7 @@ export default function VisionSection() {
         >
           <div className="overflow-hidden">
             <div className="grid grid-cols-2 gap-4 pt-2">
-              <h1 className="text-base font-bold text-gray-500 col-span-2 mt-2">
-                Section Header
-              </h1>
+              <h1 className="col-span-2 mt-2 text-base font-bold text-gray-500">Section Header</h1>
               <InputField
                 label="Eyebrow Text (Top Label)"
                 name="topLabel"
@@ -159,7 +154,7 @@ export default function VisionSection() {
                 rows={3}
               />
 
-              <h1 className="text-base font-bold text-gray-500 col-span-2 mt-6">
+              <h1 className="col-span-2 mt-6 text-base font-bold text-gray-500">
                 Block 1: Your Partner
               </h1>
               <InputField
@@ -182,9 +177,7 @@ export default function VisionSection() {
 
               {/* Dynamic Checklist Items */}
               <div className="col-span-2 mx-2 flex flex-col gap-3">
-                <label className="text-sm font-medium text-gray-700">
-                  Checklist Items
-                </label>
+                <label className="text-sm font-medium text-gray-700">Checklist Items</label>
 
                 <div className="grid grid-cols-2 gap-4">
                   {[0, 1, 2, 3].map((i) => (
@@ -199,7 +192,7 @@ export default function VisionSection() {
                 </div>
               </div>
 
-              <h1 className="text-base font-bold text-gray-500 col-span-2 mt-6">
+              <h1 className="col-span-2 mt-6 text-base font-bold text-gray-500">
                 Block 2: Delivering Smart
               </h1>
               <InputField

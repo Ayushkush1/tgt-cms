@@ -5,18 +5,9 @@ import { PageHeader } from "@/components/PageHeader";
 import { SaveButton } from "@/components/SaveButton";
 import toast from "react-hot-toast";
 import { uploadFiles } from "@/app/lib/uploadHelpers";
-import {
-  CeoMessageCMS,
-  CeoMessageData,
-} from "./components/CeoMessageCMS";
-import {
-  CeoPhilosophyCMS,
-  CeoPhilosophyData,
-} from "./components/CeoPhilosophyCMS";
-import {
-  CeoTimelineCMS,
-  CeoTimelineData,
-} from "./components/CeoTimelineCMS";
+import { CeoMessageCMS, CeoMessageData } from "./components/CeoMessageCMS";
+import { CeoPhilosophyCMS, CeoPhilosophyData } from "./components/CeoPhilosophyCMS";
+import { CeoTimelineCMS, CeoTimelineData } from "./components/CeoTimelineCMS";
 
 interface PageData {
   message: CeoMessageData;
@@ -149,27 +140,23 @@ export default function CeoCMSPage() {
   };
 
   return (
-    <div className="flex flex-col gap-6 max-w-6xl mx-auto pb-20">
-      <div className="flex justify-between items-end">
+    <div className="mx-auto flex max-w-6xl flex-col gap-6 pb-20">
+      <div className="flex items-end justify-between">
         <PageHeader
           title="CEO Message & Philosophy Management"
           description="Manage the CEO greeting statement, core philosophies, and journey milestone timeline."
         />
         <div className="mb-2">
-          <SaveButton
-            onClick={handleSave}
-            disabled={isSaving}
-            className="w-auto px-10"
-          />
+          <SaveButton onClick={handleSave} disabled={isSaving} className="w-auto px-10" />
         </div>
       </div>
 
       {isLoading ? (
-        <div className="py-20 text-center text-gray-400 font-medium animate-pulse">
+        <div className="animate-pulse py-20 text-center font-medium text-gray-400">
           Loading CEO configuration...
         </div>
       ) : (
-        <div className="flex flex-col gap-8 animate-in fade-in duration-500">
+        <div className="animate-in fade-in flex flex-col gap-8 duration-500">
           <CeoMessageCMS
             message={formData.message}
             onMessageChange={(message) => setFormData({ ...formData, message })}

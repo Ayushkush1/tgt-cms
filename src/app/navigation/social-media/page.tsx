@@ -24,9 +24,9 @@ export default function SocialLinksPage() {
           href={row.url}
           target="_blank"
           rel="noreferrer"
-          className="flex items-center gap-2 text-brand-navy hover:underline"
+          className="text-brand-navy flex items-center gap-2 hover:underline"
         >
-          <LinkIcon className="w-3 h-3" />
+          <LinkIcon className="h-3 w-3" />
           {row.url}
         </a>
       ),
@@ -35,30 +35,22 @@ export default function SocialLinksPage() {
       header: "Actions",
       accessorKey: () => (
         <div className="flex gap-3">
-          <button className="text-brand-navy hover:underline text-sm font-medium">
-            Edit
-          </button>
-          <button className="text-red-600 hover:underline text-sm font-medium">
-            Delete
-          </button>
+          <button className="text-brand-navy text-sm font-medium hover:underline">Edit</button>
+          <button className="text-sm font-medium text-red-600 hover:underline">Delete</button>
         </div>
       ),
     },
   ];
 
   return (
-    <section className=" flex flex-col gap-6 ">
+    <section className="flex flex-col gap-6">
       <PageHeader
         title="Social Media Links"
         description="Manage the social connectivity icons displayed in the footer."
         action={{ label: "Add Social Link" }}
       />
 
-      <DataTable
-        data={dummySocials}
-        columns={columns}
-        keyExtractor={(item) => item.id}
-      />
+      <DataTable data={dummySocials} columns={columns} keyExtractor={(item) => item.id} />
     </section>
   );
 }

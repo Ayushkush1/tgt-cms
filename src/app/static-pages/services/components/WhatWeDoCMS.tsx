@@ -47,9 +47,7 @@ export function WhatWeDoCMS({
     field: keyof WhatWeDoCMSItem,
     value: WhatWeDoCMSItem[keyof WhatWeDoCMSItem],
   ) => {
-    const updated = services.map((s, i) =>
-      i === index ? { ...s, [field]: value } : s,
-    );
+    const updated = services.map((s, i) => (i === index ? { ...s, [field]: value } : s));
     onChange(updated);
   };
 
@@ -66,7 +64,7 @@ export function WhatWeDoCMS({
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4">
+    <div className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
       <SectionHeader
         title="What We Do / Services Section"
         description="Add, remove, or edit the service cards displayed in the accordion/grid."
@@ -79,20 +77,20 @@ export function WhatWeDoCMS({
           {services.map((service: WhatWeDoCMSItem, idx: number) => (
             <div
               key={idx}
-              className="group p-6 border border-gray-200 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all grid grid-cols-2 gap-x-6 gap-y-4 relative"
+              className="group relative grid grid-cols-2 gap-x-6 gap-y-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:shadow-md"
             >
-              <div className="col-span-2 flex justify-between items-center bg-gray-50 -mx-6 -mt-6 p-4 rounded-t-2xl border-b border-gray-100 mb-2">
+              <div className="col-span-2 -mx-6 -mt-6 mb-2 flex items-center justify-between rounded-t-2xl border-b border-gray-100 bg-gray-50 p-4">
                 <div className="flex items-center gap-3">
-                  <span className="flex items-center justify-center w-8 h-8 bg-gray-200 text-gray-700 rounded-full font-bold text-sm">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-sm font-bold text-gray-700">
                     {service.number}
                   </span>
                   <h3 className="font-bold text-gray-700">Service Card</h3>
                 </div>
                 <button
                   onClick={() => removeService(idx)}
-                  className="p-1 px-3 bg-red-50 text-red-500 rounded-lg text-xs flex items-center gap-1.5 hover:bg-red-100 transition-colors font-semibold"
+                  className="flex items-center gap-1.5 rounded-lg bg-red-50 p-1 px-3 text-xs font-semibold text-red-500 transition-colors hover:bg-red-100"
                 >
-                  <Trash2 className="w-3.5 h-3.5" /> Remove Service
+                  <Trash2 className="h-3.5 w-3.5" /> Remove Service
                 </button>
               </div>
 
@@ -114,9 +112,7 @@ export function WhatWeDoCMS({
               <TextAreaField
                 label="Description"
                 value={service.description}
-                onChange={(e) =>
-                  handleUpdate(idx, "description", e.target.value)
-                }
+                onChange={(e) => handleUpdate(idx, "description", e.target.value)}
                 containerClassName="col-span-2"
                 placeholder="Briefly describe the service and its benefits"
                 rows={3}
@@ -126,13 +122,11 @@ export function WhatWeDoCMS({
               <div className="col-span-1">
                 <InputField
                   label="Tags"
-                  value={
-                    Array.isArray(service.tags) ? service.tags.join(",") : ""
-                  }
+                  value={Array.isArray(service.tags) ? service.tags.join(",") : ""}
                   onChange={(e) => handleTagsChange(idx, e.target.value)}
                   placeholder="e.g., Tag 1, Tag 2, Tag 3"
                 />
-                <p className="text-[11px] text-gray-400 mt-1 ml-1 italic">
+                <p className="mt-1 ml-1 text-[11px] text-gray-400 italic">
                   Separate tags with commas
                 </p>
               </div>
@@ -150,9 +144,9 @@ export function WhatWeDoCMS({
 
           <button
             onClick={addService}
-            className="w-full py-4 border-2 border-dashed border-gray-200 rounded-2xl text-gray-500 font-bold hover:bg-gray-50 hover:border-gray-300 flex items-center justify-center gap-2 transition-all group"
+            className="group flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-gray-200 py-4 font-bold text-gray-500 transition-all hover:border-gray-300 hover:bg-gray-50"
           >
-            <Plus className="w-5 h-5 group-hover:scale-110 transition-transform" />
+            <Plus className="h-5 w-5 transition-transform group-hover:scale-110" />
             Add New Service Card
           </button>
         </div>

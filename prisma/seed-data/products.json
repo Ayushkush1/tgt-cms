@@ -1,0 +1,16 @@
+[
+  {
+    "id": "31a0d495-3b8f-4087-8bce-e1c968498aed",
+    "title": "This is banana",
+    "slug": "this-is-banana",
+    "shortDesc": "df",
+    "description": "dfb",
+    "price": 4,
+    "images": [],
+    "categoryId": "1a31e8c9-a0c5-486b-81a9-36614f6cdbcc",
+    "isActive": true,
+    "order": 0,
+    "createdAt": "2026-07-09T09:22:43.491Z",
+    "updatedAt": "2026-07-09T09:22:43.491Z"
+  }
+]

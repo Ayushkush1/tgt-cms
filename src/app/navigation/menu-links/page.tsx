@@ -20,9 +20,7 @@ interface NavLink {
 export default function NavLinksPage() {
   const [links, setLinks] = useState<NavLink[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [expandedParents, setExpandedParents] = useState<
-    Record<string, boolean>
-  >({});
+  const [expandedParents, setExpandedParents] = useState<Record<string, boolean>>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingLink, setEditingLink] = useState<NavLink | null>(null);
   const [formData, setFormData] = useState<Partial<NavLink>>({
@@ -96,9 +94,7 @@ export default function NavLinksPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const url = editingLink
-        ? `/api/nav-links/${editingLink.id}`
-        : "/api/nav-links";
+      const url = editingLink ? `/api/nav-links/${editingLink.id}` : "/api/nav-links";
       const method = editingLink ? "PUT" : "POST";
       const res = await fetch(url, {
         method,
@@ -107,11 +103,7 @@ export default function NavLinksPage() {
       });
 
       if (res.ok) {
-        toast.success(
-          editingLink
-            ? "Link updated successfully"
-            : "Link created successfully",
-        );
+        toast.success(editingLink ? "Link updated successfully" : "Link created successfully");
         setIsModalOpen(false);
         fetchLinks();
       } else {
@@ -137,7 +129,7 @@ export default function NavLinksPage() {
     .sort((a: NavLink, b: NavLink) => a.order - b.order);
 
   return (
-    <section className=" flex flex-col gap-6 ">
+    <section className="flex flex-col gap-6">
       <PageHeader
         title="Navigation Links"
         description="Manage the links that appear in the main website navigation bar."
@@ -145,8 +137,8 @@ export default function NavLinksPage() {
       />
 
       {isLoading ? (
-        <div className="py-20 flex justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#D4AF37]"></div>
+        <div className="flex justify-center py-20">
+          <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-[#D4AF37]"></div>
         </div>
       ) : (
         <div className="overflow-hidden rounded-[2.5rem] bg-white shadow-sm ring-1 ring-gray-100/50">
@@ -154,19 +146,19 @@ export default function NavLinksPage() {
             <table className="min-w-full divide-y divide-gray-100/50">
               <thead>
                 <tr>
-                  <th className="px-6 py-5 text-left text-[11px] font-bold text-gray-400 uppercase tracking-wider w-[80px]">
+                  <th className="w-[80px] px-6 py-5 text-left text-[11px] font-bold tracking-wider text-gray-400 uppercase">
                     Order
                   </th>
-                  <th className="px-6 py-5 text-left text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+                  <th className="px-6 py-5 text-left text-[11px] font-bold tracking-wider text-gray-400 uppercase">
                     Label / Title
                   </th>
-                  <th className="px-6 py-5 text-left text-[11px] font-bold text-gray-400 uppercase tracking-wider w-[120px]">
+                  <th className="w-[120px] px-6 py-5 text-left text-[11px] font-bold tracking-wider text-gray-400 uppercase">
                     Type
                   </th>
-                  <th className="px-6 py-5 text-left text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+                  <th className="px-6 py-5 text-left text-[11px] font-bold tracking-wider text-gray-400 uppercase">
                     URL
                   </th>
-                  <th className="px-6 py-5 w-[80px]"></th>
+                  <th className="w-[80px] px-6 py-5"></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
@@ -179,41 +171,37 @@ export default function NavLinksPage() {
 
                   return (
                     <React.Fragment key={root.id}>
-                      <tr className="hover:bg-[#fafafb] transition-colors group">
+                      <tr className="group transition-colors hover:bg-[#fafafb]">
                         <td className="px-6 py-5 text-sm font-medium text-gray-500">
                           {root.order}
                         </td>
                         <td className="px-6 py-5">
                           <div
                             className={`flex items-center gap-2 ${hasChildren ? "cursor-pointer select-none" : ""}`}
-                            onClick={() =>
-                              hasChildren && toggleParent(root.label)
-                            }
+                            onClick={() => hasChildren && toggleParent(root.label)}
                           >
                             {hasChildren ? (
                               isExpanded ? (
-                                <ChevronDown className="w-4 h-4 text-[#D4AF37] shrink-0" />
+                                <ChevronDown className="h-4 w-4 shrink-0 text-[#D4AF37]" />
                               ) : (
-                                <ChevronRight className="w-4 h-4 text-gray-400 shrink-0" />
+                                <ChevronRight className="h-4 w-4 shrink-0 text-gray-400" />
                               )
                             ) : (
-                              <div className="w-4 h-4 shrink-0" />
+                              <div className="h-4 w-4 shrink-0" />
                             )}
                             <div className="flex flex-col">
-                              <span className="font-bold text-[#0B0F29] text-[15px]">
+                              <span className="text-[15px] font-bold text-[#0B0F29]">
                                 {root.label}
                                 {root.isStatic && (
-                                  <span className="ml-2 px-1.5 py-0.5 rounded-md bg-gray-50 text-[9px] font-bold text-gray-400 uppercase border border-gray-100">
+                                  <span className="ml-2 rounded-md border border-gray-100 bg-gray-50 px-1.5 py-0.5 text-[9px] font-bold text-gray-400 uppercase">
                                     Static
                                   </span>
                                 )}
                               </span>
                               {(root.title || root.description) && (
-                                <span className="text-[11px] text-gray-400 mt-0.5">
+                                <span className="mt-0.5 text-[11px] text-gray-400">
                                   {root.title && (
-                                    <span className="font-bold mr-1">
-                                      {root.title}:
-                                    </span>
+                                    <span className="mr-1 font-bold">{root.title}:</span>
                                   )}
                                   {root.description}
                                 </span>
@@ -223,7 +211,7 @@ export default function NavLinksPage() {
                         </td>
                         <td className="px-6 py-5">
                           <span
-                            className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                            className={`rounded-full px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase ${
                               root.type === "Main Link"
                                 ? "bg-blue-50 text-[#D4AF37]"
                                 : root.type === "Dropdown"
@@ -234,22 +222,20 @@ export default function NavLinksPage() {
                             {root.type}
                           </span>
                         </td>
-                        <td className="px-6 py-5 text-sm font-mono text-gray-400">
-                          {root.url}
-                        </td>
+                        <td className="px-6 py-5 font-mono text-sm text-gray-400">{root.url}</td>
                         <td className="px-6 py-5">
-                          <div className="flex items-center gap-3 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="flex items-center justify-end gap-3 opacity-0 transition-opacity group-hover:opacity-100">
                             <button
                               onClick={() => handleEditLink(root)}
-                              className="p-1 hover:bg-gray-100 rounded text-gray-400 hover:text-blue-500 transition-colors"
+                              className="rounded p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-blue-500"
                             >
-                              <Pencil className="w-4 h-4" />
+                              <Pencil className="h-4 w-4" />
                             </button>
                             <button
                               onClick={() => handleDeleteLink(root.id)}
-                              className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500 transition-colors"
+                              className="rounded p-1 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500"
                             >
-                              <Trash2 className="w-4 h-4" />
+                              <Trash2 className="h-4 w-4" />
                             </button>
                           </div>
                         </td>
@@ -258,19 +244,19 @@ export default function NavLinksPage() {
                         children.map((child: NavLink) => (
                           <tr
                             key={child.id}
-                            className="bg-[#fcfdff]/50 hover:bg-[#f5f8ff] transition-colors group"
+                            className="group bg-[#fcfdff]/50 transition-colors hover:bg-[#f5f8ff]"
                           >
-                            <td className="px-6 py-4 text-sm font-medium text-gray-400 pl-12">
+                            <td className="px-6 py-4 pl-12 text-sm font-medium text-gray-400">
                               {child.order}
                             </td>
                             <td className="px-6 py-4">
-                              <div className="flex items-center gap-3 pl-6 border-l-2 border-gray-100/50">
-                                <span className="text-gray-300 text-lg">↳</span>
+                              <div className="flex items-center gap-3 border-l-2 border-gray-100/50 pl-6">
+                                <span className="text-lg text-gray-300">↳</span>
                                 <div className="flex flex-col">
-                                  <span className="font-medium text-gray-600 group-hover:text-[#0B0F29] transition-colors">
+                                  <span className="font-medium text-gray-600 transition-colors group-hover:text-[#0B0F29]">
                                     {child.label}
                                     {child.isStatic && (
-                                      <span className="ml-2 px-1.5 py-0.5 rounded-md bg-gray-50 text-[9px] font-bold text-gray-400 uppercase border border-gray-100">
+                                      <span className="ml-2 rounded-md border border-gray-100 bg-gray-50 px-1.5 py-0.5 text-[9px] font-bold text-gray-400 uppercase">
                                         Static
                                       </span>
                                     )}
@@ -278,9 +264,7 @@ export default function NavLinksPage() {
                                   {(child.title || child.description) && (
                                     <span className="text-[11px] text-gray-400">
                                       {child.title && (
-                                        <span className="font-bold mr-1">
-                                          {child.title}:
-                                        </span>
+                                        <span className="mr-1 font-bold">{child.title}:</span>
                                       )}
                                       {child.description}
                                     </span>
@@ -289,26 +273,26 @@ export default function NavLinksPage() {
                               </div>
                             </td>
                             <td className="px-6 py-4">
-                              <span className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-gray-50 text-gray-400 border border-gray-100">
+                              <span className="rounded-full border border-gray-100 bg-gray-50 px-2 py-0.5 text-[9px] font-bold tracking-widest text-gray-400 uppercase">
                                 {child.type}
                               </span>
                             </td>
-                            <td className="px-6 py-4 text-xs font-mono text-gray-400">
+                            <td className="px-6 py-4 font-mono text-xs text-gray-400">
                               {child.url}
                             </td>
                             <td className="px-6 py-4">
-                              <div className="flex items-center gap-3 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                              <div className="flex items-center justify-end gap-3 opacity-0 transition-opacity group-hover:opacity-100">
                                 <button
                                   onClick={() => handleEditLink(child)}
-                                  className="p-1 hover:bg-gray-100 rounded text-gray-400 hover:text-blue-500 transition-colors"
+                                  className="rounded p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-blue-500"
                                 >
-                                  <Pencil className="w-4 h-4" />
+                                  <Pencil className="h-4 w-4" />
                                 </button>
                                 <button
                                   onClick={() => handleDeleteLink(child.id)}
-                                  className="p-1 hover:bg-red-50 rounded text-gray-400 hover:text-red-500 transition-colors"
+                                  className="rounded p-1 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500"
                                 >
-                                  <Trash2 className="w-4 h-4" />
+                                  <Trash2 className="h-4 w-4" />
                                 </button>
                               </div>
                             </td>
@@ -324,64 +308,50 @@ export default function NavLinksPage() {
       )}
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-          <div className="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-xl animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex justify-between items-center p-6 border-b border-gray-100">
-              <h3 className="text-xl font-bold">
-                {editingLink ? "Edit Link" : "Add Link"}
-              </h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="animate-in fade-in zoom-in-95 w-full max-w-lg overflow-hidden rounded-3xl bg-white shadow-xl duration-200">
+            <div className="flex items-center justify-between border-b border-gray-100 p-6">
+              <h3 className="text-xl font-bold">{editingLink ? "Edit Link" : "Add Link"}</h3>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-gray-400 transition-colors hover:text-gray-600"
               >
-                <X className="w-5 h-5" />
+                <X className="h-5 w-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-4">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-6">
               <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1.5 flex flex-col">
-                  <label className="text-sm font-medium text-gray-700">
-                    Label
-                  </label>
+                <div className="flex flex-col space-y-1.5">
+                  <label className="text-sm font-medium text-gray-700">Label</label>
                   <input
                     type="text"
                     required
                     value={formData.label || ""}
-                    onChange={(e) =>
-                      setFormData({ ...formData, label: e.target.value })
-                    }
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent outline-none transition-all"
+                    onChange={(e) => setFormData({ ...formData, label: e.target.value })}
+                    className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 transition-all outline-none focus:border-transparent focus:ring-2 focus:ring-[#D4AF37]"
                   />
                 </div>
-                <div className="space-y-1.5 flex flex-col">
-                  <label className="text-sm font-medium text-gray-700">
-                    URL
-                  </label>
+                <div className="flex flex-col space-y-1.5">
+                  <label className="text-sm font-medium text-gray-700">URL</label>
                   <input
                     type="text"
                     required
                     value={formData.url || ""}
-                    onChange={(e) =>
-                      setFormData({ ...formData, url: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, url: e.target.value })}
                     disabled={formData.isStatic}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 transition-all outline-none focus:border-transparent focus:ring-2 focus:ring-[#D4AF37] disabled:cursor-not-allowed disabled:opacity-50"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1.5 flex flex-col">
-                  <label className="text-sm font-medium text-gray-700">
-                    Type
-                  </label>
+                <div className="flex flex-col space-y-1.5">
+                  <label className="text-sm font-medium text-gray-700">Type</label>
                   <select
                     value={formData.type || "Main Link"}
-                    onChange={(e) =>
-                      setFormData({ ...formData, type: e.target.value })
-                    }
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent outline-none transition-all"
+                    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                    className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 transition-all outline-none focus:border-transparent focus:ring-2 focus:ring-[#D4AF37]"
                   >
                     <option value="Main Link">Main Link</option>
                     <option value="Dropdown">Dropdown</option>
@@ -390,23 +360,18 @@ export default function NavLinksPage() {
                 </div>
                 {formData.type === "Dropdown" ||
                   (formData.type === "Sub-link" && (
-                    <div className="space-y-1.5 flex flex-col">
+                    <div className="flex flex-col space-y-1.5">
                       <label className="text-sm font-medium text-gray-700">
                         Parent (if dropdown item)
                       </label>
                       <select
                         value={formData.parent || "-"}
-                        onChange={(e) =>
-                          setFormData({ ...formData, parent: e.target.value })
-                        }
-                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent outline-none transition-all"
+                        onChange={(e) => setFormData({ ...formData, parent: e.target.value })}
+                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 transition-all outline-none focus:border-transparent focus:ring-2 focus:ring-[#D4AF37]"
                       >
                         <option value="-">-</option>
                         {links
-                          .filter(
-                            (l) =>
-                              l.type === "Dropdown" && l.id !== editingLink?.id,
-                          )
+                          .filter((l) => l.type === "Dropdown" && l.id !== editingLink?.id)
                           .map((l) => (
                             <option key={l.id} value={l.id}>
                               {l.label}
@@ -418,10 +383,8 @@ export default function NavLinksPage() {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1.5 flex flex-col">
-                  <label className="text-sm font-medium text-gray-700">
-                    Order
-                  </label>
+                <div className="flex flex-col space-y-1.5">
+                  <label className="text-sm font-medium text-gray-700">Order</label>
                   <input
                     type="number"
                     value={formData.order || 0}
@@ -431,43 +394,35 @@ export default function NavLinksPage() {
                         order: parseInt(e.target.value) || 0,
                       })
                     }
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent outline-none transition-all"
+                    className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 transition-all outline-none focus:border-transparent focus:ring-2 focus:ring-[#D4AF37]"
                   />
                 </div>
-                <div className="space-y-1.5 flex items-center mt-8">
-                  <label className="flex items-center gap-2 cursor-pointer">
+                <div className="mt-8 flex items-center space-y-1.5">
+                  <label className="flex cursor-pointer items-center gap-2">
                     <input
                       type="checkbox"
                       checked={formData.isStatic || false}
-                      onChange={(e) =>
-                        setFormData({ ...formData, isStatic: e.target.checked })
-                      }
-                      className="w-4 h-4 text-[#D4AF37] focus:ring-[#D4AF37] border-gray-300 rounded"
+                      onChange={(e) => setFormData({ ...formData, isStatic: e.target.checked })}
+                      className="h-4 w-4 rounded border-gray-300 text-[#D4AF37] focus:ring-[#D4AF37]"
                     />
-                    <span className="text-sm font-medium text-gray-700">
-                      Is Static Page
-                    </span>
+                    <span className="text-sm font-medium text-gray-700">Is Static Page</span>
                   </label>
                 </div>
               </div>
 
               {formData.type === "Dropdown" && (
                 <>
-                  <div className="space-y-1.5 flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">
-                      Title (Optional)
-                    </label>
+                  <div className="flex flex-col space-y-1.5">
+                    <label className="text-sm font-medium text-gray-700">Title (Optional)</label>
                     <input
                       type="text"
                       value={formData.title || ""}
-                      onChange={(e) =>
-                        setFormData({ ...formData, title: e.target.value })
-                      }
-                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent outline-none transition-all"
+                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 transition-all outline-none focus:border-transparent focus:ring-2 focus:ring-[#D4AF37]"
                     />
                   </div>
 
-                  <div className="space-y-1.5 flex flex-col">
+                  <div className="flex flex-col space-y-1.5">
                     <label className="text-sm font-medium text-gray-700">
                       Description (Optional)
                     </label>
@@ -480,23 +435,23 @@ export default function NavLinksPage() {
                         })
                       }
                       rows={2}
-                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent outline-none transition-all resize-none"
+                      className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 transition-all outline-none focus:border-transparent focus:ring-2 focus:ring-[#D4AF37]"
                     />
                   </div>
                 </>
               )}
 
-              <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-gray-100">
+              <div className="mt-4 flex justify-end gap-3 border-t border-gray-100 pt-4">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-6 py-2.5 text-sm font-bold text-gray-600 hover:bg-gray-50 rounded-full transition-colors"
+                  className="rounded-full px-6 py-2.5 text-sm font-bold text-gray-600 transition-colors hover:bg-gray-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 text-sm font-bold bg-[#0B0F29] text-white rounded-full hover:bg-black transition-all hover:shadow-[0_0_15px_rgba(212,175,55,0.4)]"
+                  className="rounded-full bg-[#0B0F29] px-6 py-2.5 text-sm font-bold text-white transition-all hover:bg-black hover:shadow-[0_0_15px_rgba(212,175,55,0.4)]"
                 >
                   {editingLink ? "Update Link" : "Create Link"}
                 </button>

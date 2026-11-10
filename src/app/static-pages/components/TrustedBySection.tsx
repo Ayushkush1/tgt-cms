@@ -77,7 +77,7 @@ export default function TrustedBySection() {
 
   return (
     <section>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4 transition-all">
+      <div className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all">
         <SectionHeader
           title="Trusted By Section"
           description="Manage the content displayed on the trusted by section."
@@ -108,10 +108,8 @@ export default function TrustedBySection() {
                 placeholder="e.g. over 500+ companies"
               />
 
-              <h1 className="text-base font-bold text-gray-500 col-span-2 pt-2">
-                Slider Images
-              </h1>
-              <div className="col-span-2 border border-gray-100 rounded-xl p-4 flex flex-col gap-4 bg-gray-50/50">
+              <h1 className="col-span-2 pt-2 text-base font-bold text-gray-500">Slider Images</h1>
+              <div className="col-span-2 flex flex-col gap-4 rounded-xl border border-gray-100 bg-gray-50/50 p-4">
                 <ImageUploadField
                   label="Upload Slider Images"
                   images={images}
@@ -119,9 +117,9 @@ export default function TrustedBySection() {
                   maxImages={50}
                   containerClassName="col-span-2"
                 />
-                <p className="text-xs text-gray-500 mx-2">
-                  Upload SVG or transparent PNG logos for the slider. You can
-                  select multiple files at once. Max 4 images.
+                <p className="mx-2 text-xs text-gray-500">
+                  Upload SVG or transparent PNG logos for the slider. You can select multiple files
+                  at once. Max 4 images.
                 </p>
               </div>
 

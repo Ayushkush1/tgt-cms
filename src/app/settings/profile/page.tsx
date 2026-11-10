@@ -90,15 +90,13 @@ export default function ProfilePage() {
 
       <div className="space-y-8">
         {/* Profile Card */}
-        <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+        <div className="rounded-3xl border border-gray-100 bg-white p-8 shadow-xl">
           <div className="mb-6 border-b border-gray-100 pb-4">
-            <h2 className="text-xl font-bold text-[#0B0F29]">
-              Personal Information
-            </h2>
+            <h2 className="text-xl font-bold text-[#0B0F29]">Personal Information</h2>
           </div>
 
           <form onSubmit={handleUpdateProfile} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <InputField
                 label="Full Name"
                 name="name"
@@ -115,7 +113,7 @@ export default function ProfilePage() {
                 type="email"
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your email"
-                className="mt-2 font-medium opacity-65 cursor-not-allowed"
+                className="mt-2 cursor-not-allowed font-medium opacity-65"
                 required
                 disabled
               />
@@ -128,15 +126,13 @@ export default function ProfilePage() {
         </div>
 
         {/* Security Card */}
-        <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+        <div className="rounded-3xl border border-gray-100 bg-white p-8 shadow-xl">
           <div className="mb-6 border-b border-gray-100 pb-4">
-            <h2 className="text-xl font-bold text-[#0B0F29]">
-              Security Settings
-            </h2>
+            <h2 className="text-xl font-bold text-[#0B0F29]">Security Settings</h2>
           </div>
 
           <form onSubmit={handleUpdatePassword} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <InputField
                 label="Current Password"
                 name="currentPassword"

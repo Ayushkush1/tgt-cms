@@ -10,8 +10,7 @@ export async function GET() {
     const websiteUrl =
       process.env.NEXT_PUBLIC_WEBSITE_URL || "https://tgt-landing-page-jade.vercel.app";
     const robotsTxt =
-      config?.robotsTxt ||
-      `User-agent: *\nAllow: /\n\nSitemap: ${websiteUrl}/sitemap.xml`;
+      config?.robotsTxt || `User-agent: *\nAllow: /\n\nSitemap: ${websiteUrl}/sitemap.xml`;
 
     return new Response(robotsTxt, {
       headers: {

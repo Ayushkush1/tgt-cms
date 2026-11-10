@@ -97,9 +97,7 @@ const defaultData: PageData = {
 };
 
 export default function ServicesCMS() {
-  const [selectedServiceId, setSelectedServiceId] = useState(
-    SERVICE_OPTIONS[0].id,
-  );
+  const [selectedServiceId, setSelectedServiceId] = useState(SERVICE_OPTIONS[0].id);
   const [formData, setFormData] = useState<PageData>(defaultData);
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -131,10 +129,8 @@ export default function ServicesCMS() {
   const handleSave = async () => {
     // Validation
     const errs: string[] = [];
-    if (!formData.hero.headingLine1.trim())
-      errs.push("Hero Heading Line 1 is required");
-    if (!formData.hero.paragraphs[0]?.trim())
-      errs.push("Hero Paragraph 1 is required");
+    if (!formData.hero.headingLine1.trim()) errs.push("Hero Heading Line 1 is required");
+    if (!formData.hero.paragraphs[0]?.trim()) errs.push("Hero Paragraph 1 is required");
 
     formData.hero.pillars.forEach((p, i) => {
       if (!p.title.trim()) errs.push(`Pillar ${i + 1} Title is required`);
@@ -143,10 +139,8 @@ export default function ServicesCMS() {
 
     formData.services.forEach((s, i) => {
       if (!s.title.trim()) errs.push(`Service Card ${i + 1} Title is required`);
-      if (!s.category.trim())
-        errs.push(`Service Card ${i + 1} Category is required`);
-      if (!s.description.trim())
-        errs.push(`Service Card ${i + 1} Description is required`);
+      if (!s.category.trim()) errs.push(`Service Card ${i + 1} Category is required`);
+      if (!s.description.trim()) errs.push(`Service Card ${i + 1} Description is required`);
     });
 
     if (errs.length > 0) {
@@ -193,19 +187,19 @@ export default function ServicesCMS() {
   };
 
   return (
-    <div className="flex flex-col gap-6 max-w-6xl mx-auto pb-20">
+    <div className="mx-auto flex max-w-6xl flex-col gap-6 pb-20">
       <PageHeader
         title="Services Pages Management"
         description="Select a service from the dropdown to manage its specific content (Hero and What We Do sections)."
       />
 
       {/* Service Selector */}
-      <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
+      <div className="flex items-center gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
         <label className="font-bold text-gray-700">Select Service:</label>
         <select
           value={selectedServiceId}
           onChange={(e) => setSelectedServiceId(e.target.value)}
-          className="flex-1 p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2  focus:ring-[#0A0F29] outline-none transition-all font-medium text-gray-700"
+          className="flex-1 rounded-xl border border-gray-200 bg-gray-50 p-3 font-medium text-gray-700 transition-all outline-none focus:ring-2 focus:ring-[#0A0F29]"
         >
           {SERVICE_OPTIONS.map((opt) => (
             <option key={opt.id} value={opt.id}>
@@ -216,9 +210,7 @@ export default function ServicesCMS() {
       </div>
 
       {isLoading ? (
-        <div className="py-10 text-center text-gray-400 font-medium">
-          Loading content...
-        </div>
+        <div className="py-10 text-center font-medium text-gray-400">Loading content...</div>
       ) : (
         <>
           <ServiceHeroCMS
@@ -226,9 +218,9 @@ export default function ServicesCMS() {
             onChange={(hero) => setFormData({ ...formData, hero })}
           />
 
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4">
-            <h3 className="text-lg font-bold text-gray-800 mb-2">Services Section Heading</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+            <h3 className="mb-2 text-lg font-bold text-gray-800">Services Section Heading</h3>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               <InputField
                 label="Upper Tag"
                 value={formData.servicesHeader?.upperTag || ""}
@@ -280,7 +272,7 @@ export default function ServicesCMS() {
           />
 
           <div className="sticky bottom-6 flex justify-end">
-            <div className="w-full max-w-xs shadow-2xl rounded-xl overflow-hidden">
+            <div className="w-full max-w-xs overflow-hidden rounded-xl shadow-2xl">
               <SaveButton onClick={handleSave} disabled={isSaving} />
             </div>
           </div>

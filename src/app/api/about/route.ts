@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../lib/prisma";
+import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 
 const PAGE_SLUG = "about";
 
@@ -26,10 +27,7 @@ export async function GET() {
     return NextResponse.json({ success: true, data: sectionsMap });
   } catch (error) {
     console.error("Error fetching about page content:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }
 
@@ -87,12 +85,10 @@ export async function PUT(request: Request) {
       });
     }
 
+    revalidateWebsite(WebsiteTag.page(PAGE_SLUG));
     return NextResponse.json({ success: true, data: savedSection });
   } catch (error) {
     console.error("Error saving about page section:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }

@@ -32,7 +32,7 @@ export function ProductHeroCMS({
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4">
+    <div className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
       <SectionHeader
         title="Product Page Hero"
         description="Manage headings, descriptions, stats, and the primary call-to-action."
@@ -41,10 +41,10 @@ export function ProductHeroCMS({
       />
 
       {isOpen && (
-        <div className="flex flex-col gap-8 pt-4 animate-in fade-in">
+        <div className="animate-in fade-in flex flex-col gap-8 pt-4">
           {/* Main Content */}
           <div className="grid grid-cols-2 gap-4">
-            <h3 className="col-span-2 text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">
+            <h3 className="col-span-2 mb-2 text-sm font-semibold tracking-wider text-gray-400 uppercase">
               Main Header & Text
             </h3>
             <InputField
@@ -58,9 +58,7 @@ export function ProductHeroCMS({
             <InputField
               label="Heading Line"
               value={data.headingLine || ""}
-              onChange={(e) =>
-                onChange({ ...data, headingLine: e.target.value })
-              }
+              onChange={(e) => onChange({ ...data, headingLine: e.target.value })}
               placeholder="Primary heading line"
               containerClassName="col-span-2"
             />
@@ -95,8 +93,8 @@ export function ProductHeroCMS({
           </div>
 
           {/* Stats & CTA */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 p-5 bg-gray-50 rounded-2xl border border-gray-100">
-            <h3 className="col-span-full text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">
+          <div className="grid grid-cols-2 gap-4 rounded-2xl border border-gray-100 bg-gray-50 p-5 lg:grid-cols-4">
+            <h3 className="col-span-full mb-2 text-sm font-semibold tracking-wider text-gray-400 uppercase">
               Actions & Stats
             </h3>
             <InputField
@@ -104,30 +102,28 @@ export function ProductHeroCMS({
               value={data.ctaText}
               onChange={(e) => onChange({ ...data, ctaText: e.target.value })}
               placeholder="Explore Product"
-              className=" bg-white"
+              className="bg-white"
             />
             <InputField
               label="CTA Link"
               value={data.ctaHref}
               onChange={(e) => onChange({ ...data, ctaHref: e.target.value })}
               placeholder="/products"
-              className=" bg-white"
+              className="bg-white"
             />
             <InputField
               label="Since (Year)"
               value={data.statSince}
               onChange={(e) => onChange({ ...data, statSince: e.target.value })}
               placeholder="2015"
-              className=" bg-white"
+              className="bg-white"
             />
             <InputField
               label="Projects Count"
               value={data.statProjects}
-              onChange={(e) =>
-                onChange({ ...data, statProjects: e.target.value })
-              }
+              onChange={(e) => onChange({ ...data, statProjects: e.target.value })}
               placeholder="500+"
-              className=" bg-white"
+              className="bg-white"
             />
           </div>
         </div>

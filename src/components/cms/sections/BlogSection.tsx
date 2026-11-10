@@ -1,15 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
-import {
-  CloudUpload,
-  X,
-  Plus,
-  Trash2,
-  ChevronDown,
-  ChevronUp,
-  GripVertical,
-} from "lucide-react";
+import { CloudUpload, X, Plus, Trash2, ChevronDown, ChevronUp, GripVertical } from "lucide-react";
 import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -81,9 +73,7 @@ export function BlogSection({
     if (initialData) {
       setFormData({ ...defaultFormData, ...initialData });
       if (initialData.blogs && Array.isArray(initialData.blogs)) {
-        setBlogImages(
-          (initialData.blogs as BlogItem[]).map((b) => b.image || null),
-        );
+        setBlogImages((initialData.blogs as BlogItem[]).map((b) => b.image || null));
       }
     } else if (saveUrl === "/api/home") {
       fetchWithCache("/api/home")
@@ -93,9 +83,7 @@ export function BlogSection({
             const data = json.data.BlogSection;
             setFormData((prev) => ({ ...prev, ...data }));
             if (data.blogs && Array.isArray(data.blogs)) {
-              setBlogImages(
-                (data.blogs as BlogItem[]).map((b) => b.image || null),
-              );
+              setBlogImages((data.blogs as BlogItem[]).map((b) => b.image || null));
             }
           }
         })
@@ -103,18 +91,12 @@ export function BlogSection({
     }
   }, [initialData, saveUrl]);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleBlogChange = (
-    index: number,
-    field: keyof BlogItem,
-    value: string,
-  ) => {
+  const handleBlogChange = (index: number, field: keyof BlogItem, value: string) => {
     setFormData((prev) => {
       const updated = [...prev.blogs];
       updated[index] = { ...updated[index], [field]: value };
@@ -149,10 +131,7 @@ export function BlogSection({
     setBlogImages((prev) => prev.filter((_, i) => i !== indexToRemove));
   };
 
-  const handleFileChange = (
-    index: number,
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleFileChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
       const file = e.target.files[0];
       setBlogImages((prev) => {
@@ -188,11 +167,7 @@ export function BlogSection({
         ? { id: sectionId, content: payload }
         : { section: "BlogSection", content: payload };
 
-      const method = sectionId
-        ? "PUT"
-        : saveUrl === "/api/home"
-          ? "PUT"
-          : "POST";
+      const method = sectionId ? "PUT" : saveUrl === "/api/home" ? "PUT" : "POST";
 
       const res = await fetch(saveUrl, {
         method,
@@ -216,7 +191,7 @@ export function BlogSection({
 
   return (
     <section>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 flex flex-col gap-6 transition-all">
+      <div className="flex flex-col gap-6 rounded-2xl border border-gray-100 bg-white p-8 shadow-sm transition-all">
         <SectionHeader
           title="Blog Highlights Section"
           description="Manage featured blog posts."
@@ -225,7 +200,7 @@ export function BlogSection({
         />
 
         {isOpen && (
-          <div className="flex flex-col gap-8 pt-4 animate-in fade-in duration-500">
+          <div className="animate-in fade-in flex flex-col gap-8 pt-4 duration-500">
             {/* 1. Header Fields Grid */}
             <div className="grid grid-cols-2 gap-6">
               <InputField
@@ -285,7 +260,7 @@ export function BlogSection({
             {/* 2. Blog List Section */}
             <div className="space-y-6">
               <div className="flex items-center justify-between border-b border-gray-100 pb-4">
-                <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest">
+                <h3 className="text-sm font-bold tracking-widest text-gray-400 uppercase">
                   Featured Blogs ({formData.blogs.length})
                 </h3>
               </div>
@@ -294,23 +269,23 @@ export function BlogSection({
                 {(formData.blogs || []).map((blog, index) => (
                   <div
                     key={index}
-                    className="bg-gray-50/50 border border-gray-100 rounded-3xl overflow-hidden transition-all duration-300 relative group"
+                    className="group relative overflow-hidden rounded-3xl border border-gray-100 bg-gray-50/50 transition-all duration-300"
                   >
                     {/* Header */}
                     <div
-                      className="p-5 px-6 flex items-center justify-between cursor-pointer hover:bg-gray-50 bg-white"
+                      className="flex cursor-pointer items-center justify-between bg-white p-5 px-6 hover:bg-gray-50"
                       onClick={() => toggleExpand(index)}
                     >
                       <div className="flex items-center gap-4">
-                        <div className="p-2.5 bg-gray-50 hover:bg-white border border-transparent hover:border-gray-200 hover:shadow-sm rounded-xl text-gray-400 cursor-grab active:cursor-grabbing transition-all">
-                          <GripVertical className="w-4 h-4" />
+                        <div className="cursor-grab rounded-xl border border-transparent bg-gray-50 p-2.5 text-gray-400 transition-all hover:border-gray-200 hover:bg-white hover:shadow-sm active:cursor-grabbing">
+                          <GripVertical className="h-4 w-4" />
                         </div>
                         <div className="flex flex-col gap-1">
-                          <span className="font-semibold text-gray-900 text-[15px]">
+                          <span className="text-[15px] font-semibold text-gray-900">
                             {blog.title || "Untitled Blog Post"}
                           </span>
                           {blog.category && (
-                            <span className="text-xs text-gray-500 font-medium">
+                            <span className="text-xs font-medium text-gray-500">
                               {blog.category} • {blog.authorName || "No author"}
                             </span>
                           )}
@@ -323,103 +298,73 @@ export function BlogSection({
                               e.stopPropagation();
                               removeBlog(index);
                             }}
-                            className="text-red-500 hover:text-red-600 bg-red-50 hover:bg-red-100 p-2.5 rounded-xl transition-colors flex items-center gap-2 text-xs font-semibold mr-2"
+                            className="mr-2 flex items-center gap-2 rounded-xl bg-red-50 p-2.5 text-xs font-semibold text-red-500 transition-colors hover:bg-red-100 hover:text-red-600"
                           >
-                            <Trash2 className="w-4 h-4" />
+                            <Trash2 className="h-4 w-4" />
                           </button>
                         )}
                         {blog.isExpanded ? (
-                          <ChevronUp className="w-5 h-5 text-gray-400" />
+                          <ChevronUp className="h-5 w-5 text-gray-400" />
                         ) : (
-                          <ChevronDown className="w-5 h-5 text-gray-400" />
+                          <ChevronDown className="h-5 w-5 text-gray-400" />
                         )}
                       </div>
                     </div>
 
                     {/* Body Content */}
                     {blog.isExpanded && (
-                      <div className="p-6 pt-2 grid grid-cols-2 gap-4 bg-white border-t border-gray-100">
+                      <div className="grid grid-cols-2 gap-4 border-t border-gray-100 bg-white p-6 pt-2">
                         <InputField
                           label="Category"
                           value={blog.category}
-                          onChange={(e) =>
-                            handleBlogChange(index, "category", e.target.value)
-                          }
+                          onChange={(e) => handleBlogChange(index, "category", e.target.value)}
                           placeholder="e.g. Technology"
                         />
                         <InputField
                           label="Title"
                           value={blog.title}
-                          onChange={(e) =>
-                            handleBlogChange(index, "title", e.target.value)
-                          }
+                          onChange={(e) => handleBlogChange(index, "title", e.target.value)}
                           placeholder="e.g. The Future of AI in Web Development"
                           required
                         />
                         <TextAreaField
                           label="Excerpt"
                           value={blog.excerpt}
-                          onChange={(e) =>
-                            handleBlogChange(index, "excerpt", e.target.value)
-                          }
+                          onChange={(e) => handleBlogChange(index, "excerpt", e.target.value)}
                           placeholder="e.g. Exploring how artificial intelligence is reshaping the landscape of modern web development..."
                         />
                         <InputField
                           label="Author"
                           value={blog.authorName}
-                          onChange={(e) =>
-                            handleBlogChange(
-                              index,
-                              "authorName",
-                              e.target.value,
-                            )
-                          }
+                          onChange={(e) => handleBlogChange(index, "authorName", e.target.value)}
                           placeholder="e.g. John Doe"
                         />
                         <InputField
                           label="Author Title / Designation"
                           value={blog.authorTitle || ""}
-                          onChange={(e) =>
-                            handleBlogChange(
-                              index,
-                              "authorTitle",
-                              e.target.value,
-                            )
-                          }
+                          onChange={(e) => handleBlogChange(index, "authorTitle", e.target.value)}
                           placeholder="e.g. Senior Design Engineer · Studio Volta"
                         />
 
-                        <div className="grid grid-cols-2 gap-4 col-span-2">
+                        <div className="col-span-2 grid grid-cols-2 gap-4">
                           <InputField
                             label="Published"
                             value={blog.datePublished}
                             onChange={(e) =>
-                              handleBlogChange(
-                                index,
-                                "datePublished",
-                                e.target.value,
-                              )
+                              handleBlogChange(index, "datePublished", e.target.value)
                             }
                             placeholder="e.g. Oct 24, 2023"
                           />
                           <InputField
                             label="Read Time"
                             value={blog.readTime}
-                            onChange={(e) =>
-                              handleBlogChange(
-                                index,
-                                "readTime",
-                                e.target.value,
-                              )
-                            }
+                            onChange={(e) => handleBlogChange(index, "readTime", e.target.value)}
                             placeholder="e.g. 5 min read"
                           />
                         </div>
 
-                        <div className="flex flex-col gap-1.5 col-span-2">
-                          <label className="text-sm font-medium text-gray-700">
-                            Cover Image
-                          </label>
+                        <div className="col-span-2 flex flex-col gap-1.5">
+                          <label className="text-sm font-medium text-gray-700">Cover Image</label>
                           <input
                             type="file"
                             ref={(el) => {
@@ -430,29 +375,27 @@ export function BlogSection({
                             className="hidden"
                           />
                           {blogImages[index] ? (
-                            <div className="w-full border border-gray-200 rounded-xl bg-gray-50 flex items-center justify-between p-3 px-4">
+                            <div className="flex w-full items-center justify-between rounded-xl border border-gray-200 bg-gray-50 p-3 px-4">
                               <div className="flex items-center gap-4">
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
                                   src={
                                     typeof blogImages[index] === "string"
                                       ? (blogImages[index] as string)
-                                      : URL.createObjectURL(
-                                          blogImages[index] as Blob,
-                                        )
+                                      : URL.createObjectURL(blogImages[index] as Blob)
                                   }
                                   alt={`Blog Image ${index + 1}`}
-                                  className="w-12 h-12 object-cover rounded-full shadow-sm border border-gray-200"
+                                  className="h-12 w-12 rounded-full border border-gray-200 object-cover shadow-sm"
                                 />
-                                <span className="text-gray-900 font-semibold text-sm truncate max-w-[200px]">
+                                <span className="max-w-[200px] truncate text-sm font-semibold text-gray-900">
                                   Image Uploaded
                                 </span>
                               </div>
                               <button
                                 onClick={() => removeImage(index)}
-                                className="p-1.5 bg-white text-gray-500 hover:text-red-500 rounded-full shadow-sm ring-1 ring-gray-100 transition-colors"
+                                className="rounded-full bg-white p-1.5 text-gray-500 shadow-sm ring-1 ring-gray-100 transition-colors hover:text-red-500"
                               >
-                                <X className="w-4 h-4" />
+                                <X className="h-4 w-4" />
                               </button>
                             </div>
                           ) : (
@@ -474,18 +417,16 @@ export function BlogSection({
                                   });
                                 }
                               }}
-                              onClick={() =>
-                                fileInputRefs.current[index]?.click()
-                              }
-                              className={`w-full border-2 border-dashed rounded-xl flex flex-col items-center justify-center p-6 transition-colors cursor-pointer group ${
+                              onClick={() => fileInputRefs.current[index]?.click()}
+                              className={`group flex w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 transition-colors ${
                                 isDragging === index
-                                  ? "border-[#0A0F29] border-solid bg-gray-100"
+                                  ? "border-solid border-[#0A0F29] bg-gray-100"
                                   : "border-gray-200 bg-gray-50 hover:bg-gray-100"
                               }`}
                             >
-                              <CloudUpload className="w-6 h-6 text-gray-400 mb-2" />
-                              <p className="text-gray-500 text-sm">
-                                <span className="text-[#D3AF37] font-semibold hover:underline mr-1">
+                              <CloudUpload className="mb-2 h-6 w-6 text-gray-400" />
+                              <p className="text-sm text-gray-500">
+                                <span className="mr-1 font-semibold text-[#D3AF37] hover:underline">
                                   Click to upload
                                 </span>
                                 or drag and drop
@@ -494,15 +435,13 @@ export function BlogSection({
                           )}
                         </div>
 
-                        <div className="flex flex-col gap-1.5 col-span-2 mt-4">
+                        <div className="col-span-2 mt-4 flex flex-col gap-1.5">
                           <label className="text-sm font-medium text-gray-700">
                             Blog Content Editor
                           </label>
                           <RichTextEditor
                             value={blog.contentHtml || ""}
-                            onChange={(val) =>
-                              handleBlogChange(index, "contentHtml", val)
-                            }
+                            onChange={(val) => handleBlogChange(index, "contentHtml", val)}
                           />
                         </div>
                       </div>
@@ -514,18 +453,14 @@ export function BlogSection({
               {(formData.blogs || []).length < 10 && (
                 <button
                   onClick={addBlog}
-                  className="w-full flex items-center justify-center gap-2 py-4 border-2 border-dashed border-gray-200 rounded-2xl text-gray-500 font-semibold hover:bg-gray-50 transition-colors"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-gray-200 py-4 font-semibold text-gray-500 transition-colors hover:bg-gray-50"
                 >
-                  <Plus className="w-5 h-5" /> Add Blog Post
+                  <Plus className="h-5 w-5" /> Add Blog Post
                 </button>
               )}
 
               <div className="flex justify-end pt-4">
-                <SaveButton
-                  onClick={handleSave}
-                  disabled={isSaving}
-                  className="w-40"
-                />
+                <SaveButton onClick={handleSave} disabled={isSaving} className="w-40" />
               </div>
             </div>
           </div>

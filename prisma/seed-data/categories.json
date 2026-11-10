@@ -1,0 +1,16 @@
+[
+  {
+    "id": "1a31e8c9-a0c5-486b-81a9-36614f6cdbcc",
+    "name": "food",
+    "slug": "food",
+    "createdAt": "2026-07-09T09:22:13.172Z",
+    "updatedAt": "2026-07-09T09:22:20.533Z"
+  },
+  {
+    "id": "56df8c7e-9b0c-42f7-81c7-b5089afdf2e3",
+    "name": "shop",
+    "slug": "shop",
+    "createdAt": "2026-03-27T05:27:38.690Z",
+    "updatedAt": "2026-07-09T09:22:00.040Z"
+  }
+]

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../lib/prisma";
+import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 
 const PAGE_SLUG = "products";
 
@@ -21,10 +22,7 @@ export async function GET() {
     return NextResponse.json({ success: true, data: page.sections[0].content });
   } catch (error) {
     console.error("Error fetching product content:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }
 
@@ -34,10 +32,7 @@ export async function PUT(request: Request) {
     const { content } = body;
 
     if (!content) {
-      return NextResponse.json(
-        { success: false, error: "Content is required" },
-        { status: 400 },
-      );
+      return NextResponse.json({ success: false, error: "Content is required" }, { status: 400 });
     }
 
     // Ensure parent page exists
@@ -115,9 +110,7 @@ export async function PUT(request: Request) {
         }
 
         // Delete links for products that were removed from the content
-        const linksToDelete = existingLinks.filter(
-          (l) => !productTitles.includes(l.label),
-        );
+        const linksToDelete = existingLinks.filter((l) => !productTitles.includes(l.label));
         for (const link of linksToDelete) {
           await prisma.navLink.delete({ where: { id: link.id } });
         }
@@ -128,12 +121,10 @@ export async function PUT(request: Request) {
     }
     // ---------------------------------
 
+    revalidateWebsite(WebsiteTag.page(PAGE_SLUG));
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error saving product content:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }

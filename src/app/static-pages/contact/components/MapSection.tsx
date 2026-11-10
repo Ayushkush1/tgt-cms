@@ -36,9 +36,7 @@ export default function MapSection() {
       .catch(console.error);
   }, []);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -46,8 +44,7 @@ export default function MapSection() {
   const handleSave = async () => {
     const errs: string[] = [];
     if (!formData.upperTag.trim()) errs.push("Upper Tag is required");
-    if (!formData.headlinePart1.trim())
-      errs.push("Headline Part 1 is required");
+    if (!formData.headlinePart1.trim()) errs.push("Headline Part 1 is required");
     if (!formData.mainParagraph.trim()) errs.push("Main Paragraph is required");
     if (!formData.mapEmbedUrl.trim()) errs.push("Map Embed URL is required");
 
@@ -79,7 +76,7 @@ export default function MapSection() {
 
   return (
     <section>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4 transition-all">
+      <div className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all">
         <SectionHeader
           title="Map Section"
           description="Manage the map embed and heading text for the location section."
@@ -93,9 +90,7 @@ export default function MapSection() {
         >
           <div className="overflow-hidden">
             <div className="grid grid-cols-2 gap-4 pt-2">
-              <h1 className="text-base font-bold text-gray-500 col-span-2">
-                Header text
-              </h1>
+              <h1 className="col-span-2 text-base font-bold text-gray-500">Header text</h1>
               <InputField
                 label="Upper Tag"
                 name="upperTag"
@@ -146,13 +141,10 @@ export default function MapSection() {
                 rows={3}
               />
 
-              <h1 className="text-base font-bold text-gray-500 col-span-2 mt-4">
-                Map Embed
-              </h1>
-              <div className="col-span-2 text-sm text-gray-500 mb-2">
-                Go to Google Maps, search for your location, click
-                &quot;Share&quot;, choose &quot;Embed a map&quot;, and extract
-                just the {`src`} URL from the iframe code.
+              <h1 className="col-span-2 mt-4 text-base font-bold text-gray-500">Map Embed</h1>
+              <div className="col-span-2 mb-2 text-sm text-gray-500">
+                Go to Google Maps, search for your location, click &quot;Share&quot;, choose
+                &quot;Embed a map&quot;, and extract just the {`src`} URL from the iframe code.
               </div>
               <TextAreaField
                 label="Google Maps Embed URL (src only)"

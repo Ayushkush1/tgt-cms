@@ -32,10 +32,7 @@ export async function POST(req: Request) {
             const baseName = fileName.slice(0, fileName.length - ext.length);
             finalFileName = `${baseName}.webp`;
           } catch (sharpError) {
-            console.error(
-              "Image compression failed, uploading original:",
-              sharpError,
-            );
+            console.error("Image compression failed, uploading original:", sharpError);
           }
         }
 

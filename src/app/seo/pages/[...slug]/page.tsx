@@ -86,9 +86,7 @@ export default function PageSEOEditor() {
         router.refresh();
       } else {
         const errMsg =
-          typeof json.error === "string"
-            ? json.error
-            : json.error?.message || "Update failed.";
+          typeof json.error === "string" ? json.error : json.error?.message || "Update failed.";
         console.error("Page SEO update error details:", json.error);
         toast.error(errMsg, { id: tid });
       }
@@ -103,7 +101,7 @@ export default function PageSEOEditor() {
   if (isLoading) {
     return (
       <div className="flex h-[60vh] items-center justify-center">
-        <div className="animate-pulse text-gray-400 font-medium font-mono text-xs tracking-widest uppercase">
+        <div className="animate-pulse font-mono text-xs font-medium tracking-widest text-gray-400 uppercase">
           Fetching metadata...
         </div>
       </div>
@@ -111,13 +109,13 @@ export default function PageSEOEditor() {
   }
 
   return (
-    <div className="flex flex-col gap-8 max-w-6xl mx-auto pb-20 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="animate-in fade-in slide-in-from-bottom-4 mx-auto flex max-w-6xl flex-col gap-8 pb-20 duration-500">
       <div className="flex flex-col gap-4">
         <Link
           href="/seo/pages"
-          className="flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-brand-navy transition-colors w-fit group"
+          className="hover:text-brand-navy group flex w-fit items-center gap-2 text-sm font-bold text-gray-400 transition-colors"
         >
-          <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          <ChevronLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
           Back to Pages
         </Link>
         <div className="flex justify-between gap-5">
@@ -129,7 +127,7 @@ export default function PageSEOEditor() {
             <SaveButton
               onClick={handleSave}
               disabled={isSaving}
-              className="w-auto px-10 shrink-0"
+              className="w-auto shrink-0 px-10"
             />
           </div>
         </div>
@@ -137,60 +135,48 @@ export default function PageSEOEditor() {
 
       <div className="grid grid-cols-1">
         {/* Main Search Engine Optimization */}
-        <div className="lg:col-span-2 flex flex-col gap-6 bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 relative overflow-hidden">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2.5 bg-blue-50 text-blue-600 rounded-2xl">
-              <Search className="w-5 h-5" />
+        <div className="relative flex flex-col gap-6 overflow-hidden rounded-[2.5rem] border border-gray-100 bg-white p-8 shadow-sm lg:col-span-2">
+          <div className="mb-2 flex items-center gap-3">
+            <div className="rounded-2xl bg-blue-50 p-2.5 text-blue-600">
+              <Search className="h-5 w-5" />
             </div>
-            <h2 className="text-xl font-bold text-[#0B0F29]">
-              Search Engine Meta
-            </h2>
+            <h2 className="text-xl font-bold text-[#0B0F29]">Search Engine Meta</h2>
           </div>
 
           <InputField
             label="Meta Title (Browser Tab)"
             value={formData.metaTitle}
-            onChange={(e) =>
-              setFormData({ ...formData, metaTitle: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, metaTitle: e.target.value })}
             placeholder="e.g. Services | My Awesome Agency"
             tooltip="Page-specific title. Overrides the default site title to improve search relevance for this page."
           />
           <TextAreaField
             label="Meta Description"
             value={formData.metaDescription}
-            onChange={(e) =>
-              setFormData({ ...formData, metaDescription: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, metaDescription: e.target.value })}
             placeholder="A compelling summary for search result snippets (keep under 160 chars)."
             rows={4}
             tooltip="A brief summary of this specific page's content. Search engines use this for the result snippet."
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <InputField
               label="Target Keywords"
               value={formData.targetKeywords}
-              onChange={(e) =>
-                setFormData({ ...formData, targetKeywords: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, targetKeywords: e.target.value })}
               placeholder="e.g. web design, dev, agency"
               tooltip="Comma-separated keywords or phrases you want this specific page to rank for."
             />
             <InputField
               label="Canonical URL"
               value={formData.canonicalUrl}
-              onChange={(e) =>
-                setFormData({ ...formData, canonicalUrl: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, canonicalUrl: e.target.value })}
               placeholder="https://mysite.com/page"
               tooltip="The preferred URL for this page. Helps prevent duplicate content issues if the page is accessible via multiple URLs."
             />
             <TextAreaField
               label="Structured Data (Schema Markup JSON-LD)"
               value={formData.schema || ""}
-              onChange={(e) =>
-                setFormData({ ...formData, schema: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, schema: e.target.value })}
               placeholder='e.g. { "@context": "https://schema.org", "@type": "WebPage", "name": "Portfolio" }'
               rows={6}
               className="font-mono text-xs md:col-span-2"
@@ -199,25 +185,23 @@ export default function PageSEOEditor() {
             />
           </div>
 
-          <div className="flex items-center gap-8 p-6 bg-gray-50 rounded-3xl border border-gray-100">
+          <div className="flex items-center gap-8 rounded-3xl border border-gray-100 bg-gray-50 p-6">
             <div className="flex-1">
-              <h4 className="font-bold text-[#0B0F29] text-sm mb-1 uppercase tracking-tight">
+              <h4 className="mb-1 text-sm font-bold tracking-tight text-[#0B0F29] uppercase">
                 Index Visibility
               </h4>
               <p className="text-xs text-gray-500">
                 Should search engines find and index this page?
               </p>
             </div>
-            <label className="relative inline-flex items-center cursor-pointer">
+            <label className="relative inline-flex cursor-pointer items-center">
               <input
                 type="checkbox"
-                className="sr-only peer"
+                className="peer sr-only"
                 checked={!formData.noIndex}
-                onChange={(e) =>
-                  setFormData({ ...formData, noIndex: !e.target.checked })
-                }
+                onChange={(e) => setFormData({ ...formData, noIndex: !e.target.checked })}
               />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+              <div className="peer h-6 w-11 rounded-full bg-gray-200 peer-checked:bg-emerald-500 peer-focus:outline-none after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
               <span className="ml-3 text-sm font-bold text-gray-700">
                 {formData.noIndex ? "No-Index" : "Index"}
               </span>

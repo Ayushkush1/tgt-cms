@@ -2,13 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { PageHeader } from "@/app/components/PageHeader";
-import {
-  Trash2,
-  Edit2,
-  Search,
-  Filter,
-  Layers,
-} from "lucide-react";
+import { Trash2, Edit2, Search, Filter, Layers } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { InputField } from "@/app/components/InputField";
 import { SelectField } from "@/app/components/SelectField";
@@ -47,10 +41,7 @@ export default function ProductsPage() {
         fetch("/api/ecommerce/products"),
         fetch("/api/ecommerce/categories"),
       ]);
-      const [prodJson, catJson] = await Promise.all([
-        prodRes.json(),
-        catRes.json(),
-      ]);
+      const [prodJson, catJson] = await Promise.all([prodRes.json(), catRes.json()]);
 
       if (prodJson.success) setProducts(prodJson.data);
       if (catJson.success) setCategories(catJson.data);
@@ -85,16 +76,13 @@ export default function ProductsPage() {
   };
 
   const filteredProducts = products.filter((p) => {
-    const matchesSearch = p.title
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "all" || p.category?.name === selectedCategory;
+    const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === "all" || p.category?.name === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
   return (
-    <div className="flex flex-col gap-8  pb-20">
+    <div className="flex flex-col gap-8 pb-20">
       <PageHeader
         title="Products"
         description="Manage your inventory and product listings."
@@ -105,18 +93,18 @@ export default function ProductsPage() {
       />
 
       {/* Filters & Search */}
-      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white rounded-4xl p-6 shadow-sm border border-gray-100">
+      <div className="flex flex-col items-center justify-between gap-4 rounded-4xl border border-gray-100 bg-white p-6 shadow-sm md:flex-row">
         <InputField
           placeholder="Search products..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          icon={<Search className="w-4 h-4" />}
+          icon={<Search className="h-4 w-4" />}
           containerClassName="flex-1 w-full"
         />
         <SelectField
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
-          icon={<Filter className="w-4 h-4" />}
+          icon={<Filter className="h-4 w-4" />}
           options={[
             { value: "all", label: "All Categories" },
             ...categories.map((cat) => ({ value: cat.name, label: cat.name })),
@@ -126,64 +114,58 @@ export default function ProductsPage() {
       </div>
 
       {/* Products Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {filteredProducts.map((product) => (
           <div
             key={product.id}
-            className="bg-white rounded-[2.5rem] overflow-hidden shadow-sm border border-gray-100 flex flex-col group hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-300 animate-in fade-in slide-in-from-bottom-2"
+            className="group animate-in fade-in slide-in-from-bottom-2 flex flex-col overflow-hidden rounded-[2.5rem] border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-[#D4AF37]/5"
           >
-            <div className="relative aspect-4/3 bg-gray-50 overflow-hidden">
+            <div className="relative aspect-4/3 overflow-hidden bg-gray-50">
               {product.images?.[0] ? (
                 <img
                   src={product.images[0]}
                   alt={product.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-300">
-                  <Layers className="w-12 h-12" />
+                <div className="flex h-full w-full items-center justify-center text-gray-300">
+                  <Layers className="h-12 w-12" />
                 </div>
               )}
-              <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-bold text-gray-900 uppercase tracking-widest border border-white/20">
+              <div className="absolute top-4 right-4 rounded-full border border-white/20 bg-white/90 px-3 py-1.5 text-[10px] font-bold tracking-widest text-gray-900 uppercase backdrop-blur-md">
                 {product.category?.name || "Uncategorized"}
               </div>
             </div>
 
-            <div className="p-6 flex-1 flex flex-col justify-between">
+            <div className="flex flex-1 flex-col justify-between p-6">
               <div>
-                <h3 className="text-lg font-bold text-gray-900 line-clamp-1">
-                  {product.title}
-                </h3>
-                <p className="text-[#D4AF37] font-bold text-lg mt-1">
-                  {product.price
-                    ? `$${product.price.toFixed(2)}`
-                    : "Price not set"}
+                <h3 className="line-clamp-1 text-lg font-bold text-gray-900">{product.title}</h3>
+                <p className="mt-1 text-lg font-bold text-[#D4AF37]">
+                  {product.price ? `$${product.price.toFixed(2)}` : "Price not set"}
                 </p>
               </div>
 
-              <div className="flex items-center justify-between mt-6 pt-6 border-t border-gray-50">
+              <div className="mt-6 flex items-center justify-between border-t border-gray-50 pt-6">
                 <div className="flex items-center gap-2">
                   <div
-                    className={`w-2 h-2 rounded-full ${product.isActive ? "bg-green-500" : "bg-gray-300"}`}
+                    className={`h-2 w-2 rounded-full ${product.isActive ? "bg-green-500" : "bg-gray-300"}`}
                   />
-                  <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest leading-none pt-0.5">
+                  <span className="pt-0.5 text-[11px] leading-none font-bold tracking-widest text-gray-400 uppercase">
                     {product.isActive ? "Active" : "Inactive"}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() =>
-                      router.push(`/ecommerce/products/new?id=${product.id}`)
-                    }
-                    className="p-2.5 bg-gray-50 text-gray-400 rounded-xl hover:bg-[#D4AF37] hover:text-[#0B0F29] transition-all"
+                    onClick={() => router.push(`/ecommerce/products/new?id=${product.id}`)}
+                    className="rounded-xl bg-gray-50 p-2.5 text-gray-400 transition-all hover:bg-[#D4AF37] hover:text-[#0B0F29]"
                   >
-                    <Edit2 className="w-4 h-4" />
+                    <Edit2 className="h-4 w-4" />
                   </button>
                   <button
                     onClick={() => handleDelete(product.id)}
-                    className="p-2.5 bg-gray-50 text-gray-400 rounded-xl hover:bg-red-50 hover:text-red-500 transition-all"
+                    className="rounded-xl bg-gray-50 p-2.5 text-gray-400 transition-all hover:bg-red-50 hover:text-red-500"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="h-4 w-4" />
                   </button>
                 </div>
               </div>
@@ -193,8 +175,8 @@ export default function ProductsPage() {
       </div>
 
       {!isLoading && filteredProducts.length === 0 && (
-        <div className="text-center py-40 border-2 border-dashed border-gray-100 rounded-[3rem]">
-          <p className="text-gray-400 font-medium italic">
+        <div className="rounded-[3rem] border-2 border-dashed border-gray-100 py-40 text-center">
+          <p className="font-medium text-gray-400 italic">
             No products found matching your search.
           </p>
         </div>
@@ -202,7 +184,7 @@ export default function ProductsPage() {
 
       {isLoading && (
         <div className="flex items-center justify-center py-40">
-          <div className="w-10 h-10 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin" />
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#D4AF37] border-t-transparent" />
         </div>
       )}
     </div>

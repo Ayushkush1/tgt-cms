@@ -72,8 +72,7 @@ export default function CategoriesPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure? This cannot be undone if no products are linked."))
-      return;
+    if (!confirm("Are you sure? This cannot be undone if no products are linked.")) return;
 
     try {
       const res = await fetch(`/api/ecommerce/categories?id=${id}`, {
@@ -97,25 +96,25 @@ export default function CategoriesPage() {
   };
 
   return (
-    <div className="flex flex-col gap-8 mx-auto pb-20">
+    <div className="mx-auto flex flex-col gap-8 pb-20">
       <PageHeader
         title="Product Categories"
         description="Organize your products into categories for easier navigation."
       />
 
       {/* Add New Category */}
-      <div className="bg-white rounded-4xl p-8 shadow-sm border border-gray-100 animate-in fade-in slide-in-from-bottom-2 duration-300">
-        <h4 className="text-sm font-bold text-gray-900 uppercase tracking-widest mb-6">
+      <div className="animate-in fade-in slide-in-from-bottom-2 rounded-4xl border border-gray-100 bg-white p-8 shadow-sm duration-300">
+        <h4 className="mb-6 text-sm font-bold tracking-widest text-gray-900 uppercase">
           Add New Category
         </h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
+        <div className="grid grid-cols-1 items-end gap-6 md:grid-cols-2">
           <InputField
             label="Name"
             value={formData.name}
             onChange={(e) => handleNameChange(e.target.value)}
             placeholder="e.g. Electronics"
           />
-          <div className="flex gap-4 items-end">
+          <div className="flex items-end gap-4">
             <div className="flex-1">
               <InputField
                 label="Slug (Auto-generated)"
@@ -126,9 +125,9 @@ export default function CategoriesPage() {
             </div>
             <button
               onClick={() => handleSave()}
-              className="px-8 bg-[#0B0F29] text-white font-bold py-4 rounded-full hover:bg-black transition-all hover:border-[#D4AF37] hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] flex items-center gap-2"
+              className="flex items-center gap-2 rounded-full bg-[#0B0F29] px-8 py-4 font-bold text-white transition-all hover:border-[#D4AF37] hover:bg-black hover:shadow-[0_0_25px_rgba(212,175,55,0.4)]"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="h-4 w-4" />
               Create
             </button>
           </div>
@@ -140,10 +139,10 @@ export default function CategoriesPage() {
         {categories.map((category) => (
           <div
             key={category.id}
-            className="bg-white rounded-4xl p-6 shadow-sm border border-gray-100 flex items-center justify-between animate-in fade-in slide-in-from-bottom-2"
+            className="animate-in fade-in slide-in-from-bottom-2 flex items-center justify-between rounded-4xl border border-gray-100 bg-white p-6 shadow-sm"
           >
             {editingId === category.id ? (
-              <div className="flex-1 grid grid-cols-2 gap-4 mr-6">
+              <div className="mr-6 grid flex-1 grid-cols-2 gap-4">
                 <InputField
                   value={formData.name}
                   onChange={(e) => handleNameChange(e.target.value)}
@@ -159,15 +158,15 @@ export default function CategoriesPage() {
                   </div>
                   <button
                     onClick={() => handleSave(category.id)}
-                    className="p-3 bg-green-50 text-green-600 rounded-2xl hover:bg-green-100 transition-colors"
+                    className="rounded-2xl bg-green-50 p-3 text-green-600 transition-colors hover:bg-green-100"
                   >
-                    <Check className="w-5 h-5" />
+                    <Check className="h-5 w-5" />
                   </button>
                   <button
                     onClick={() => setEditingId(null)}
-                    className="p-3 bg-gray-50 text-gray-400 rounded-2xl hover:bg-gray-100 transition-colors"
+                    className="rounded-2xl bg-gray-50 p-3 text-gray-400 transition-colors hover:bg-gray-100"
                   >
-                    <X className="w-5 h-5" />
+                    <X className="h-5 w-5" />
                   </button>
                 </div>
               </div>
@@ -175,29 +174,27 @@ export default function CategoriesPage() {
               <>
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
-                    <h3 className="text-lg font-bold text-gray-900">
-                      {category.name}
-                    </h3>
-                    <span className="px-3 py-1 bg-gray-50 text-gray-500 rounded-full text-xs font-medium border border-gray-100">
+                    <h3 className="text-lg font-bold text-gray-900">{category.name}</h3>
+                    <span className="rounded-full border border-gray-100 bg-gray-50 px-3 py-1 text-xs font-medium text-gray-500">
                       /{category.slug}
                     </span>
                   </div>
-                  <p className="text-gray-400 text-sm mt-0.5">
+                  <p className="mt-0.5 text-sm text-gray-400">
                     {category._count?.products || 0} Products associated
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => startEditing(category)}
-                    className="p-2.5 text-gray-300 hover:text-[#D4AF37] transition-colors"
+                    className="p-2.5 text-gray-300 transition-colors hover:text-[#D4AF37]"
                   >
-                    <Edit2 className="w-5 h-5" />
+                    <Edit2 className="h-5 w-5" />
                   </button>
                   <button
                     onClick={() => handleDelete(category.id)}
-                    className="p-2.5 text-gray-300 hover:text-red-500 transition-colors"
+                    className="p-2.5 text-gray-300 transition-colors hover:text-red-500"
                   >
-                    <Trash2 className="w-5 h-5" />
+                    <Trash2 className="h-5 w-5" />
                   </button>
                 </div>
               </>
@@ -206,15 +203,17 @@ export default function CategoriesPage() {
         ))}
 
         {!isLoading && categories.length === 0 && (
-          <div className="text-center py-20 bg-white rounded-4xl border-2 border-dashed border-gray-100">
-            <p className="text-gray-400 font-medium">No categories found. Create your first category above.</p>
+          <div className="rounded-4xl border-2 border-dashed border-gray-100 bg-white py-20 text-center">
+            <p className="font-medium text-gray-400">
+              No categories found. Create your first category above.
+            </p>
           </div>
         )}
       </div>
 
       {isLoading && (
         <div className="flex items-center justify-center py-20">
-          <div className="w-8 h-8 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#D4AF37] border-t-transparent" />
         </div>
       )}
     </div>

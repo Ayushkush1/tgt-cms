@@ -40,18 +40,12 @@ export default function Integrations() {
       .catch(console.error);
   }, []);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleStatChange = (
-    index: number,
-    field: keyof StatItem,
-    value: string,
-  ) => {
+  const handleStatChange = (index: number, field: keyof StatItem, value: string) => {
     setFormData((prev) => {
       const updated = [...prev.stats];
       updated[index] = { ...updated[index], [field]: value };
@@ -72,14 +66,11 @@ export default function Integrations() {
 
   const handleSave = async () => {
     const errs: string[] = [];
-    if (!formData.headlinePart1?.trim())
-      errs.push("Headline (Part 1) is required");
-    if (!formData.mainDescription?.trim())
-      errs.push("Main Description is required");
+    if (!formData.headlinePart1?.trim()) errs.push("Headline (Part 1) is required");
+    if (!formData.mainDescription?.trim()) errs.push("Main Description is required");
     formData.stats.forEach((s, i) => {
       if (!s.value.trim()) errs.push(`Stat ${i + 1} Value is required`);
-      if (!s.labelLine1.trim())
-        errs.push(`Stat ${i + 1} Label (Line 1) is required`);
+      if (!s.labelLine1.trim()) errs.push(`Stat ${i + 1} Label (Line 1) is required`);
     });
     if (errs.length > 0) {
       errs.forEach((m) => toast.error(m));
@@ -109,7 +100,7 @@ export default function Integrations() {
 
   return (
     <section>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4 transition-all">
+      <div className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all">
         <SectionHeader
           title="Integrations & Stats Section"
           description="Manage the content displayed in the center of the Integrations section."
@@ -121,7 +112,7 @@ export default function Integrations() {
         >
           <div className="overflow-hidden">
             <div className="grid grid-cols-2 gap-4 pt-2">
-              <h1 className="text-base font-bold text-gray-500 col-span-2">
+              <h1 className="col-span-2 text-base font-bold text-gray-500">
                 Center Content Section
               </h1>
               <InputField
@@ -146,10 +137,8 @@ export default function Integrations() {
               />
 
               {/* ── Dynamic Stats ── */}
-              <div className="col-span-2 flex items-center justify-between mt-4 mb-2">
-                <h1 className="text-base font-bold text-gray-500">
-                  Stats Counters
-                </h1>
+              <div className="col-span-2 mt-4 mb-2 flex items-center justify-between">
+                <h1 className="text-base font-bold text-gray-500">Stats Counters</h1>
                 <span className="text-sm font-medium text-gray-400">
                   {formData.stats.length} mapped
                 </span>
@@ -158,18 +147,16 @@ export default function Integrations() {
               {formData.stats.map((stat, index) => (
                 <div
                   key={index}
-                  className="col-span-2 border border-gray-100 rounded-xl p-4 flex flex-col gap-4 bg-gray-50/50"
+                  className="col-span-2 flex flex-col gap-4 rounded-xl border border-gray-100 bg-gray-50/50 p-4"
                 >
                   <div className="flex items-center justify-between">
-                    <h2 className="text-sm font-semibold text-gray-700">
-                      Stat {index + 1}
-                    </h2>
+                    <h2 className="text-sm font-semibold text-gray-700">Stat {index + 1}</h2>
                     {formData.stats.length > 1 && (
                       <button
                         onClick={() => removeStat(index)}
-                        className="text-red-500 hover:text-red-600 bg-red-50 hover:bg-red-100 p-1.5 rounded-md transition-colors flex items-center gap-1.5 text-xs font-medium"
+                        className="flex items-center gap-1.5 rounded-md bg-red-50 p-1.5 text-xs font-medium text-red-500 transition-colors hover:bg-red-100 hover:text-red-600"
                       >
-                        <Trash2 className="w-3.5 h-3.5" /> Remove
+                        <Trash2 className="h-3.5 w-3.5" /> Remove
                       </button>
                     )}
                   </div>
@@ -177,9 +164,7 @@ export default function Integrations() {
                     <InputField
                       label="Value (Number)"
                       value={stat.value}
-                      onChange={(e) =>
-                        handleStatChange(index, "value", e.target.value)
-                      }
+                      onChange={(e) => handleStatChange(index, "value", e.target.value)}
                       placeholder="e.g. 50"
                       required
                     />
@@ -187,9 +172,7 @@ export default function Integrations() {
                     <InputField
                       label="Label"
                       value={stat.labelLine1}
-                      onChange={(e) =>
-                        handleStatChange(index, "labelLine1", e.target.value)
-                      }
+                      onChange={(e) => handleStatChange(index, "labelLine1", e.target.value)}
                       placeholder="e.g. Happy"
                       required
                     />
@@ -199,9 +182,9 @@ export default function Integrations() {
 
               <button
                 onClick={addStat}
-                className="col-span-2 flex items-center justify-center gap-2 py-3 border-2 border-dashed border-gray-200 rounded-xl text-gray-500 font-medium hover:bg-gray-50 hover:border-gray-300 transition-colors"
+                className="col-span-2 flex items-center justify-center gap-2 rounded-xl border-2 border-dashed border-gray-200 py-3 font-medium text-gray-500 transition-colors hover:border-gray-300 hover:bg-gray-50"
               >
-                <Plus className="w-4 h-4" /> Add Stat
+                <Plus className="h-4 w-4" /> Add Stat
               </button>
 
               <SaveButton onClick={handleSave} disabled={isSaving} />

@@ -27,9 +27,9 @@ interface Props {
 export function CeoMessageCMS({ message, onMessageChange }: Props) {
   return (
     <div className="flex flex-col gap-8">
-      <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-        <h3 className="text-lg font-bold text-gray-800 mb-6">CEO Message Settings</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+        <h3 className="mb-6 text-lg font-bold text-gray-800">CEO Message Settings</h3>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <InputField
             label="CEO Name"
             value={message.name}
@@ -92,7 +92,7 @@ export function CeoMessageCMS({ message, onMessageChange }: Props) {
             ]}
             containerClassName="col-span-1 md:col-span-2"
           />
-          <div className="md:col-span-2 border border-gray-100 rounded-3xl p-6 bg-white/50">
+          <div className="rounded-3xl border border-gray-100 bg-white/50 p-6 md:col-span-2">
             <ImageUploadField
               label="CEO Image"
               images={message.avatar}

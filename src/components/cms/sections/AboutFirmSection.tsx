@@ -87,11 +87,7 @@ export function AboutFirmSection({
         ? { id: sectionId, content: payload }
         : { section: "AboutFirm", content: payload };
 
-      const method = sectionId
-        ? "PUT"
-        : saveUrl === "/api/about"
-          ? "PUT"
-          : "POST";
+      const method = sectionId ? "PUT" : saveUrl === "/api/about" ? "PUT" : "POST";
 
       const res = await fetch(saveUrl, {
         method,
@@ -116,7 +112,7 @@ export function AboutFirmSection({
 
   return (
     <section>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 flex flex-col gap-6 transition-all">
+      <div className="flex flex-col gap-6 rounded-2xl border border-gray-100 bg-white p-8 shadow-sm transition-all">
         <SectionHeader
           title="About Firm Section"
           description="Manage the content displayed on the About Firm section."
@@ -129,7 +125,7 @@ export function AboutFirmSection({
           }`}
         >
           <div className="overflow-hidden">
-            <div className="grid grid-cols-2 gap-6 pt-4 animate-in fade-in duration-500">
+            <div className="animate-in fade-in grid grid-cols-2 gap-6 pt-4 duration-500">
               <InputField
                 label="Top Label"
                 name="topLabel"
@@ -196,7 +192,7 @@ export function AboutFirmSection({
                 placeholder="e.g. /contactUs"
               />
 
-              <div className="col-span-2 border border-gray-100 rounded-3xl p-6 bg-gray-50/50">
+              <div className="col-span-2 rounded-3xl border border-gray-100 bg-gray-50/50 p-6">
                 <ImageUploadField
                   label="Section Image"
                   images={images}
@@ -206,11 +202,7 @@ export function AboutFirmSection({
               </div>
 
               <div className="col-span-2 flex justify-end pt-4">
-                <SaveButton
-                  onClick={handleSave}
-                  disabled={isSaving}
-                  className="w-40"
-                />
+                <SaveButton onClick={handleSave} disabled={isSaving} className="w-40" />
               </div>
             </div>
           </div>

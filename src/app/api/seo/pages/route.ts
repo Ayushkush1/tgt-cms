@@ -126,9 +126,7 @@ export async function GET() {
     // 5. Ensure known static pages like "ceo" are included even if not in Page table yet
     const knownStaticSlugs = ["ceo"];
     knownStaticSlugs.forEach((slug) => {
-      const isRepresented = [...mergedData, ...unmatchedData].some(
-        (item) => item.slug === slug
-      );
+      const isRepresented = [...mergedData, ...unmatchedData].some((item) => item.slug === slug);
       if (!isRepresented) {
         unmatchedData.push({
           id: `static-${slug}`,
@@ -153,9 +151,6 @@ export async function GET() {
     return NextResponse.json({ success: true, data: finalData });
   } catch (error) {
     console.error("Error fetching pages for SEO:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }

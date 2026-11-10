@@ -31,16 +31,16 @@ export function CeoPhilosophyCMS({ philosophy, onPhilosophyChange }: Props) {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-        <h3 className="text-lg font-bold text-gray-800 mb-6">CEO Philosophy Settings</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+        <h3 className="mb-6 text-lg font-bold text-gray-800">CEO Philosophy Settings</h3>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <InputField
             label="Philosophy Upper Tag"
             value={philosophy.upperTag}
             onChange={(e) => onPhilosophyChange({ ...philosophy, upperTag: e.target.value })}
             placeholder="e.g. Core Values"
           />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:col-span-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:col-span-2">
             <InputField
               label="Philosophy Title"
               value={philosophy.title}
@@ -50,7 +50,9 @@ export function CeoPhilosophyCMS({ philosophy, onPhilosophyChange }: Props) {
             <InputField
               label="Philosophy Title Highlight"
               value={philosophy.titleHighlight}
-              onChange={(e) => onPhilosophyChange({ ...philosophy, titleHighlight: e.target.value })}
+              onChange={(e) =>
+                onPhilosophyChange({ ...philosophy, titleHighlight: e.target.value })
+              }
               placeholder="e.g. Philosophy"
             />
           </div>
@@ -65,13 +67,20 @@ export function CeoPhilosophyCMS({ philosophy, onPhilosophyChange }: Props) {
         </div>
 
         {/* Philosophy Items */}
-        <h4 className="text-sm font-bold text-gray-700 uppercase tracking-widest mt-8 mb-4 ml-2">Philosophy Pillars</h4>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <h4 className="mt-8 mb-4 ml-2 text-sm font-bold tracking-widest text-gray-700 uppercase">
+          Philosophy Pillars
+        </h4>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {Array.from({ length: 3 }).map((_, idx) => {
             const item = philosophy.items[idx] || { title: "", description: "", icon: "Lightbulb" };
             return (
-              <div key={idx} className="border border-gray-100 rounded-3xl p-6 bg-gray-50/30 flex flex-col gap-4">
-                <span className="text-xs font-black text-[#D4AF37] tracking-wider uppercase">Pillar {idx + 1}</span>
+              <div
+                key={idx}
+                className="flex flex-col gap-4 rounded-3xl border border-gray-100 bg-gray-50/30 p-6"
+              >
+                <span className="text-xs font-black tracking-wider text-[#D4AF37] uppercase">
+                  Pillar {idx + 1}
+                </span>
                 <InputField
                   label="Title"
                   value={item.title}
@@ -79,9 +88,11 @@ export function CeoPhilosophyCMS({ philosophy, onPhilosophyChange }: Props) {
                   placeholder="e.g. Visionary Innovation"
                 />
                 <div className="flex flex-col gap-1.5 px-0.5">
-                  <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-4">Icon (Lucide Icon Name)</label>
+                  <label className="ml-4 text-[11px] font-bold tracking-widest text-gray-400 uppercase">
+                    Icon (Lucide Icon Name)
+                  </label>
                   <select
-                    className="w-full px-6 py-4 bg-white border-none rounded-2xl text-sm focus:ring-1 focus:ring-[#0A0F29] outline-none transition-all text-gray-800"
+                    className="w-full rounded-2xl border-none bg-white px-6 py-4 text-sm text-gray-800 transition-all outline-none focus:ring-1 focus:ring-[#0A0F29]"
                     value={item.icon}
                     onChange={(e) => handleItemChange(idx, "icon", e.target.value)}
                   >

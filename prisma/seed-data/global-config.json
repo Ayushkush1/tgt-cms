@@ -1,0 +1,21 @@
+[
+  {
+    "id": "global",
+    "siteTitle": "TGT - Smart Digital Solutions & Web Development Services",
+    "siteDescription": "TGT provides modern web development, digital solutions, and innovative technology services to help businesses grow online with high-performance and user-friendly experiences.",
+    "favicon": null,
+    "googleAnalyticsId": "G-CT894VPLS1",
+    "gtmId": "GTM-59DCSVDV",
+    "searchConsoleId": "4kD9H2fqRgqKEk",
+    "customHeaderScripts": "",
+    "customFooterScripts": " ",
+    "socialLinks": [],
+    "canonicalOrdering": "default",
+    "sitemapEnabled": true,
+    "sitemapCustomContent": null,
+    "robotsTxt": null,
+    "schema": "{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"Organization\",\n  \"name\": \"The Gold Technologies\",\n  \"url\": \"https://thegoldtechnologies.com\",\n  \"logo\": \"https://thegoldtechnologies.com/logo.png\",\n  \"sameAs\": [\n    \"https://www.facebook.com/thegoldtechnologies\",\n    \"https://twitter.com/thegoldtech\",\n    \"https://www.linkedin.com/company/thegoldtechnologies\"\n  ]\n}",
+    "createdAt": "2026-03-18T08:22:00.640Z",
+    "updatedAt": "2026-07-09T09:24:20.330Z"
+  }
+]

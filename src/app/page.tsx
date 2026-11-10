@@ -5,19 +5,19 @@ import { AdminRightSidebar } from "./components/AdminRightSidebar";
 
 export default function Home() {
   return (
-    <div className="space-y-8 animate-in fade-in duration-500 pb-12">
+    <div className="animate-in fade-in space-y-8 pb-12 duration-500">
       {/* Header Row */}
       <AdminHeader />
 
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
         {/* Left/Main Content Column (8 cols) */}
-        <div className="xl:col-span-8 space-y-6">
+        <div className="space-y-6 xl:col-span-8">
           <OverviewStats />
           <ActivityCharts />
         </div>
 
         {/* Right Sidebar Column (4 cols) */}
-        <div className="xl:col-span-4 space-y-6">
+        <div className="space-y-6 xl:col-span-4">
           <AdminRightSidebar />
         </div>
       </div>

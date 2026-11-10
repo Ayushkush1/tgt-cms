@@ -10,10 +10,7 @@ export async function GET() {
     return NextResponse.json({ success: true, data: categories });
   } catch (error) {
     console.error("Error fetching categories:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }
 
@@ -49,10 +46,7 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }
 
@@ -61,10 +55,7 @@ export async function DELETE(request: Request) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
     if (!id) {
-      return NextResponse.json(
-        { success: false, error: "ID required" },
-        { status: 400 },
-      );
+      return NextResponse.json({ success: false, error: "ID required" }, { status: 400 });
     }
 
     // Check if category has products
@@ -83,9 +74,6 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error deleting category:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }

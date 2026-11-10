@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 
 export async function GET(
   request: Request,
@@ -22,10 +23,7 @@ export async function GET(
       });
 
       if (!servicesPage || servicesPage.sections.length === 0) {
-        return NextResponse.json(
-          { success: false, error: "Service not found" },
-          { status: 404 },
-        );
+        return NextResponse.json({ success: false, error: "Service not found" }, { status: 404 });
       }
 
       const section = servicesPage.sections[0];
@@ -84,19 +82,13 @@ export async function GET(
           },
         });
       }
-      return NextResponse.json(
-        { success: false, error: "Page not found" },
-        { status: 404 },
-      );
+      return NextResponse.json({ success: false, error: "Page not found" }, { status: 404 });
     }
 
     return NextResponse.json({ success: true, data: page });
   } catch (error) {
     console.error("Error fetching page SEO data:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }
 
@@ -112,10 +104,7 @@ export async function PUT(
     const { seo } = body;
 
     if (!seo) {
-      return NextResponse.json(
-        { success: false, error: "SEO data is required" },
-        { status: 400 },
-      );
+      return NextResponse.json({ success: false, error: "SEO data is required" }, { status: 400 });
     }
 
     // Handle service sub-pages
@@ -131,10 +120,7 @@ export async function PUT(
       });
 
       if (!servicesPage || servicesPage.sections.length === 0) {
-        return NextResponse.json(
-          { success: false, error: "Service not found" },
-          { status: 404 },
-        );
+        return NextResponse.json({ success: false, error: "Service not found" }, { status: 404 });
       }
 
       const section = servicesPage.sections[0];
@@ -162,6 +148,7 @@ export async function PUT(
         data: { content: updatedContent },
       });
 
+      revalidateWebsite(WebsiteTag.page(slug.startsWith("service/") ? "services" : slug));
       return NextResponse.json({ success: true, data: updatedContent });
     }
 
@@ -198,12 +185,10 @@ export async function PUT(
       },
     });
 
+    revalidateWebsite(WebsiteTag.page(slug.startsWith("service/") ? "services" : slug));
     return NextResponse.json({ success: true, data: updatedPage });
   } catch (error) {
     console.error("Error updating page SEO data:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }

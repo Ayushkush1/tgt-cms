@@ -13,17 +13,12 @@ interface DataTableProps<T> {
   isLoading?: boolean;
 }
 
-export function DataTable<T>({
-  columns,
-  data,
-  keyExtractor,
-  isLoading,
-}: DataTableProps<T>) {
+export function DataTable<T>({ columns, data, keyExtractor, isLoading }: DataTableProps<T>) {
   if (isLoading) {
     return (
-      <div className="rounded-3xl border border-gray-100 bg-white shadow-sm p-16 text-center flex flex-col items-center justify-center">
-        <div className="h-10 w-10 border-4 border-gray-200 border-t-[#D4AF37] rounded-full animate-spin mb-4"></div>
-        <p className="text-sm font-bold text-gray-400 uppercase tracking-widest animate-pulse">
+      <div className="flex flex-col items-center justify-center rounded-3xl border border-gray-100 bg-white p-16 text-center shadow-sm">
+        <div className="mb-4 h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-[#D4AF37]"></div>
+        <p className="animate-pulse text-sm font-bold tracking-widest text-gray-400 uppercase">
           Fetching data...
         </p>
       </div>
@@ -32,16 +27,13 @@ export function DataTable<T>({
 
   if (!data || data.length === 0) {
     return (
-      <div className="rounded-3xl border border-gray-100 bg-white shadow-sm p-16 text-center flex flex-col items-center justify-center">
-        <div className="h-16 w-16 bg-gray-50 rounded-full flex items-center justify-center mb-4 border border-gray-100 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
+      <div className="flex flex-col items-center justify-center rounded-3xl border border-gray-100 bg-white p-16 text-center shadow-sm">
+        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-gray-100 bg-gray-50 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
           <Inbox className="h-8 w-8 text-gray-400" strokeWidth={1.5} />
         </div>
-        <h3 className="mt-2 text-lg font-bold text-[#0B0F29] tracking-tight">
-          No data available
-        </h3>
-        <p className="mt-2 text-sm text-gray-500 font-medium max-w-xs mx-auto">
-          There isn&apos;t any data to display right now. Get started by
-          creating a new entry.
+        <h3 className="mt-2 text-lg font-bold tracking-tight text-[#0B0F29]">No data available</h3>
+        <p className="mx-auto mt-2 max-w-xs text-sm font-medium text-gray-500">
+          There isn&apos;t any data to display right now. Get started by creating a new entry.
         </p>
       </div>
     );
@@ -58,7 +50,7 @@ export function DataTable<T>({
                   key={index}
                   scope="col"
                   className={cn(
-                    "px-6 py-5 text-left text-[11px] font-bold text-gray-400 uppercase tracking-wider",
+                    "px-6 py-5 text-left text-[11px] font-bold tracking-wider text-gray-400 uppercase",
                     col.className,
                   )}
                 >
@@ -67,17 +59,14 @@ export function DataTable<T>({
               ))}
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-50">
+          <tbody className="divide-y divide-gray-50 bg-white">
             {data.map((row) => (
-              <tr
-                key={keyExtractor(row)}
-                className="hover:bg-[#fafafb] transition-colors group"
-              >
+              <tr key={keyExtractor(row)} className="group transition-colors hover:bg-[#fafafb]">
                 {columns.map((col, colIndex) => (
                   <td
                     key={colIndex}
                     className={cn(
-                      "whitespace-nowrap px-6 py-5 text-[14px] font-medium text-gray-600 group-hover:text-[#0B0F29] transition-colors",
+                      "px-6 py-5 text-[14px] font-medium whitespace-nowrap text-gray-600 transition-colors group-hover:text-[#0B0F29]",
                       col.className,
                     )}
                   >

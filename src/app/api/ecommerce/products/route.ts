@@ -25,28 +25,15 @@ export async function GET(request: Request) {
     return NextResponse.json({ success: true, data: products });
   } catch (error) {
     console.error("Error fetching products:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const {
-      id,
-      title,
-      slug,
-      shortDesc,
-      description,
-      price,
-      images,
-      categoryId,
-      isActive,
-      order,
-    } = body;
+    const { id, title, slug, shortDesc, description, price, images, categoryId, isActive, order } =
+      body;
 
     if (!title || !slug) {
       return NextResponse.json(
@@ -87,10 +74,7 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }
 
@@ -99,19 +83,13 @@ export async function DELETE(request: Request) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
     if (!id) {
-      return NextResponse.json(
-        { success: false, error: "ID required" },
-        { status: 400 },
-      );
+      return NextResponse.json({ success: false, error: "ID required" }, { status: 400 });
     }
 
     await prisma.product.delete({ where: { id } });
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error deleting product:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }

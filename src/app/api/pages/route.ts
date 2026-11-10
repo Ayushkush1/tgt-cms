@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../lib/prisma";
+import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 
 export async function GET() {
   try {
@@ -50,10 +51,7 @@ export async function GET() {
     return NextResponse.json({ success: true, data: transformedPages });
   } catch (error) {
     console.error("Error fetching pages:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }
 
@@ -62,10 +60,7 @@ export async function POST(request: Request) {
     const { title, type = "standard" } = await request.json();
 
     if (!title) {
-      return NextResponse.json(
-        { success: false, error: "Title is required" },
-        { status: 400 },
-      );
+      return NextResponse.json({ success: false, error: "Title is required" }, { status: 400 });
     }
 
     // Simple slugify function
@@ -113,23 +108,10 @@ export async function POST(request: Request) {
       // We don't fail the page creation if link creation fails, but we log it
     }
 
+    revalidateWebsite(WebsiteTag.page(finalSlug), WebsiteTag.site);
     return NextResponse.json({ success: true, data: newPage }, { status: 201 });
   } catch (error) {
     console.error("Error creating page:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
-}
-
-export async function OPTIONS() {
-  return new NextResponse(null, {
-    status: 204,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    },
-  });
 }

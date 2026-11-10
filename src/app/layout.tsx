@@ -32,15 +32,15 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${playfair.variable} antialiased bg-[#f8f9fa]`}
+        className={`${inter.variable} ${playfair.variable} bg-[#f8f9fa] antialiased`}
         suppressHydrationWarning
       >
         <SessionProvider session={session}>
           {session ? (
-            <div className="flex h-screen overflow-hidden font-sans p-[5px]">
+            <div className="flex h-screen overflow-hidden p-[5px] font-sans">
               <AdminSidebar />
               <main className="flex-1 overflow-y-auto">
-                <div className=" px-12 py-10">{children}</div>
+                <div className="px-12 py-10">{children}</div>
               </main>
             </div>
           ) : (

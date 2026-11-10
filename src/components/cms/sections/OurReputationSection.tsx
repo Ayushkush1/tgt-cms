@@ -53,9 +53,7 @@ export function OurReputationSection({
 }: OurReputationSectionProps) {
   const [isOpen, setIsOpen] = useState(!initialData);
   const [isSaving, setIsSaving] = useState(false);
-  const [avatarImages, setAvatarImages] = useState<(File | string | null)[]>(
-    [],
-  );
+  const [avatarImages, setAvatarImages] = useState<(File | string | null)[]>([]);
   const [isDragging, setIsDragging] = useState<number | null>(null);
   const fileInputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -66,9 +64,7 @@ export function OurReputationSection({
       setFormData({ ...defaultFormData, ...initialData });
       if (initialData.testimonials && Array.isArray(initialData.testimonials)) {
         setAvatarImages(
-          (initialData.testimonials as TestimonialItem[]).map(
-            (t) => t.image || null,
-          ),
+          (initialData.testimonials as TestimonialItem[]).map((t) => t.image || null),
         );
       }
     } else {
@@ -78,11 +74,7 @@ export function OurReputationSection({
           if (json.success && data) {
             setFormData((prev) => ({ ...prev, ...data }));
             if (data.testimonials && Array.isArray(data.testimonials)) {
-              setAvatarImages(
-                (data.testimonials as TestimonialItem[]).map(
-                  (t) => t.image || null,
-                ),
-              );
+              setAvatarImages((data.testimonials as TestimonialItem[]).map((t) => t.image || null));
             }
           }
         })
@@ -90,18 +82,12 @@ export function OurReputationSection({
     }
   }, [initialData, saveUrl]);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleTestimonialChange = (
-    index: number,
-    field: keyof TestimonialItem,
-    value: string,
-  ) => {
+  const handleTestimonialChange = (index: number, field: keyof TestimonialItem, value: string) => {
     setFormData((prev) => {
       const updated = [...prev.testimonials];
       updated[index] = { ...updated[index], [field]: value };
@@ -125,10 +111,7 @@ export function OurReputationSection({
     setAvatarImages((prev) => prev.filter((_, i) => i !== indexToRemove));
   };
 
-  const handleFileChange = (
-    index: number,
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleFileChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
       const file = e.target.files[0];
       setAvatarImages((prev) => {
@@ -150,13 +133,10 @@ export function OurReputationSection({
   const handleSave = async () => {
     const errs: string[] = [];
     if (!formData.upperTag?.trim()) errs.push("Upper Tag is required");
-    if (!formData.headlinePart1?.trim())
-      errs.push("Headline (Part 1) is required");
-    if (!formData.mainDescription?.trim())
-      errs.push("Main Description is required");
+    if (!formData.headlinePart1?.trim()) errs.push("Headline (Part 1) is required");
+    if (!formData.mainDescription?.trim()) errs.push("Main Description is required");
     formData.testimonials.forEach((t, i) => {
-      if (!t.clientName.trim())
-        errs.push(`Testimonial ${i + 1} Client Name is required`);
+      if (!t.clientName.trim()) errs.push(`Testimonial ${i + 1} Client Name is required`);
       if (!t.quote.trim()) errs.push(`Testimonial ${i + 1} Quote is required`);
     });
     if (errs.length > 0) {
@@ -211,7 +191,7 @@ export function OurReputationSection({
 
   return (
     <section>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 flex flex-col gap-6 transition-all">
+      <div className="flex flex-col gap-6 rounded-2xl border border-gray-100 bg-white p-8 shadow-sm transition-all">
         <SectionHeader
           title="Our Reputation Section"
           description="Manage the testimonials and footer content displayed in the Our Reputation block."
@@ -224,10 +204,8 @@ export function OurReputationSection({
           }`}
         >
           <div className="overflow-hidden">
-            <div className="grid grid-cols-2 gap-6 pt-4 animate-in fade-in duration-500">
-              <h1 className="text-base font-bold text-gray-500 col-span-2">
-                Header Section
-              </h1>
+            <div className="animate-in fade-in grid grid-cols-2 gap-6 pt-4 duration-500">
+              <h1 className="col-span-2 text-base font-bold text-gray-500">Header Section</h1>
               <InputField
                 label="Upper Tag"
                 name="upperTag"
@@ -277,8 +255,8 @@ export function OurReputationSection({
                 required
               />
 
-              <div className="col-span-2 flex items-center justify-between mt-4">
-                <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest">
+              <div className="col-span-2 mt-4 flex items-center justify-between">
+                <h3 className="text-sm font-bold tracking-widest text-gray-400 uppercase">
                   Testimonials ({formData.testimonials.length})
                 </h3>
               </div>
@@ -286,18 +264,16 @@ export function OurReputationSection({
               {formData.testimonials.map((item, index) => (
                 <div
                   key={index}
-                  className="col-span-2 border border-gray-100 rounded-2xl p-6 flex flex-col gap-4 bg-gray-50/50 relative group"
+                  className="group relative col-span-2 flex flex-col gap-4 rounded-2xl border border-gray-100 bg-gray-50/50 p-6"
                 >
                   <div className="flex items-center justify-between">
-                    <h2 className="text-sm font-semibold text-gray-700">
-                      Testimonial {index + 1}
-                    </h2>
+                    <h2 className="text-sm font-semibold text-gray-700">Testimonial {index + 1}</h2>
                     {formData.testimonials.length > 1 && (
                       <button
                         onClick={() => removeTestimonial(index)}
-                        className="text-red-500 hover:text-red-600 bg-red-50 hover:bg-red-100 p-2 rounded-lg transition-colors flex items-center gap-2 text-xs font-semibold"
+                        className="flex items-center gap-2 rounded-lg bg-red-50 p-2 text-xs font-semibold text-red-500 transition-colors hover:bg-red-100 hover:text-red-600"
                       >
-                        <Trash2 className="w-4 h-4" /> Remove
+                        <Trash2 className="h-4 w-4" /> Remove
                       </button>
                     )}
                   </div>
@@ -307,26 +283,14 @@ export function OurReputationSection({
                       label="Client Name"
                       placeholder="e.g. Sarah Mitchell"
                       value={item.clientName}
-                      onChange={(e) =>
-                        handleTestimonialChange(
-                          index,
-                          "clientName",
-                          e.target.value,
-                        )
-                      }
+                      onChange={(e) => handleTestimonialChange(index, "clientName", e.target.value)}
                       required
                     />
                     <InputField
                       label="Client Role / Company"
                       placeholder="e.g. Chief Product Officer at FinTech Global"
                       value={item.clientRole}
-                      onChange={(e) =>
-                        handleTestimonialChange(
-                          index,
-                          "clientRole",
-                          e.target.value,
-                        )
-                      }
+                      onChange={(e) => handleTestimonialChange(index, "clientRole", e.target.value)}
                     />
                     <TextAreaField
                       label="Quote block"
@@ -334,13 +298,11 @@ export function OurReputationSection({
                       containerClassName="col-span-2"
                       placeholder="e.g. Working with TGT was a game-changer for our platform's scalability and user engagement."
                       value={item.quote}
-                      onChange={(e) =>
-                        handleTestimonialChange(index, "quote", e.target.value)
-                      }
+                      onChange={(e) => handleTestimonialChange(index, "quote", e.target.value)}
                       required
                     />
 
-                    <div className="col-span-2 flex flex-col gap-1.5 mx-2">
+                    <div className="col-span-2 mx-2 flex flex-col gap-1.5">
                       <label className="text-sm font-medium text-gray-700">
                         Client Avatar Image
                       </label>
@@ -354,29 +316,27 @@ export function OurReputationSection({
                         className="hidden"
                       />
                       {avatarImages[index] ? (
-                        <div className="w-full border border-gray-200 rounded-xl bg-gray-50 flex items-center justify-between p-3 px-4">
+                        <div className="flex w-full items-center justify-between rounded-xl border border-gray-200 bg-gray-50 p-3 px-4">
                           <div className="flex items-center gap-4">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                               src={
                                 typeof avatarImages[index] === "string"
                                   ? (avatarImages[index] as string)
-                                  : URL.createObjectURL(
-                                      avatarImages[index] as Blob,
-                                    )
+                                  : URL.createObjectURL(avatarImages[index] as Blob)
                               }
                               alt={`Avatar ${index + 1}`}
-                              className="w-12 h-12 object-cover rounded-full shadow-sm border border-gray-200"
+                              className="h-12 w-12 rounded-full border border-gray-200 object-cover shadow-sm"
                             />
-                            <span className="text-gray-900 font-semibold text-sm truncate max-w-[200px]">
+                            <span className="max-w-[200px] truncate text-sm font-semibold text-gray-900">
                               Image Uploaded
                             </span>
                           </div>
                           <button
                             onClick={() => removeImage(index)}
-                            className="p-1.5 bg-white text-gray-500 hover:text-red-500 rounded-full shadow-sm ring-1 ring-gray-100 transition-colors"
+                            className="rounded-full bg-white p-1.5 text-gray-500 shadow-sm ring-1 ring-gray-100 transition-colors hover:text-red-500"
                           >
-                            <X className="w-4 h-4" />
+                            <X className="h-4 w-4" />
                           </button>
                         </div>
                       ) : (
@@ -399,15 +359,15 @@ export function OurReputationSection({
                             }
                           }}
                           onClick={() => fileInputRefs.current[index]?.click()}
-                          className={`w-full border-2 border-dashed rounded-xl flex flex-col items-center justify-center p-6 transition-colors cursor-pointer group ${
+                          className={`group flex w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 transition-colors ${
                             isDragging === index
-                              ? "border-[#0A0F29] border-solid bg-gray-100"
+                              ? "border-solid border-[#0A0F29] bg-gray-100"
                               : "border-gray-200 bg-gray-50 hover:bg-gray-100"
                           }`}
                         >
-                          <CloudUpload className="w-6 h-6 text-gray-400 mb-2" />
-                          <p className="text-gray-500 text-sm">
-                            <span className="text-[#D3AF37] font-semibold hover:underline mr-1">
+                          <CloudUpload className="mb-2 h-6 w-6 text-gray-400" />
+                          <p className="text-sm text-gray-500">
+                            <span className="mr-1 font-semibold text-[#D3AF37] hover:underline">
                               Click to upload
                             </span>
                             or drag and drop
@@ -421,13 +381,13 @@ export function OurReputationSection({
 
               <button
                 onClick={addTestimonial}
-                className="col-span-2 flex items-center justify-center gap-2 py-4 border-2 border-dashed border-gray-200 rounded-2xl text-gray-500 font-semibold hover:bg-gray-50 transition-colors"
+                className="col-span-2 flex items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-gray-200 py-4 font-semibold text-gray-500 transition-colors hover:bg-gray-50"
               >
-                <Plus className="w-5 h-5" /> Add Testimonial
+                <Plus className="h-5 w-5" /> Add Testimonial
               </button>
 
-              <div className="col-span-2 grid grid-cols-2 gap-6 p-6 bg-gray-50 rounded-3xl border border-gray-100">
-                <h3 className="col-span-2 text-sm font-bold text-gray-400 uppercase tracking-widest">
+              <div className="col-span-2 grid grid-cols-2 gap-6 rounded-3xl border border-gray-100 bg-gray-50 p-6">
+                <h3 className="col-span-2 text-sm font-bold tracking-widest text-gray-400 uppercase">
                   Footer CTA Section
                 </h3>
                 <InputField
@@ -455,11 +415,7 @@ export function OurReputationSection({
               </div>
 
               <div className="col-span-2 flex justify-end pt-4">
-                <SaveButton
-                  onClick={handleSave}
-                  disabled={isSaving}
-                  className="w-40"
-                />
+                <SaveButton onClick={handleSave} disabled={isSaving} className="w-40" />
               </div>
             </div>
           </div>

@@ -25,9 +25,7 @@ export default function PageSEODashboard() {
   const [pages, setPages] = useState<PageSEOSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [expandedParents, setExpandedParents] = useState<
-    Record<string, boolean>
-  >({});
+  const [expandedParents, setExpandedParents] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     async function fetchPages() {
@@ -64,22 +62,22 @@ export default function PageSEODashboard() {
     .sort((a, b) => a.order - b.order);
 
   return (
-    <div className="flex flex-col gap-6 max-w-6xl mx-auto pb-20 animate-in fade-in duration-500">
+    <div className="animate-in fade-in mx-auto flex max-w-6xl flex-col gap-6 pb-20 duration-500">
       <PageHeader
         title="Page Specific SEO"
         description="Monitor and manage SEO metadata, OG tags, and canonical URLs for every page on your site."
       />
 
-      <div className="bg-white p-4 rounded-3xl border border-gray-50 shadow-sm flex items-center gap-4 px-6 focus-within:ring-2 focus-within:ring-[#D4AF37]/20 transition-all">
-        <Search className="w-5 h-5 text-gray-400" />
+      <div className="flex items-center gap-4 rounded-3xl border border-gray-50 bg-white p-4 px-6 shadow-sm transition-all focus-within:ring-2 focus-within:ring-[#D4AF37]/20">
+        <Search className="h-5 w-5 text-gray-400" />
         <input
           type="text"
           placeholder="Search pages by title or slug..."
-          className="flex-1 bg-transparent border-none outline-none text-sm font-medium text-gray-700 placeholder:text-gray-400"
+          className="flex-1 border-none bg-transparent text-sm font-medium text-gray-700 outline-none placeholder:text-gray-400"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+        <div className="text-xs font-bold tracking-widest text-gray-400 uppercase">
           {filteredPages.length} Results
         </div>
       </div>
@@ -89,22 +87,22 @@ export default function PageSEODashboard() {
           <table className="min-w-full divide-y divide-gray-100/50">
             <thead>
               <tr>
-                <th className="px-6 py-5 text-left text-[11px] font-bold text-gray-400 uppercase tracking-wider w-[80px]">
+                <th className="w-[80px] px-6 py-5 text-left text-[11px] font-bold tracking-wider text-gray-400 uppercase">
                   Order
                 </th>
-                <th className="px-6 py-5 text-left text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+                <th className="px-6 py-5 text-left text-[11px] font-bold tracking-wider text-gray-400 uppercase">
                   Label / Title
                 </th>
-                <th className="px-6 py-5 text-left text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+                <th className="px-6 py-5 text-left text-[11px] font-bold tracking-wider text-gray-400 uppercase">
                   SEO Status
                 </th>
-                <th className="px-6 py-5 text-left text-[11px] font-bold text-gray-400 uppercase tracking-wider w-[120px]">
+                <th className="w-[120px] px-6 py-5 text-left text-[11px] font-bold tracking-wider text-gray-400 uppercase">
                   Type
                 </th>
-                <th className="px-6 py-5 text-left text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+                <th className="px-6 py-5 text-left text-[11px] font-bold tracking-wider text-gray-400 uppercase">
                   URL
                 </th>
-                <th className="px-6 py-5 text-left text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+                <th className="px-6 py-5 text-left text-[11px] font-bold tracking-wider text-gray-400 uppercase">
                   Action
                 </th>
               </tr>
@@ -113,7 +111,7 @@ export default function PageSEODashboard() {
               {isLoading ? (
                 <tr>
                   <td colSpan={6} className="py-20 text-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#D4AF37] mx-auto"></div>
+                    <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-[#D4AF37]"></div>
                   </td>
                 </tr>
               ) : rootLinks.length === 0 ? (
@@ -135,7 +133,7 @@ export default function PageSEODashboard() {
 
                   return (
                     <React.Fragment key={root.id}>
-                      <tr className="hover:bg-[#fafafb] transition-colors group">
+                      <tr className="group transition-colors hover:bg-[#fafafb]">
                         <td className="px-6 py-5 text-sm font-medium text-gray-500">
                           {root.order}
                         </td>
@@ -148,18 +146,18 @@ export default function PageSEODashboard() {
                           >
                             {hasChildren ? (
                               isExpanded ? (
-                                <ChevronDown className="w-4 h-4 text-[#D4AF37] shrink-0" />
+                                <ChevronDown className="h-4 w-4 shrink-0 text-[#D4AF37]" />
                               ) : (
-                                <ChevronRight className="w-4 h-4 text-gray-400 shrink-0" />
+                                <ChevronRight className="h-4 w-4 shrink-0 text-gray-400" />
                               )
                             ) : (
-                              <div className="w-4 h-4 shrink-0" />
+                              <div className="h-4 w-4 shrink-0" />
                             )}
                             <div className="flex flex-col">
-                              <span className="font-bold text-[#0B0F29] text-[15px]">
+                              <span className="text-[15px] font-bold text-[#0B0F29]">
                                 {root.title}
                                 {root.isStatic && (
-                                  <span className="ml-2 px-1.5 py-0.5 rounded-md bg-gray-50 text-[9px] font-bold text-gray-400 uppercase border border-gray-100">
+                                  <span className="ml-2 rounded-md border border-gray-100 bg-gray-50 px-1.5 py-0.5 text-[9px] font-bold text-gray-400 uppercase">
                                     Static
                                   </span>
                                 )}
@@ -169,25 +167,25 @@ export default function PageSEODashboard() {
                         </td>
                         <td className="px-6 py-5">
                           {root.type === "Dropdown" ? (
-                            <span className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">
+                            <span className="text-[10px] font-bold tracking-widest text-gray-300 uppercase">
                               Group Container
                             </span>
                           ) : (
                             <div className="flex gap-2">
                               <span
-                                className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                                className={`rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase ${
                                   hasTitle
-                                    ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
-                                    : "bg-red-50 text-red-600 border border-red-100"
+                                    ? "border border-emerald-100 bg-emerald-50 text-emerald-600"
+                                    : "border border-red-100 bg-red-50 text-red-600"
                                 }`}
                               >
                                 {hasTitle ? "Title ✓" : "Title ✗"}
                               </span>
                               <span
-                                className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                                className={`rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase ${
                                   hasDesc
-                                    ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
-                                    : "bg-red-50 text-red-600 border border-red-100"
+                                    ? "border border-emerald-100 bg-emerald-50 text-emerald-600"
+                                    : "border border-red-100 bg-red-50 text-red-600"
                                 }`}
                               >
                                 {hasDesc ? "Desc ✓" : "Desc ✗"}
@@ -197,7 +195,7 @@ export default function PageSEODashboard() {
                         </td>
                         <td className="px-6 py-5">
                           <span
-                            className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                            className={`rounded-full px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase ${
                               root.type === "Main Link"
                                 ? "bg-blue-50 text-[#D4AF37]"
                                 : root.type === "Dropdown"
@@ -208,19 +206,19 @@ export default function PageSEODashboard() {
                             {root.type}
                           </span>
                         </td>
-                        <td className="px-6 py-5 w-10 font-mono text-xs text-gray-400">
+                        <td className="w-10 px-6 py-5 font-mono text-xs text-gray-400">
                           {root.slug === "home" ? "/" : `/${root.slug}`}
                         </td>
                         <td className="px-6 py-5">
-                          <div className="flex items-center gap-3 justify-end">
+                          <div className="flex items-center justify-end gap-3">
                             {root.type !== "Dropdown" && (
                               <>
                                 <Link
                                   href={`/seo/pages/${root.slug}`}
-                                  className="p-2 bg-gray-50 text-brand-navy rounded-xl hover:bg-[#D4AF37] hover:text-[#0B0F29] transition-all group"
+                                  className="text-brand-navy group rounded-xl bg-gray-50 p-2 transition-all hover:bg-[#D4AF37] hover:text-[#0B0F29]"
                                   title="Edit SEO"
                                 >
-                                  <Edit2 className="w-4 h-4" />
+                                  <Edit2 className="h-4 w-4" />
                                 </Link>
                               </>
                             )}
@@ -235,26 +233,22 @@ export default function PageSEODashboard() {
                           return (
                             <tr
                               key={child.id}
-                              className="bg-[#fcfdff]/50 hover:bg-[#f5f8ff] transition-colors group"
+                              className="group bg-[#fcfdff]/50 transition-colors hover:bg-[#f5f8ff]"
                             >
-                              <td className="px-6 py-4 text-sm font-medium text-gray-400 pl-12">
+                              <td className="px-6 py-4 pl-12 text-sm font-medium text-gray-400">
                                 {child.order}
                               </td>
                               <td className="px-6 py-4">
-                                <div className="flex items-center gap-3 pl-6 border-l-2 border-gray-100/50">
-                                  <span className="text-gray-300 text-lg">
-                                    ↳
-                                  </span>
+                                <div className="flex items-center gap-3 border-l-2 border-gray-100/50 pl-6">
+                                  <span className="text-lg text-gray-300">↳</span>
                                   <div className="flex flex-col">
-                                    <span className="font-medium text-xs text-gray-600 group-hover:text-[#0B0F29] transition-colors">
+                                    <span className="text-xs font-medium text-gray-600 transition-colors group-hover:text-[#0B0F29]">
                                       {child.title}
                                     </span>
                                     {(child.navTitle || child.description) && (
                                       <span className="text-[11px] text-gray-400">
                                         {child.navTitle && (
-                                          <span className="font-bold mr-1">
-                                            {child.navTitle}:
-                                          </span>
+                                          <span className="mr-1 font-bold">{child.navTitle}:</span>
                                         )}
                                       </span>
                                     )}
@@ -264,19 +258,19 @@ export default function PageSEODashboard() {
                               <td className="px-6 py-4">
                                 <div className="flex gap-2">
                                   <span
-                                    className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                                    className={`rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase ${
                                       childHasTitle
-                                        ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
-                                        : "bg-red-50 text-red-600 border border-red-100"
+                                        ? "border border-emerald-100 bg-emerald-50 text-emerald-600"
+                                        : "border border-red-100 bg-red-50 text-red-600"
                                     }`}
                                   >
                                     {childHasTitle ? "Title ✓" : "Title ✗"}
                                   </span>
                                   <span
-                                    className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                                    className={`rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase ${
                                       childHasDesc
-                                        ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
-                                        : "bg-red-50 text-red-600 border border-red-100"
+                                        ? "border border-emerald-100 bg-emerald-50 text-emerald-600"
+                                        : "border border-red-100 bg-red-50 text-red-600"
                                     }`}
                                   >
                                     {childHasDesc ? "Desc ✓" : "Desc ✗"}
@@ -284,20 +278,20 @@ export default function PageSEODashboard() {
                                 </div>
                               </td>
                               <td className="px-6 py-4">
-                                <span className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-gray-50 text-gray-400 border border-gray-100">
+                                <span className="rounded-full border border-gray-100 bg-gray-50 px-2 py-0.5 text-[9px] font-bold tracking-widest text-gray-400 uppercase">
                                   {child.type}
                                 </span>
                               </td>
-                              <td className="px-6 py-4 text-xs font-mono text-gray-400">
+                              <td className="px-6 py-4 font-mono text-xs text-gray-400">
                                 {child.slug === "home" ? "/" : `/${child.slug}`}
                               </td>
                               <td className="px-6 py-4">
-                                <div className="flex items-center gap-3 justify-end">
+                                <div className="flex items-center justify-end gap-3">
                                   <Link
                                     href={`/seo/pages/${child.slug}`}
-                                    className="p-1.5 bg-white border border-gray-100 text-gray-400 rounded-lg hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all"
+                                    className="rounded-lg border border-gray-100 bg-white p-1.5 text-gray-400 transition-all hover:border-[#D4AF37] hover:text-[#D4AF37]"
                                   >
-                                    <Edit2 className="w-3.5 h-3.5" />
+                                    <Edit2 className="h-3.5 w-3.5" />
                                   </Link>
                                 </div>
                               </td>

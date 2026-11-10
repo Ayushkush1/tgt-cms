@@ -39,13 +39,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f8f9fa] font-sans">
-      <div className="w-full max-w-md p-8 bg-white rounded-3xl shadow-xl border border-gray-100">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-[#0B0F29] mb-2">
-            Welcome Back
-          </h1>
-          <p className="text-gray-500 text-sm">Sign in to manage your CMS</p>
+    <div className="flex min-h-screen items-center justify-center bg-[#f8f9fa] font-sans">
+      <div className="w-full max-w-md rounded-3xl border border-gray-100 bg-white p-8 shadow-xl">
+        <div className="mb-8 text-center">
+          <h1 className="mb-2 text-3xl font-bold text-[#0B0F29]">Welcome Back</h1>
+          <p className="text-sm text-gray-500">Sign in to manage your CMS</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -57,7 +55,7 @@ export default function LoginPage() {
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="admin@example.com"
-            className="w-full px-4 py-2.5  rounded-2xl font-medium"
+            className="w-full rounded-2xl px-4 py-2.5 font-medium"
             containerClassName="mx-0"
           />
 
@@ -69,14 +67,14 @@ export default function LoginPage() {
             onChange={(e) => setPassword(e.target.value)}
             required
             placeholder="••••••••"
-            className="w-full px-4 py-2.5  rounded-2xl font-medium"
+            className="w-full rounded-2xl px-4 py-2.5 font-medium"
             containerClassName="mx-0"
           />
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-4 bg-[#0B0F29] text-white rounded-2xl font-bold uppercase tracking-widest hover:bg-black transition-all shadow-lg shadow-black/10 disabled:opacity-50"
+            className="w-full rounded-2xl bg-[#0B0F29] py-4 font-bold tracking-widest text-white uppercase shadow-lg shadow-black/10 transition-all hover:bg-black disabled:opacity-50"
           >
             {isLoading ? "Signing in..." : "Sign In"}
           </button>
@@ -85,17 +83,14 @@ export default function LoginPage() {
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             Don&apos;t have an account?{" "}
-            <Link
-              href="/register"
-              className="text-[#D4AF37] hover:underline font-semibold"
-            >
+            <Link href="/register" className="font-semibold text-[#D4AF37] hover:underline">
               Sign Up
             </Link>
           </p>
         </div>
 
         <div className="mt-8 text-center">
-          <p className="text-gray-400 text-xs">
+          <p className="text-xs text-gray-400">
             &copy; {new Date().getFullYear()} Volta Studio. All rights reserved.
           </p>
         </div>

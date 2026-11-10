@@ -86,9 +86,7 @@ export function WhoWeAreSection({
     });
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -142,7 +140,7 @@ export function WhoWeAreSection({
 
   return (
     <section>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 flex flex-col gap-6 transition-all">
+      <div className="flex flex-col gap-6 rounded-2xl border border-gray-100 bg-white p-8 shadow-sm transition-all">
         <SectionHeader
           title="Who We Are Section"
           description="Manage the content displayed on the Who We Are section."
@@ -155,7 +153,7 @@ export function WhoWeAreSection({
           }`}
         >
           <div className="overflow-hidden">
-            <div className="grid grid-cols-2 gap-6 pt-4 animate-in fade-in duration-500">
+            <div className="animate-in fade-in grid grid-cols-2 gap-6 pt-4 duration-500">
               <InputField
                 label="Headline"
                 name="headline"
@@ -203,8 +201,8 @@ export function WhoWeAreSection({
                 containerClassName="col-span-2"
               />
 
-              <div className="col-span-2 grid grid-cols-2 gap-6 p-6 bg-gray-50 rounded-3xl border border-gray-100">
-                <h3 className="col-span-2 text-sm font-bold text-gray-400 uppercase tracking-widest">
+              <div className="col-span-2 grid grid-cols-2 gap-6 rounded-3xl border border-gray-100 bg-gray-50 p-6">
+                <h3 className="col-span-2 text-sm font-bold tracking-widest text-gray-400 uppercase">
                   Block 1: Digital Innovation
                 </h3>
                 <InputField
@@ -238,8 +236,8 @@ export function WhoWeAreSection({
                 </div>
               </div>
 
-              <div className="col-span-2 grid grid-cols-2 gap-6 p-6 bg-gray-50 rounded-3xl border border-gray-100">
-                <h3 className="col-span-2 text-sm font-bold text-gray-400 uppercase tracking-widest">
+              <div className="col-span-2 grid grid-cols-2 gap-6 rounded-3xl border border-gray-100 bg-gray-50 p-6">
+                <h3 className="col-span-2 text-sm font-bold tracking-widest text-gray-400 uppercase">
                   Block 2: Simple & Accessible
                 </h3>
                 <InputField
@@ -282,11 +280,7 @@ export function WhoWeAreSection({
               </div>
 
               <div className="col-span-2 flex justify-end pt-4">
-                <SaveButton
-                  onClick={handleSave}
-                  disabled={isSaving}
-                  className="w-40"
-                />
+                <SaveButton onClick={handleSave} disabled={isSaving} className="w-40" />
               </div>
             </div>
           </div>

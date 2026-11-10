@@ -55,13 +55,11 @@ export default function ProductsPage() {
 
   const handleSave = async () => {
     const errs: string[] = [];
-    if (!formData.hero.headingLine.trim())
-      errs.push("Primary Hero Heading Line is required");
+    if (!formData.hero.headingLine.trim()) errs.push("Primary Hero Heading Line is required");
 
     formData.products.forEach((prod, i) => {
       if (!prod.title.trim()) errs.push(`Product ${i + 1} Title is required`);
-      if (!prod.link.trim())
-        errs.push(`Product "${prod.title || i + 1}" Link is required`);
+      if (!prod.link.trim()) errs.push(`Product "${prod.title || i + 1}" Link is required`);
     });
 
     if (errs.length > 0) {
@@ -109,27 +107,23 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="flex flex-col gap-6 max-w-6xl mx-auto pb-20">
-      <div className="flex justify-between items-end">
+    <div className="mx-auto flex max-w-6xl flex-col gap-6 pb-20">
+      <div className="flex items-end justify-between">
         <PageHeader
           title="Products Content Management"
           description="Manage the top-level hero wrapper and define dynamically scaled products for the dropdown & features."
         />
         <div className="mb-2">
-          <SaveButton
-            onClick={handleSave}
-            disabled={isSaving}
-            className="w-auto px-10 "
-          />
+          <SaveButton onClick={handleSave} disabled={isSaving} className="w-auto px-10" />
         </div>
       </div>
 
       {isLoading ? (
-        <div className="py-20 text-center text-gray-400 font-medium animate-pulse">
+        <div className="animate-pulse py-20 text-center font-medium text-gray-400">
           Loading product configurations...
         </div>
       ) : (
-        <div className="flex flex-col gap-8 animate-in fade-in duration-500">
+        <div className="animate-in fade-in flex flex-col gap-8 duration-500">
           <ProductHeroCMS
             data={formData.hero}
             onChange={(hero) => setFormData({ ...formData, hero })}

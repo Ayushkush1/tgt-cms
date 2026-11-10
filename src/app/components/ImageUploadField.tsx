@@ -18,9 +18,7 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
   containerClassName = "",
   tooltip,
 }) => {
-  const [internalImages, setInternalImages] = useState<
-    (File | string | null)[]
-  >([]);
+  const [internalImages, setInternalImages] = useState<(File | string | null)[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -71,13 +69,13 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
   return (
     <div className={`flex flex-col gap-1.5 ${containerClassName}`}>
       {label && (
-        <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-4 flex items-center gap-1.5 relative">
+        <label className="relative ml-4 flex items-center gap-1.5 text-[11px] font-bold tracking-widest text-gray-400 uppercase">
           {label}
           {tooltip && (
             <div className="group relative flex items-center">
-              <HelpCircle className="w-3.5 h-3.5 cursor-help text-gray-300 hover:text-[#D4AF37] transition-colors" />
+              <HelpCircle className="h-3.5 w-3.5 cursor-help text-gray-300 transition-colors hover:text-[#D4AF37]" />
               {/* Tooltip Bubble */}
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-max max-w-[280px] px-4 py-3 bg-white text-gray-900 text-[11px] font-medium rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-gray-100 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-50 normal-case tracking-normal text-center leading-relaxed backdrop-blur-sm">
+              <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-3 w-max max-w-[280px] -translate-x-1/2 rounded-2xl border border-gray-100 bg-white px-4 py-3 text-center text-[11px] leading-relaxed font-medium tracking-normal text-gray-900 normal-case opacity-0 shadow-[0_20px_50px_rgba(0,0,0,0.15)] backdrop-blur-sm transition-all duration-300 group-hover:opacity-100">
                 {tooltip}
                 <div className="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-white"></div>
               </div>
@@ -96,37 +94,30 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
       />
 
       {images.length > 0 && (
-        <div className="flex flex-col gap-2 mt-1 mb-1">
+        <div className="mt-1 mb-1 flex flex-col gap-2">
           {images.map((img, idx) => {
             if (!img) return null;
             return (
               <div
                 key={idx}
-                className="w-full border border-gray-200 rounded-xl bg-gray-50 flex items-center justify-between p-3 px-4 relative overflow-hidden group"
+                className="group relative flex w-full items-center justify-between overflow-hidden rounded-xl border border-gray-200 bg-gray-50 p-3 px-4"
               >
                 <div className="flex items-center gap-4">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={
-                      typeof img === "string"
-                        ? img
-                        : URL.createObjectURL(img as Blob)
-                    }
+                    src={typeof img === "string" ? img : URL.createObjectURL(img as Blob)}
                     alt={`Preview ${idx + 1}`}
-                    className="w-12 h-12 object-cover rounded-md shadow-sm border border-gray-200"
+                    className="h-12 w-12 rounded-md border border-gray-200 object-cover shadow-sm"
                   />
                   <div className="flex flex-col">
-                    <span className="text-gray-900 font-semibold text-sm truncate max-w-[200px]">
-                      {typeof img === "string"
-                        ? "Uploaded Image"
-                        : (img as File).name || "Unknown"}
+                    <span className="max-w-[200px] truncate text-sm font-semibold text-gray-900">
+                      {typeof img === "string" ? "Uploaded Image" : (img as File).name || "Unknown"}
                     </span>
-                    <span className="text-gray-500 font-medium text-[12px]">
+                    <span className="text-[12px] font-medium text-gray-500">
                       {typeof img === "string"
                         ? "Cloud / Remote"
                         : (img as File).size
-                          ? ((img as File).size / 1024 / 1024).toFixed(2) +
-                            " MB"
+                          ? ((img as File).size / 1024 / 1024).toFixed(2) + " MB"
                           : "Unknown size"}
                     </span>
                   </div>
@@ -136,9 +127,9 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
                     e.preventDefault();
                     removeImage(idx);
                   }}
-                  className="p-1.5 bg-white text-gray-500 hover:text-red-500 rounded-full shadow-sm ring-1 ring-gray-100 transition-colors cursor-pointer relative z-10"
+                  className="relative z-10 cursor-pointer rounded-full bg-white p-1.5 text-gray-500 shadow-sm ring-1 ring-gray-100 transition-colors hover:text-red-500"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="h-4 w-4" />
                 </button>
               </div>
             );
@@ -152,38 +143,33 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           onClick={() => fileInputRef.current?.click()}
-          className={`mt-1 w-full border-2 border-dashed rounded-xl flex flex-col items-center justify-center p-6 lg:p-8 transition-colors cursor-pointer group
-          ${
+          className={`group mt-1 flex w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 transition-colors lg:p-8 ${
             isDragging
-              ? "border-[#0A0F29] border-solid bg-gray-100"
+              ? "border-solid border-[#0A0F29] bg-gray-100"
               : "border-gray-200 bg-gray-50 hover:bg-gray-100"
-          }
-        `}
+          } `}
         >
-          <span className="text-gray-600 font-medium text-sm mb-4">
+          <span className="mb-4 text-sm font-medium text-gray-600">
             {maxImages > 1
               ? `Slider Image (${images.length}/${maxImages} selected)`
               : "Provide an image for your Service"}
           </span>
 
           <div
-            className={`p-3 rounded-full shadow-sm ring-1 ring-gray-100 mb-4 transition-transform
-          ${isDragging ? "bg-[#0A0F29] text-white scale-110" : "bg-white text-[#0A0F29] group-hover:scale-110"}
-        `}
+            className={`mb-4 rounded-full p-3 shadow-sm ring-1 ring-gray-100 transition-transform ${isDragging ? "scale-110 bg-[#0A0F29] text-white" : "bg-white text-[#0A0F29] group-hover:scale-110"} `}
           >
-            <CloudUpload className="w-6 h-6" strokeWidth={2} />
+            <CloudUpload className="h-6 w-6" strokeWidth={2} />
           </div>
 
-          <p className="text-gray-500 text-sm mb-2 text-center">
-            <span className="text-[#D3AF37] font-semibold hover:underline mr-1">
+          <p className="mb-2 text-center text-sm text-gray-500">
+            <span className="mr-1 font-semibold text-[#D3AF37] hover:underline">
               Click to upload
             </span>
             <br className="lg:hidden" />
             <span className="hidden lg:inline">or </span>drag and drop
           </p>
-          <p className="text-gray-400 text-[13px] font-medium text-center">
-            PNG or JPG (800×400px).{" "}
-            {maxImages > 1 ? `Max ${maxImages} images.` : ""}
+          <p className="text-center text-[13px] font-medium text-gray-400">
+            PNG or JPG (800×400px). {maxImages > 1 ? `Max ${maxImages} images.` : ""}
           </p>
         </div>
       )}

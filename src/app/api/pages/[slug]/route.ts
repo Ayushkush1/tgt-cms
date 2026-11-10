@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../../lib/prisma";
+import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
+import { withoutBlogBodies } from "@/lib/blogPosts";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ slug: string }> },
-) {
+export async function GET(request: Request, { params }: { params: Promise<{ slug: string }> }) {
   try {
     const { slug } = await params;
+    // The website asks for ?slim=1: blog bodies embed base64 images (MBs each),
+    // so they are left out here and read one at a time from /api/blogs/[slug]
+    const slim = new URL(request.url).searchParams.get("slim") === "1";
 
     const page = await prisma.page.findUnique({
       where: { slug },
@@ -20,10 +22,7 @@ export async function GET(
     });
 
     if (!page) {
-      return NextResponse.json(
-        { success: false, error: "Page not found" },
-        { status: 404 },
-      );
+      return NextResponse.json({ success: false, error: "Page not found" }, { status: 404 });
     }
 
     const {
@@ -38,6 +37,7 @@ export async function GET(
       ogImage,
       schema,
       headingOptions,
+      sections,
       ...rest
     } = page;
 
@@ -45,6 +45,7 @@ export async function GET(
       success: true,
       data: {
         ...rest,
+        sections: slim ? sections.map(withoutBlogBodies) : sections,
         seo: {
           metaTitle,
           metaDescription,
@@ -62,10 +63,7 @@ export async function GET(
     });
   } catch (error) {
     console.error("Error fetching page:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }
 
@@ -74,10 +72,7 @@ export async function PUT(request: Request) {
     const { id, title, slug } = await request.json();
 
     if (!id) {
-      return NextResponse.json(
-        { success: false, error: "Page id is required" },
-        { status: 400 },
-      );
+      return NextResponse.json({ success: false, error: "Page id is required" }, { status: 400 });
     }
 
     const updatedPage = await prisma.page.update({
@@ -88,20 +83,15 @@ export async function PUT(request: Request) {
       },
     });
 
+    revalidateWebsite(WebsiteTag.page(updatedPage.slug), WebsiteTag.site);
     return NextResponse.json({ success: true, data: updatedPage });
   } catch (error) {
     console.error("Error updating page:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ slug: string }> },
-) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ slug: string }> }) {
   try {
     const { slug } = await params;
 
@@ -110,10 +100,7 @@ export async function DELETE(
     });
 
     if (!page) {
-      return NextResponse.json(
-        { success: false, error: "Page not found" },
-        { status: 404 },
-      );
+      return NextResponse.json({ success: false, error: "Page not found" }, { status: 404 });
     }
 
     // Delete associated NavLink if it exists
@@ -125,12 +112,10 @@ export async function DELETE(
       where: { id: page.id },
     });
 
+    revalidateWebsite(WebsiteTag.page(slug), WebsiteTag.site);
     return NextResponse.json({ success: true, message: "Page deleted" });
   } catch (error) {
     console.error("Error deleting page:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }

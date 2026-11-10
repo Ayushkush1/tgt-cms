@@ -56,18 +56,12 @@ export function IntegrationsSection({
     }
   }, [initialData, saveUrl]);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleStatChange = (
-    index: number,
-    field: keyof StatItem,
-    value: string,
-  ) => {
+  const handleStatChange = (index: number, field: keyof StatItem, value: string) => {
     setFormData((prev) => {
       const updated = [...prev.stats];
       updated[index] = { ...updated[index], [field]: value };
@@ -97,11 +91,7 @@ export function IntegrationsSection({
         ? { id: sectionId, content: formData }
         : { section: "Integrations", content: formData };
 
-      const method = sectionId
-        ? "PUT"
-        : saveUrl === "/api/home"
-          ? "PUT"
-          : "POST";
+      const method = sectionId ? "PUT" : saveUrl === "/api/home" ? "PUT" : "POST";
 
       const res = await fetch(saveUrl, {
         method,
@@ -125,7 +115,7 @@ export function IntegrationsSection({
 
   return (
     <section>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 flex flex-col gap-6 transition-all">
+      <div className="flex flex-col gap-6 rounded-2xl border border-gray-100 bg-white p-8 shadow-sm transition-all">
         <SectionHeader
           title="Integrations & Stats Section"
           description="Manage center content and statistics."
@@ -134,7 +124,7 @@ export function IntegrationsSection({
         />
 
         {isOpen && (
-          <div className="flex flex-col gap-8 pt-4 animate-in fade-in duration-500">
+          <div className="animate-in fade-in flex flex-col gap-8 pt-4 duration-500">
             <div className="grid grid-cols-2 gap-6">
               <InputField
                 label="Headline"
@@ -155,39 +145,35 @@ export function IntegrationsSection({
                 required
               />
 
-              <div className="col-span-2 flex items-center justify-between mt-4">
-                <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest">
+              <div className="col-span-2 mt-4 flex items-center justify-between">
+                <h3 className="text-sm font-bold tracking-widest text-gray-400 uppercase">
                   Stats Counters ({formData.stats.length})
                 </h3>
               </div>
 
-              <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="col-span-2 grid grid-cols-1 gap-6 md:grid-cols-2">
                 {formData.stats.map((stat, index) => (
                   <div
                     key={index}
-                    className="border border-gray-200 rounded-3xl p-6 flex flex-col gap-4 bg-white shadow-sm relative group"
+                    className="group relative flex flex-col gap-4 rounded-3xl border border-gray-200 bg-white p-6 shadow-sm"
                   >
                     <button
                       onClick={() => removeStat(index)}
-                      className="absolute -top-3 -right-3 p-2 bg-red-50 text-red-500 rounded-full shadow-sm hover:bg-red-100 transition-all opacity-0 group-hover:opacity-100"
+                      className="absolute -top-3 -right-3 rounded-full bg-red-50 p-2 text-red-500 opacity-0 shadow-sm transition-all group-hover:opacity-100 hover:bg-red-100"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="h-4 w-4" />
                     </button>
                     <InputField
                       label="Value"
                       value={stat.value}
-                      onChange={(e) =>
-                        handleStatChange(index, "value", e.target.value)
-                      }
+                      onChange={(e) => handleStatChange(index, "value", e.target.value)}
                       placeholder="e.g. 50"
                       required
                     />
                     <InputField
                       label="Label"
                       value={stat.labelLine1}
-                      onChange={(e) =>
-                        handleStatChange(index, "labelLine1", e.target.value)
-                      }
+                      onChange={(e) => handleStatChange(index, "labelLine1", e.target.value)}
                       placeholder="e.g. Happy Clients"
                       required
                     />
@@ -197,20 +183,16 @@ export function IntegrationsSection({
                 {formData.stats.length < 10 && (
                   <button
                     onClick={addStat}
-                    className="border-2 border-dashed border-gray-200 rounded-3xl flex flex-col items-center justify-center p-12 text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-all gap-2"
+                    className="flex flex-col items-center justify-center gap-2 rounded-3xl border-2 border-dashed border-gray-200 p-12 text-gray-400 transition-all hover:bg-gray-50 hover:text-gray-600"
                   >
-                    <Plus className="w-6 h-6" />
+                    <Plus className="h-6 w-6" />
                     <span className="font-semibold">Add Stat</span>
                   </button>
                 )}
               </div>
 
               <div className="col-span-2 flex justify-end pt-4">
-                <SaveButton
-                  onClick={handleSave}
-                  disabled={isSaving}
-                  className="w-40"
-                />
+                <SaveButton onClick={handleSave} disabled={isSaving} className="w-40" />
               </div>
             </div>
           </div>

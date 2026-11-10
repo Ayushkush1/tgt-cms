@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 
 export async function GET() {
   try {
@@ -22,10 +23,7 @@ export async function GET() {
     return NextResponse.json({ success: true, data: config });
   } catch (error) {
     console.error("Error fetching global SEO config:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }
 
@@ -80,6 +78,7 @@ export async function PUT(request: Request) {
       },
     });
 
+    revalidateWebsite(WebsiteTag.site);
     return NextResponse.json({ success: true, data: updatedConfig });
   } catch (error: any) {
     console.error("Error updating global SEO config:", error);

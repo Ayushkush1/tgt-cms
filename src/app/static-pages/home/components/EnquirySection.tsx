@@ -85,7 +85,7 @@ export default function EnquirySection() {
 
   return (
     <section>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4 transition-all">
+      <div className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all">
         <SectionHeader
           title="Enquiry / Contact Section"
           description="Manage the contact information, copy, and form options shown in the Contact Us section."
@@ -97,7 +97,7 @@ export default function EnquirySection() {
         >
           <div className="overflow-hidden">
             <div className="grid grid-cols-2 gap-4 pt-2">
-              <h1 className="text-base font-bold text-gray-500 col-span-2">
+              <h1 className="col-span-2 text-base font-bold text-gray-500">
                 Header &amp; Intro text
               </h1>
               <InputField
@@ -150,7 +150,7 @@ export default function EnquirySection() {
                 required
               />
 
-              <h1 className="text-base font-bold text-gray-500 col-span-2 mt-4">
+              <h1 className="col-span-2 mt-4 text-base font-bold text-gray-500">
                 Contact Information
               </h1>
               <InputField
@@ -181,7 +181,7 @@ export default function EnquirySection() {
                 rows={2}
               />
 
-              <h1 className="text-base font-bold text-gray-500 col-span-2 mt-4">
+              <h1 className="col-span-2 mt-4 text-base font-bold text-gray-500">
                 Form Configuration
               </h1>
               <TextAreaField

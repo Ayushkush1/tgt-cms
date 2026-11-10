@@ -56,7 +56,7 @@ export const CreatePagePopUp = ({
         <>
           {/* Overlay */}
           <motion.div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-10"
+            className="fixed inset-0 z-10 bg-black/60 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -71,54 +71,52 @@ export const CreatePagePopUp = ({
             transition={{ duration: 0.4 }}
             className="fixed inset-0 z-100 flex items-center justify-center p-4"
           >
-            <div className="relative w-full max-w-lg rounded-[3rem] bg-white border drop-shadow-md border-gray-200 shadow-2xl overflow-hidden">
+            <div className="relative w-full max-w-lg overflow-hidden rounded-[3rem] border border-gray-200 bg-white shadow-2xl drop-shadow-md">
               {/* Close */}
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="absolute right-10 top-10 text-gray-400 hover:text-black"
+                className="absolute top-10 right-10 text-gray-400 hover:text-black"
               >
                 <X />
               </button>
 
               {/* Content */}
-              <div className="p-10 ">
-                <h2 className="text-2xl font-semibold text-black tracking-tight">
+              <div className="p-10">
+                <h2 className="text-2xl font-semibold tracking-tight text-black">
                   Create New Page
                 </h2>
 
-                <p className="text-gray-500 text-sm mt-3 mb-8">
+                <p className="mt-3 mb-8 text-sm text-gray-500">
                   Enter a name to create a new page for your website.
                 </p>
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-6 text-left">
-                  <div className=" flex flex-col gap-2">
-                    <label className="block text-sm font-semibold text-[#0B0F29]">
-                      Page Name*
-                    </label>
+                  <div className="flex flex-col gap-2">
+                    <label className="block text-sm font-semibold text-[#0B0F29]">Page Name*</label>
                     <input
                       type="text"
                       required
                       value={pageName}
                       onChange={(e) => setPageName(e.target.value)}
                       placeholder="e.g. About Us, Contact"
-                      className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-black placeholder-gray-400 focus:border-[#0B0F29] outline-none"
+                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-black placeholder-gray-400 outline-none focus:border-[#0B0F29]"
                     />
                   </div>
 
                   {/* CTA — SAME AS HERO BUTTON */}
 
-                  <div className="pt-4 flex items-center justify-end gap-3">
+                  <div className="flex items-center justify-end gap-3 pt-4">
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className=" w-32 bg-[#0B0F29] text-white font-semibold py-3 rounded-full flex items-center justify-center gap-2 hover:bg-black transition-all hover:border-[#D4AF37] hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] disabled:opacity-50"
+                      className="flex w-32 items-center justify-center gap-2 rounded-full bg-[#0B0F29] py-3 font-semibold text-white transition-all hover:border-[#D4AF37] hover:bg-black hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] disabled:opacity-50"
                     >
                       {isSubmitting ? "Creating..." : "Continue"}
                     </button>
                     <button
                       type="button"
                       onClick={() => setIsModalOpen(false)}
-                      className="text-black px-6 py-3 border-gray-200 rounded-full text-md font-medium transition-colors border hover:border-[#D4AF37]"
+                      className="text-md rounded-full border border-gray-200 px-6 py-3 font-medium text-black transition-colors hover:border-[#D4AF37]"
                     >
                       Cancel
                     </button>

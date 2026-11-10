@@ -36,11 +36,7 @@ export async function deleteFileFromSupabase(publicUrl: string): Promise<void> {
  * Compresses an image file on the client side using HTML5 Canvas
  * and outputs a WebP file.
  */
-async function compressImageToWebP(
-  file: File,
-  maxWidth = 1920,
-  quality = 0.8
-): Promise<File> {
+async function compressImageToWebP(file: File, maxWidth = 1920, quality = 0.8): Promise<File> {
   return new Promise((resolve) => {
     // Only compress standard images (excluding GIFs)
     if (!file.type.startsWith("image/") || file.type.includes("gif")) {
@@ -86,7 +82,7 @@ async function compressImageToWebP(
             resolve(compressedFile);
           },
           "image/webp",
-          quality
+          quality,
         );
       };
       img.onerror = () => resolve(file);
@@ -177,4 +173,3 @@ export async function uploadFiles(
     throw err;
   }
 }
-

@@ -64,9 +64,7 @@ export default function OurTeam() {
       .catch(console.error);
   }, []);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -157,7 +155,7 @@ export default function OurTeam() {
 
   return (
     <section>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4 transition-all">
+      <div className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all">
         <SectionHeader
           title="Our Team Section"
           description="Manage the heading text and the team members displayed in the grid."
@@ -172,9 +170,7 @@ export default function OurTeam() {
         >
           <div className="overflow-hidden">
             <div className="grid grid-cols-2 gap-4 pt-2">
-              <h1 className="text-base font-bold text-gray-500 col-span-2 mt-2">
-                Section Content
-              </h1>
+              <h1 className="col-span-2 mt-2 text-base font-bold text-gray-500">Section Content</h1>
               <InputField
                 label="Eyebrow Text (Top Label)"
                 name="topLabel"
@@ -204,10 +200,8 @@ export default function OurTeam() {
 
               {/* --- Team Members Repeater --- */}
               <div className="col-span-2 mt-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h1 className="text-base font-bold text-gray-500">
-                    Team Members
-                  </h1>
+                <div className="mb-4 flex items-center justify-between">
+                  <h1 className="text-base font-bold text-gray-500">Team Members</h1>
                   <span className="text-sm font-medium text-gray-400">
                     {formData.members.length} mapped
                   </span>
@@ -217,7 +211,7 @@ export default function OurTeam() {
                   {formData.members.map((member, idx) => (
                     <div
                       key={idx}
-                      className="p-4 border border-gray-100 rounded-xl bg-gray-50 grid grid-cols-2 gap-4"
+                      className="grid grid-cols-2 gap-4 rounded-xl border border-gray-100 bg-gray-50 p-4"
                     >
                       <div className="col-span-2 flex items-center justify-between">
                         <h2 className="text-sm font-semibold text-gray-700">
@@ -226,57 +220,47 @@ export default function OurTeam() {
                         {formData.members.length > 1 && (
                           <button
                             onClick={() => removeMember(idx)}
-                            className="text-red-500 hover:text-red-600 bg-red-50 hover:bg-red-100 p-1.5 rounded-md transition-colors flex items-center gap-1.5 text-xs font-medium"
+                            className="flex items-center gap-1.5 rounded-md bg-red-50 p-1.5 text-xs font-medium text-red-500 transition-colors hover:bg-red-100 hover:text-red-600"
                           >
-                            <Trash2 className="w-3.5 h-3.5" /> Remove
+                            <Trash2 className="h-3.5 w-3.5" /> Remove
                           </button>
                         )}
                       </div>
                       <InputField
                         label="Name"
                         value={member.name}
-                        onChange={(e) =>
-                          handleMemberChange(idx, "name", e.target.value)
-                        }
+                        onChange={(e) => handleMemberChange(idx, "name", e.target.value)}
                         placeholder="e.g. Meghna Tiwari"
                         required
-                        className=" bg-white"
+                        className="bg-white"
                       />
                       <InputField
                         label="Designation"
                         value={member.designation}
-                        onChange={(e) =>
-                          handleMemberChange(idx, "designation", e.target.value)
-                        }
+                        onChange={(e) => handleMemberChange(idx, "designation", e.target.value)}
                         placeholder="e.g. Founder & CEO"
-                        className=" bg-white"
+                        className="bg-white"
                       />
                       <InputField
                         label="Column Position (0-7)"
                         value={member.col.toString()}
-                        onChange={(e) =>
-                          handleMemberChange(idx, "col", e.target.value)
-                        }
+                        onChange={(e) => handleMemberChange(idx, "col", e.target.value)}
                         placeholder="e.g. 3"
                         type="number"
-                        className=" bg-white"
+                        className="bg-white"
                       />
                       <InputField
                         label="LinkedIn URL"
                         value={member.linkedinUrl}
-                        onChange={(e) =>
-                          handleMemberChange(idx, "linkedinUrl", e.target.value)
-                        }
+                        onChange={(e) => handleMemberChange(idx, "linkedinUrl", e.target.value)}
                         placeholder="https://linkedin.com/in/..."
-                        className=" bg-white"
+                        className="bg-white"
                       />
                       <div className="col-span-2">
                         <ImageUploadField
                           label="Profile Image"
                           images={member.image}
-                          onImagesChange={(imgs) =>
-                            handleMemberChange(idx, "image", imgs)
-                          }
+                          onImagesChange={(imgs) => handleMemberChange(idx, "image", imgs)}
                           maxImages={1}
                         />
                       </div>
@@ -286,9 +270,9 @@ export default function OurTeam() {
 
                 <button
                   onClick={addMember}
-                  className="mt-4 w-full flex items-center justify-center gap-2 py-3 border-2 border-dashed border-gray-200 rounded-xl text-gray-500 font-medium hover:bg-gray-50 hover:border-gray-300 transition-colors"
+                  className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-gray-200 py-3 font-medium text-gray-500 transition-colors hover:border-gray-300 hover:bg-gray-50"
                 >
-                  <Plus className="w-4 h-4" /> Add Team Member
+                  <Plus className="h-4 w-4" /> Add Team Member
                 </button>
               </div>
 

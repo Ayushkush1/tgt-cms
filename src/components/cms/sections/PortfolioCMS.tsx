@@ -1,13 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import {
-  Plus,
-  Trash2,
-  ChevronDown,
-  ChevronUp,
-  GripVertical,
-} from "lucide-react";
+import { Plus, Trash2, ChevronDown, ChevronUp, GripVertical } from "lucide-react";
 import { fetchWithCache } from "@/app/lib/apiCache";
 import { InputField } from "@/app/components/InputField";
 import { SaveButton } from "@/app/components/SaveButton";
@@ -117,9 +111,7 @@ export function PortfolioCMS({
                 stats: item.stats || [],
                 SERVICES: (item.SERVICES || []).map((s: any) => ({
                   ...s,
-                  tags: Array.isArray(s.tags)
-                    ? s.tags.join(", ")
-                    : s.tags || "",
+                  tags: Array.isArray(s.tags) ? s.tags.join(", ") : s.tags || "",
                 })),
               }));
               setItems(mapped.length > 0 ? mapped : [defaultPortfolio()]);
@@ -135,11 +127,7 @@ export function PortfolioCMS({
     }
   }, [initialData, saveUrl]);
 
-  const handleItemChange = (
-    idx: number,
-    field: keyof PortfolioItem,
-    value: any,
-  ) => {
+  const handleItemChange = (idx: number, field: keyof PortfolioItem, value: any) => {
     setItems((prev) => {
       const updated = [...prev];
       updated[idx] = { ...updated[idx], [field]: value };
@@ -189,9 +177,7 @@ export function PortfolioCMS({
   const removeStat = (itemIdx: number, statIdx: number) => {
     setItems((prev) => {
       const newItems = [...prev];
-      newItems[itemIdx].stats = newItems[itemIdx].stats.filter(
-        (_, i) => i !== statIdx,
-      );
+      newItems[itemIdx].stats = newItems[itemIdx].stats.filter((_, i) => i !== statIdx);
       return newItems;
     });
   };
@@ -212,9 +198,7 @@ export function PortfolioCMS({
   const addService = (itemIdx: number) => {
     setItems((prev) => {
       const newItems = [...prev];
-      newItems[itemIdx].SERVICES.push(
-        defaultService(newItems[itemIdx].SERVICES.length),
-      );
+      newItems[itemIdx].SERVICES.push(defaultService(newItems[itemIdx].SERVICES.length));
       return newItems;
     });
   };
@@ -222,9 +206,7 @@ export function PortfolioCMS({
   const removeService = (itemIdx: number, srvIdx: number) => {
     setItems((prev) => {
       const newItems = [...prev];
-      newItems[itemIdx].SERVICES = newItems[itemIdx].SERVICES.filter(
-        (_, i) => i !== srvIdx,
-      );
+      newItems[itemIdx].SERVICES = newItems[itemIdx].SERVICES.filter((_, i) => i !== srvIdx);
       return newItems;
     });
   };
@@ -293,7 +275,7 @@ export function PortfolioCMS({
 
   return (
     <section id="portfolio-cms">
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 flex flex-col gap-6">
+      <div className="flex flex-col gap-6 rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
         <SectionHeader
           title="Portfolio Management"
           description="Build your portfolio showcases. This data links the carousel and its associated detail pages."
@@ -312,16 +294,16 @@ export function PortfolioCMS({
                 {items.map((item, idx) => (
                   <div
                     key={item.id}
-                    className="border border-gray-100 rounded-4xl bg-gray-50/30 overflow-hidden shadow-sm transition-all duration-500 hover:border-[#D4AF37]/30"
+                    className="overflow-hidden rounded-4xl border border-gray-100 bg-gray-50/30 shadow-sm transition-all duration-500 hover:border-[#D4AF37]/30"
                   >
                     {/* Header */}
                     <div
-                      className="px-8 py-5 bg-white border-b border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors"
+                      className="flex cursor-pointer items-center justify-between border-b border-gray-100 bg-white px-8 py-5 transition-colors hover:bg-gray-50"
                       onClick={() => toggleExpand(idx)}
                     >
                       <div className="flex items-center gap-4">
-                        <GripVertical className="text-gray-300 w-5 h-5" />
-                        <span className="font-bold text-[#0B0F29] tracking-tight">
+                        <GripVertical className="h-5 w-5 text-gray-300" />
+                        <span className="font-bold tracking-tight text-[#0B0F29]">
                           Project {idx + 1}: {item.title || "Untitled Showcase"}
                         </span>
                       </div>
@@ -331,144 +313,116 @@ export function PortfolioCMS({
                             e.stopPropagation();
                             removeItem(idx);
                           }}
-                          className="text-red-500 hover:text-red-600 p-2 rounded-xl bg-red-50 hover:bg-red-100 transition-all flex items-center gap-2 text-xs font-bold"
+                          className="flex items-center gap-2 rounded-xl bg-red-50 p-2 text-xs font-bold text-red-500 transition-all hover:bg-red-100 hover:text-red-600"
                         >
-                          <Trash2 className="w-4 h-4" /> Remove
+                          <Trash2 className="h-4 w-4" /> Remove
                         </button>
                         {item.isExpanded ? (
-                          <ChevronUp className="w-5 h-5 text-gray-400" />
+                          <ChevronUp className="h-5 w-5 text-gray-400" />
                         ) : (
-                          <ChevronDown className="w-5 h-5 text-gray-400" />
+                          <ChevronDown className="h-5 w-5 text-gray-400" />
                         )}
                       </div>
                     </div>
 
                     {/* Content */}
                     <div
-                      className={`transition-all duration-500 ease-in-out ${item.isExpanded ? "p-8 opacity-100" : "max-h-0 opacity-0 pointer-events-none"}`}
+                      className={`transition-all duration-500 ease-in-out ${item.isExpanded ? "p-8 opacity-100" : "pointer-events-none max-h-0 opacity-0"}`}
                     >
                       <div className="grid grid-cols-2 gap-6 pt-2">
                         <InputField
                           label="Project Title"
                           value={item.title}
-                          onChange={(e) =>
-                            handleItemChange(idx, "title", e.target.value)
-                          }
+                          onChange={(e) => handleItemChange(idx, "title", e.target.value)}
                           placeholder="e.g. GreatWaterFilters.com.au"
                           required
                         />
                         <InputField
                           label="Subtitle / Industry"
                           value={item.subtitle}
-                          onChange={(e) =>
-                            handleItemChange(idx, "subtitle", e.target.value)
-                          }
+                          onChange={(e) => handleItemChange(idx, "subtitle", e.target.value)}
                           placeholder="e.g. Website Development"
                         />
                         <InputField
                           label="CTA Label"
                           value={item.CTA}
-                          onChange={(e) =>
-                            handleItemChange(idx, "CTA", e.target.value)
-                          }
+                          onChange={(e) => handleItemChange(idx, "CTA", e.target.value)}
                           placeholder="e.g. View Project"
                         />
                         <InputField
                           label="External Link"
                           value={item.link}
-                          onChange={(e) =>
-                            handleItemChange(idx, "link", e.target.value)
-                          }
+                          onChange={(e) => handleItemChange(idx, "link", e.target.value)}
                           placeholder="#"
                         />
                         <InputField
                           label="Launch Date"
                           value={item.date}
-                          onChange={(e) =>
-                            handleItemChange(idx, "date", e.target.value)
-                          }
+                          onChange={(e) => handleItemChange(idx, "date", e.target.value)}
                           placeholder="e.g. Tue, 8 Mar 2022"
                         />
 
                         <TextAreaField
                           label="Short Description"
                           value={item.description}
-                          onChange={(e) =>
-                            handleItemChange(idx, "description", e.target.value)
-                          }
+                          onChange={(e) => handleItemChange(idx, "description", e.target.value)}
                           containerClassName="col-span-2"
                           rows={3}
                           placeholder="Briefly describe the project goals and impact..."
                         />
 
-                        <div className="col-span-2 border border-gray-100 rounded-3xl p-6 bg-white/50 space-y-2">
+                        <div className="col-span-2 space-y-2 rounded-3xl border border-gray-100 bg-white/50 p-6">
                           <ImageUploadField
                             label="Representative Cover Image"
                             images={item.image}
-                            onImagesChange={(imgs) =>
-                              handleItemChange(idx, "image", imgs)
-                            }
+                            onImagesChange={(imgs) => handleItemChange(idx, "image", imgs)}
                             maxImages={1}
                           />
                         </div>
 
                         {/* Stats Section */}
-                        <div className="col-span-2 border-t border-gray-100 pt-8 mt-4">
-                          <div className="flex justify-between items-center mb-6">
+                        <div className="col-span-2 mt-4 border-t border-gray-100 pt-8">
+                          <div className="mb-6 flex items-center justify-between">
                             <div>
-                              <h4 className="text-sm font-black text-[#0B0F29] uppercase tracking-widest">
+                              <h4 className="text-sm font-black tracking-widest text-[#0B0F29] uppercase">
                                 Key Performance Stats
                               </h4>
-                              <p className="text-xs text-gray-400 mt-1">
+                              <p className="mt-1 text-xs text-gray-400">
                                 Numerical achievements to highlight success.
                               </p>
                             </div>
                             <button
                               onClick={() => addStat(idx)}
-                              className="px-4 py-2 bg-[#D4AF37]/10 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-white rounded-xl text-xs font-bold transition-all flex items-center gap-2"
+                              className="flex items-center gap-2 rounded-xl bg-[#D4AF37]/10 px-4 py-2 text-xs font-bold text-[#D4AF37] transition-all hover:bg-[#D4AF37] hover:text-white"
                             >
-                              <Plus className="w-4 h-4" /> Add Metric
+                              <Plus className="h-4 w-4" /> Add Metric
                             </button>
                           </div>
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                             {item.stats.map((stat, sIdx) => (
                               <div
                                 key={sIdx}
-                                className="bg-white p-6 rounded-3xl border border-gray-100 relative group shadow-sm transition-all hover:shadow-md"
+                                className="group relative rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition-all hover:shadow-md"
                               >
                                 <button
                                   onClick={() => removeStat(idx, sIdx)}
-                                  className="absolute -top-2 -right-2 bg-red-500 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-all shadow-lg hover:scale-110"
+                                  className="absolute -top-2 -right-2 rounded-full bg-red-500 p-1.5 text-white opacity-0 shadow-lg transition-all group-hover:opacity-100 hover:scale-110"
                                 >
-                                  <Trash2 className="w-3.5 h-3.5" />
+                                  <Trash2 className="h-3.5 w-3.5" />
                                 </button>
                                 <div className="space-y-4">
                                   <InputField
                                     className="text-xs"
                                     label="Stat Label"
                                     value={stat.label}
-                                    onChange={(e) =>
-                                      updateStat(
-                                        idx,
-                                        sIdx,
-                                        "label",
-                                        e.target.value,
-                                      )
-                                    }
+                                    onChange={(e) => updateStat(idx, sIdx, "label", e.target.value)}
                                     placeholder="e.g. Conversion"
                                   />
                                   <InputField
                                     className="text-xs"
                                     label="Value"
                                     value={stat.value}
-                                    onChange={(e) =>
-                                      updateStat(
-                                        idx,
-                                        sIdx,
-                                        "value",
-                                        e.target.value,
-                                      )
-                                    }
+                                    onChange={(e) => updateStat(idx, sIdx, "value", e.target.value)}
                                     placeholder="60%"
                                   />
                                 </div>
@@ -478,47 +432,42 @@ export function PortfolioCMS({
                         </div>
 
                         {/* Deliverables Section */}
-                        <div className="col-span-2 border-t border-gray-100 pt-8 mt-6">
-                          <div className="flex justify-between items-center mb-6">
+                        <div className="col-span-2 mt-6 border-t border-gray-100 pt-8">
+                          <div className="mb-6 flex items-center justify-between">
                             <div>
-                              <h4 className="text-sm font-black text-[#0B0F29] uppercase tracking-widest">
+                              <h4 className="text-sm font-black tracking-widest text-[#0B0F29] uppercase">
                                 Insider Content (Deliverables)
                               </h4>
-                              <p className="text-xs text-gray-400 mt-1">
+                              <p className="mt-1 text-xs text-gray-400">
                                 Deep dive into the specific services provided.
                               </p>
                             </div>
                             <button
                               onClick={() => addService(idx)}
-                              className="px-4 py-2 bg-[#0B0F29] text-white hover:bg-[#D4AF37] rounded-xl text-xs font-bold transition-all flex items-center gap-2"
+                              className="flex items-center gap-2 rounded-xl bg-[#0B0F29] px-4 py-2 text-xs font-bold text-white transition-all hover:bg-[#D4AF37]"
                             >
-                              <Plus className="w-4 h-4" /> Add Deliverable
+                              <Plus className="h-4 w-4" /> Add Deliverable
                             </button>
                           </div>
                           <div className="space-y-6">
                             {item.SERVICES.map((srv, sIdx) => (
                               <div
                                 key={sIdx}
-                                className="bg-white p-8 rounded-4xl border border-gray-100 relative group shadow-sm hover:border-[#D4AF37]/30 transition-all"
+                                className="group relative rounded-4xl border border-gray-100 bg-white p-8 shadow-sm transition-all hover:border-[#D4AF37]/30"
                               >
                                 <button
                                   onClick={() => removeService(idx, sIdx)}
-                                  className="absolute top-6 right-6 text-red-500 hover:bg-red-50 p-2.5 rounded-2xl transition-all"
+                                  className="absolute top-6 right-6 rounded-2xl p-2.5 text-red-500 transition-all hover:bg-red-50"
                                 >
-                                  <Trash2 className="w-4 h-4" />
+                                  <Trash2 className="h-4 w-4" />
                                 </button>
-                                <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+                                <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
                                   <div className="md:col-span-2">
                                     <InputField
                                       label="Order No."
                                       value={srv.number}
                                       onChange={(e) =>
-                                        updateService(
-                                          idx,
-                                          sIdx,
-                                          "number",
-                                          e.target.value,
-                                        )
+                                        updateService(idx, sIdx, "number", e.target.value)
                                       }
                                       placeholder="01"
                                     />
@@ -528,12 +477,7 @@ export function PortfolioCMS({
                                       label="Service Title"
                                       value={srv.title}
                                       onChange={(e) =>
-                                        updateService(
-                                          idx,
-                                          sIdx,
-                                          "title",
-                                          e.target.value,
-                                        )
+                                        updateService(idx, sIdx, "title", e.target.value)
                                       }
                                       placeholder="e.g. UI/UX Design"
                                     />
@@ -543,12 +487,7 @@ export function PortfolioCMS({
                                       label="Category"
                                       value={srv.category}
                                       onChange={(e) =>
-                                        updateService(
-                                          idx,
-                                          sIdx,
-                                          "category",
-                                          e.target.value,
-                                        )
+                                        updateService(idx, sIdx, "category", e.target.value)
                                       }
                                       placeholder="Design"
                                     />
@@ -558,12 +497,7 @@ export function PortfolioCMS({
                                       label="Process Description"
                                       value={srv.description}
                                       onChange={(e) =>
-                                        updateService(
-                                          idx,
-                                          sIdx,
-                                          "description",
-                                          e.target.value,
-                                        )
+                                        updateService(idx, sIdx, "description", e.target.value)
                                       }
                                       rows={2}
                                       placeholder="Explain the approach..."
@@ -574,12 +508,7 @@ export function PortfolioCMS({
                                       label="Tags (comma separated)"
                                       value={srv.tags}
                                       onChange={(e) =>
-                                        updateService(
-                                          idx,
-                                          sIdx,
-                                          "tags",
-                                          e.target.value,
-                                        )
+                                        updateService(idx, sIdx, "tags", e.target.value)
                                       }
                                       placeholder="design, prototype, user testing"
                                     />
@@ -589,12 +518,7 @@ export function PortfolioCMS({
                                       label="Measurable Outcome"
                                       value={srv.outcome}
                                       onChange={(e) =>
-                                        updateService(
-                                          idx,
-                                          sIdx,
-                                          "outcome",
-                                          e.target.value,
-                                        )
+                                        updateService(idx, sIdx, "outcome", e.target.value)
                                       }
                                       placeholder="Better engagement"
                                     />
@@ -612,17 +536,17 @@ export function PortfolioCMS({
 
               <button
                 onClick={addItem}
-                className="w-full flex items-center justify-center gap-4 py-4 border-2 border-dashed border-gray-200 rounded-4xl text-gray-400 font-black uppercase text-xs tracking-widest hover:bg-white hover:border-[#D4AF37] hover:text-[#0B0F29] transition-all group lg:mt-4"
+                className="group flex w-full items-center justify-center gap-4 rounded-4xl border-2 border-dashed border-gray-200 py-4 text-xs font-black tracking-widest text-gray-400 uppercase transition-all hover:border-[#D4AF37] hover:bg-white hover:text-[#0B0F29] lg:mt-4"
               >
-                <Plus className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <Plus className="h-5 w-5 transition-transform group-hover:scale-110" />
                 Add New Project Showcase
               </button>
 
-              <div className="flex justify-end pt-8 border-t border-gray-100">
+              <div className="flex justify-end border-t border-gray-100 pt-8">
                 <SaveButton
                   onClick={handleSave}
                   disabled={isSaving}
-                  className="w-52 h-14 text-sm"
+                  className="h-14 w-52 text-sm"
                 />
               </div>
             </div>

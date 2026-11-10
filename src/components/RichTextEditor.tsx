@@ -8,8 +8,8 @@ import "@/styles/quill-custom.css";
 const ReactQuill = dynamic(() => import("react-quill-new"), {
   ssr: false,
   loading: () => (
-    <div className="h-64 md:h-96 w-full animate-pulse bg-gray-100 rounded-2xl flex items-center justify-center border border-gray-200">
-      <span className="text-gray-400 font-medium text-sm">Loading Editor...</span>
+    <div className="flex h-64 w-full animate-pulse items-center justify-center rounded-2xl border border-gray-200 bg-gray-100 md:h-96">
+      <span className="text-sm font-medium text-gray-400">Loading Editor...</span>
     </div>
   ),
 });
@@ -57,7 +57,7 @@ export function RichTextEditor({
         modules={modules}
         formats={formats}
         placeholder={placeholder}
-        className="bg-white rounded-2xl overflow-hidden shadow-sm"
+        className="overflow-hidden rounded-2xl bg-white shadow-sm"
       />
     </div>
   );

@@ -5,22 +5,10 @@ import { PageHeader } from "@/components/PageHeader";
 import { SaveButton } from "@/components/SaveButton";
 import toast from "react-hot-toast";
 import { uploadFiles } from "@/app/lib/uploadHelpers";
-import {
-  PortfolioHeroCMS,
-  PortfolioHeroData,
-} from "./components/PortfolioHeroCMS";
-import {
-  PortfolioCollageCMS,
-  PortfolioCollageData,
-} from "./components/PortfolioCollageCMS";
-import {
-  PortfolioCTACMS,
-  PortfolioCTAData,
-} from "./components/PortfolioCTACMS";
-import {
-  PortfolioShowcaseCMS,
-  PortfolioShowcaseData,
-} from "./components/PortfolioShowcaseCMS";
+import { PortfolioHeroCMS, PortfolioHeroData } from "./components/PortfolioHeroCMS";
+import { PortfolioCollageCMS, PortfolioCollageData } from "./components/PortfolioCollageCMS";
+import { PortfolioCTACMS, PortfolioCTAData } from "./components/PortfolioCTACMS";
+import { PortfolioShowcaseCMS, PortfolioShowcaseData } from "./components/PortfolioShowcaseCMS";
 
 interface PageData {
   hero: PortfolioHeroData;
@@ -156,27 +144,23 @@ export default function PortfolioCMSPage() {
   };
 
   return (
-    <div className="flex flex-col gap-6 max-w-6xl mx-auto pb-20">
-      <div className="flex justify-between items-end">
+    <div className="mx-auto flex max-w-6xl flex-col gap-6 pb-20">
+      <div className="flex items-end justify-between">
         <PageHeader
           title="Portfolio Content Management"
           description="Manage the hero text, showcase header, and the decorative image collage for the Portfolio section."
         />
         <div className="mb-2">
-          <SaveButton
-            onClick={handleSave}
-            disabled={isSaving}
-            className="w-auto px-10"
-          />
+          <SaveButton onClick={handleSave} disabled={isSaving} className="w-auto px-10" />
         </div>
       </div>
 
       {isLoading ? (
-        <div className="py-20 text-center text-gray-400 font-medium animate-pulse">
+        <div className="animate-pulse py-20 text-center font-medium text-gray-400">
           Loading portfolio configuration...
         </div>
       ) : (
-        <div className="flex flex-col gap-8 animate-in fade-in duration-500">
+        <div className="animate-in fade-in flex flex-col gap-8 duration-500">
           <PortfolioHeroCMS
             hero={formData.hero}
             onHeroChange={(hero) => setFormData({ ...formData, hero })}

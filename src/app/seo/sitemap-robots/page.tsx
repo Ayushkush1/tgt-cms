@@ -15,7 +15,8 @@ interface SitemapRobotsConfig {
 const defaultData: SitemapRobotsConfig = {
   sitemapEnabled: true,
   sitemapCustomContent: null,
-  robotsTxt: "User-agent: *\nAllow: /\n\nSitemap: https://tgt-landing-page-jade.vercel.app/sitemap.xml",
+  robotsTxt:
+    "User-agent: *\nAllow: /\n\nSitemap: https://tgt-landing-page-jade.vercel.app/sitemap.xml",
 };
 
 export default function SitemapRobotsPage() {
@@ -93,7 +94,11 @@ export default function SitemapRobotsPage() {
     if (!file) return;
 
     // Check type
-    if (!file.name.endsWith(".xml") && file.type !== "text/xml" && file.type !== "application/xml") {
+    if (
+      !file.name.endsWith(".xml") &&
+      file.type !== "text/xml" &&
+      file.type !== "application/xml"
+    ) {
       toast.error("Please upload a valid .xml sitemap file.");
       return;
     }
@@ -141,18 +146,19 @@ export default function SitemapRobotsPage() {
     reader.readAsText(file);
   };
 
-  const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL || "https://tgt-landing-page-jade.vercel.app";
+  const websiteUrl =
+    process.env.NEXT_PUBLIC_WEBSITE_URL || "https://tgt-landing-page-jade.vercel.app";
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#F6F8FA] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#475DB1]"></div>
+      <div className="flex min-h-screen items-center justify-center bg-[#F6F8FA]">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-[#475DB1]"></div>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-8 max-w-6xl mx-auto pb-20 animate-in fade-in duration-500">
+    <div className="animate-in fade-in mx-auto flex max-w-6xl flex-col gap-8 pb-20 duration-500">
       <PageHeader
         title="Sitemap & Robots.txt"
         description="Configure search engine crawler visibility, robots rules, and dynamic sitemap options."
@@ -160,81 +166,88 @@ export default function SitemapRobotsPage() {
 
       <div className="flex flex-col gap-8">
         {/* Live Endpoints info */}
-        <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex flex-col gap-4">
-          <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400">Live SEO Endpoints</h4>
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-            <p className="text-gray-500 text-xs font-light leading-relaxed max-w-md">
-              These are crawled automatically by search bots like Googlebot. Click below to inspect your live files:
+        <div className="flex flex-col gap-4 rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
+          <h4 className="text-xs font-bold tracking-wider text-gray-400 uppercase">
+            Live SEO Endpoints
+          </h4>
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+            <p className="max-w-md text-xs leading-relaxed font-light text-gray-500">
+              These are crawled automatically by search bots like Googlebot. Click below to inspect
+              your live files:
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto mt-2 md:mt-0">
+            <div className="mt-2 flex w-full flex-col gap-3 sm:flex-row md:mt-0 md:w-auto">
               <a
                 href={`${websiteUrl}/sitemap.xml`}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center justify-between gap-3 p-3.5 bg-gray-50 hover:bg-gray-100 border border-gray-100 rounded-2xl text-xs font-bold text-gray-700 transition-all group w-full sm:w-auto"
+                className="group flex w-full items-center justify-between gap-3 rounded-2xl border border-gray-100 bg-gray-50 p-3.5 text-xs font-bold text-gray-700 transition-all hover:bg-gray-100 sm:w-auto"
               >
                 <span className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-emerald-500" />
+                  <CheckCircle className="h-4 w-4 text-emerald-500" />
                   sitemap.xml
                 </span>
-                <ExternalLink className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#475DB1] transition-colors" />
+                <ExternalLink className="h-3.5 w-3.5 text-gray-400 transition-colors group-hover:text-[#475DB1]" />
               </a>
 
               <a
                 href={`${websiteUrl}/robots.txt`}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center justify-between gap-3 p-3.5 bg-gray-50 hover:bg-gray-100 border border-gray-100 rounded-2xl text-xs font-bold text-gray-700 transition-all group w-full sm:w-auto"
+                className="group flex w-full items-center justify-between gap-3 rounded-2xl border border-gray-100 bg-gray-50 p-3.5 text-xs font-bold text-gray-700 transition-all hover:bg-gray-100 sm:w-auto"
               >
                 <span className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-emerald-500" />
+                  <CheckCircle className="h-4 w-4 text-emerald-500" />
                   robots.txt
                 </span>
-                <ExternalLink className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#475DB1] transition-colors" />
+                <ExternalLink className="h-3.5 w-3.5 text-gray-400 transition-colors group-hover:text-[#475DB1]" />
               </a>
             </div>
           </div>
         </div>
 
         {/* Settings Form */}
-        <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm flex flex-col gap-8">
-          
+        <div className="flex flex-col gap-8 rounded-3xl border border-gray-100 bg-white p-8 shadow-sm">
           {/* Sitemap section */}
           <div className="flex flex-col gap-4">
-            <h3 className="font-serif text-lg font-bold text-gray-900 flex items-center gap-2">
-              <Globe className="w-5 h-5 text-[#475DB1]" />
+            <h3 className="flex items-center gap-2 font-serif text-lg font-bold text-gray-900">
+              <Globe className="h-5 w-5 text-[#475DB1]" />
               Sitemap Options
             </h3>
-            <p className="text-gray-400 text-xs font-light leading-relaxed">
-              A sitemap tells search engines which pages and files you think are important in your site, and provides valuable information about them.
+            <p className="text-xs leading-relaxed font-light text-gray-400">
+              A sitemap tells search engines which pages and files you think are important in your
+              site, and provides valuable information about them.
             </p>
 
             {/* Sitemap Toggle switch */}
-            <div className="flex items-center justify-between p-4 bg-gray-50 border border-gray-100 rounded-2xl mt-2">
+            <div className="mt-2 flex items-center justify-between rounded-2xl border border-gray-100 bg-gray-50 p-4">
               <div className="flex flex-col gap-1 pr-4">
                 <span className="text-xs font-bold text-gray-800">Generate sitemap.xml</span>
-                <span className="text-[10px] text-gray-400 font-light">Automatically compiles static links and published blogs into a sitemap format.</span>
+                <span className="text-[10px] font-light text-gray-400">
+                  Automatically compiles static links and published blogs into a sitemap format.
+                </span>
               </div>
-              <label className="relative inline-flex items-center cursor-pointer select-none">
+              <label className="relative inline-flex cursor-pointer items-center select-none">
                 <input
                   type="checkbox"
                   checked={formData.sitemapEnabled}
                   onChange={(e) => setFormData({ ...formData, sitemapEnabled: e.target.checked })}
-                  className="sr-only peer"
+                  className="peer sr-only"
                 />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#475DB1]"></div>
+                <div className="peer h-6 w-11 rounded-full bg-gray-200 peer-checked:bg-[#475DB1] peer-focus:outline-none after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
               </label>
             </div>
 
             {/* Sitemap File Upload Options */}
-            <div className="flex flex-col gap-3 p-4 border border-dashed border-gray-200 rounded-2xl">
-              <div className="flex items-center justify-between flex-wrap gap-3">
+            <div className="flex flex-col gap-3 rounded-2xl border border-dashed border-gray-200 p-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex flex-col gap-0.5">
                   <span className="text-xs font-bold text-gray-800">Custom Sitemap XML File</span>
-                  <span className="text-[10px] text-gray-400 font-light">Upload a custom XML sitemap to override the automatically generated version.</span>
+                  <span className="text-[10px] font-light text-gray-400">
+                    Upload a custom XML sitemap to override the automatically generated version.
+                  </span>
                 </div>
-                
+
                 <div className="flex gap-2">
                   <input
                     type="file"
@@ -243,16 +256,16 @@ export default function SitemapRobotsPage() {
                     accept=".xml,text/xml,application/xml"
                     className="hidden"
                   />
-                  
+
                   <button
                     type="button"
                     onClick={() => sitemapInputRef.current?.click()}
-                    className="flex items-center gap-1.5 py-2 px-3.5 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-xl text-[11px] font-bold text-gray-700 transition-colors cursor-pointer"
+                    className="flex cursor-pointer items-center gap-1.5 rounded-xl border border-gray-200 bg-gray-50 px-3.5 py-2 text-[11px] font-bold text-gray-700 transition-colors hover:bg-gray-100"
                   >
-                    <Upload className="w-3.5 h-3.5" />
+                    <Upload className="h-3.5 w-3.5" />
                     Upload .XML
                   </button>
-                  
+
                   {formData.sitemapCustomContent && (
                     <button
                       type="button"
@@ -260,18 +273,18 @@ export default function SitemapRobotsPage() {
                         setFormData((prev) => ({ ...prev, sitemapCustomContent: null }));
                         toast.success("Custom sitemap cleared. Auto-generation restored!");
                       }}
-                      className="flex items-center gap-1.5 py-2 px-3 bg-red-50 hover:bg-red-100 border border-red-100 rounded-xl text-[11px] font-bold text-red-600 transition-colors cursor-pointer"
+                      className="flex cursor-pointer items-center gap-1.5 rounded-xl border border-red-100 bg-red-50 px-3 py-2 text-[11px] font-bold text-red-600 transition-colors hover:bg-red-100"
                       title="Delete custom sitemap"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <Trash2 className="h-3.5 w-3.5" />
                     </button>
                   )}
                 </div>
               </div>
 
               {formData.sitemapCustomContent && (
-                <div className="flex items-center gap-2 p-2.5 bg-amber-50/50 border border-amber-100 rounded-xl text-[10px] text-amber-700 font-medium">
-                  <Check className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                <div className="flex items-center gap-2 rounded-xl border border-amber-100 bg-amber-50/50 p-2.5 text-[10px] font-medium text-amber-700">
+                  <Check className="h-3.5 w-3.5 shrink-0 text-amber-600" />
                   Custom sitemap file uploaded (Auto-generation overridden). Save to apply.
                 </div>
               )}
@@ -282,9 +295,9 @@ export default function SitemapRobotsPage() {
 
           {/* Robots.txt section */}
           <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between flex-wrap gap-4">
-              <h3 className="font-serif text-lg font-bold text-gray-900 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-[#475DB1]" />
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <h3 className="flex items-center gap-2 font-serif text-lg font-bold text-gray-900">
+                <FileText className="h-5 w-5 text-[#475DB1]" />
                 Robots.txt Rules
               </h3>
 
@@ -299,16 +312,17 @@ export default function SitemapRobotsPage() {
                 <button
                   type="button"
                   onClick={() => robotsInputRef.current?.click()}
-                  className="flex items-center gap-1.5 py-1.5 px-3 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-xl text-[10px] font-bold text-gray-600 transition-colors cursor-pointer"
+                  className="flex cursor-pointer items-center gap-1.5 rounded-xl border border-gray-200 bg-gray-50 px-3 py-1.5 text-[10px] font-bold text-gray-600 transition-colors hover:bg-gray-100"
                 >
-                  <Upload className="w-3.5 h-3.5" />
+                  <Upload className="h-3.5 w-3.5" />
                   Upload Rules (.txt)
                 </button>
               </div>
             </div>
 
-            <p className="text-gray-400 text-xs font-light leading-relaxed">
-              Robots.txt file tells search engine crawlers which URLs the crawler can access on your site. This is used mainly to avoid overloading your site with requests.
+            <p className="text-xs leading-relaxed font-light text-gray-400">
+              Robots.txt file tells search engine crawlers which URLs the crawler can access on your
+              site. This is used mainly to avoid overloading your site with requests.
             </p>
 
             <div className="flex flex-col gap-2">
@@ -318,12 +332,12 @@ export default function SitemapRobotsPage() {
                 onChange={(e) => setFormData({ ...formData, robotsTxt: e.target.value })}
                 placeholder="User-agent: *&#10;Allow: /"
                 rows={8}
-                className="w-full font-mono text-xs p-4 bg-gray-50 text-gray-800 border border-gray-200 focus:border-[#475DB1] focus:bg-white transition-all rounded-2xl outline-none"
+                className="w-full rounded-2xl border border-gray-200 bg-gray-50 p-4 font-mono text-xs text-gray-800 transition-all outline-none focus:border-[#475DB1] focus:bg-white"
               />
             </div>
           </div>
 
-          <div className="flex justify-end pt-4 border-t border-gray-100">
+          <div className="flex justify-end border-t border-gray-100 pt-4">
             <SaveButton onClick={handleSave} disabled={isSaving} />
           </div>
         </div>

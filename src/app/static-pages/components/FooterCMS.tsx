@@ -43,9 +43,7 @@ export default function FooterCMS() {
       .catch(console.error);
   }, []);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -83,7 +81,7 @@ export default function FooterCMS() {
 
   return (
     <section>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4 transition-all">
+      <div className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all">
         <SectionHeader
           title="Global Footer Section"
           description="Manage the company information, addresses, navigation links, and social URLs displayed in the footer."
@@ -97,10 +95,8 @@ export default function FooterCMS() {
           }`}
         >
           <div className="overflow-hidden">
-            <div className=" grid grid-cols-2 gap-4 pt-2">
-              <h1 className=" text-base font-bold text-gray-500 col-span-2">
-                Brand Details
-              </h1>
+            <div className="grid grid-cols-2 gap-4 pt-2">
+              <h1 className="col-span-2 text-base font-bold text-gray-500">Brand Details</h1>
 
               <InputField
                 label="Company Name"
@@ -130,15 +126,13 @@ export default function FooterCMS() {
                 placeholder="e.g. We build digital products that drive real growth."
               />
 
-              <h1 className=" text-base font-bold text-gray-500 col-span-2 mt-4">
+              <h1 className="col-span-2 mt-4 text-base font-bold text-gray-500">
                 Office Locations
               </h1>
 
               {/* India */}
-              <div className="col-span-2 md:col-span-1 border border-gray-100 rounded-xl p-4 bg-gray-50/50 flex flex-col gap-3">
-                <h2 className="text-sm font-semibold text-gray-700">
-                  Location 1
-                </h2>
+              <div className="col-span-2 flex flex-col gap-3 rounded-xl border border-gray-100 bg-gray-50/50 p-4 md:col-span-1">
+                <h2 className="text-sm font-semibold text-gray-700">Location 1</h2>
                 <InputField
                   label="Country/Region"
                   name="loc1Country"
@@ -157,10 +151,8 @@ export default function FooterCMS() {
               </div>
 
               {/* USA */}
-              <div className="col-span-2 md:col-span-1 border border-gray-100 rounded-xl p-4 bg-gray-50/50 flex flex-col gap-3">
-                <h2 className="text-sm font-semibold text-gray-700">
-                  Location 2
-                </h2>
+              <div className="col-span-2 flex flex-col gap-3 rounded-xl border border-gray-100 bg-gray-50/50 p-4 md:col-span-1">
+                <h2 className="text-sm font-semibold text-gray-700">Location 2</h2>
                 <InputField
                   label="Country/Region"
                   name="loc2Country"
@@ -178,7 +170,7 @@ export default function FooterCMS() {
                 />
               </div>
 
-              <h1 className=" text-base font-bold text-gray-500 col-span-2 mt-4">
+              <h1 className="col-span-2 mt-4 text-base font-bold text-gray-500">
                 Global Contact Info
               </h1>
 
@@ -200,7 +192,7 @@ export default function FooterCMS() {
                 required
               />
 
-              <h1 className=" text-base font-bold text-gray-500 col-span-2 mt-4">
+              <h1 className="col-span-2 mt-4 text-base font-bold text-gray-500">
                 Background Massive Text
               </h1>
 
@@ -227,7 +219,7 @@ export default function FooterCMS() {
                 placeholder="e.g. Innovation"
               />
 
-              <h1 className=" text-base font-bold text-gray-500 col-span-2 mt-4">
+              <h1 className="col-span-2 mt-4 text-base font-bold text-gray-500">
                 Social Media Links
               </h1>
 

@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { isWebsiteRequest } from "@/lib/revalidateWebsite";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 export async function GET(request: Request) {
   try {
@@ -41,22 +43,32 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error("Audits fetch error:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }
 
 export async function POST(request: Request) {
   try {
+    // Submissions come only from the website's server, which passes on the visitor's IP
+    if (!isWebsiteRequest(request)) {
+      return NextResponse.json({ success: false, error: "Forbidden" }, { status: 403 });
+    }
+
+    // 10 submissions per 15 minutes per visitor
+    if (!rateLimit(`audit_${getClientIp(request)}`, 10, 15 * 60 * 1000).success) {
+      return NextResponse.json(
+        { success: false, error: "Too many requests. Please try again later." },
+        { status: 429 },
+      );
+    }
+
     const body = await request.json();
     const { name, email, webUrl, improve } = body;
 
     if (!name || !email || !webUrl) {
       return NextResponse.json(
         { success: false, error: "Name, email, and website url are required" },
-        { status: 400, headers: { "Access-Control-Allow-Origin": "*" } },
+        { status: 400 },
       );
     }
 
@@ -69,18 +81,9 @@ export async function POST(request: Request) {
       },
     });
 
-    return NextResponse.json(
-      { success: true, data: audit },
-      {
-        status: 201,
-        headers: { "Access-Control-Allow-Origin": "*" },
-      },
-    );
+    return NextResponse.json({ success: true, data: audit }, { status: 201 });
   } catch (error) {
     console.error("Audit submission error:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500, headers: { "Access-Control-Allow-Origin": "*" } },
-    );
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }

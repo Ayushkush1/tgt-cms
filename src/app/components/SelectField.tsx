@@ -21,18 +21,16 @@ export const SelectField: React.FC<SelectFieldProps> = ({
   return (
     <div className={`flex flex-col gap-1.5 ${containerClassName}`}>
       {label && (
-        <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-4">
+        <label className="ml-4 text-[11px] font-bold tracking-widest text-gray-400 uppercase">
           {label}
         </label>
       )}
       <div className="relative w-full">
         {icon && (
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-            {icon}
-          </div>
+          <div className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-400">{icon}</div>
         )}
         <select
-          className={`w-full ${icon ? "pl-12" : "px-6"} pr-10 py-4 bg-gray-50 border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#D4AF37]/20 outline-none transition-all appearance-none cursor-pointer text-gray-800 ${className}`}
+          className={`w-full ${icon ? "pl-12" : "px-6"} cursor-pointer appearance-none rounded-2xl border-none bg-gray-50 py-4 pr-10 text-sm text-gray-800 transition-all outline-none focus:ring-2 focus:ring-[#D4AF37]/20 ${className}`}
           {...props}
         >
           {options.map((opt) => (
@@ -41,8 +39,8 @@ export const SelectField: React.FC<SelectFieldProps> = ({
             </option>
           ))}
         </select>
-        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-          <ChevronDown className="w-4 h-4" />
+        <div className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-gray-400">
+          <ChevronDown className="h-4 w-4" />
         </div>
       </div>
     </div>

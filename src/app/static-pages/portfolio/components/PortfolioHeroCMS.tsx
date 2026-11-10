@@ -4,7 +4,6 @@ import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { SelectField } from "@/components/SelectField";
 
-
 export interface PortfolioHeroData {
   eyebrow: string;
   titlePrefix: string;
@@ -34,11 +33,9 @@ export function PortfolioHeroCMS({ hero, onHeroChange }: Props) {
   return (
     <div className="flex flex-col gap-8">
       {/* Hero Text Section */}
-      <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-        <h3 className="text-lg font-bold text-gray-800 mb-6">
-          Hero Text & Actions
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+        <h3 className="mb-6 text-lg font-bold text-gray-800">Hero Text & Actions</h3>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <InputField
             label="Eyebrow Text"
             value={hero.eyebrow}
@@ -49,25 +46,19 @@ export function PortfolioHeroCMS({ hero, onHeroChange }: Props) {
             <InputField
               label="Title (Prefix)"
               value={hero.titlePrefix}
-              onChange={(e) =>
-                onHeroChange({ ...hero, titlePrefix: e.target.value })
-              }
+              onChange={(e) => onHeroChange({ ...hero, titlePrefix: e.target.value })}
               placeholder="e.g. Work that "
             />
             <InputField
               label="Title (Highlight)"
               value={hero.titleHighlight}
-              onChange={(e) =>
-                onHeroChange({ ...hero, titleHighlight: e.target.value })
-              }
+              onChange={(e) => onHeroChange({ ...hero, titleHighlight: e.target.value })}
               placeholder="e.g. speaks"
             />
             <InputField
               label="Title (Suffix)"
               value={hero.titleSuffix}
-              onChange={(e) =>
-                onHeroChange({ ...hero, titleSuffix: e.target.value })
-              }
+              onChange={(e) => onHeroChange({ ...hero, titleSuffix: e.target.value })}
               placeholder="e.g. for itself"
             />
           </div>
@@ -88,18 +79,14 @@ export function PortfolioHeroCMS({ hero, onHeroChange }: Props) {
           <TextAreaField
             label="Hero Description (Paragraph 1)"
             value={hero.description}
-            onChange={(e) =>
-              onHeroChange({ ...hero, description: e.target.value })
-            }
+            onChange={(e) => onHeroChange({ ...hero, description: e.target.value })}
             placeholder="Enter hero description..."
             containerClassName="md:col-span-2"
           />
           <TextAreaField
             label="Hero Description (Paragraph 2)"
             value={hero.description2 || ""}
-            onChange={(e) =>
-              onHeroChange({ ...hero, description2: e.target.value })
-            }
+            onChange={(e) => onHeroChange({ ...hero, description2: e.target.value })}
             placeholder="Enter second paragraph description (from CMS)..."
             containerClassName="md:col-span-2"
           />
@@ -118,17 +105,13 @@ export function PortfolioHeroCMS({ hero, onHeroChange }: Props) {
           <InputField
             label="Secondary Button Text"
             value={hero.viewProjectsText}
-            onChange={(e) =>
-              onHeroChange({ ...hero, viewProjectsText: e.target.value })
-            }
+            onChange={(e) => onHeroChange({ ...hero, viewProjectsText: e.target.value })}
             placeholder="e.g. View projects"
           />
           <InputField
             label="Secondary Button Link"
             value={hero.viewProjectsHref}
-            onChange={(e) =>
-              onHeroChange({ ...hero, viewProjectsHref: e.target.value })
-            }
+            onChange={(e) => onHeroChange({ ...hero, viewProjectsHref: e.target.value })}
             placeholder="e.g. /projects"
           />
         </div>

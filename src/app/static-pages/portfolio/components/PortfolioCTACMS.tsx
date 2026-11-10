@@ -22,11 +22,11 @@ interface Props {
 
 export function PortfolioCTACMS({ data, onChange }: Props) {
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-10">
-      <h3 className="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2">
+    <div className="mb-10 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+      <h3 className="mb-6 flex items-center gap-2 text-lg font-bold text-gray-800">
         CTA Banner Content
       </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <InputField
           label="Eyebrow Text"
           value={data.eyebrow}
@@ -44,9 +44,7 @@ export function PortfolioCTACMS({ data, onChange }: Props) {
           <InputField
             label="Title (Highlight)"
             value={data.titleHighlight}
-            onChange={(e) =>
-              onChange({ ...data, titleHighlight: e.target.value })
-            }
+            onChange={(e) => onChange({ ...data, titleHighlight: e.target.value })}
             placeholder="e.g. extraordinary"
           />
           <InputField
@@ -66,47 +64,39 @@ export function PortfolioCTACMS({ data, onChange }: Props) {
           rows={3}
         />
 
-        <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 flex flex-col gap-4">
+        <div className="flex flex-col gap-4 rounded-xl border border-gray-100 bg-gray-50 p-4">
           <p className="text-sm font-bold text-gray-700">Primary Button</p>
           <InputField
             label="Label"
             value={data.primaryButtonText}
-            onChange={(e) =>
-              onChange({ ...data, primaryButtonText: e.target.value })
-            }
+            onChange={(e) => onChange({ ...data, primaryButtonText: e.target.value })}
             placeholder="e.g. Book Free Consultation"
-            className=" bg-white"
+            className="bg-white"
           />
           <InputField
             label="Link"
             value={data.primaryButtonLink}
-            onChange={(e) =>
-              onChange({ ...data, primaryButtonLink: e.target.value })
-            }
+            onChange={(e) => onChange({ ...data, primaryButtonLink: e.target.value })}
             placeholder="e.g. https://..."
-            className=" bg-white"
+            className="bg-white"
           />
         </div>
 
-        <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 flex flex-col gap-4">
+        <div className="flex flex-col gap-4 rounded-xl border border-gray-100 bg-gray-50 p-4">
           <p className="text-sm font-bold text-gray-700">Secondary Button</p>
           <InputField
             label="Label"
             value={data.secondaryButtonText}
-            onChange={(e) =>
-              onChange({ ...data, secondaryButtonText: e.target.value })
-            }
+            onChange={(e) => onChange({ ...data, secondaryButtonText: e.target.value })}
             placeholder="e.g. View All Services"
-            className=" bg-white"
+            className="bg-white"
           />
           <InputField
             label="Link"
             value={data.secondaryButtonLink}
-            onChange={(e) =>
-              onChange({ ...data, secondaryButtonLink: e.target.value })
-            }
+            onChange={(e) => onChange({ ...data, secondaryButtonLink: e.target.value })}
             placeholder="e.g. /services"
-            className=" bg-white"
+            className="bg-white"
           />
         </div>
       </div>

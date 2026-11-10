@@ -4,13 +4,7 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { ImageUploadField } from "@/components/ImageUploadField";
-import {
-  Plus,
-  Trash2,
-  ChevronDown,
-  ChevronRight,
-  GripVertical,
-} from "lucide-react";
+import { Plus, Trash2, ChevronDown, ChevronRight, GripVertical } from "lucide-react";
 
 export interface Pillar {
   number: string;
@@ -80,9 +74,7 @@ export function ProductListCMS({
 
   const removePillar = (productIndex: number, pillarIndex: number) => {
     const list = [...products];
-    const newPillars = list[productIndex].pillars.filter(
-      (_, i) => i !== pillarIndex,
-    );
+    const newPillars = list[productIndex].pillars.filter((_, i) => i !== pillarIndex);
     // Re-assign numbers
     const updatedNumbers = newPillars.map((p, i) => ({
       ...p,
@@ -106,7 +98,7 @@ export function ProductListCMS({
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4">
+    <div className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
       <SectionHeader
         title="Products List"
         description="Add and manage multiple products dynamically. These will appear on the Products page and Navbar dropdown."
@@ -119,12 +111,10 @@ export function ProductListCMS({
       />
 
       {isOpen && (
-        <div className="flex flex-col gap-4 pt-4 animate-in fade-in">
+        <div className="animate-in fade-in flex flex-col gap-4 pt-4">
           {products.length === 0 ? (
-            <div className="text-center py-10 bg-gray-50 rounded-xl border border-dashed border-gray-200">
-              <p className="text-gray-500 font-medium">
-                No products added yet.
-              </p>
+            <div className="rounded-xl border border-dashed border-gray-200 bg-gray-50 py-10 text-center">
+              <p className="font-medium text-gray-500">No products added yet.</p>
               <button
                 onClick={addProduct}
                 className="mt-3 text-sm font-bold text-[#D4AF37] hover:underline"
@@ -139,15 +129,15 @@ export function ProductListCMS({
               return (
                 <div
                   key={product.id}
-                  className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm transition-all"
+                  className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all"
                 >
                   <div
-                    className="flex justify-between items-center p-4 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors"
+                    className="flex cursor-pointer items-center justify-between bg-gray-50 p-4 transition-colors hover:bg-gray-100"
                     onClick={() => setExpandedIndex(isExpanded ? null : pIndex)}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="text-gray-400 cursor-grab active:cursor-grabbing">
-                        <GripVertical className="w-5 h-5" />
+                      <div className="cursor-grab text-gray-400 active:cursor-grabbing">
+                        <GripVertical className="h-5 w-5" />
                       </div>
                       <span className="font-bold text-gray-800">
                         {product.title || `Product ${pIndex + 1}`}
@@ -159,46 +149,40 @@ export function ProductListCMS({
                           e.stopPropagation();
                           removeProduct(pIndex);
                         }}
-                        className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-white rounded-lg transition-colors"
+                        className="rounded-lg p-1.5 text-gray-400 transition-colors hover:bg-white hover:text-red-500"
                       >
-                        <Trash2 className="w-4.5 h-4.5" />
+                        <Trash2 className="h-4.5 w-4.5" />
                       </button>
                       {isExpanded ? (
-                        <ChevronDown className="w-5 h-5 text-gray-400" />
+                        <ChevronDown className="h-5 w-5 text-gray-400" />
                       ) : (
-                        <ChevronRight className="w-5 h-5 text-gray-400" />
+                        <ChevronRight className="h-5 w-5 text-gray-400" />
                       )}
                     </div>
                   </div>
 
                   {isExpanded && (
-                    <div className="p-6 border-t border-gray-100 flex flex-col gap-8 animate-in slide-in-from-top-2 duration-300">
+                    <div className="animate-in slide-in-from-top-2 flex flex-col gap-8 border-t border-gray-100 p-6 duration-300">
                       {/* Product Details */}
                       <div className="grid grid-cols-2 gap-4">
                         <InputField
                           label="Product Title"
                           value={product.title}
-                          onChange={(e) =>
-                            updateProduct(pIndex, "title", e.target.value)
-                          }
+                          onChange={(e) => updateProduct(pIndex, "title", e.target.value)}
                           placeholder="e.g. IP ERP"
                           required
                         />
                         <InputField
                           label="Link / URL"
                           value={product.link}
-                          onChange={(e) =>
-                            updateProduct(pIndex, "link", e.target.value)
-                          }
+                          onChange={(e) => updateProduct(pIndex, "link", e.target.value)}
                           placeholder="e.g. /products/ip-erp"
                           required
                         />
                         <TextAreaField
                           label="Short Description (For Navbar)"
                           value={product.shortDesc}
-                          onChange={(e) =>
-                            updateProduct(pIndex, "shortDesc", e.target.value)
-                          }
+                          onChange={(e) => updateProduct(pIndex, "shortDesc", e.target.value)}
                           placeholder="A quick 1-2 sentence description for the dropdown menu."
                           containerClassName="col-span-2"
                           rows={2}
@@ -209,72 +193,54 @@ export function ProductListCMS({
                       <ImageUploadField
                         label="Product Presentation Image"
                         images={product.imageUrl ? [product.imageUrl] : []}
-                        onImagesChange={(imgs) =>
-                          updateProduct(pIndex, "imageUrl", imgs[0] || "")
-                        }
+                        onImagesChange={(imgs) => updateProduct(pIndex, "imageUrl", imgs[0] || "")}
                         maxImages={1}
                       />
 
                       {/* Product Pillars */}
-                      <div className="bg-gray-50 border border-gray-100 rounded-2xl p-5">
-                        <div className="flex justify-between items-center mb-4">
+                      <div className="rounded-2xl border border-gray-100 bg-gray-50 p-5">
+                        <div className="mb-4 flex items-center justify-between">
                           <div>
-                            <h4 className="font-bold text-gray-800">
-                              Product Pillars / Features
-                            </h4>
-                            <p className="text-xs text-gray-500 mt-0.5">
+                            <h4 className="font-bold text-gray-800">Product Pillars / Features</h4>
+                            <p className="mt-0.5 text-xs text-gray-500">
                               Add up to 4 key features that define this product.
                             </p>
                           </div>
                           {product.pillars.length < 4 && (
                             <button
                               onClick={() => addPillar(pIndex)}
-                              className="px-3 py-1.5 bg-white border border-gray-200 hover:border-[#D4AF37] text-gray-700 hover:text-[#D4AF37] rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
+                              className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-bold text-gray-700 shadow-sm transition-all hover:border-[#D4AF37] hover:text-[#D4AF37]"
                             >
-                              <Plus className="w-3.5 h-3.5" /> Add Feature
+                              <Plus className="h-3.5 w-3.5" /> Add Feature
                             </button>
                           )}
                         </div>
 
-                        <div className="grid md:grid-cols-2 gap-4">
+                        <div className="grid gap-4 md:grid-cols-2">
                           {product.pillars.map((pillar, i) => (
                             <div
                               key={i}
-                              className="p-4 bg-white rounded-xl border border-gray-200 relative group shadow-sm"
+                              className="group relative rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
                             >
                               <button
                                 onClick={() => removePillar(pIndex, i)}
-                                className="absolute top-2 right-2 text-gray-300 hover:text-red-500 transition-colors"
+                                className="absolute top-2 right-2 text-gray-300 transition-colors hover:text-red-500"
                               >
-                                <Trash2 className="w-4 h-4" />
+                                <Trash2 className="h-4 w-4" />
                               </button>
-                              <div className="text-[10px] uppercase font-bold text-[#D4AF37] mb-2 font-mono">
+                              <div className="mb-2 font-mono text-[10px] font-bold text-[#D4AF37] uppercase">
                                 Feature {pillar.number}
                               </div>
                               <InputField
                                 label="Title"
                                 value={pillar.title}
-                                onChange={(e) =>
-                                  updatePillar(
-                                    pIndex,
-                                    i,
-                                    "title",
-                                    e.target.value,
-                                  )
-                                }
+                                onChange={(e) => updatePillar(pIndex, i, "title", e.target.value)}
                                 containerClassName="mb-3"
                               />
                               <TextAreaField
                                 label="Description"
                                 value={pillar.desc}
-                                onChange={(e) =>
-                                  updatePillar(
-                                    pIndex,
-                                    i,
-                                    "desc",
-                                    e.target.value,
-                                  )
-                                }
+                                onChange={(e) => updatePillar(pIndex, i, "desc", e.target.value)}
                                 rows={2}
                               />
                             </div>
