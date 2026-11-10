@@ -56,7 +56,7 @@ export function WhatWeDoSection({
   responseKey = "WhatWeDo",
   onSave,
 }: WhatWeDoSectionProps) {
-  const [isOpen, setIsOpen] = useState(!initialData);
+  const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [serviceImages, setServiceImages] = useState<(File | string | null)[]>([]);
   const [isDragging, setIsDragging] = useState<number | null>(null);

@@ -30,7 +30,7 @@ export function ProductListCMS({
   onChange: (products: ProductItem[]) => void;
 }) {
   const confirmDelete = useConfirmDelete();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
 
   const addProduct = () => {

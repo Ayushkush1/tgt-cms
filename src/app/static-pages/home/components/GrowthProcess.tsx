@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus } from "lucide-react";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
+import { CollapsibleCard } from "@/app/components/CollapsibleCard";
 import { HomeSectionCard, StringListField, useHomeSection } from "./HomeSectionCard";
 
 interface ProcessStep {
@@ -34,6 +35,7 @@ const DEFAULT_DATA: GrowthProcessData = {
 
 export function GrowthProcess() {
   const [isOpen, setIsOpen] = useState(false);
+  const [expandedStep, setExpandedStep] = useState<number | null>(null);
   const { formData, setFormData, isSaving, save } = useHomeSection(
     "GrowthProcess",
     DEFAULT_DATA,
@@ -105,7 +107,7 @@ export function GrowthProcess() {
           </span>
           <button
             type="button"
-            onClick={() =>
+            onClick={() => {
               setFormData((prev) => ({
                 ...prev,
                 steps: [
@@ -117,8 +119,9 @@ export function GrowthProcess() {
                     deliverable: "",
                   },
                 ],
-              }))
-            }
+              }));
+              setExpandedStep(steps.length);
+            }}
             className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-[#B8932A] hover:bg-amber-100"
           >
             <Plus className="h-3.5 w-3.5" /> Add step
@@ -126,25 +129,21 @@ export function GrowthProcess() {
         </div>
 
         {steps.map((step, idx) => (
-          <div
+          <CollapsibleCard
             key={idx}
-            className="flex flex-col gap-3 rounded-2xl border border-gray-100 bg-gray-50/70 p-4"
+            badge={`Step ${step.number || String(idx + 1).padStart(2, "0")}`}
+            title={step.title || `Step ${idx + 1}`}
+            subtitle={step.deliverable || undefined}
+            isOpen={expandedStep === idx}
+            onToggle={() => setExpandedStep(expandedStep === idx ? null : idx)}
+            onRemove={() => {
+              setFormData((prev) => ({ ...prev, steps: steps.filter((_, i) => i !== idx) }));
+              setExpandedStep((prev) =>
+                prev === idx ? null : prev !== null && prev > idx ? prev - 1 : prev,
+              );
+            }}
           >
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-[#B8932A]">
-                Step {step.number || String(idx + 1).padStart(2, "0")}
-              </span>
-              <button
-                type="button"
-                onClick={() =>
-                  setFormData((prev) => ({ ...prev, steps: steps.filter((_, i) => i !== idx) }))
-                }
-                className="text-gray-400 hover:text-red-500"
-              >
-                <Trash2 className="h-4 w-4" />
-              </button>
-            </div>
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+            <div className="grid grid-cols-1 items-end gap-3 md:grid-cols-3">
               <InputField
                 label="Number"
                 value={step.number || ""}
@@ -171,7 +170,7 @@ export function GrowthProcess() {
               rows={2}
               placeholder="e.g. We audit your business, customers, and competitors to map what drives growth..."
             />
-          </div>
+          </CollapsibleCard>
         ))}
       </div>
 

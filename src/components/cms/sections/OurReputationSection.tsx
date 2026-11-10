@@ -51,7 +51,7 @@ export function OurReputationSection({
   responseKey = "OurReputation",
   onSave,
 }: OurReputationSectionProps) {
-  const [isOpen, setIsOpen] = useState(!initialData);
+  const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [avatarImages, setAvatarImages] = useState<(File | string | null)[]>([]);
   const [isDragging, setIsDragging] = useState<number | null>(null);

@@ -82,7 +82,7 @@ export function PortfolioCMS({
   onSave,
 }: PortfolioCMSProps) {
   const confirmDelete = useConfirmDelete();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [items, setItems] = useState<PortfolioItem[]>([]);
 

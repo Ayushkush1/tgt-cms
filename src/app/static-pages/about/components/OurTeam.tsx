@@ -2,12 +2,13 @@
 import { useState, useEffect } from "react";
 import { fetchWithCache } from "@/lib/apiCache";
 import toast from "react-hot-toast";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus } from "lucide-react";
 import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
 import { SectionHeader } from "@/components/SectionHeader";
 import { TextAreaField } from "@/components/TextAreaField";
 import { ImageUploadField } from "@/components/ImageUploadField";
+import { CollapsibleCard } from "@/app/components/CollapsibleCard";
 import { uploadFiles } from "@/lib/uploadHelpers";
 
 const SECTION_KEY = "OurTeam";
@@ -38,6 +39,7 @@ const defaultFormData = {
 
 export default function OurTeam() {
   const [isOpen, setIsOpen] = useState(false);
+  const [expandedMember, setExpandedMember] = useState<number | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState(defaultFormData);
 
@@ -207,69 +209,63 @@ export default function OurTeam() {
                   </span>
                 </div>
 
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-3">
                   {formData.members.map((member, idx) => (
-                    <div
+                    <CollapsibleCard
                       key={idx}
-                      className="grid grid-cols-2 gap-4 rounded-xl border border-gray-100 bg-gray-50 p-4"
+                      badge={`(${String(idx + 1).padStart(2, "0")})`}
+                      title={member.name || `Team Member ${idx + 1}`}
+                      subtitle={member.designation || undefined}
+                      isOpen={expandedMember === idx}
+                      onToggle={() => setExpandedMember(expandedMember === idx ? null : idx)}
+                      onRemove={formData.members.length > 1 ? () => removeMember(idx) : undefined}
                     >
-                      <div className="col-span-2 flex items-center justify-between">
-                        <h2 className="text-sm font-semibold text-gray-700">
-                          Team Member {idx + 1}
-                        </h2>
-                        {formData.members.length > 1 && (
-                          <button
-                            onClick={() => removeMember(idx)}
-                            className="flex items-center gap-1.5 rounded-md bg-red-50 p-1.5 text-xs font-medium text-red-500 transition-colors hover:bg-red-100 hover:text-red-600"
-                          >
-                            <Trash2 className="h-3.5 w-3.5" /> Remove
-                          </button>
-                        )}
-                      </div>
-                      <InputField
-                        label="Name"
-                        value={member.name}
-                        onChange={(e) => handleMemberChange(idx, "name", e.target.value)}
-                        placeholder="e.g. Meghna Tiwari"
-                        required
-                        className="bg-white"
-                      />
-                      <InputField
-                        label="Designation"
-                        value={member.designation}
-                        onChange={(e) => handleMemberChange(idx, "designation", e.target.value)}
-                        placeholder="e.g. Founder & CEO"
-                        className="bg-white"
-                      />
-                      <InputField
-                        label="Column Position (0-7)"
-                        value={member.col.toString()}
-                        onChange={(e) => handleMemberChange(idx, "col", e.target.value)}
-                        placeholder="e.g. 3"
-                        type="number"
-                        className="bg-white"
-                      />
-                      <InputField
-                        label="LinkedIn URL"
-                        value={member.linkedinUrl}
-                        onChange={(e) => handleMemberChange(idx, "linkedinUrl", e.target.value)}
-                        placeholder="https://linkedin.com/in/..."
-                        className="bg-white"
-                      />
-                      <div className="col-span-2">
-                        <ImageUploadField
-                          label="Profile Image"
-                          images={member.image}
-                          onImagesChange={(imgs) => handleMemberChange(idx, "image", imgs)}
-                          maxImages={1}
+                      <div className="grid grid-cols-1 items-end gap-4 md:grid-cols-2">
+                        <InputField
+                          label="Name"
+                          value={member.name}
+                          onChange={(e) => handleMemberChange(idx, "name", e.target.value)}
+                          placeholder="e.g. Meghna Tiwari"
+                          required
                         />
+                        <InputField
+                          label="Designation"
+                          value={member.designation}
+                          onChange={(e) => handleMemberChange(idx, "designation", e.target.value)}
+                          placeholder="e.g. Founder & CEO"
+                        />
+                        <InputField
+                          label="Column Position (0-7)"
+                          value={member.col.toString()}
+                          onChange={(e) => handleMemberChange(idx, "col", e.target.value)}
+                          placeholder="e.g. 3"
+                          type="number"
+                        />
+                        <InputField
+                          label="LinkedIn URL"
+                          value={member.linkedinUrl}
+                          onChange={(e) => handleMemberChange(idx, "linkedinUrl", e.target.value)}
+                          placeholder="https://linkedin.com/in/..."
+                        />
+                        <div className="md:col-span-2">
+                          <ImageUploadField
+                            label="Profile Image"
+                            images={member.image}
+                            onImagesChange={(imgs) => handleMemberChange(idx, "image", imgs)}
+                            maxImages={1}
+                          />
+                        </div>
                       </div>
-                    </div>
+                    </CollapsibleCard>
                   ))}
                 </div>
 
                 <button
-                  onClick={addMember}
+                  type="button"
+                  onClick={() => {
+                    addMember();
+                    setExpandedMember(formData.members.length);
+                  }}
                   className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-gray-200 py-3 font-medium text-gray-500 transition-colors hover:border-gray-300 hover:bg-gray-50"
                 >
                   <Plus className="h-4 w-4" /> Add Team Member

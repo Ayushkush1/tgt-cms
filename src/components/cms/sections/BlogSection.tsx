@@ -72,7 +72,7 @@ export function BlogSection({
   title = "Blog Highlights Section",
   description = "Manage featured blog posts.",
 }: BlogSectionProps) {
-  const [isOpen, setIsOpen] = useState(defaultOpen ?? !initialData);
+  const [isOpen, setIsOpen] = useState(defaultOpen ?? false);
   const confirmDelete = useConfirmDelete();
   const [isSaving, setIsSaving] = useState(false);
   const [blogImages, setBlogImages] = useState<(File | string | null)[]>([]);

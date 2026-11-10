@@ -46,7 +46,7 @@ const DEFAULT_DATA: GrowthHeroData = {
 };
 
 export function GrowthHero() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState<GrowthHeroData>(DEFAULT_DATA);
   const [trustedByMeta, setTrustedByMeta] = useState<Record<string, unknown>>({});

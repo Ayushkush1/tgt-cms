@@ -40,7 +40,7 @@ export function WhoWeAreSection({
   responseKey = "WhoWeAre",
   onSave,
 }: WhoWeAreSectionProps) {
-  const [isOpen, setIsOpen] = useState(!initialData); // Default open in builder, closed in static
+  const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState(defaultFormData);
 

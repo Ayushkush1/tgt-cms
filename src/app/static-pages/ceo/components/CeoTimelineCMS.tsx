@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { InputField } from "@/app/components/InputField";
 import { TextAreaField } from "@/app/components/TextAreaField";
-import { Plus, Trash2, GripVertical } from "lucide-react";
+import { CollapsibleCard } from "@/app/components/CollapsibleCard";
+import { Plus } from "lucide-react";
 
 export interface CeoTimelineMilestone {
   year: string;
@@ -24,6 +26,8 @@ interface Props {
 }
 
 export function CeoTimelineCMS({ timeline, onTimelineChange }: Props) {
+  const [expandedMilestone, setExpandedMilestone] = useState<number | null>(null);
+
   const handleMilestoneChange = (idx: number, key: keyof CeoTimelineMilestone, val: string) => {
     const newMilestones = [...timeline.milestones];
     newMilestones[idx] = { ...newMilestones[idx], [key]: val };
@@ -33,6 +37,7 @@ export function CeoTimelineCMS({ timeline, onTimelineChange }: Props) {
   const addMilestone = () => {
     const newMilestones = [...timeline.milestones, { year: "", title: "", description: "" }];
     onTimelineChange({ ...timeline, milestones: newMilestones });
+    setExpandedMilestone(timeline.milestones.length);
   };
 
   const removeMilestone = (idx: number) => {
@@ -88,21 +93,18 @@ export function CeoTimelineCMS({ timeline, onTimelineChange }: Props) {
           </button>
         </div>
 
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-3">
           {timeline.milestones.map((item, idx) => (
-            <div
+            <CollapsibleCard
               key={idx}
-              className="group relative rounded-3xl border border-gray-100 bg-gray-50/30 p-6 shadow-sm transition-all hover:shadow-md"
+              badge={item.year || `(${String(idx + 1).padStart(2, "0")})`}
+              title={item.title || `Milestone #${idx + 1}`}
+              isOpen={expandedMilestone === idx}
+              onToggle={() => setExpandedMilestone(expandedMilestone === idx ? null : idx)}
+              onRemove={() => removeMilestone(idx)}
             >
-              <button
-                onClick={() => removeMilestone(idx)}
-                className="absolute top-6 right-6 rounded-2xl p-2 text-red-500 transition-all hover:bg-red-50"
-              >
-                <Trash2 className="h-4 w-4" />
-              </button>
-              <div className="grid grid-cols-1 items-end gap-6 md:grid-cols-12">
-                <div className="flex items-center gap-2 md:col-span-2">
-                  <GripVertical className="h-4 w-4 cursor-grab text-gray-300" />
+              <div className="grid grid-cols-1 items-end gap-4 md:grid-cols-12">
+                <div className="md:col-span-3">
                   <InputField
                     label="Year"
                     value={item.year}
@@ -110,7 +112,7 @@ export function CeoTimelineCMS({ timeline, onTimelineChange }: Props) {
                     placeholder="e.g. 2015"
                   />
                 </div>
-                <div className="md:col-span-10">
+                <div className="md:col-span-9">
                   <InputField
                     label="Milestone Title"
                     value={item.title}
@@ -128,11 +130,11 @@ export function CeoTimelineCMS({ timeline, onTimelineChange }: Props) {
                   />
                 </div>
               </div>
-            </div>
+            </CollapsibleCard>
           ))}
           {timeline.milestones.length === 0 && (
             <div className="rounded-3xl border-2 border-dashed border-gray-200 py-10 text-center text-sm text-gray-400">
-              No milestones added yet. Click "Add Milestone" to start.
+              No milestones added yet. Click &ldquo;Add Milestone&rdquo; to start.
             </div>
           )}
         </div>

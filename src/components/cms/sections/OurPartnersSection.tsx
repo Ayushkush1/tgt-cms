@@ -31,7 +31,7 @@ export function OurPartnersSection({
   responseKey = "OurPartners",
   onSave,
 }: OurPartnersSectionProps) {
-  const [isOpen, setIsOpen] = useState(!initialData);
+  const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState(defaultFormData);
   const [images, setImages] = useState<(File | string | null)[]>([]);

@@ -44,7 +44,7 @@ export function HeroSection({
   saveUrl = "/api/home",
   onSave,
 }: HeroSectionProps) {
-  const [isOpen, setIsOpen] = useState(!initialData);
+  const [isOpen, setIsOpen] = useState(false);
   const [sliderImages, setSliderImages] = useState<(File | string | null)[]>([]);
   const [isDragging, setIsDragging] = useState<number | null>(null);
   const [isSaving, setIsSaving] = useState(false);

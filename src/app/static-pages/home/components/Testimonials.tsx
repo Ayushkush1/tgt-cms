@@ -2,12 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus } from "lucide-react";
 import { clearCache, fetchWithCache } from "@/lib/apiCache";
 import { uploadFiles } from "@/lib/uploadHelpers";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { ImageUploadField } from "@/components/ImageUploadField";
+import { CollapsibleCard } from "@/app/components/CollapsibleCard";
 import { useConfirmDelete } from "@/app/components/ConfirmDeleteModal";
 import { HomeSectionCard } from "./HomeSectionCard";
 
@@ -47,6 +48,7 @@ const emptyStory = (): ClientStory => ({
 
 export function Testimonials() {
   const [isOpen, setIsOpen] = useState(false);
+  const [expandedQuote, setExpandedQuote] = useState<number | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState<TestimonialsHeaderData>(DEFAULT_HEADER);
   const [reputationMeta, setReputationMeta] = useState<Record<string, unknown>>({});
@@ -209,6 +211,7 @@ export function Testimonials() {
             onClick={() => {
               setStories((prev) => [...prev, emptyStory()]);
               setStoryImages((prev) => [...prev, null]);
+              setExpandedQuote(stories.length);
             }}
             className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-[#B8932A] hover:bg-amber-100"
           >
@@ -223,23 +226,15 @@ export function Testimonials() {
         ) : (
           <div className="flex flex-col gap-3">
             {stories.map((story, idx) => (
-              <div
+              <CollapsibleCard
                 key={idx}
-                className="flex flex-col gap-3 rounded-2xl border border-gray-100 bg-gray-50/70 p-4"
+                badge={`(${String(idx + 1).padStart(2, "0")})`}
+                title={story.clientName || `Quote #${idx + 1}`}
+                subtitle={story.clientRole || undefined}
+                isOpen={expandedQuote === idx}
+                onToggle={() => setExpandedQuote(expandedQuote === idx ? null : idx)}
+                onRemove={() => removeStory(idx)}
               >
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-[#B8932A]">
-                    Quote #{String(idx + 1).padStart(2, "0")}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => removeStory(idx)}
-                    className="rounded-lg p-1 text-gray-400 hover:bg-red-50 hover:text-red-500"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                </div>
-
                 <div className="grid grid-cols-1 items-end gap-3 md:grid-cols-2">
                   <InputField
                     label="Client Name"
@@ -276,7 +271,7 @@ export function Testimonials() {
                     />
                   </div>
                 </div>
-              </div>
+              </CollapsibleCard>
             ))}
           </div>
         )}

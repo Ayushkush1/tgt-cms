@@ -25,7 +25,6 @@ export default function BlogCMSPage() {
 
       <BlogIndex />
       <BlogSection
-        defaultOpen
         title="All Website Blog Posts"
         description="Create, edit, and publish articles used across Home, /blog, and /blog/[slug]."
       />

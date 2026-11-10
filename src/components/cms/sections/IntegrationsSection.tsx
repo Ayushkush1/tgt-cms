@@ -37,7 +37,7 @@ export function IntegrationsSection({
   saveUrl = "/api/home",
   onSave,
 }: IntegrationsSectionProps) {
-  const [isOpen, setIsOpen] = useState(!initialData);
+  const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState(defaultFormData);
 

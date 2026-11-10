@@ -22,7 +22,7 @@ export function ProductHeroCMS({
   data: ProductHeroData;
   onChange: (data: ProductHeroData) => void;
 }) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleParagraphChange = (index: number, value: string) => {
     const paras = [...data.paragraphs];

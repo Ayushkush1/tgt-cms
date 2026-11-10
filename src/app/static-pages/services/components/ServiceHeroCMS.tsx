@@ -33,7 +33,7 @@ export function ServiceHeroCMS({
   data: HeroData;
   onChange: (data: HeroData) => void;
 }) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handlePillarChange = (index: number, field: keyof Pillar, value: string) => {
     const newPillars = [...data.pillars];
