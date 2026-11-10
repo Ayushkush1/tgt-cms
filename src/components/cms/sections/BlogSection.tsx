@@ -173,7 +173,10 @@ export function BlogSection({
       // The editors now point at the uploaded URLs, so saving again won't upload twice
       setFormData((prev) => ({
         ...prev,
-        blogs: prev.blogs.map((item, idx) => ({ ...item, contentHtml: contents[idx] ?? item.contentHtml })),
+        blogs: prev.blogs.map((item, idx) => ({
+          ...item,
+          contentHtml: contents[idx] ?? item.contentHtml,
+        })),
       }));
 
       const body = sectionId

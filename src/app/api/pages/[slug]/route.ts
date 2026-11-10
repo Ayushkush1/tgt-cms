@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "../../../../lib/prisma";
 import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 import { withoutBlogBodies } from "@/lib/blogPosts";
+import { toHeadingTag } from "@/lib/headingTags";
 
 export async function GET(request: Request, { params }: { params: Promise<{ slug: string }> }) {
   try {
@@ -57,7 +58,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ slug
           ogDescription,
           ogImage,
           schema,
-          headingOptions,
+          headingOptions: toHeadingTag(headingOptions),
         },
       },
     });

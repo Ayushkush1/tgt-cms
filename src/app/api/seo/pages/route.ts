@@ -3,6 +3,9 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
+    // Pages listed in SEO even without a navigation link. Home is not one: it uses Global SEO.
+    const knownStaticSlugs = ["ceo"];
+
     const pages = await prisma.page.findMany({
       select: {
         id: true,
@@ -95,9 +98,9 @@ export async function GET() {
       };
     });
 
-    // 4. Find pages that are not linked in NavLinks (only allow CEO page)
+    // 4. Find pages that are not linked in NavLinks (only the always-listed static pages)
     const unmatchedPages = pages.filter((page) => {
-      if (page.slug !== "ceo") return false;
+      if (!knownStaticSlugs.includes(page.slug)) return false;
       const isMatched = links.some((link) => {
         if (link.url === "/" && page.slug === "home") return true;
         return link.url === `/${page.slug}`;
@@ -123,8 +126,7 @@ export async function GET() {
       };
     });
 
-    // 5. Ensure known static pages like "ceo" are included even if not in Page table yet
-    const knownStaticSlugs = ["ceo"];
+    // 5. Ensure the known static pages are included even if not in Page table yet
     knownStaticSlugs.forEach((slug) => {
       const isRepresented = [...mergedData, ...unmatchedData].some((item) => item.slug === slug);
       if (!isRepresented) {
@@ -146,7 +148,8 @@ export async function GET() {
       }
     });
 
-    const finalData = [...mergedData, ...unmatchedData];
+    // The home page's SEO lives in Global SEO, not in Page Settings
+    const finalData = [...mergedData, ...unmatchedData].filter((item) => item.slug !== "home");
 
     return NextResponse.json({ success: true, data: finalData });
   } catch (error) {

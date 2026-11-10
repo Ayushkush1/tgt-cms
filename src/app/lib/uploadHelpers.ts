@@ -210,7 +210,9 @@ export async function uploadInlineImages(html: string): Promise<string> {
   for (const [i, dataUrl] of dataUrls.entries()) {
     const blob = await (await fetch(dataUrl)).blob();
     const ext = blob.type.split("/")[1]?.replace("svg+xml", "svg") ?? "png";
-    const [url] = await uploadFiles([new File([blob], `blog-image-${i + 1}.${ext}`, { type: blob.type })]);
+    const [url] = await uploadFiles([
+      new File([blob], `blog-image-${i + 1}.${ext}`, { type: blob.type }),
+    ]);
     if (!url) throw new Error("Image upload failed");
     result = result.split(dataUrl).join(url);
   }

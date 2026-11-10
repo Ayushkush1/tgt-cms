@@ -7,7 +7,6 @@ import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
 import { SectionHeader } from "@/components/SectionHeader";
 import { TextAreaField } from "@/components/TextAreaField";
-import { SelectField } from "@/components/SelectField";
 
 const SECTION_KEY = "EnquirySection";
 
@@ -123,21 +122,6 @@ export default function EnquirySection() {
                 onChange={handleChange}
                 placeholder="e.g. something amazing"
               />
-              <SelectField
-                label="Heading HTML Tag"
-                name="headingTag"
-                value={formData.headingTag || "h2"}
-                onChange={handleChange}
-                options={[
-                  { value: "h1", label: "H1" },
-                  { value: "h2", label: "H2" },
-                  { value: "h3", label: "H3" },
-                  { value: "h4", label: "H4" },
-                  { value: "h5", label: "H5" },
-                  { value: "h6", label: "H6" },
-                ]}
-                containerClassName="col-span-2"
-              />
               <TextAreaField
                 label="Intro Description"
                 name="introDescription"
@@ -155,7 +139,10 @@ export default function EnquirySection() {
               {/* Email, phone & address are global: set once in Social Media & Footer */}
               <p className="col-span-2 rounded-xl border border-amber-200/70 bg-[#FFFDF4] px-4 py-3 text-sm text-[#8a6d1f]">
                 The email, phone number and address shown here come from{" "}
-                <Link href="/navigation/social-media" className="font-semibold underline underline-offset-2">
+                <Link
+                  href="/navigation/social-media"
+                  className="font-semibold underline underline-offset-2"
+                >
                   Navigation &amp; Links → Social Media &amp; Footer
                 </Link>
                 , so they are the same everywhere on the website.

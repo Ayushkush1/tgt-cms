@@ -8,7 +8,6 @@ import { SaveButton } from "@/components/SaveButton";
 import { TextAreaField } from "@/components/TextAreaField";
 import { uploadFiles } from "@/lib/uploadHelpers";
 import { SectionHeader } from "@/components/SectionHeader";
-import { SelectField } from "@/components/SelectField";
 
 interface ProjectCard {
   title: string;
@@ -211,21 +210,6 @@ export function HeroSection({
                 value={formData.headlineItalicHighlight || ""}
                 onChange={handleChange}
                 placeholder="e.g. crafting digital reality."
-              />
-              <SelectField
-                label="Heading HTML Tag"
-                name="headingTag"
-                value={formData.headingTag || "h1"}
-                onChange={handleChange}
-                options={[
-                  { value: "h1", label: "H1" },
-                  { value: "h2", label: "H2" },
-                  { value: "h3", label: "H3" },
-                  { value: "h4", label: "H4" },
-                  { value: "h5", label: "H5" },
-                  { value: "h6", label: "H6" },
-                ]}
-                containerClassName="col-span-2"
               />
 
               <TextAreaField

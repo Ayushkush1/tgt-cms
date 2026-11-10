@@ -52,7 +52,9 @@ const CLOUDINARY_URL_PATTERN =
 /** True for a URL of a file this CMS uploaded to Cloudinary (our cloud, our folder). */
 export function isOwnCloudinaryUrl(url: string): boolean {
   const match = url.match(CLOUDINARY_URL_PATTERN);
-  return !!match && match[1] === CLOUDINARY_CLOUD_NAME && match[3].startsWith(`${CLOUDINARY_FOLDER}/`);
+  return (
+    !!match && match[1] === CLOUDINARY_CLOUD_NAME && match[3].startsWith(`${CLOUDINARY_FOLDER}/`)
+  );
 }
 
 /** Deletes a file this CMS uploaded, given its URL. Never throws; other URLs are ignored. */

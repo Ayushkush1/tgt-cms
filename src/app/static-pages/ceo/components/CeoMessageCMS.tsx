@@ -3,7 +3,6 @@
 import { InputField } from "@/app/components/InputField";
 import { TextAreaField } from "@/app/components/TextAreaField";
 import { ImageUploadField } from "@/app/components/ImageUploadField";
-import { SelectField } from "@/app/components/SelectField";
 
 export interface CeoMessageData {
   headingTag?: string;
@@ -77,20 +76,6 @@ export function CeoMessageCMS({ message, onMessageChange }: Props) {
             value={message.ctaLink}
             onChange={(e) => onMessageChange({ ...message, ctaLink: e.target.value })}
             placeholder="e.g. /contact"
-          />
-          <SelectField
-            label="Heading HTML Tag"
-            value={message.headingTag || "h1"}
-            onChange={(e) => onMessageChange({ ...message, headingTag: e.target.value })}
-            options={[
-              { value: "h1", label: "H1" },
-              { value: "h2", label: "H2" },
-              { value: "h3", label: "H3" },
-              { value: "h4", label: "H4" },
-              { value: "h5", label: "H5" },
-              { value: "h6", label: "H6" },
-            ]}
-            containerClassName="col-span-1 md:col-span-2"
           />
           <div className="rounded-3xl border border-gray-100 bg-white/50 p-6 md:col-span-2">
             <ImageUploadField

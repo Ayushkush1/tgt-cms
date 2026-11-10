@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
+import { toHeadingTag } from "@/lib/headingTags";
 
 export async function GET() {
   try {
@@ -20,7 +21,11 @@ export async function GET() {
       });
     }
 
-    return NextResponse.json({ success: true, data: config });
+    // headingOptions: the home page's main heading tag, always a string ("h1" … "h6", or "")
+    return NextResponse.json({
+      success: true,
+      data: { ...config, headingOptions: toHeadingTag(config.headingOptions) },
+    });
   } catch (error) {
     console.error("Error fetching global SEO config:", error);
     return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
@@ -57,6 +62,9 @@ export async function PUT(request: Request) {
       );
     }
 
+    const headingTag =
+      config.headingOptions === undefined ? undefined : toHeadingTag(config.headingOptions);
+
     const updatedConfig = await prisma.globalConfig.upsert({
       where: { id: "global" },
       update: {
@@ -70,6 +78,7 @@ export async function PUT(request: Request) {
         customFooterScripts: config.customFooterScripts,
         socialLinks: config.socialLinks,
         footer: config.footer,
+        headingOptions: headingTag,
         canonicalOrdering: config.canonicalOrdering,
         sitemapEnabled: config.sitemapEnabled,
         sitemapCustomContent: config.sitemapCustomContent,
@@ -88,6 +97,7 @@ export async function PUT(request: Request) {
         customFooterScripts: config.customFooterScripts,
         socialLinks: config.socialLinks,
         footer: config.footer,
+        headingOptions: headingTag,
         canonicalOrdering: config.canonicalOrdering,
         sitemapEnabled: config.sitemapEnabled !== undefined ? config.sitemapEnabled : true,
         sitemapCustomContent: config.sitemapCustomContent,

@@ -21,6 +21,11 @@ interface PageSEOSummary {
   isStatic?: boolean;
 }
 
+const formatDisplayUrl = (slug: string) => {
+  if (slug === "home") return "/";
+  return /^https?:\/\//.test(slug) ? slug : `/${slug}`;
+};
+
 export default function PageSEODashboard() {
   const [pages, setPages] = useState<PageSEOSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -121,7 +126,7 @@ export default function PageSEODashboard() {
                   </td>
                 </tr>
               ) : (
-                rootLinks.map((root) => {
+                rootLinks.map((root, rootIndex) => {
                   const children = filteredPages
                     .filter((l) => l.parent === root.id)
                     .sort((a, b) => a.order - b.order);
@@ -130,12 +135,13 @@ export default function PageSEODashboard() {
 
                   const hasTitle = !!root.metaTitle;
                   const hasDesc = !!root.metaDescription;
+                  const rootUrl = formatDisplayUrl(root.slug);
 
                   return (
                     <React.Fragment key={root.id}>
                       <tr className="group transition-colors hover:bg-[#fafafb]">
-                        <td className="px-6 py-5 text-sm font-medium text-gray-500">
-                          {root.order}
+                        <td className="px-6 py-5 text-sm font-medium text-gray-500 tabular-nums">
+                          {rootIndex + 1}
                         </td>
                         <td className="px-6 py-5">
                           <div
@@ -153,27 +159,30 @@ export default function PageSEODashboard() {
                             ) : (
                               <div className="h-4 w-4 shrink-0" />
                             )}
-                            <div className="flex flex-col">
-                              <span className="text-[15px] font-bold text-[#0B0F29]">
+                            <div className="flex max-w-[240px] min-w-0 items-center gap-2">
+                              <span
+                                title={root.title}
+                                className="line-clamp-2 text-[15px] font-bold text-[#0B0F29]"
+                              >
                                 {root.title}
-                                {root.isStatic && (
-                                  <span className="ml-2 rounded-md border border-gray-100 bg-gray-50 px-1.5 py-0.5 text-[9px] font-bold text-gray-400 uppercase">
-                                    Static
-                                  </span>
-                                )}
                               </span>
+                              {root.isStatic && (
+                                <span className="shrink-0 rounded-md border border-gray-100 bg-gray-50 px-1.5 py-0.5 text-[9px] font-bold text-gray-400 uppercase">
+                                  Static
+                                </span>
+                              )}
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-5">
+                        <td className="px-6 py-5 whitespace-nowrap">
                           {root.type === "Dropdown" ? (
-                            <span className="text-[10px] font-bold tracking-widest text-gray-300 uppercase">
+                            <span className="text-[10px] font-bold tracking-widest whitespace-nowrap text-gray-300 uppercase">
                               Group Container
                             </span>
                           ) : (
-                            <div className="flex gap-2">
+                            <div className="flex items-center gap-2 whitespace-nowrap">
                               <span
-                                className={`rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase ${
+                                className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wider whitespace-nowrap uppercase ${
                                   hasTitle
                                     ? "border border-emerald-100 bg-emerald-50 text-emerald-600"
                                     : "border border-red-100 bg-red-50 text-red-600"
@@ -182,7 +191,7 @@ export default function PageSEODashboard() {
                                 {hasTitle ? "Title ✓" : "Title ✗"}
                               </span>
                               <span
-                                className={`rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase ${
+                                className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wider whitespace-nowrap uppercase ${
                                   hasDesc
                                     ? "border border-emerald-100 bg-emerald-50 text-emerald-600"
                                     : "border border-red-100 bg-red-50 text-red-600"
@@ -193,9 +202,9 @@ export default function PageSEODashboard() {
                             </div>
                           )}
                         </td>
-                        <td className="px-6 py-5">
+                        <td className="px-6 py-5 whitespace-nowrap">
                           <span
-                            className={`rounded-full px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase ${
+                            className={`inline-block rounded-full px-2.5 py-1 text-[10px] font-bold tracking-wider whitespace-nowrap uppercase ${
                               root.type === "Main Link"
                                 ? "bg-blue-50 text-[#D4AF37]"
                                 : root.type === "Dropdown"
@@ -206,8 +215,13 @@ export default function PageSEODashboard() {
                             {root.type}
                           </span>
                         </td>
-                        <td className="w-10 px-6 py-5 font-mono text-xs text-gray-400">
-                          {root.slug === "home" ? "/" : `/${root.slug}`}
+                        <td className="px-6 py-5">
+                          <div
+                            title={rootUrl}
+                            className="line-clamp-2 max-w-[260px] font-mono text-xs break-all text-gray-400"
+                          >
+                            {rootUrl}
+                          </div>
                         </td>
                         <td className="px-6 py-5">
                           <div className="flex items-center justify-end gap-3">
@@ -226,27 +240,31 @@ export default function PageSEODashboard() {
                         </td>
                       </tr>
                       {isExpanded &&
-                        children.map((child) => {
+                        children.map((child, childIndex) => {
                           const childHasTitle = !!child.metaTitle;
                           const childHasDesc = !!child.metaDescription;
+                          const childUrl = formatDisplayUrl(child.slug);
 
                           return (
                             <tr
                               key={child.id}
                               className="group bg-[#fcfdff]/50 transition-colors hover:bg-[#f5f8ff]"
                             >
-                              <td className="px-6 py-4 pl-12 text-sm font-medium text-gray-400">
-                                {child.order}
+                              <td className="px-6 py-4 pl-10 text-sm font-medium text-gray-400 tabular-nums">
+                                {childIndex + 1}
                               </td>
                               <td className="px-6 py-4">
                                 <div className="flex items-center gap-3 border-l-2 border-gray-100/50 pl-6">
-                                  <span className="text-lg text-gray-300">↳</span>
-                                  <div className="flex flex-col">
-                                    <span className="text-xs font-medium text-gray-600 transition-colors group-hover:text-[#0B0F29]">
+                                  <span className="shrink-0 text-lg text-gray-300">↳</span>
+                                  <div className="flex max-w-[220px] min-w-0 flex-col">
+                                    <span
+                                      title={child.title}
+                                      className="line-clamp-2 text-xs font-medium text-gray-600 transition-colors group-hover:text-[#0B0F29]"
+                                    >
                                       {child.title}
                                     </span>
                                     {(child.navTitle || child.description) && (
-                                      <span className="text-[11px] text-gray-400">
+                                      <span className="line-clamp-1 text-[11px] text-gray-400">
                                         {child.navTitle && (
                                           <span className="mr-1 font-bold">{child.navTitle}:</span>
                                         )}
@@ -255,10 +273,10 @@ export default function PageSEODashboard() {
                                   </div>
                                 </div>
                               </td>
-                              <td className="px-6 py-4">
-                                <div className="flex gap-2">
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="flex items-center gap-2 whitespace-nowrap">
                                   <span
-                                    className={`rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase ${
+                                    className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wider whitespace-nowrap uppercase ${
                                       childHasTitle
                                         ? "border border-emerald-100 bg-emerald-50 text-emerald-600"
                                         : "border border-red-100 bg-red-50 text-red-600"
@@ -267,7 +285,7 @@ export default function PageSEODashboard() {
                                     {childHasTitle ? "Title ✓" : "Title ✗"}
                                   </span>
                                   <span
-                                    className={`rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase ${
+                                    className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wider whitespace-nowrap uppercase ${
                                       childHasDesc
                                         ? "border border-emerald-100 bg-emerald-50 text-emerald-600"
                                         : "border border-red-100 bg-red-50 text-red-600"
@@ -277,13 +295,18 @@ export default function PageSEODashboard() {
                                   </span>
                                 </div>
                               </td>
-                              <td className="px-6 py-4">
-                                <span className="rounded-full border border-gray-100 bg-gray-50 px-2 py-0.5 text-[9px] font-bold tracking-widest text-gray-400 uppercase">
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <span className="inline-block rounded-full border border-gray-100 bg-gray-50 px-2.5 py-0.5 text-[9px] font-bold tracking-widest whitespace-nowrap text-gray-400 uppercase">
                                   {child.type}
                                 </span>
                               </td>
-                              <td className="px-6 py-4 font-mono text-xs text-gray-400">
-                                {child.slug === "home" ? "/" : `/${child.slug}`}
+                              <td className="px-6 py-4">
+                                <div
+                                  title={childUrl}
+                                  className="line-clamp-2 max-w-[260px] font-mono text-xs break-all text-gray-400"
+                                >
+                                  {childUrl}
+                                </div>
                               </td>
                               <td className="px-6 py-4">
                                 <div className="flex items-center justify-end gap-3">

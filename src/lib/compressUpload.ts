@@ -17,7 +17,14 @@ export const MAX_IMAGE_SIZE = 2000;
 const WEBP_QUALITY = 80;
 export const MAX_UPLOAD_BYTES = 20 * 1024 * 1024;
 
-const RASTER_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif", "image/tiff", "image/bmp"];
+const RASTER_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/avif",
+  "image/tiff",
+  "image/bmp",
+];
 const PASSTHROUGH_IMAGE_TYPES = ["image/svg+xml", "image/gif"];
 const PDF_TYPE = "application/pdf";
 
@@ -47,7 +54,9 @@ const safeBaseName = (name: string) =>
 
 export async function compressUpload(file: File): Promise<CompressedUpload> {
   if (file.size > MAX_UPLOAD_BYTES) {
-    throw new UnsupportedUploadError(`"${file.name}" is larger than ${MAX_UPLOAD_BYTES / 1024 / 1024}MB`);
+    throw new UnsupportedUploadError(
+      `"${file.name}" is larger than ${MAX_UPLOAD_BYTES / 1024 / 1024}MB`,
+    );
   }
 
   const original = Buffer.from(await file.arrayBuffer());
@@ -58,7 +67,12 @@ export async function compressUpload(file: File): Promise<CompressedUpload> {
     const resized = () =>
       sharp(original)
         .rotate() // apply EXIF orientation before the metadata is dropped
-        .resize({ width: MAX_IMAGE_SIZE, height: MAX_IMAGE_SIZE, fit: "inside", withoutEnlargement: true });
+        .resize({
+          width: MAX_IMAGE_SIZE,
+          height: MAX_IMAGE_SIZE,
+          fit: "inside",
+          withoutEnlargement: true,
+        });
 
     // Photos shrink most with lossy WebP; logos, screenshots and other graphics (usually
     // PNG) often come out smaller lossless. Encode both where it matters and keep the smaller.
@@ -67,9 +81,12 @@ export async function compressUpload(file: File): Promise<CompressedUpload> {
 
     // An already-WebP file that needed no resizing is kept if re-encoding would grow it
     const { width = 0, height = 0 } = await sharp(original).metadata();
-    if (type === "image/webp" && Math.max(width, height) <= MAX_IMAGE_SIZE) candidates.push(original);
+    if (type === "image/webp" && Math.max(width, height) <= MAX_IMAGE_SIZE)
+      candidates.push(original);
 
-    const webp = candidates.reduce((smallest, next) => (next.length < smallest.length ? next : smallest));
+    const webp = candidates.reduce((smallest, next) =>
+      next.length < smallest.length ? next : smallest,
+    );
     return {
       buffer: webp,
       fileName: `${base}.webp`,

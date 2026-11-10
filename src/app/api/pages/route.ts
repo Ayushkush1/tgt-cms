@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "../../../lib/prisma";
 import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 import { isNavPlacement } from "@/lib/navPlacement";
+import { toHeadingTag } from "@/lib/headingTags";
 
 export async function GET(request: Request) {
   try {
@@ -53,7 +54,7 @@ export async function GET(request: Request) {
           ogDescription,
           ogImage,
           schema,
-          headingOptions,
+          headingOptions: toHeadingTag(headingOptions),
         },
       };
     });

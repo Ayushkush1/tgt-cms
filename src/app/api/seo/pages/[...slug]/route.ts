@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { toHeadingTag } from "@/lib/headingTags";
 import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 
 export async function GET(
@@ -41,6 +42,7 @@ export async function GET(
           canonicalUrl: content.seo?.canonicalUrl || "",
           noIndex: content.seo?.noIndex || false,
           schema: content.seo?.schema || "",
+          headingOptions: toHeadingTag(content.seo?.headingOptions),
         },
       });
     }
@@ -85,7 +87,11 @@ export async function GET(
       return NextResponse.json({ success: false, error: "Page not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ success: true, data: page });
+    // The page's main heading tag, always a string: "h1" … "h6", or ""
+    return NextResponse.json({
+      success: true,
+      data: { ...page, headingOptions: toHeadingTag(page.headingOptions) },
+    });
   } catch (error) {
     console.error("Error fetching page SEO data:", error);
     return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
@@ -138,7 +144,7 @@ export async function PUT(
           ogTitle: seo.ogTitle,
           ogDescription: seo.ogDescription,
           ogImage: seo.ogImage,
-          headingOptions: seo.headingOptions,
+          headingOptions: toHeadingTag(seo.headingOptions),
           schema: seo.schema,
         },
       };
@@ -164,7 +170,7 @@ export async function PUT(
         ogDescription: seo.ogDescription,
         ogImage: seo.ogImage,
         schema: seo.schema,
-        headingOptions: seo.headingOptions,
+        headingOptions: toHeadingTag(seo.headingOptions),
       },
       create: {
         slug,
@@ -180,7 +186,7 @@ export async function PUT(
         ogDescription: seo.ogDescription,
         ogImage: seo.ogImage,
         schema: seo.schema,
-        headingOptions: seo.headingOptions || {},
+        headingOptions: toHeadingTag(seo.headingOptions),
         visibility: "published",
       },
     });

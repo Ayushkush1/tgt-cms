@@ -594,9 +594,8 @@ export default function SocialMediaFooterPage() {
 
       {importedFromLegacy && (
         <p className="rounded-2xl border border-amber-200/70 bg-[#FFFDF4] px-5 py-4 text-sm text-[#8a6d1f]">
-          These details were copied from the old Home page footer section. Click{" "}
-          <b>Save Changes</b> to store them in the global settings, where the whole website reads
-          them from.
+          These details were copied from the old Home page footer section. Click <b>Save Changes</b>{" "}
+          to store them in the global settings, where the whole website reads them from.
         </p>
       )}
 

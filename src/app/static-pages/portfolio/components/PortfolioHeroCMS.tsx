@@ -2,7 +2,6 @@
 
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
-import { SelectField } from "@/components/SelectField";
 
 export interface PortfolioHeroData {
   eyebrow: string;
@@ -62,20 +61,6 @@ export function PortfolioHeroCMS({ hero, onHeroChange }: Props) {
               placeholder="e.g. for itself"
             />
           </div>
-          <SelectField
-            label="Heading HTML Tag"
-            value={hero.headingTag || "h1"}
-            onChange={(e) => onHeroChange({ ...hero, headingTag: e.target.value })}
-            options={[
-              { value: "h1", label: "H1" },
-              { value: "h2", label: "H2" },
-              { value: "h3", label: "H3" },
-              { value: "h4", label: "H4" },
-              { value: "h5", label: "H5" },
-              { value: "h6", label: "H6" },
-            ]}
-            containerClassName="md:col-span-2"
-          />
           <TextAreaField
             label="Hero Description (Paragraph 1)"
             value={hero.description}

@@ -6,9 +6,11 @@ import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { SaveButton } from "@/components/SaveButton";
 import { ImageUploadField } from "@/components/ImageUploadField";
+import { HeadingTagField } from "@/components/HeadingTagField";
 import { uploadFiles } from "@/app/lib/uploadHelpers";
 import toast from "react-hot-toast";
 import { Globe, Shield, Activity } from "lucide-react";
+import { isHeadingTag, legacyHeadingTag, toHeadingTag, type HeadingTag } from "@/lib/headingTags";
 
 interface GlobalConfig {
   siteTitle: string;
@@ -20,6 +22,7 @@ interface GlobalConfig {
   customHeaderScripts: string;
   customFooterScripts: string;
   schema?: string;
+  headingOptions: HeadingTag | ""; // the home page's main heading tag (home uses Global SEO)
 }
 
 const defaultData: GlobalConfig = {
@@ -32,6 +35,7 @@ const defaultData: GlobalConfig = {
   customHeaderScripts: "",
   customFooterScripts: "",
   schema: "",
+  headingOptions: "",
 };
 
 export default function GlobalSEOPage() {
@@ -42,8 +46,19 @@ export default function GlobalSEOPage() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch("/api/seo/global");
+        const [res, homeRes] = await Promise.all([
+          fetch("/api/seo/global"),
+          // Home content, to pre-fill the heading tag (?slim=1: without blog bodies)
+          fetch("/api/pages/home?slim=1"),
+        ]);
         const json = await res.json();
+        const homeJson = await homeRes.json().catch(() => null);
+        // Until it's saved here, use the tag the home sections' editors stored before
+        const legacyTags = (homeJson?.data?.sections ?? [])
+          .map((section: { content: unknown }) => legacyHeadingTag(section.content))
+          .filter(isHeadingTag);
+        const legacy = legacyTags.find((tag: HeadingTag) => tag === "h1") ?? legacyTags[0] ?? "";
+
         if (json.success && json.data) {
           const data = json.data;
           setFormData({
@@ -51,6 +66,7 @@ export default function GlobalSEOPage() {
             ...data,
             favicon: data.favicon ? [data.favicon] : [],
             socialLinks: Array.isArray(data.socialLinks) ? data.socialLinks : [],
+            headingOptions: toHeadingTag(data.headingOptions) || legacy || "h1",
           });
         }
       } catch (error) {
@@ -152,6 +168,12 @@ export default function GlobalSEOPage() {
             placeholder="A short summary of what your site is about."
             rows={3}
             tooltip="A summary of your website (approx. 150-160 characters). Used by search engines for the result snippet."
+          />
+          <HeadingTagField
+            id="global-hero-headline-tag"
+            value={formData.headingOptions}
+            onChange={(headingOptions) => setFormData({ ...formData, headingOptions })}
+            description="Select the semantic HTML heading tag used for the home landing page hero title."
           />
           <div className="mt-2">
             <ImageUploadField

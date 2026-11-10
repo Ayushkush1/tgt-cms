@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "format": "prettier --write .",
+    "format": "./.formatter/node_modules/.bin/prettier --write .",
     "seed": "node prisma/seed.mjs",
     "postinstall": "prisma generate"
   },

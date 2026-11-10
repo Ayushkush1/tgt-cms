@@ -49,6 +49,7 @@ model GlobalConfig {
   sitemapCustomContent  String?
   robotsTxt             String?
   schema                String?
+  headingOptions        String? // home page main heading tag: "h1" … "h6" (the home page uses Global SEO)
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 }

@@ -8,7 +8,6 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { TextAreaField } from "@/components/TextAreaField";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import { uploadFiles } from "@/lib/uploadHelpers";
-import { SelectField } from "@/components/SelectField";
 
 const defaultFormData = {
   topLabel: "",
@@ -140,21 +139,6 @@ export function AboutFirmSection({
                 onChange={handleChange}
                 placeholder="e.g. The Gold Technologies"
                 required
-              />
-              <SelectField
-                label="Heading HTML Tag"
-                name="headingTag"
-                value={formData.headingTag || "h1"}
-                onChange={handleChange}
-                options={[
-                  { value: "h1", label: "H1" },
-                  { value: "h2", label: "H2" },
-                  { value: "h3", label: "H3" },
-                  { value: "h4", label: "H4" },
-                  { value: "h5", label: "H5" },
-                  { value: "h6", label: "H6" },
-                ]}
-                containerClassName="col-span-2"
               />
 
               <TextAreaField

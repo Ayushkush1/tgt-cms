@@ -6,9 +6,11 @@ import { PageHeader } from "@/components/PageHeader";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { SaveButton } from "@/components/SaveButton";
+import { HeadingTagField } from "@/components/HeadingTagField";
 import toast from "react-hot-toast";
 import { ChevronLeft, Search } from "lucide-react";
 import Link from "next/link";
+import { isHeadingTag, legacyHeadingTag, toHeadingTag, type HeadingTag } from "@/lib/headingTags";
 
 interface PageSEOData {
   title: string;
@@ -19,6 +21,7 @@ interface PageSEOData {
   canonicalUrl: string;
   noIndex: boolean;
   schema?: string;
+  headingOptions: HeadingTag | ""; // the page's main heading tag
 }
 
 const defaultData: PageSEOData = {
@@ -30,6 +33,7 @@ const defaultData: PageSEOData = {
   canonicalUrl: "",
   noIndex: false,
   schema: "",
+  headingOptions: "",
 };
 
 export default function PageSEOEditor() {
@@ -45,8 +49,26 @@ export default function PageSEOEditor() {
     async function fetchSEO() {
       if (!slug) return;
       try {
-        const res = await fetch(`/api/seo/pages/${slug}`);
+        const isService = slug.startsWith("service/");
+        const [res, contentRes] = await Promise.all([
+          fetch(`/api/seo/pages/${slug}`),
+          // The page content, to pre-fill the heading tag (?slim=1: without blog bodies)
+          fetch(
+            isService
+              ? `/api/services?id=${encodeURIComponent(slug.slice("service/".length))}`
+              : `/api/pages/${encodeURIComponent(slug)}?slim=1`,
+          ),
+        ]);
         const json = await res.json();
+        const contentJson = await contentRes.json().catch(() => null);
+
+        // Until it's saved here, use the tag the page's main section editor stored before
+        const sectionContents: unknown[] = isService
+          ? [contentJson?.data?.hero]
+          : (contentJson?.data?.sections ?? []).map((s: { content: unknown }) => s.content);
+        const legacyTags = sectionContents.map(legacyHeadingTag).filter(isHeadingTag);
+        const legacy = legacyTags.find((tag) => tag === "h1") ?? legacyTags[0] ?? "";
+
         if (json.success && json.data) {
           const data = json.data;
           setFormData({
@@ -57,6 +79,7 @@ export default function PageSEOEditor() {
             targetKeywords: data.targetKeywords || "",
             canonicalUrl: data.canonicalUrl || "",
             schema: data.schema || "",
+            headingOptions: toHeadingTag(data.headingOptions) || legacy || "h1",
           });
         }
       } catch (error) {
@@ -173,17 +196,23 @@ export default function PageSEOEditor() {
               placeholder="https://mysite.com/page"
               tooltip="The preferred URL for this page. Helps prevent duplicate content issues if the page is accessible via multiple URLs."
             />
-            <TextAreaField
-              label="Structured Data (Schema Markup JSON-LD)"
-              value={formData.schema || ""}
-              onChange={(e) => setFormData({ ...formData, schema: e.target.value })}
-              placeholder='e.g. { "@context": "https://schema.org", "@type": "WebPage", "name": "Portfolio" }'
-              rows={6}
-              className="font-mono text-xs md:col-span-2"
-              containerClassName="md:col-span-2"
-              allowJsonUpload={true}
-            />
           </div>
+
+          <HeadingTagField
+            value={formData.headingOptions}
+            onChange={(headingOptions) => setFormData({ ...formData, headingOptions })}
+            description="Select the semantic HTML heading tag used for this page hero title."
+          />
+
+          <TextAreaField
+            label="Structured Data (Schema Markup JSON-LD)"
+            value={formData.schema || ""}
+            onChange={(e) => setFormData({ ...formData, schema: e.target.value })}
+            placeholder='e.g. { "@context": "https://schema.org", "@type": "WebPage", "name": "Portfolio" }'
+            rows={6}
+            className="font-mono text-xs"
+            allowJsonUpload={true}
+          />
 
           <div className="flex items-center gap-8 rounded-3xl border border-gray-100 bg-gray-50 p-6">
             <div className="flex-1">
