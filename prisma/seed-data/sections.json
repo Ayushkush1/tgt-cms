@@ -1643,16 +1643,22 @@
     "type": "main",
     "content": {
       "hero": {
-        "label": "Our Product",
-        "ctaHref": "/products",
-        "ctaText": "Explore Product",
-        "statSince": "",
-        "paragraphs": [
-          "Our product is designed to simplify workflows, enhance productivity, and deliver seamless digital experiences. Built with scalability and performance in mind, it empowers businesses to manage operations efficiently from a single powerful platform.",
-          "With an intuitive interface, advanced analytics, and secure architecture, our solution helps organisations make smarter decisions, automate processes, and accelerate growth in today’s fast-paced digital environment.\n"
-        ],
-        "headingLine": " Smart Digital Product",
-        "statProjects": ""
+        "label": "(Our products)",
+        "headingLine": "Software that",
+        "headingHighlight": "runs the business.",
+        "description": "Ready-made platforms for ERP, CRM, commerce, delivery and learning. Live, in use, and quick to tailor to the way your team works.",
+        "primaryLabel": "Book a free demo call",
+        "primaryUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
+        "secondaryLabel": "See the products",
+        "secondaryUrl": "#products"
+      },
+      "grid": {
+        "label": "(The suite)",
+        "headlineMain": "Built once,",
+        "headlineHighlight": "fitted to you.",
+        "description": "Every product can be branded, extended and integrated with the tools you already use.",
+        "liveLabel": "Open live demo",
+        "soonLabel": "Demo on request"
       },
       "products": [
         {
@@ -1773,7 +1779,7 @@
         },
         {
           "id": "quick-commerce-app",
-          "link": " https://master.d3npgig7orcl9j.amplifyapp.com/dashboard/main",
+          "link": "https://master.d3npgig7orcl9j.amplifyapp.com/dashboard/main",
           "title": "Quick Commerce App",
           "pillars": [
             {
@@ -1831,7 +1837,7 @@
         },
         {
           "id": "petrol-pump-system",
-          "link": "https://tan-crocodile-352730.hostingsite.com/login",
+          "link": "https://tan-crocodile-352730.hostingersite.com/login",
           "title": "Petrol Pump Management System",
           "pillars": [
             {
@@ -2112,7 +2118,8 @@
             "title": "Memorable Brand Experience",
             "desc": "Design that builds recognition, trust, and long-term loyalty."
           }
-        ]
+        ],
+        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773316181081-aboutus.webp"
       },
       "services": [
         {
@@ -2266,7 +2273,8 @@
             "title": "Cutting-Edge Technology",
             "desc": "Leveraging the latest innovations to keep your business ahead of the curve"
           }
-        ]
+        ],
+        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774868509693-banner-674da92a0a73f-1733142826.webp"
       },
       "services": [
         {
@@ -2420,7 +2428,8 @@
             "title": "Client-Centric Delivery",
             "desc": "Your goals and timeline drive the process — we deliver on scope and quality."
           }
-        ]
+        ],
+        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774869149060-banner-674d80ca59188-1733132490.webp"
       },
       "services": [
         {
@@ -2599,7 +2608,8 @@
             "title": "End-to-End Support",
             "desc": "From design to deployment and maintenance — we support you through every stage."
           }
-        ]
+        ],
+        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774936692500-banner-674060ecdd9c0-1732272364.webp"
       },
       "services": [
         {
@@ -2751,7 +2761,8 @@
             "title": "Ongoing Support",
             "desc": "Continuous maintenance, updates, and enhancements to keep your software current and optimised."
           }
-        ]
+        ],
+        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774936713696-banner-65b137c0c22a5-1706112960.webp"
       },
       "services": [
         {
@@ -2917,7 +2928,8 @@
             "title": "Strategic Consulting",
             "desc": "Expert guidance to select, implement, and optimise software solutions that deliver measurable ROI."
           }
-        ]
+        ],
+        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774936827345-banner-6745983da54ad-1732614205.webp"
       },
       "services": [
         {
@@ -3076,7 +3088,8 @@
             "title": "Nurture and measure",
             "desc": "Email journeys that turn readers into leads, with monthly reporting you can act on."
           }
-        ]
+        ],
+        "imageUrl": ""
       },
       "services": [
         {
@@ -3204,7 +3217,8 @@
             "title": "Clear reporting",
             "desc": "Spend, leads and revenue in one view, reviewed with you every month."
           }
-        ]
+        ],
+        "imageUrl": ""
       },
       "services": [
         {
@@ -3348,7 +3362,8 @@
             "title": "Custom AI Integration",
             "desc": "Tailored AI solutions are integrated seamlessly into your business processes."
           }
-        ]
+        ],
+        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774936926543-banner-67593798aa675-1733900184.webp"
       },
       "services": [
         {
@@ -3502,7 +3517,8 @@
             "title": "Advanced Analytics",
             "desc": "Leverage forecasting and deeper analysis to identify trends and opportunities earlier."
           }
-        ]
+        ],
+        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774936854911-banner-674400ed0f985-1732509933.webp"
       },
       "services": [
         {
@@ -3655,7 +3671,8 @@
             "title": "Scale freely",
             "desc": "Add, swap or pause people month to month as your roadmap changes."
           }
-        ]
+        ],
+        "imageUrl": ""
       },
       "services": [
         {
@@ -3800,7 +3817,8 @@
             "title": "Content & Analytics",
             "number": "04"
           }
-        ]
+        ],
+        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773316608478-aboutus.webp"
       },
       "services": [
         {

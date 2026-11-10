@@ -11,6 +11,7 @@ export interface ServiceHeroData {
   pillar: PillarId | "";
   headingLine1: string;
   headingLine2: string;
+  imageUrl: string | File;
   paragraphs: string[];
   pillars: ApproachPillar[];
 }
@@ -82,6 +83,7 @@ export function createDefaultServiceData(): ServicePageData {
       pillar: "",
       headingLine1: "",
       headingLine2: "",
+      imageUrl: "",
       paragraphs: ["", ""],
       pillars: [],
     },
@@ -162,6 +164,7 @@ export function normalizeServiceData(
           : "",
       headingLine1: typeof rawHero.headingLine1 === "string" ? rawHero.headingLine1 : "",
       headingLine2: typeof rawHero.headingLine2 === "string" ? rawHero.headingLine2 : "",
+      imageUrl: typeof rawHero.imageUrl === "string" ? rawHero.imageUrl : "",
       paragraphs: [
         typeof rawParagraphs[0] === "string" ? rawParagraphs[0] : "",
         typeof rawParagraphs[1] === "string" ? rawParagraphs[1] : "",

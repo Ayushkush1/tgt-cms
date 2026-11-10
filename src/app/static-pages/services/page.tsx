@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { SelectField } from "@/components/SelectField";
 import { GlobalSectionRef } from "@/app/components/GlobalSectionRef";
 import { clearCache, fetchWithCache } from "@/lib/apiCache";
+import { uploadFiles } from "@/app/lib/uploadHelpers";
 import { ServiceHero } from "./components/ServiceHero";
 import { ServiceApproach } from "./components/ServiceApproach";
 import { ServiceDeliver } from "./components/ServiceDeliver";
@@ -66,27 +67,32 @@ export default function ServicesCMS() {
       return;
     }
 
-    const cleanList = (list: string[]) => (list || []).map((item) => item.trim()).filter(Boolean);
-
-    const payload: ServicePageData = {
-      ...formData,
-      services: (formData.services || []).map((item, idx) => ({
-        ...item,
-        number: item.number || String(idx + 1).padStart(2, "0"),
-        tags: cleanList(item.tags),
-      })),
-      proof: (formData.proof || []).map((item) => ({
-        ...item,
-        metrics: (item.metrics || []).filter((m) => m.value.trim() || m.label.trim()),
-      })),
-      work: cleanList(formData.work),
-      stack: cleanList(formData.stack),
-      related: cleanList(formData.related),
-    };
-
     setIsSaving(true);
     const tid = toast.loading(`Saving ${selectedServiceId}...`);
     try {
+      const uploadedUrls = await uploadFiles([formData.hero.imageUrl || ""]);
+      const cleanList = (list: string[]) => (list || []).map((item) => item.trim()).filter(Boolean);
+
+      const payload: ServicePageData = {
+        ...formData,
+        hero: {
+          ...formData.hero,
+          imageUrl: uploadedUrls[0] || "",
+        },
+        services: (formData.services || []).map((item, idx) => ({
+          ...item,
+          number: item.number || String(idx + 1).padStart(2, "0"),
+          tags: cleanList(item.tags),
+        })),
+        proof: (formData.proof || []).map((item) => ({
+          ...item,
+          metrics: (item.metrics || []).filter((m) => m.value.trim() || m.label.trim()),
+        })),
+        work: cleanList(formData.work),
+        stack: cleanList(formData.stack),
+        related: cleanList(formData.related),
+      };
+
       const res = await fetch("/api/services", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },

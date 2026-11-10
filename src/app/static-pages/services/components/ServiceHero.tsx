@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { InputField } from "@/components/InputField";
 import { SelectField } from "@/components/SelectField";
 import { TextAreaField } from "@/components/TextAreaField";
+import { ImageUploadField } from "@/components/ImageUploadField";
 import { StaticSectionCard } from "@/app/components/StaticSectionCard";
 import { PILLAR_OPTIONS, type PillarId, type ServiceHeroData } from "../types";
 
@@ -69,6 +70,15 @@ export function ServiceHero({ data, onChange, isSaving, onSave }: ServiceHeroPro
           rows={3}
           containerClassName="md:col-span-2"
         />
+
+        <div className="md:col-span-2">
+          <ImageUploadField
+            label="Hero Background Image"
+            images={data.imageUrl ? [data.imageUrl] : []}
+            onImagesChange={(imgs) => onChange({ ...data, imageUrl: imgs[0] || "" })}
+            maxImages={1}
+          />
+        </div>
       </div>
     </StaticSectionCard>
   );

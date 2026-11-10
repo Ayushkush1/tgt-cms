@@ -1,86 +1,58 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { PageHeader } from "@/components/PageHeader";
-import { ProductHeroCMS, ProductHeroData } from "./components/ProductHeroCMS";
-import { ProductListCMS, ProductItem } from "./components/ProductListCMS";
-import { SaveButton } from "@/components/SaveButton";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-
+import { PageHeader } from "@/components/PageHeader";
+import { GlobalSectionRef } from "@/app/components/GlobalSectionRef";
+import { clearCache, fetchWithCache } from "@/lib/apiCache";
 import { uploadFiles } from "@/app/lib/uploadHelpers";
-
-interface PageData {
-  hero: ProductHeroData;
-  products: ProductItem[];
-}
-
-const defaultData: PageData = {
-  hero: {
-    label: "",
-    headingLine: "",
-    paragraphs: ["", ""],
-    ctaText: "",
-    ctaHref: "",
-    statSince: "",
-    statProjects: "",
-    headingTag: "h1",
-  },
-  products: [],
-};
+import { ProductHero } from "./components/ProductHero";
+import { ProductSuite } from "./components/ProductSuite";
+import { createDefaultProductsData, normalizeProductsData, type ProductsPageData } from "./types";
 
 export default function ProductsPage() {
-  const [formData, setFormData] = useState<PageData>(defaultData);
+  const [formData, setFormData] = useState<ProductsPageData>(createDefaultProductsData);
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const res = await fetch("/api/products");
-        const json = await res.json();
-        if (json.success && json.data) {
-          setFormData(json.data);
+    let active = true;
+    setIsLoading(true);
+    fetchWithCache("/api/products")
+      .then((json) => {
+        if (!active) return;
+        if (json?.success && json.data) {
+          setFormData(normalizeProductsData(json.data));
         } else {
-          setFormData(defaultData);
+          setFormData(createDefaultProductsData());
         }
-      } catch {
-        toast.error("Failed to load product content.");
-      } finally {
-        setIsLoading(false);
-      }
+      })
+      .catch(() => {
+        if (active) toast.error("Failed to load product content.");
+      })
+      .finally(() => {
+        if (active) setIsLoading(false);
+      });
+
+    return () => {
+      active = false;
     };
-    fetchData();
   }, []);
 
   const handleSave = async () => {
-    const errs: string[] = [];
-    if (!formData.hero.headingLine.trim()) errs.push("Primary Hero Heading Line is required");
-
-    formData.products.forEach((prod, i) => {
-      if (!prod.title.trim()) errs.push(`Product ${i + 1} Title is required`);
-      if (!prod.link.trim()) errs.push(`Product "${prod.title || i + 1}" Link is required`);
-    });
-
-    if (errs.length > 0) {
-      errs.forEach((e) => toast.error(e));
-      return;
-    }
-
     setIsSaving(true);
     const tid = toast.loading("Saving products...");
     try {
-      // 1. Upload images first
       const imagesToUpload = formData.products.map((p) => p.imageUrl);
       const uploadedUrls = await uploadFiles(imagesToUpload);
 
-      // 2. Map URLs back to products
       const updatedProducts = formData.products.map((p, i) => ({
         ...p,
+        link: (p.link || "").trim(),
         imageUrl: uploadedUrls[i] || "",
       }));
 
-      const finalPayload = {
+      const payload: ProductsPageData = {
         ...formData,
         products: updatedProducts,
       };
@@ -88,58 +60,56 @@ export default function ProductsPage() {
       const res = await fetch("/api/products", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: finalPayload }),
+        body: JSON.stringify({ content: payload }),
       });
       const json = await res.json();
-      if (json.success) {
-        toast.success("Saved successfully!", { id: tid });
-        // Update local state with the actual URLs to avoid re-uploading on next save
-        setFormData(finalPayload);
-      } else {
-        toast.error("Failed to save.", { id: tid });
+      if (!res.ok || !json.success) {
+        throw new Error(json?.error || "Failed to save.");
       }
+      clearCache("/api/products");
+      setFormData(payload);
+      toast.success("Products saved and published!", { id: tid });
     } catch (err) {
       console.error("Save error:", err);
-      toast.error("Network error.", { id: tid });
+      toast.error(err instanceof Error ? err.message : "Network error.", { id: tid });
     } finally {
       setIsSaving(false);
     }
   };
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-6 pb-20">
-      <div className="flex items-end justify-between">
-        <PageHeader
-          title="Products Content Management"
-          description="Manage the top-level hero wrapper and define dynamically scaled products for the dropdown & features."
-        />
-        <div className="mb-2">
-          <SaveButton
-            onClick={handleSave}
-            disabled={isSaving}
-            sticky={false}
-            className="w-auto px-10"
-          />
-        </div>
-      </div>
+    <section className="flex flex-col gap-6 pb-16">
+      <PageHeader
+        title="Products Page Content"
+        description="Manage all sections displayed on the live website Products page, in exact website order."
+      />
 
       {isLoading ? (
-        <div className="animate-pulse py-20 text-center font-medium text-gray-400">
+        <div className="rounded-2xl border border-gray-100 bg-white py-16 text-center text-sm font-medium text-gray-400 shadow-sm">
           Loading product configurations...
         </div>
       ) : (
-        <div className="animate-in fade-in flex flex-col gap-8 duration-500">
-          <ProductHeroCMS
+        <>
+          <ProductHero
             data={formData.hero}
-            onChange={(hero) => setFormData({ ...formData, hero })}
+            onChange={(hero) => setFormData((prev) => ({ ...prev, hero }))}
+            isSaving={isSaving}
+            onSave={handleSave}
           />
-          <ProductListCMS
+          <ProductSuite
+            grid={formData.grid}
             products={formData.products}
-            onChange={(products) => setFormData({ ...formData, products })}
+            onGridChange={(grid) => setFormData((prev) => ({ ...prev, grid }))}
+            onProductsChange={(products) => setFormData((prev) => ({ ...prev, products }))}
+            isSaving={isSaving}
+            onSave={handleSave}
           />
-          <SaveButton onClick={handleSave} disabled={isSaving} />
-        </div>
+          <GlobalSectionRef
+            title="Growth CTA & Brief Modal"
+            description="Let's Talk CTA section, office timezone clocks, and project brief modal copy (shared globally across the site)."
+          />
+        </>
       )}
-    </div>
+    </section>
   );
 }
