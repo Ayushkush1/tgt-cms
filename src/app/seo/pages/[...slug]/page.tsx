@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { ChevronLeft, Search } from "lucide-react";
 import Link from "next/link";
 import { isHeadingTag, legacyHeadingTag, toHeadingTag, type HeadingTag } from "@/lib/headingTags";
+import { encodeSlugPath } from "@/lib/blogSlug";
 
 interface PageSEOData {
   title: string;
@@ -39,7 +40,9 @@ const defaultData: PageSEOData = {
 export default function PageSEOEditor() {
   const params = useParams();
   const rawSlug = params?.slug;
-  const slug = Array.isArray(rawSlug) ? rawSlug.join("/") : (rawSlug as string);
+  const slug = Array.isArray(rawSlug)
+    ? rawSlug.map(decodeURIComponent).join("/")
+    : decodeURIComponent((rawSlug as string) || "");
   const router = useRouter();
   const [formData, setFormData] = useState<PageSEOData>(defaultData);
   const [isLoading, setIsLoading] = useState(true);
@@ -50,17 +53,21 @@ export default function PageSEOEditor() {
       if (!slug) return;
       try {
         const isService = slug.startsWith("service/");
+        const isBlogPost = slug.startsWith("blog/");
+        const encodedSlug = encodeSlugPath(slug);
         const [res, contentRes] = await Promise.all([
-          fetch(`/api/seo/pages/${slug}`),
+          fetch(`/api/seo/pages/${encodedSlug}`),
           // The page content, to pre-fill the heading tag (?slim=1: without blog bodies)
-          fetch(
-            isService
-              ? `/api/services?id=${encodeURIComponent(slug.slice("service/".length))}`
-              : `/api/pages/${encodeURIComponent(slug)}?slim=1`,
-          ),
+          isBlogPost
+            ? Promise.resolve(null)
+            : fetch(
+                isService
+                  ? `/api/services?id=${encodeURIComponent(slug.slice("service/".length))}`
+                  : `/api/pages/${encodeURIComponent(slug)}?slim=1`,
+              ),
         ]);
         const json = await res.json();
-        const contentJson = await contentRes.json().catch(() => null);
+        const contentJson = contentRes ? await contentRes.json().catch(() => null) : null;
 
         // Until it's saved here, use the tag the page's main section editor stored before
         const sectionContents: unknown[] = isService
@@ -97,7 +104,7 @@ export default function PageSEOEditor() {
     const tid = toast.loading("Saving page SEO...");
 
     try {
-      const res = await fetch(`/api/seo/pages/${slug}`, {
+      const res = await fetch(`/api/seo/pages/${encodeSlugPath(slug)}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ seo: formData }),

@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
+import { ImageUploadField } from "@/components/ImageUploadField";
+import { uploadFiles } from "@/app/lib/uploadHelpers";
 import {
   StaticSectionCard,
   StringListField,
@@ -15,6 +17,7 @@ interface AboutHeroData {
   headlineTop: string;
   headlineHighlight: string;
   description: string;
+  imageUrl: string | File;
   meta: string[];
   primaryLabel: string;
   primaryUrl: string;
@@ -27,6 +30,7 @@ const DEFAULT_DATA: AboutHeroData = {
   headlineTop: "",
   headlineHighlight: "",
   description: "",
+  imageUrl: "",
   meta: [],
   primaryLabel: "",
   primaryUrl: "",
@@ -36,6 +40,7 @@ const DEFAULT_DATA: AboutHeroData = {
 
 export function AboutHero() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const { formData, setFormData, isSaving, save } = useStaticSection(
     "/api/about",
     "AboutHero",
@@ -47,19 +52,30 @@ export function AboutHero() {
     (key: keyof AboutHeroData) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setFormData((prev) => ({ ...prev, [key]: e.target.value }));
 
+  const handleSave = async () => {
+    setIsUploading(true);
+    try {
+      const uploadedUrls = await uploadFiles([(formData.imageUrl as string | File) || ""]);
+      const nextData: AboutHeroData = {
+        ...formData,
+        imageUrl: uploadedUrls[0] || "",
+        meta: (formData.meta || []).map((m) => m.trim()).filter(Boolean),
+      };
+      setFormData(nextData);
+      await save(nextData);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   return (
     <StaticSectionCard
       title="About Hero"
-      description="About landing hero eyebrow, headline, intro description, CTAs, and quick facts."
+      description="About landing hero eyebrow, headline, intro description, background image, CTAs, and quick facts."
       isOpen={isOpen}
       onToggle={() => setIsOpen((v) => !v)}
-      isSaving={isSaving}
-      onSave={() =>
-        save({
-          ...formData,
-          meta: (formData.meta || []).map((m) => m.trim()).filter(Boolean),
-        })
-      }
+      isSaving={isSaving || isUploading}
+      onSave={handleSave}
     >
       <div className="grid grid-cols-1 items-end gap-4 md:grid-cols-3">
         <InputField
@@ -116,6 +132,13 @@ export function AboutHero() {
           placeholder="e.g. #team"
         />
       </div>
+
+      <ImageUploadField
+        label="Hero Background Image"
+        images={formData.imageUrl ? [formData.imageUrl] : []}
+        onImagesChange={(imgs) => setFormData((prev) => ({ ...prev, imageUrl: imgs[0] || "" }))}
+        maxImages={1}
+      />
 
       <StringListField
         label="Meta / Fact Pills"

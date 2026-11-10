@@ -310,5 +310,44 @@
     "description": null,
     "title": null,
     "isStatic": true
+  },
+  {
+    "id": "90de4851-7087-4e4e-b0d8-1637c7d5cad3",
+    "label": "Insights",
+    "url": "",
+    "type": "Dropdown",
+    "parent": "-",
+    "order": 5,
+    "createdAt": "2026-11-10T10:32:41.132Z",
+    "updatedAt": "2026-11-10T10:32:41.132Z",
+    "description": "Guides, articles, and press coverage from The Gold Technologies.",
+    "title": "Insights & Press",
+    "isStatic": true
+  },
+  {
+    "id": "858b8975-f1a5-4a21-bc74-d9a42b3e3d00",
+    "label": "Blogs",
+    "url": "/blog",
+    "type": "Sub-link",
+    "parent": "90de4851-7087-4e4e-b0d8-1637c7d5cad3",
+    "order": 1,
+    "createdAt": "2026-11-10T10:32:41.132Z",
+    "updatedAt": "2026-11-10T10:32:41.132Z",
+    "description": "Guides and ideas on design, development and growth from our team.",
+    "title": null,
+    "isStatic": true
+  },
+  {
+    "id": "63806598-b4ef-4222-918e-09c1cc6e1484",
+    "label": "Media & Articles",
+    "url": "/media",
+    "type": "Sub-link",
+    "parent": "90de4851-7087-4e4e-b0d8-1637c7d5cad3",
+    "order": 2,
+    "createdAt": "2026-11-10T10:32:41.132Z",
+    "updatedAt": "2026-11-10T10:32:41.132Z",
+    "description": "Press coverage, interviews and articles featuring The Gold Technologies.",
+    "title": null,
+    "isStatic": true
   }
 ]

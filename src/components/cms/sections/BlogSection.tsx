@@ -1,7 +1,18 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import toast from "react-hot-toast";
-import { CloudUpload, X, Plus, Trash2, ChevronDown, ChevronUp, GripVertical } from "lucide-react";
+import {
+  CloudUpload,
+  X,
+  Plus,
+  Trash2,
+  ChevronDown,
+  ChevronUp,
+  GripVertical,
+  ArrowUpRight,
+} from "lucide-react";
+import { encodeSlugPath, toBlogSlug } from "@/lib/blogSlug";
 import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -24,6 +35,7 @@ interface BlogItem {
   contentHtml?: string;
   tags?: string[];
   takeaways?: string[];
+  seo?: Record<string, unknown>;
   isExpanded?: boolean;
 }
 
@@ -331,6 +343,17 @@ export function BlogSection({
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
+                        {blog.title?.trim() && (
+                          <Link
+                            href={`/seo/pages/${encodeSlugPath(`blog/${toBlogSlug(blog.title)}`)}`}
+                            onClick={(e) => e.stopPropagation()}
+                            className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-[11px] font-bold text-[#9A781E] transition-colors hover:bg-amber-100"
+                            title="Edit SEO for this article page"
+                          >
+                            Article SEO
+                            <ArrowUpRight className="h-3 w-3" />
+                          </Link>
+                        )}
                         {(formData.blogs || []).length > 1 && (
                           <button
                             onClick={(e) => {

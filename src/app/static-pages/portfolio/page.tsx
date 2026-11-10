@@ -1,190 +1,138 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { PageHeader } from "@/components/PageHeader";
-import { SaveButton } from "@/components/SaveButton";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { PageHeader } from "@/components/PageHeader";
+import { GlobalSectionRef } from "@/app/components/GlobalSectionRef";
+import { PortfolioCMS } from "@/components/cms/sections/PortfolioCMS";
+import { clearCache, fetchWithCache } from "@/lib/apiCache";
 import { uploadFiles } from "@/app/lib/uploadHelpers";
-import { PortfolioHeroCMS, PortfolioHeroData } from "./components/PortfolioHeroCMS";
-import { PortfolioCollageCMS, PortfolioCollageData } from "./components/PortfolioCollageCMS";
-import { PortfolioCTACMS, PortfolioCTAData } from "./components/PortfolioCTACMS";
-import { PortfolioShowcaseCMS, PortfolioShowcaseData } from "./components/PortfolioShowcaseCMS";
-
-interface PageData {
-  hero: PortfolioHeroData;
-  collage: PortfolioCollageData;
-  showcase?: PortfolioShowcaseData;
-  cta: PortfolioCTAData;
-}
-
-const defaultData: PageData = {
-  hero: {
-    eyebrow: "",
-    titlePrefix: " ",
-    titleHighlight: "",
-    titleSuffix: "",
-    description: "",
-    description2: "",
-    ctaText: "",
-    ctaHref: "",
-    viewProjectsText: "",
-    viewProjectsHref: "",
-    headingTag: "h1",
-  },
-  collage: {
-    mainImage: [],
-    mainImageTag: "",
-    mainImageTitle: "",
-    secondaryImage: [],
-    secondaryImageTitle: "",
-    tertiaryImage: [],
-    tertiaryImageTitle: "",
-    liveStatusText: "",
-    liveStatusSubtext: "",
-    ratingValue: "",
-    ratingText: "",
-    ratingSubtext: "",
-  },
-  showcase: {
-    upperTag: "",
-    headlinePart1: "",
-    headlineHighlight: "",
-    headlinePart3: "",
-    headlinePart4: "",
-    mainDescription: "",
-  },
-  cta: {
-    eyebrow: "",
-    titlepart3: "",
-    titleMain: " ",
-    titleHighlight: "",
-    description: "",
-    primaryButtonText: "",
-    primaryButtonLink: "",
-    secondaryButtonText: "",
-    secondaryButtonLink: "",
-  },
-};
+import { PortfolioHero } from "./components/PortfolioHero";
+import { PortfolioWorkIndex } from "./components/PortfolioWorkIndex";
+import { PortfolioResults } from "./components/PortfolioResults";
+import {
+  createDefaultPortfolioData,
+  normalizePortfolioData,
+  type PortfolioPageData,
+} from "./types";
 
 export default function PortfolioCMSPage() {
-  const [formData, setFormData] = useState<PageData>(defaultData);
+  const [formData, setFormData] = useState<PortfolioPageData>(createDefaultPortfolioData);
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const res = await fetch("/api/portfolio");
-        const json = await res.json();
-        if (json.success && json.data) {
-          // Merge with default data to handle partial updates or new schema fields
-          setFormData({
-            ...defaultData,
-            ...json.data,
-            hero: { ...defaultData.hero, ...json.data.hero },
-            collage: { ...defaultData.collage, ...json.data.collage },
-            showcase: { ...defaultData.showcase, ...json.data.showcase },
-            cta: { ...defaultData.cta, ...json.data.cta },
-          });
+    let active = true;
+    setIsLoading(true);
+    fetchWithCache("/api/portfolio")
+      .then((json) => {
+        if (!active) return;
+        if (json?.success && json.data) {
+          setFormData(normalizePortfolioData(json.data));
+        } else {
+          setFormData(createDefaultPortfolioData());
         }
-      } catch (err) {
+      })
+      .catch((err) => {
         console.error("Fetch error:", err);
-        toast.error("Failed to load portfolio content.");
-      } finally {
-        setIsLoading(false);
-      }
+        if (active) toast.error("Failed to load portfolio content.");
+      })
+      .finally(() => {
+        if (active) setIsLoading(false);
+      });
+
+    return () => {
+      active = false;
     };
-    fetchData();
   }, []);
 
   const handleSave = async () => {
-    if (!formData) return;
-
     setIsSaving(true);
     const tid = toast.loading("Saving portfolio...");
     try {
-      // 1. Upload images in parallel
-      const [mainUrls, secUrls, tertUrls] = await Promise.all([
-        uploadFiles(formData.collage.mainImage),
-        uploadFiles(formData.collage.secondaryImage),
-        uploadFiles(formData.collage.tertiaryImage),
-      ]);
-
-      // 2. Prepare final payload with uploaded URLs
-      const finalPayload: PageData = {
+      const heroImages = await uploadFiles([formData.hero.imageUrl || ""]);
+      const payload: PortfolioPageData = {
         ...formData,
-        collage: {
-          ...formData.collage,
-          mainImage: mainUrls,
-          secondaryImage: secUrls,
-          tertiaryImage: tertUrls,
+        hero: {
+          ...formData.hero,
+          imageUrl: heroImages[0] || "",
+        },
+        results: {
+          ...formData.results,
+          stats: (formData.results.stats || []).filter((s) => s.value.trim() || s.label.trim()),
         },
       };
 
       const res = await fetch("/api/portfolio", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: finalPayload }),
+        body: JSON.stringify({ content: payload }),
       });
 
       const json = await res.json();
-      if (json.success) {
-        toast.success("Saved successfully!", { id: tid });
-        setFormData(finalPayload);
-      } else {
-        toast.error(json.error || "Failed to save.", { id: tid });
+      if (!res.ok || !json.success) {
+        throw new Error(json?.error || "Failed to save.");
       }
+      clearCache("/api/portfolio");
+      setFormData(payload);
+      toast.success("Portfolio content saved and published!", { id: tid });
     } catch (err) {
       console.error("Save error:", err);
-      toast.error("Network error saving portfolio.", { id: tid });
+      toast.error(err instanceof Error ? err.message : "Network error saving portfolio.", {
+        id: tid,
+      });
     } finally {
       setIsSaving(false);
     }
   };
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-6 pb-20">
-      <div className="flex items-end justify-between">
-        <PageHeader
-          title="Portfolio Content Management"
-          description="Manage the hero text, showcase header, and the decorative image collage for the Portfolio section."
-        />
-        <div className="mb-2">
-          <SaveButton
-            onClick={handleSave}
-            disabled={isSaving}
-            sticky={false}
-            className="w-auto px-10"
-          />
-        </div>
-      </div>
+    <section className="flex flex-col gap-6 pb-16">
+      <PageHeader
+        title="Portfolio Page Content"
+        description="Manage all sections displayed on the live website Portfolio page, in exact website order."
+      />
 
       {isLoading ? (
-        <div className="animate-pulse py-20 text-center font-medium text-gray-400">
+        <div className="rounded-2xl border border-gray-100 bg-white py-16 text-center text-sm font-medium text-gray-400 shadow-sm">
           Loading portfolio configuration...
         </div>
       ) : (
-        <div className="animate-in fade-in flex flex-col gap-8 duration-500">
-          <PortfolioHeroCMS
-            hero={formData.hero}
-            onHeroChange={(hero) => setFormData({ ...formData, hero })}
+        <>
+          <PortfolioHero
+            data={formData.hero}
+            onChange={(hero) => setFormData((prev) => ({ ...prev, hero }))}
+            isSaving={isSaving}
+            onSave={handleSave}
           />
-          <PortfolioShowcaseCMS
-            showcase={formData.showcase || defaultData.showcase!}
-            onShowcaseChange={(showcase) => setFormData({ ...formData, showcase })}
+          <PortfolioWorkIndex
+            data={formData.index}
+            onChange={(index) => setFormData((prev) => ({ ...prev, index }))}
+            isSaving={isSaving}
+            onSave={handleSave}
           />
-          <PortfolioCollageCMS
-            data={formData.collage}
-            onChange={(collage) => setFormData({ ...formData, collage })}
+          <PortfolioCMS
+            title="3. Case Studies Showcase (Portfolio)"
+            description="Client case studies powering Work Index, Home Work Showcase carousel, and individual case study detail pages."
           />
-          <PortfolioCTACMS
-            data={formData.cta}
-            onChange={(cta) => setFormData({ ...formData, cta })}
+          <PortfolioResults
+            data={formData.results}
+            onChange={(results) => setFormData((prev) => ({ ...prev, results }))}
+            isSaving={isSaving}
+            onSave={handleSave}
           />
-          <SaveButton onClick={handleSave} disabled={isSaving} />
-        </div>
+          <GlobalSectionRef
+            title="5. Client Testimonials (Testimonials)"
+            description="Client reviews and reputation showcase displayed below Results (shared with Home page)."
+            href="/static-pages/home"
+            buttonLabel="Manage in Home Page"
+          />
+          <GlobalSectionRef
+            title="6. Growth CTA & Brief Modal (GrowthCTA)"
+            description="Let's Talk CTA section, office timezone clocks, and project brief modal copy (shared globally across the site)."
+          />
+        </>
       )}
-    </div>
+    </section>
   );
 }

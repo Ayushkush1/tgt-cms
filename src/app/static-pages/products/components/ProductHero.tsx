@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
+import { ImageUploadField } from "@/components/ImageUploadField";
 import { StaticSectionCard } from "@/app/components/StaticSectionCard";
 import type { ProductHeroData } from "../types";
 
@@ -89,6 +90,15 @@ export function ProductHero({ data, onChange, isSaving, onSave }: ProductHeroPro
           onChange={setField("secondaryUrl")}
           placeholder="e.g. #products"
         />
+
+        <div className="md:col-span-2">
+          <ImageUploadField
+            label="Hero Background Image"
+            images={data.imageUrl ? [data.imageUrl] : []}
+            onImagesChange={(imgs) => onChange({ ...data, imageUrl: imgs[0] || "" })}
+            maxImages={1}
+          />
+        </div>
       </div>
     </StaticSectionCard>
   );

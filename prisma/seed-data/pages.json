@@ -178,5 +178,27 @@
     "headingOptions": null,
     "createdAt": "2026-11-10T09:13:43.911Z",
     "updatedAt": "2026-11-10T09:13:43.911Z"
+  },
+  {
+    "id": "b4a50903-4f6e-4d37-9801-f17e334f698f",
+    "title": "Media",
+    "slug": "media",
+    "content": null,
+    "type": "static",
+    "visibility": "published",
+    "metaTitle": "Media & Articles | The Gold Technologies",
+    "metaDescription": "Press coverage, interviews and articles featuring The Gold Technologies and our work.",
+    "targetKeywords": "media coverage, press releases, interviews, articles, The Gold Technologies",
+    "canonicalUrl": "https://thegoldtechnologies.com/media",
+    "noIndex": false,
+    "featuredImage": null,
+    "parentPage": null,
+    "ogTitle": null,
+    "ogDescription": null,
+    "ogImage": null,
+    "schema": "{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"CollectionPage\",\n  \"name\": \"Media & Articles\",\n  \"description\": \"Press coverage, interviews and articles featuring The Gold Technologies and our work.\",\n  \"url\": \"https://thegoldtechnologies.com/media\"\n}",
+    "headingOptions": null,
+    "createdAt": "2026-11-10T10:42:08.575Z",
+    "updatedAt": "2026-11-10T10:42:08.575Z"
   }
 ]

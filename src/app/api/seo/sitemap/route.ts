@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { toInternalPath } from "@/lib/siteLinks";
 
 const SITE_URL = process.env.NEXT_PUBLIC_WEBSITE_URL || "https://tgt-landing-page-jade.vercel.app";
 
@@ -89,9 +90,11 @@ export async function GET() {
     });
 
     // Add NavLinks
+    // Only links to this website; external links (other domains) are never listed
     navLinks.forEach((link) => {
-      if (link.url.startsWith("/")) {
-        const loc = `${SITE_URL}${link.url}`.replace(/\/$/, "");
+      const path = toInternalPath(link.url);
+      if (path) {
+        const loc = `${SITE_URL}${path}`.replace(/\/$/, "");
         if (!urls.some((u) => u.loc === loc)) {
           urls.push({
             loc,

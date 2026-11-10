@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { Plus, Trash2, ChevronDown, ChevronUp, GripVertical } from "lucide-react";
-import { fetchWithCache } from "@/app/lib/apiCache";
+import { clearCache, fetchWithCache } from "@/app/lib/apiCache";
 import { InputField } from "@/app/components/InputField";
 import { SaveButton } from "@/app/components/SaveButton";
 import { SectionHeader } from "@/app/components/SectionHeader";
@@ -70,6 +70,8 @@ interface PortfolioCMSProps {
   saveUrl?: string;
   responseKey?: string;
   sectionName?: string;
+  title?: string;
+  description?: string;
   onSave?: (data: PortfolioItem[]) => void;
 }
 
@@ -79,6 +81,8 @@ export function PortfolioCMS({
   saveUrl = "/api/about",
   responseKey = "Portfolio",
   sectionName = "Portfolio",
+  title = "Portfolio Management",
+  description = "Build your portfolio showcases. This data links the carousel and its associated detail pages.",
   onSave,
 }: PortfolioCMSProps) {
   const confirmDelete = useConfirmDelete();
@@ -269,6 +273,7 @@ export function PortfolioCMS({
 
       const json = await res.json();
       if (json.success) {
+        clearCache(saveUrl);
         toast.success("Portfolio saved successfully!", { id: toastId });
         if (onSave) onSave(processedItems as any);
       } else {
@@ -286,8 +291,8 @@ export function PortfolioCMS({
     <section id="portfolio-cms">
       <div className="flex flex-col gap-6 rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
         <SectionHeader
-          title="Portfolio Management"
-          description="Build your portfolio showcases. This data links the carousel and its associated detail pages."
+          title={title}
+          description={description}
           isOpen={isOpen}
           onToggle={() => setIsOpen(!isOpen)}
         />

@@ -2,6 +2,7 @@
 
 import { Globe } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
+import { GlobalSectionRef } from "@/app/components/GlobalSectionRef";
 import { BlogSection } from "@/components/cms/sections/BlogSection";
 import { BlogIndex } from "./components/BlogIndex";
 
@@ -27,6 +28,10 @@ export default function BlogCMSPage() {
       <BlogSection
         title="All Website Blog Posts"
         description="Create, edit, and publish articles used across Home, /blog, and /blog/[slug]."
+      />
+      <GlobalSectionRef
+        title="Growth CTA & Brief Modal"
+        description="Let's Talk CTA section, office timezone clocks, and project brief modal copy (shared globally across the site)."
       />
     </section>
   );

@@ -3,6 +3,7 @@ export interface ProductHeroData {
   headingLine: string;
   headingHighlight: string;
   description: string;
+  imageUrl: string | File;
   primaryLabel: string;
   primaryUrl: string;
   secondaryLabel: string;
@@ -47,6 +48,7 @@ export function createDefaultProductsData(): ProductsPageData {
       headingLine: "",
       headingHighlight: "",
       description: "",
+      imageUrl: "",
       primaryLabel: "",
       primaryUrl: "",
       secondaryLabel: "",
@@ -111,6 +113,7 @@ export function normalizeProductsData(
           : typeof rawParagraphs[0] === "string"
             ? rawParagraphs[0]
             : "",
+      imageUrl: typeof rawHero.imageUrl === "string" ? rawHero.imageUrl : "",
       primaryLabel:
         typeof rawHero.primaryLabel === "string"
           ? rawHero.primaryLabel

@@ -52,6 +52,7 @@ const staticSidebarLinks: SidebarLink[] = [
       { title: "Products", href: "/static-pages/products" },
       { title: "Portfolio", href: "/static-pages/portfolio" },
       { title: "Blog", href: "/static-pages/blog" },
+      { title: "Media", href: "/static-pages/media" },
       { title: "CEO", href: "/static-pages/ceo" },
     ],
   },

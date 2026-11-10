@@ -1,7 +1,37 @@
 import { NextResponse } from "next/server";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { toHeadingTag } from "@/lib/headingTags";
+import { toBlogSlug } from "@/lib/blogSlug";
 import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
+
+interface StoredSEO {
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  targetKeywords?: string | null;
+  canonicalUrl?: string | null;
+  noIndex?: boolean;
+  featuredImage?: string | null;
+  ogTitle?: string | null;
+  ogDescription?: string | null;
+  ogImage?: string | null;
+  schema?: string | null;
+  headingOptions?: string | null;
+}
+
+interface StoredBlogItem {
+  slug?: string;
+  title?: string;
+  seo?: StoredSEO;
+  [key: string]: unknown;
+}
+
+interface StoredSectionContent {
+  title?: string;
+  seo?: StoredSEO;
+  blogs?: StoredBlogItem[];
+  [key: string]: unknown;
+}
 
 export async function GET(
   request: Request,
@@ -9,7 +39,49 @@ export async function GET(
 ) {
   try {
     const { slug: rawSlug } = await params;
-    const slug = Array.isArray(rawSlug) ? rawSlug.join("/") : rawSlug;
+    const slug = (Array.isArray(rawSlug) ? rawSlug : [rawSlug]).map(decodeURIComponent).join("/");
+
+    // Handle individual blog post pages (/blog/[slug])
+    if (slug.startsWith("blog/")) {
+      const postSlug = slug.slice("blog/".length);
+      const homePage = await prisma.page.findUnique({
+        where: { slug: "home" },
+        include: {
+          sections: {
+            where: { type: "BlogSection" },
+          },
+        },
+      });
+
+      const section = homePage?.sections?.[0];
+      const content = (section?.content as StoredSectionContent | null) || {};
+      const blogs: StoredBlogItem[] = Array.isArray(content.blogs) ? content.blogs : [];
+      const blog = blogs.find(
+        (b) =>
+          (typeof b?.slug === "string" && b.slug.trim() === postSlug) ||
+          (typeof b?.title === "string" && toBlogSlug(b.title) === postSlug),
+      );
+
+      if (!blog) {
+        return NextResponse.json({ success: false, error: "Blog post not found" }, { status: 404 });
+      }
+
+      return NextResponse.json({
+        success: true,
+        data: {
+          id: `${homePage?.id}-blog-${postSlug}`,
+          title: blog.title || postSlug,
+          slug,
+          metaTitle: blog.seo?.metaTitle || "",
+          metaDescription: blog.seo?.metaDescription || "",
+          targetKeywords: blog.seo?.targetKeywords || "",
+          canonicalUrl: blog.seo?.canonicalUrl || "",
+          noIndex: blog.seo?.noIndex || false,
+          schema: blog.seo?.schema || "",
+          headingOptions: toHeadingTag(blog.seo?.headingOptions),
+        },
+      });
+    }
 
     // Handle service sub-pages
     if (slug.startsWith("service/")) {
@@ -28,7 +100,7 @@ export async function GET(
       }
 
       const section = servicesPage.sections[0];
-      const content = section.content as any;
+      const content = (section.content as StoredSectionContent | null) || {};
 
       return NextResponse.json({
         success: true,
@@ -104,13 +176,66 @@ export async function PUT(
 ) {
   try {
     const { slug: rawSlug } = await params;
-    const slug = Array.isArray(rawSlug) ? rawSlug.join("/") : rawSlug;
+    const slug = (Array.isArray(rawSlug) ? rawSlug : [rawSlug]).map(decodeURIComponent).join("/");
 
     const body = await request.json();
     const { seo } = body;
 
     if (!seo) {
       return NextResponse.json({ success: false, error: "SEO data is required" }, { status: 400 });
+    }
+
+    // Handle individual blog post pages (/blog/[slug])
+    if (slug.startsWith("blog/")) {
+      const postSlug = slug.slice("blog/".length);
+      const homePage = await prisma.page.findUnique({
+        where: { slug: "home" },
+        include: {
+          sections: {
+            where: { type: "BlogSection" },
+          },
+        },
+      });
+
+      const section = homePage?.sections?.[0];
+      const content = (section?.content as StoredSectionContent | null) || {};
+      const blogs: StoredBlogItem[] = Array.isArray(content.blogs) ? [...content.blogs] : [];
+      const blogIdx = blogs.findIndex(
+        (b) =>
+          (typeof b?.slug === "string" && b.slug.trim() === postSlug) ||
+          (typeof b?.title === "string" && toBlogSlug(b.title) === postSlug),
+      );
+
+      if (!section || blogIdx === -1) {
+        return NextResponse.json({ success: false, error: "Blog post not found" }, { status: 404 });
+      }
+
+      blogs[blogIdx] = {
+        ...blogs[blogIdx],
+        seo: {
+          metaTitle: seo.metaTitle,
+          metaDescription: seo.metaDescription,
+          targetKeywords: seo.targetKeywords,
+          canonicalUrl: seo.canonicalUrl,
+          noIndex: seo.noIndex,
+          featuredImage: seo.featuredImage,
+          ogTitle: seo.ogTitle,
+          ogDescription: seo.ogDescription,
+          ogImage: seo.ogImage,
+          headingOptions: toHeadingTag(seo.headingOptions),
+          schema: seo.schema,
+        },
+      };
+
+      const updatedContent: StoredSectionContent = { ...content, blogs };
+      await prisma.section.update({
+        where: { id: section.id },
+        data: { content: updatedContent as Prisma.InputJsonValue },
+      });
+
+      revalidateWebsite(WebsiteTag.page("blog"));
+      revalidateWebsite(WebsiteTag.page("home"));
+      return NextResponse.json({ success: true, data: blogs[blogIdx] });
     }
 
     // Handle service sub-pages
@@ -130,7 +255,7 @@ export async function PUT(
       }
 
       const section = servicesPage.sections[0];
-      const content = section.content as any;
+      const content = (section.content as StoredSectionContent | null) || {};
 
       const updatedContent = {
         ...content,
@@ -151,7 +276,7 @@ export async function PUT(
 
       await prisma.section.update({
         where: { id: section.id },
-        data: { content: updatedContent },
+        data: { content: updatedContent as Prisma.InputJsonValue },
       });
 
       revalidateWebsite(WebsiteTag.page(slug.startsWith("service/") ? "services" : slug));

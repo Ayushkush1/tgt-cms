@@ -48,7 +48,12 @@ export function BlogIndex() {
         if (!active) return;
         const incoming = json?.success ? json?.data?.[SECTION_KEY] : null;
         if (incoming && typeof incoming === "object") {
-          setFormData({ ...DEFAULT_DATA, ...incoming });
+          // The /blog hero has no image, so an old saved imageUrl is dropped
+          const { imageUrl: _unusedImage, ...rest } = incoming as Partial<BlogIndexData> & {
+            imageUrl?: unknown;
+          };
+          void _unusedImage;
+          setFormData({ ...DEFAULT_DATA, ...rest });
         }
       })
       .catch(console.error);
@@ -65,15 +70,17 @@ export function BlogIndex() {
     setIsSaving(true);
     const toastId = toast.loading("Saving Blog Page settings…");
     try {
+      const payload: BlogIndexData = { ...formData };
       const res = await fetch("/api/blog", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ section: SECTION_KEY, content: formData }),
+        body: JSON.stringify({ section: SECTION_KEY, content: payload }),
       });
       const json = await res.json();
       if (!res.ok || !json.success) {
         throw new Error(json?.error || "Save failed");
       }
+      setFormData(payload);
       clearCache("/api/blog");
       toast.success("Blog Page settings saved and published!", { id: toastId });
     } catch (err) {
@@ -90,7 +97,7 @@ export function BlogIndex() {
       <div className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all">
         <SectionHeader
           title="Blog Page Header & Copy"
-          description="Hero headline, intro description, empty-state text, and media link shown on /blog."
+          description="Hero headline, intro description, articles list label, empty-state text, and media link shown on /blog."
           isOpen={isOpen}
           onToggle={() => setIsOpen((v) => !v)}
         />

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import Link from "next/link";
 import { Edit2, Search, ChevronDown, ChevronRight } from "lucide-react";
+import { encodeSlugPath } from "@/lib/blogSlug";
 
 interface PageSEOSummary {
   id: string; // NavLink ID
@@ -22,6 +23,7 @@ interface PageSEOSummary {
 }
 
 const formatDisplayUrl = (slug: string) => {
+  if (!slug) return "—";
   if (slug === "home") return "/";
   return /^https?:\/\//.test(slug) ? slug : `/${slug}`;
 };
@@ -63,7 +65,7 @@ export default function PageSEODashboard() {
   );
 
   const rootLinks = filteredPages
-    .filter((l) => l.parent === "-" || !pages.some((p) => p.id === l.parent))
+    .filter((l) => l.parent === "-" || !filteredPages.some((p) => p.id === l.parent))
     .sort((a, b) => a.order - b.order);
 
   return (
@@ -175,7 +177,7 @@ export default function PageSEODashboard() {
                           </div>
                         </td>
                         <td className="px-6 py-5 whitespace-nowrap">
-                          {root.type === "Dropdown" ? (
+                          {root.type === "Dropdown" && !root.slug ? (
                             <span className="text-[10px] font-bold tracking-widest whitespace-nowrap text-gray-300 uppercase">
                               Group Container
                             </span>
@@ -225,10 +227,10 @@ export default function PageSEODashboard() {
                         </td>
                         <td className="px-6 py-5">
                           <div className="flex items-center justify-end gap-3">
-                            {root.type !== "Dropdown" && (
+                            {!(root.type === "Dropdown" && !root.slug) && (
                               <>
                                 <Link
-                                  href={`/seo/pages/${root.slug}`}
+                                  href={`/seo/pages/${encodeSlugPath(root.slug)}`}
                                   className="text-brand-navy group rounded-xl bg-gray-50 p-2 transition-all hover:bg-[#D4AF37] hover:text-[#0B0F29]"
                                   title="Edit SEO"
                                 >
@@ -241,84 +243,177 @@ export default function PageSEODashboard() {
                       </tr>
                       {isExpanded &&
                         children.map((child, childIndex) => {
+                          const grandChildren = filteredPages
+                            .filter((l) => l.parent === child.id)
+                            .sort((a, b) => a.order - b.order);
+                          const hasGrandChildren = grandChildren.length > 0;
+                          const isChildExpanded = expandedParents[child.id];
                           const childHasTitle = !!child.metaTitle;
                           const childHasDesc = !!child.metaDescription;
                           const childUrl = formatDisplayUrl(child.slug);
 
                           return (
-                            <tr
-                              key={child.id}
-                              className="group bg-[#fcfdff]/50 transition-colors hover:bg-[#f5f8ff]"
-                            >
-                              <td className="px-6 py-4 pl-10 text-sm font-medium text-gray-400 tabular-nums">
-                                {childIndex + 1}
-                              </td>
-                              <td className="px-6 py-4">
-                                <div className="flex items-center gap-3 border-l-2 border-gray-100/50 pl-6">
-                                  <span className="shrink-0 text-lg text-gray-300">↳</span>
-                                  <div className="flex max-w-[220px] min-w-0 flex-col">
-                                    <span
-                                      title={child.title}
-                                      className="line-clamp-2 text-xs font-medium text-gray-600 transition-colors group-hover:text-[#0B0F29]"
-                                    >
-                                      {child.title}
-                                    </span>
-                                    {(child.navTitle || child.description) && (
-                                      <span className="line-clamp-1 text-[11px] text-gray-400">
-                                        {child.navTitle && (
-                                          <span className="mr-1 font-bold">{child.navTitle}:</span>
-                                        )}
-                                      </span>
+                            <React.Fragment key={child.id}>
+                              <tr className="group bg-[#fcfdff]/50 transition-colors hover:bg-[#f5f8ff]">
+                                <td className="px-6 py-4 pl-10 text-sm font-medium text-gray-400 tabular-nums">
+                                  {childIndex + 1}
+                                </td>
+                                <td className="px-6 py-4">
+                                  <div
+                                    className={`flex items-center gap-3 border-l-2 border-gray-100/50 pl-6 ${
+                                      hasGrandChildren ? "cursor-pointer select-none" : ""
+                                    }`}
+                                    onClick={() => hasGrandChildren && toggleParent(child.id)}
+                                  >
+                                    {hasGrandChildren ? (
+                                      isChildExpanded ? (
+                                        <ChevronDown className="h-3.5 w-3.5 shrink-0 text-[#D4AF37]" />
+                                      ) : (
+                                        <ChevronRight className="h-3.5 w-3.5 shrink-0 text-gray-400" />
+                                      )
+                                    ) : (
+                                      <span className="shrink-0 text-lg text-gray-300">↳</span>
                                     )}
+                                    <div className="flex max-w-[220px] min-w-0 flex-col">
+                                      <span
+                                        title={child.title}
+                                        className="line-clamp-2 text-xs font-medium text-gray-600 transition-colors group-hover:text-[#0B0F29]"
+                                      >
+                                        {child.title}
+                                      </span>
+                                      {(child.navTitle || child.description) && (
+                                        <span className="line-clamp-1 text-[11px] text-gray-400">
+                                          {child.navTitle && (
+                                            <span className="mr-1 font-bold">
+                                              {child.navTitle}:
+                                            </span>
+                                          )}
+                                        </span>
+                                      )}
+                                    </div>
                                   </div>
-                                </div>
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="flex items-center gap-2 whitespace-nowrap">
-                                  <span
-                                    className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wider whitespace-nowrap uppercase ${
-                                      childHasTitle
-                                        ? "border border-emerald-100 bg-emerald-50 text-emerald-600"
-                                        : "border border-red-100 bg-red-50 text-red-600"
-                                    }`}
-                                  >
-                                    {childHasTitle ? "Title ✓" : "Title ✗"}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <div className="flex items-center gap-2 whitespace-nowrap">
+                                    <span
+                                      className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wider whitespace-nowrap uppercase ${
+                                        childHasTitle
+                                          ? "border border-emerald-100 bg-emerald-50 text-emerald-600"
+                                          : "border border-red-100 bg-red-50 text-red-600"
+                                      }`}
+                                    >
+                                      {childHasTitle ? "Title ✓" : "Title ✗"}
+                                    </span>
+                                    <span
+                                      className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wider whitespace-nowrap uppercase ${
+                                        childHasDesc
+                                          ? "border border-emerald-100 bg-emerald-50 text-emerald-600"
+                                          : "border border-red-100 bg-red-50 text-red-600"
+                                      }`}
+                                    >
+                                      {childHasDesc ? "Desc ✓" : "Desc ✗"}
+                                    </span>
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <span className="inline-block rounded-full border border-gray-100 bg-gray-50 px-2.5 py-0.5 text-[9px] font-bold tracking-widest whitespace-nowrap text-gray-400 uppercase">
+                                    {child.type}
                                   </span>
-                                  <span
-                                    className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wider whitespace-nowrap uppercase ${
-                                      childHasDesc
-                                        ? "border border-emerald-100 bg-emerald-50 text-emerald-600"
-                                        : "border border-red-100 bg-red-50 text-red-600"
-                                    }`}
+                                </td>
+                                <td className="px-6 py-4">
+                                  <div
+                                    title={childUrl}
+                                    className="line-clamp-2 max-w-[260px] font-mono text-xs break-all text-gray-400"
                                   >
-                                    {childHasDesc ? "Desc ✓" : "Desc ✗"}
-                                  </span>
-                                </div>
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                <span className="inline-block rounded-full border border-gray-100 bg-gray-50 px-2.5 py-0.5 text-[9px] font-bold tracking-widest whitespace-nowrap text-gray-400 uppercase">
-                                  {child.type}
-                                </span>
-                              </td>
-                              <td className="px-6 py-4">
-                                <div
-                                  title={childUrl}
-                                  className="line-clamp-2 max-w-[260px] font-mono text-xs break-all text-gray-400"
-                                >
-                                  {childUrl}
-                                </div>
-                              </td>
-                              <td className="px-6 py-4">
-                                <div className="flex items-center justify-end gap-3">
-                                  <Link
-                                    href={`/seo/pages/${child.slug}`}
-                                    className="rounded-lg border border-gray-100 bg-white p-1.5 text-gray-400 transition-all hover:border-[#D4AF37] hover:text-[#D4AF37]"
-                                  >
-                                    <Edit2 className="h-3.5 w-3.5" />
-                                  </Link>
-                                </div>
-                              </td>
-                            </tr>
+                                    {childUrl}
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4">
+                                  <div className="flex items-center justify-end gap-3">
+                                    <Link
+                                      href={`/seo/pages/${encodeSlugPath(child.slug)}`}
+                                      className="rounded-lg border border-gray-100 bg-white p-1.5 text-gray-400 transition-all hover:border-[#D4AF37] hover:text-[#D4AF37]"
+                                    >
+                                      <Edit2 className="h-3.5 w-3.5" />
+                                    </Link>
+                                  </div>
+                                </td>
+                              </tr>
+                              {isChildExpanded &&
+                                grandChildren.map((post, postIndex) => {
+                                  const postHasTitle = !!post.metaTitle;
+                                  const postHasDesc = !!post.metaDescription;
+                                  const postUrl = formatDisplayUrl(post.slug);
+
+                                  return (
+                                    <tr
+                                      key={post.id}
+                                      className="group bg-[#fafbfd] transition-colors hover:bg-[#f5f8ff]"
+                                    >
+                                      <td className="px-6 py-3.5 pl-14 text-xs font-medium text-gray-400 tabular-nums">
+                                        {childIndex + 1}.{postIndex + 1}
+                                      </td>
+                                      <td className="px-6 py-3.5">
+                                        <div className="flex items-center gap-3 border-l-2 border-amber-200/70 pl-10">
+                                          <span className="shrink-0 text-sm text-gray-300">↳</span>
+                                          <span
+                                            title={post.title}
+                                            className="line-clamp-2 max-w-[220px] text-xs font-medium text-gray-600 transition-colors group-hover:text-[#0B0F29]"
+                                          >
+                                            {post.title}
+                                          </span>
+                                        </div>
+                                      </td>
+                                      <td className="px-6 py-3.5 whitespace-nowrap">
+                                        <div className="flex items-center gap-2 whitespace-nowrap">
+                                          <span
+                                            className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wider whitespace-nowrap uppercase ${
+                                              postHasTitle
+                                                ? "border border-emerald-100 bg-emerald-50 text-emerald-600"
+                                                : "border border-red-100 bg-red-50 text-red-600"
+                                            }`}
+                                          >
+                                            {postHasTitle ? "Title ✓" : "Title ✗"}
+                                          </span>
+                                          <span
+                                            className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wider whitespace-nowrap uppercase ${
+                                              postHasDesc
+                                                ? "border border-emerald-100 bg-emerald-50 text-emerald-600"
+                                                : "border border-red-100 bg-red-50 text-red-600"
+                                            }`}
+                                          >
+                                            {postHasDesc ? "Desc ✓" : "Desc ✗"}
+                                          </span>
+                                        </div>
+                                      </td>
+                                      <td className="px-6 py-3.5 whitespace-nowrap">
+                                        <span className="inline-block rounded-full border border-amber-100 bg-amber-50 px-2.5 py-0.5 text-[9px] font-bold tracking-widest whitespace-nowrap text-[#B68D18] uppercase">
+                                          {post.type}
+                                        </span>
+                                      </td>
+                                      <td className="px-6 py-3.5">
+                                        <div
+                                          title={postUrl}
+                                          className="line-clamp-2 max-w-[260px] font-mono text-xs break-all text-gray-400"
+                                        >
+                                          {postUrl}
+                                        </div>
+                                      </td>
+                                      <td className="px-6 py-3.5">
+                                        <div className="flex items-center justify-end gap-3">
+                                          <Link
+                                            href={`/seo/pages/${encodeSlugPath(post.slug)}`}
+                                            className="rounded-lg border border-gray-100 bg-white p-1.5 text-gray-400 transition-all hover:border-[#D4AF37] hover:text-[#D4AF37]"
+                                            title="Edit Blog Post SEO"
+                                          >
+                                            <Edit2 className="h-3.5 w-3.5" />
+                                          </Link>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                            </React.Fragment>
                           );
                         })}
                     </React.Fragment>

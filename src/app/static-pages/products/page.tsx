@@ -43,8 +43,11 @@ export default function ProductsPage() {
     setIsSaving(true);
     const tid = toast.loading("Saving products...");
     try {
-      const imagesToUpload = formData.products.map((p) => p.imageUrl);
-      const uploadedUrls = await uploadFiles(imagesToUpload);
+      const imagesToUpload = [
+        formData.hero.imageUrl || "",
+        ...formData.products.map((p) => p.imageUrl),
+      ];
+      const [heroImageUrl, ...uploadedUrls] = await uploadFiles(imagesToUpload);
 
       const updatedProducts = formData.products.map((p, i) => ({
         ...p,
@@ -54,6 +57,10 @@ export default function ProductsPage() {
 
       const payload: ProductsPageData = {
         ...formData,
+        hero: {
+          ...formData.hero,
+          imageUrl: heroImageUrl || "",
+        },
         products: updatedProducts,
       };
 
