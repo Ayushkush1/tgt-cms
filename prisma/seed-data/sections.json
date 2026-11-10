@@ -1,50 +1,421 @@
 [
   {
-    "id": "f2f5baf3-5dc9-4fdb-ac29-4aa4d19a0114",
+    "id": "0fa1f03b-ad53-4b1c-be33-1561ea57a88f",
     "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
-    "type": "HeroSection",
+    "type": "GrowthHero",
     "content": {
-      "projects": [
-        {
-          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773311463492-1080-800x500.jpg",
-          "title": "Web Interface",
-          "category": "Urban Real Estate"
-        },
-        {
-          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773310946348-product2.webp",
-          "title": "Health OS ",
-          "category": "Platform Design  "
-        },
-        {
-          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773311528339-541-800x500.jpg",
-          "title": "FinTech Evolution",
-          "category": "System Architecture"
-        },
-        {
-          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773311551821-134-800x500.jpg",
-          "title": "Digital Experience ",
-          "category": "Luxe Commerce"
-        },
-        {
-          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773311606969-573-800x500.jpg",
-          "title": "Mobile Ecology ",
-          "category": "Future Social"
-        }
+      "headlineTop": "One team to",
+      "headlineWords": [
+        "brand,",
+        "build"
       ],
-      "badgeCount": "",
-      "badgeLabel": "Trusted by 50+ businesses",
-      "headingTag": "h1",
-      "headlineMain": "Software artisans ",
-      "primaryButtonLabel": "Book Free Consultation",
-      "secondaryButtonLabel": "Request Quote",
-      "primaryDestinationUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
-      "heroSubtextDescription": "Professional web development and software solutions for your business. Modern, fast, and built to grow with you.",
-      "headlineItalicHighlight": "crafting digital reality",
-      "secondaryDestinationUrl": "/contactUs"
+      "headlinePrefix": "&",
+      "headlineHighlight": "grow",
+      "headlineSuffix": "your business.",
+      "description": "Strategy, design, technology and marketing under one roof. Built for founders and teams who want growth, not another vendor to manage.",
+      "primaryButtonLabel": "Book a free strategy call",
+      "primaryButtonUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
+      "secondaryButtonLabel": "See our work",
+      "secondaryButtonUrl": "#work",
+      "rating": "5.0",
+      "ratingLabel": "Average client rating",
+      "proofLine": "50+ businesses grown worldwide",
+      "responseLine": "Reply within 24 hours",
+      "ticker": [
+        "Branding",
+        "UI/UX Design",
+        "Websites",
+        "Mobile Apps",
+        "SaaS",
+        "ERP & CRM",
+        "SEO",
+        "Performance Ads",
+        "Social Media",
+        "AI Automation",
+        "Business Intelligence",
+        "Staff Augmentation"
+      ]
     },
     "order": 0,
-    "createdAt": "2026-03-12T10:22:30.785Z",
-    "updatedAt": "2026-07-09T09:19:43.476Z"
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "a2d898ce-806b-43d8-8882-3b811bd7097b",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "Showreel",
+    "content": {
+      "label": "(Proof, not promises)",
+      "bigNumber": "70+",
+      "caption": "launches for brands in 7+ countries",
+      "linkLabel": "Explore the work",
+      "linkUrl": "#work"
+    },
+    "order": 1,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "5fa4d986-6137-4817-b814-514f0558d0d3",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "Manifesto",
+    "content": {
+      "label": "(Our approach)",
+      "text": "Most agencies hand you a deliverable and walk away. We stay. One team across brand, product and marketing, measured not by what we ship, but by how much you grow.",
+      "highlights": [
+        "stay.",
+        "grow."
+      ],
+      "stats": [
+        {
+          "value": "1",
+          "label": "Team for everything"
+        },
+        {
+          "value": "24h",
+          "label": "Response time"
+        },
+        {
+          "value": "7+",
+          "label": "Countries served"
+        }
+      ]
+    },
+    "order": 2,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "188a8815-1545-49a0-a691-8122f22fbf7b",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "ServicePillars",
+    "content": {
+      "label": "(What we do)",
+      "headlineMain": "Everything you need to grow.",
+      "headlineHighlight": "Under one roof.",
+      "description": "Eleven services organised around the four stages of growth. Start with one, or let us run the whole journey.",
+      "ctaLabel": "Not sure where to start? Get a free audit",
+      "ctaUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
+      "pillars": [
+        {
+          "id": "brand",
+          "number": "01",
+          "name": "Brand",
+          "title": "Look the part. Be remembered.",
+          "description": "We shape how customers see, feel and remember you, from positioning and identity to interfaces people love using.",
+          "outcome": "A brand customers trust at first glance.",
+          "services": [
+            {
+              "name": "Branding & Identity",
+              "href": "/service/branding",
+              "items": [
+                "Strategy & positioning",
+                "Logo & visual identity",
+                "Brand voice"
+              ]
+            },
+            {
+              "name": "UI/UX Design",
+              "href": "/service/ui-ux-designing",
+              "items": [
+                "Research",
+                "Prototypes",
+                "Interface & motion design"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "build",
+          "number": "02",
+          "name": "Build",
+          "title": "Products that work as hard as you do.",
+          "description": "Fast websites, mobile apps and custom software engineered to scale with your business, not hold it back.",
+          "outcome": "Digital products that turn visitors into customers.",
+          "services": [
+            {
+              "name": "Website Design & Development",
+              "href": "/service/website-design-development",
+              "items": [
+                "Web apps",
+                "E-commerce",
+                "CMS builds"
+              ]
+            },
+            {
+              "name": "Mobile App Development",
+              "href": "/service/mobile-app-development",
+              "items": [
+                "iOS & Android",
+                "Cross-platform",
+                "App Store launch"
+              ]
+            },
+            {
+              "name": "Custom Software Development",
+              "href": "/service/custom-software-development",
+              "items": [
+                "SaaS",
+                "CRM & ERP",
+                "API integrations"
+              ]
+            },
+            {
+              "name": "Business Software Solutions",
+              "href": "/service/business-software-solutions",
+              "items": [
+                "Workflow automation",
+                "Billing",
+                "HR & inventory"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "grow",
+          "number": "03",
+          "name": "Grow",
+          "title": "Get found. Get chosen. Get results.",
+          "description": "Data-driven marketing that puts you in front of the right people and turns attention into revenue.",
+          "outcome": "Predictable leads and sales you can measure.",
+          "services": [
+            {
+              "name": "Search & Content Marketing",
+              "href": "/service/search-content-marketing",
+              "items": [
+                "SEO",
+                "Content strategy",
+                "Email automation"
+              ]
+            },
+            {
+              "name": "Social & Performance Marketing",
+              "href": "/service/social-performance-marketing",
+              "items": [
+                "Social media",
+                "Paid ads",
+                "Conversion optimisation"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "scale",
+          "number": "04",
+          "name": "Scale",
+          "title": "Automate. Analyse. Innovate.",
+          "description": "Use AI, data and on-demand engineering talent to cut manual work, make sharper decisions and stay ahead of competitors.",
+          "outcome": "Leaner operations, sharper decisions and a team that scales with you.",
+          "services": [
+            {
+              "name": "AI & ML Solutions",
+              "href": "/service/ai-ml-solutions",
+              "items": [
+                "Generative AI",
+                "Chatbots",
+                "Recommendations"
+              ]
+            },
+            {
+              "name": "Business Intelligence",
+              "href": "/service/business-intelligence-solutions",
+              "items": [
+                "Dashboards",
+                "Predictive analytics"
+              ]
+            },
+            {
+              "name": "Staff Augmentation",
+              "href": "/service/staff-augmentation",
+              "items": [
+                "Dedicated developers",
+                "Designers",
+                "Flexible contracts"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "order": 3,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "b5156063-f366-40c6-8591-91e2dfcb5fb8",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "WorkShowcase",
+    "content": {
+      "label": "(Selected work)",
+      "headlineMain": "Work that",
+      "headlineHighlight": "moves numbers.",
+      "description": "Real projects for real businesses across hospitality, travel, finance, retail and more.",
+      "viewAllLabel": "View full portfolio",
+      "viewAllUrl": "/portfolio",
+      "shortTitles": {
+        "ERP Software to centralise Internal Processes– Bir Credit Solution": "Bir Credit ERP Software"
+      },
+      "ctaEyebrow": "Your turn",
+      "ctaTitle": "Your project could be next.",
+      "ctaButtonLabel": "Book a free call",
+      "ctaButtonUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9"
+    },
+    "order": 4,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "c03f96da-6265-4ecb-8eaa-2023c145024b",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "GrowthProcess",
+    "content": {
+      "label": "(How we work)",
+      "headlineMain": "A simple path from",
+      "headlineHighlight": "idea to impact.",
+      "description": "One roadmap, weekly progress and a team that stays with you after launch.",
+      "steps": [
+        {
+          "number": "01",
+          "title": "Discover",
+          "description": "We audit your brand, website and funnel, then agree on the goals and KPIs that matter to your business.",
+          "deliverable": "Growth audit & KPI roadmap"
+        },
+        {
+          "number": "02",
+          "title": "Strategise",
+          "description": "Positioning, identity and a clear 90 day plan so every next step pulls in the same direction.",
+          "deliverable": "Brand system & 90 day plan"
+        },
+        {
+          "number": "03",
+          "title": "Build & Launch",
+          "description": "Design, development and QA in weekly sprints. You see progress every week, not just at the end.",
+          "deliverable": "Live website, app or platform"
+        },
+        {
+          "number": "04",
+          "title": "Grow",
+          "description": "Marketing, analytics and continuous improvement. We stay on as your growth team long after launch.",
+          "deliverable": "Monthly growth reports"
+        }
+      ],
+      "commitments": [
+        "Transparent weekly updates",
+        "Delivered on time",
+        "One point of contact",
+        "Support for the long run"
+      ]
+    },
+    "order": 5,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "0fb4488f-5a0d-4d49-9808-5cff83d618dc",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "Testimonials",
+    "content": {
+      "label": "(Client stories)",
+      "headlineMain": "Don't take our word.",
+      "headlineHighlight": "Take theirs.",
+      "rating": "5.0",
+      "ratingLabel": "Average rating from 50+ clients",
+      "ctaLabel": "Book a free strategy call",
+      "ctaUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9"
+    },
+    "order": 6,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "a49bd84d-3c7d-44df-8bf0-2071ff1af57d",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "Insights",
+    "content": {
+      "label": "(Insights)",
+      "headlineMain": "Ideas that",
+      "headlineHighlight": "grow businesses.",
+      "viewAllLabel": "All articles"
+    },
+    "order": 7,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "15a9a4c3-b41c-48f2-b553-0536cc214a8a",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "GrowthCTA",
+    "content": {
+      "label": "(Let's talk)",
+      "headlineMain": "Let's grow",
+      "headlineHighlight": "together.",
+      "description": "Tell us where you want to grow. You'll get a reply within 24 hours with clear next steps, whether you work with us or not.",
+      "primaryButtonLabel": "Start your project",
+      "primaryButtonUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
+      "callTitle": "Prefer to talk?",
+      "formTitle": "Tell us about your project",
+      "formNote": "We reply within 24 hours with ideas, not a sales pitch.",
+      "interestsLabel": "I'm interested in",
+      "interests": [
+        "Branding",
+        "UI/UX Design",
+        "Website",
+        "Mobile App",
+        "Custom Software",
+        "Digital Marketing",
+        "AI & Automation",
+        "Staff Augmentation",
+        "Full growth partnership"
+      ],
+      "budgetLabel": "Project budget",
+      "budgets": [
+        "$5k to $10k",
+        "$10k to $25k",
+        "$25k to $50k",
+        "$50k+",
+        "Not sure yet"
+      ],
+      "submitLabel": "Send my brief",
+      "privacyNote": "No spam. We never share your details.",
+      "sentNote": "Thanks, your brief is in. We'll reply within 24 hours.",
+      "sendingNote": "Sending your brief...",
+      "fallbackNote": "We couldn't reach our server, so your email app has opened with the brief. Just hit send.",
+      "assurances": [
+        "Free 30-minute strategy call",
+        "No obligation",
+        "Reply within 24 hours"
+      ],
+      "clocks": [
+        {
+          "city": "Noida",
+          "country": "India",
+          "timeZone": "Asia/Kolkata"
+        },
+        {
+          "city": "Dubai",
+          "country": "UAE",
+          "timeZone": "Asia/Dubai"
+        }
+      ],
+      "localClockLabel": "Your time",
+      "clocksNote": "Wherever you are, we overlap with your workday."
+    },
+    "order": 8,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "232cfbfa-3fa1-4a2b-88c4-fd9410beba9a",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "StickyCTA",
+    "content": {
+      "label": "Available for new projects",
+      "buttonLabel": "Book a free call",
+      "buttonUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9"
+    },
+    "order": 9,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
   },
   {
     "id": "c659a50b-c679-486c-b08b-5003337a3f17",
@@ -71,187 +442,9 @@
       "subLabel": "From startups to enterprises",
       "mainLabel": "Trusted by 50+ Companies"
     },
-    "order": 1,
+    "order": 10,
     "createdAt": "2026-03-12T10:35:16.163Z",
     "updatedAt": "2026-04-07T09:55:23.838Z"
-  },
-  {
-    "id": "91868496-e2c2-4b52-a880-1de421185a6c",
-    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
-    "type": "WhoWeAre",
-    "content": {
-      "headline": "We Build",
-      "upperTag": " Who We Are",
-      "block2CtaUrl": "/about#team",
-      "block1Bullets": [
-        "Transparent Communication  ",
-        "On-Time Delivery",
-        "Expert Team",
-        "Long-Term Support"
-      ],
-      "headlinePart3": "That Drive",
-      "headlinePart4": "Real Growth.",
-      "mainParagraph": "At The Gold Technologies, we simplify technology for businesses. We are helping you succeed in the digital world.",
-      "block1Headline": "Your Partner in Digital Innovation",
-      "block2CtaLabel": "Meet Our Team",
-      "block2Headline": "Quality Tech Made",
-      "block1Description": "We don't just act as a service provider; we are your partners. We take the time to understand your business goals and challenges, crafting solutions that truly fit your needs. From small startups to established enterprises, we help everyone grow.",
-      "block2Description": "Technology shouldn't be complicated. We focus on building clean, user-friendly, and powerful software that just works. Whether it's a mobile app or a complex system, we make the process easy for you.",
-      "headlineHighlight": "Digital Products",
-      "block2HeadlineHighlight": "Simple & Accessible"
-    },
-    "order": 2,
-    "createdAt": "2026-03-12T10:36:50.350Z",
-    "updatedAt": "2026-03-12T10:36:50.350Z"
-  },
-  {
-    "id": "1163c32f-541e-4e09-a2b0-341211daa8fd",
-    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
-    "type": "WhatWeDo",
-    "content": {
-      "services": [
-        {
-          "link": "/service/website-design-development",
-          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773312014288-web-mockup.webp",
-          "fullTitle": "Web Development",
-          "shortTitle": "Web Dev",
-          "description": "Scalable, high-performance websites built with modern tech."
-        },
-        {
-          "link": "/service/mobile-app-development",
-          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773312156389-ui-mockup.webp",
-          "fullTitle": "Mobile Development",
-          "shortTitle": "Mobile Apps",
-          "description": "Native & cross-platform apps for seamless experiences."
-        },
-        {
-          "link": "/service/ui-ux-designing",
-          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773312159100-web-mockup.webp",
-          "fullTitle": "UI/UX Design",
-          "shortTitle": "UI/UX",
-          "description": "Intuitive designs that drive engagement & conversion."
-        },
-        {
-          "link": "/service/custom-software-development",
-          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773312246226-541-800x500.jpg",
-          "fullTitle": "Custom Software",
-          "shortTitle": "Custom Soft",
-          "description": "Tailored software solutions for unique business workflows."
-        },
-        {
-          "link": "/service/iot-solutions",
-          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773312247160-ui-mockup.webp",
-          "fullTitle": "IoT Solutions",
-          "shortTitle": "IOT",
-          "description": "Connecting devices for smarter real-time insights."
-        }
-      ],
-      "upperTag": "What We Do",
-      "ctaHeadline": "We deliver the fastest engineering solutions for your business. 👉",
-      "ctaButtonUrl": "/service/website-design-development",
-      "headlinePart1": "End-to-End",
-      "headlinePart3": "for Your",
-      "headlinePart4": "Digital Journey.",
-      "ctaButtonLabel": "  View All Services",
-      "mainDescription": "From initial concept to final deployment, we provide a full spectrum of digital services tailored to your unique business needs.",
-      "headlineHighlight": "Solutions"
-    },
-    "order": 3,
-    "createdAt": "2026-03-12T10:40:19.332Z",
-    "updatedAt": "2026-03-18T05:02:24.376Z"
-  },
-  {
-    "id": "3ebc4f72-03fa-42e1-aae6-37ac3a0c0b4b",
-    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
-    "type": "Integrations",
-    "content": {
-      "stats": [
-        {
-          "value": " 50 +",
-          "labelLine1": "Happy Clients"
-        },
-        {
-          "value": "70 +",
-          "labelLine1": "Completed Projects"
-        },
-        {
-          "value": "7 + ",
-          "labelLine1": "Countries Served"
-        }
-      ],
-      "headlinePart1": "Home to the world's software teams",
-      "mainDescription": "Meet your developers where they already are. We integrate with over 50+ industry leading tools to create the perfect ecosystem."
-    },
-    "order": 4,
-    "createdAt": "2026-03-12T10:45:35.680Z",
-    "updatedAt": "2026-03-12T10:45:35.680Z"
-  },
-  {
-    "id": "4ea5a3c2-6a4b-496c-9281-5f6b7b94cf1f",
-    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
-    "type": "FooterCMS",
-    "content": {
-      "leftText": "The",
-      "rightText": "NOLOGIES",
-      "centerText": "GOLD TECH",
-      "twitterUrl": "https://x.com/TheGoldTech_",
-      "companyName": "THE GOLD TECHNOLOGIES",
-      "facebookUrl": "https://www.facebook.com/thegoldtechnologies",
-      "linkedinUrl": "https://www.linkedin.com/company/the-gold-technologies/about/",
-      "loc1Address": "HQ · Noida\nSector 63, Noida, Uttar Pradesh",
-      "loc1Country": "INDIA",
-      "loc2Address": "Veron LLC, Meydan Grandstand - 3rd Floor, Al Meydan Rd - Nad Al Sheba - Nadd Al Shiba First - Dubai - United Arab Emirates",
-      "loc2Country": "UAE",
-      "phoneNumber": "+91 8368198551 ",
-      "emailAddress": "info@thegoldtechnologies.com",
-      "instagramUrl": "https://www.instagram.com/thegoldtechnologies/",
-      "companyInitials": "Operating Worldwide",
-      "footerDescription": "Empowering visionaries with cutting-edge digital solutions. We turn complex challenges into elegant, scalable technology."
-    },
-    "order": 5,
-    "createdAt": "2026-03-12T10:52:18.817Z",
-    "updatedAt": "2026-04-13T04:53:12.328Z"
-  },
-  {
-    "id": "1efe23f5-f1eb-4b2c-a09a-56d764260abb",
-    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
-    "type": "EnquirySection",
-    "content": {
-      "email": "info@thegoldtechnologies.com",
-      "phone": "+91 8368198551",
-      "address": "HQ · Noida Sector 63, Noida, Uttar Pradesh",
-      "upperTag": "Contact Us",
-      "budgetOptions": "$5k - $10k , $10k - $25k ,$25k - $50k , $50k+,Not sure yet",
-      "headlinePart1": "Let's build",
-      "introDescription": "Have a project in mind? We'd love to hear about it. Send us a message and we'll get back to you within 24 hours.",
-      "submitButtonText": "SEND MESSAGE",
-      "headlineHighlight": "something amazing",
-      "interestedInOptions": "Web Development, Mobile App, UI/UX Design, Consulting, Other"
-    },
-    "order": 6,
-    "createdAt": "2026-03-12T10:55:15.237Z",
-    "updatedAt": "2026-04-06T08:37:00.882Z"
-  },
-  {
-    "id": "0d248afe-b0f5-4c1f-b6fb-3c599b39d0cc",
-    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
-    "type": "OurPartners",
-    "content": {
-      "logos": [
-        "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773313037309-Indian_vastu_experts_logo_gold.png",
-        "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773313038599-Himalyan.png",
-        "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773313039007-Ariya.webp",
-        "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773313041077-Centriik_Logo-new.png",
-        "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773313042499-Coolingtower.png",
-        "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773313042895-TheGoldenTree.png"
-      ],
-      "upperTag": " Partners ",
-      "headlinePart1": "Trusted by ",
-      "headlineHighlight": "Industry Leaders"
-    },
-    "order": 7,
-    "createdAt": "2026-03-12T10:57:25.661Z",
-    "updatedAt": "2026-04-07T09:56:45.411Z"
   },
   {
     "id": "f94d9d76-a8ff-4121-9976-71fa9f6ff45b",
@@ -333,7 +526,7 @@
       "headlineHighlight1": "businesses",
       "headlineHighlight2": "across the globe"
     },
-    "order": 8,
+    "order": 11,
     "createdAt": "2026-03-12T11:01:00.577Z",
     "updatedAt": "2026-11-10T09:27:20.735Z"
   },
@@ -386,71 +579,234 @@
       "headlinePart1": "Latest Insights",
       "headlineHighlight": "and News"
     },
-    "order": 9,
+    "order": 12,
     "createdAt": "2026-03-16T11:18:36.754Z",
     "updatedAt": "2026-03-31T06:56:48.016Z"
   },
   {
-    "id": "243ee274-4243-4801-83d2-5705ad6edcce",
-    "pageId": "35645c28-a601-42a8-8d4c-bfd8ca7ba91b",
-    "type": "main",
+    "id": "4ea5a3c2-6a4b-496c-9281-5f6b7b94cf1f",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "FooterCMS",
     "content": {
-      "cta": {
-        "title": "",
-        "eyebrow": "Ready to build?",
-        "titleMain": "Let's create something",
-        "titlepart3": "together",
-        "description": "Have a project in mind? Book a free consultation and let's talk about how we can bring your vision to life.",
-        "titleHighlight": "extraordinary",
-        "primaryButtonLink": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
-        "primaryButtonText": "Book Free Consultation",
-        "secondaryButtonLink": "/service/website-design-development",
-        "secondaryButtonText": "View All  Services"
-      },
-      "hero": {
-        "ctaHref": "/contactUs",
-        "ctaText": "Start a project",
-        "eyebrow": "Our Work",
-        "description": "Every project we build is a partnership — rooted in understanding your goals, and executed with precision. Here's a selection of what we've shipped.",
-        "titlePrefix": "Work that ",
-        "titleSuffix": " for itself",
-        "description2": "We combine strategic thinking with beautifully crafted design to build solutions that elevate your brand and drive actual business results. Actionable metrics and user-friendly interfaces are at the core of what we do.",
-        "titleHighlight": "speaks",
-        "viewProjectsHref": "/",
-        "viewProjectsText": "View projects"
-      },
-      "collage": {
-        "mainImage": [
-          "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773744613258-app-mockup.webp"
-        ],
-        "ratingText": "5.0 Rating",
-        "ratingValue": "5.0",
-        "mainImageTag": "System Architecture",
-        "ratingSubtext": "50+ happy clients",
-        "tertiaryImage": [
-          "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773744613260-web-mockup.webp"
-        ],
-        "liveStatusText": "Live Project",
-        "mainImageTitle": "FinTech Evolution",
-        "secondaryImage": [
-          "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773744613260-ui-mockup.webp"
-        ],
-        "liveStatusSubtext": "Deployment ready",
-        "tertiaryImageTitle": "Health OS",
-        "secondaryImageTitle": "Luxe Commerce"
-      },
-      "showcase": {
-        "upperTag": "Projects",
-        "headlinePart1": "Discover",
-        "headlinePart3": "Digital",
-        "headlinePart4": "Masterpieces",
-        "mainDescription": "Explore a curated gallery of our most impactful case studies. The Gold Technologies leverages advanced engineering and design to drive measurable growth for global leaders.",
-        "headlineHighlight": "Industry-Defining"
-      }
+      "leftText": "The",
+      "rightText": "NOLOGIES",
+      "centerText": "GOLD TECH",
+      "twitterUrl": "https://x.com/TheGoldTech_",
+      "companyName": "THE GOLD TECHNOLOGIES",
+      "facebookUrl": "https://www.facebook.com/thegoldtechnologies",
+      "linkedinUrl": "https://www.linkedin.com/company/the-gold-technologies/about/",
+      "loc1Address": "HQ · Noida\nSector 63, Noida, Uttar Pradesh",
+      "loc1Country": "INDIA",
+      "loc2Address": "Veron LLC, Meydan Grandstand - 3rd Floor, Al Meydan Rd - Nad Al Sheba - Nadd Al Shiba First - Dubai - United Arab Emirates",
+      "loc2Country": "UAE",
+      "phoneNumber": "+91 8368198551 ",
+      "emailAddress": "info@thegoldtechnologies.com",
+      "instagramUrl": "https://www.instagram.com/thegoldtechnologies/",
+      "companyInitials": "Operating Worldwide",
+      "footerDescription": "Empowering visionaries with cutting-edge digital solutions. We turn complex challenges into elegant, scalable technology."
     },
-    "order": 0,
-    "createdAt": "2026-03-17T10:30:02.887Z",
-    "updatedAt": "2026-06-17T08:13:41.395Z"
+    "order": 13,
+    "createdAt": "2026-03-12T10:52:18.817Z",
+    "updatedAt": "2026-04-13T04:53:12.328Z"
+  },
+  {
+    "id": "1efe23f5-f1eb-4b2c-a09a-56d764260abb",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "EnquirySection",
+    "content": {
+      "email": "info@thegoldtechnologies.com",
+      "phone": "+91 8368198551",
+      "address": "HQ · Noida Sector 63, Noida, Uttar Pradesh",
+      "upperTag": "Contact Us",
+      "budgetOptions": "$5k - $10k , $10k - $25k ,$25k - $50k , $50k+,Not sure yet",
+      "headlinePart1": "Let's build",
+      "introDescription": "Have a project in mind? We'd love to hear about it. Send us a message and we'll get back to you within 24 hours.",
+      "submitButtonText": "SEND MESSAGE",
+      "headlineHighlight": "something amazing",
+      "interestedInOptions": "Web Development, Mobile App, UI/UX Design, Consulting, Other"
+    },
+    "order": 14,
+    "createdAt": "2026-03-12T10:55:15.237Z",
+    "updatedAt": "2026-04-06T08:37:00.882Z"
+  },
+  {
+    "id": "f2f5baf3-5dc9-4fdb-ac29-4aa4d19a0114",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "HeroSection",
+    "content": {
+      "projects": [
+        {
+          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773311463492-1080-800x500.jpg",
+          "title": "Web Interface",
+          "category": "Urban Real Estate"
+        },
+        {
+          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773310946348-product2.webp",
+          "title": "Health OS ",
+          "category": "Platform Design  "
+        },
+        {
+          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773311528339-541-800x500.jpg",
+          "title": "FinTech Evolution",
+          "category": "System Architecture"
+        },
+        {
+          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773311551821-134-800x500.jpg",
+          "title": "Digital Experience ",
+          "category": "Luxe Commerce"
+        },
+        {
+          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773311606969-573-800x500.jpg",
+          "title": "Mobile Ecology ",
+          "category": "Future Social"
+        }
+      ],
+      "badgeCount": "",
+      "badgeLabel": "Trusted by 50+ businesses",
+      "headingTag": "h1",
+      "headlineMain": "Software artisans ",
+      "primaryButtonLabel": "Book Free Consultation",
+      "secondaryButtonLabel": "Request Quote",
+      "primaryDestinationUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
+      "heroSubtextDescription": "Professional web development and software solutions for your business. Modern, fast, and built to grow with you.",
+      "headlineItalicHighlight": "crafting digital reality",
+      "secondaryDestinationUrl": "/contactUs"
+    },
+    "order": 15,
+    "createdAt": "2026-03-12T10:22:30.785Z",
+    "updatedAt": "2026-07-09T09:19:43.476Z"
+  },
+  {
+    "id": "91868496-e2c2-4b52-a880-1de421185a6c",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "WhoWeAre",
+    "content": {
+      "headline": "We Build",
+      "upperTag": " Who We Are",
+      "block2CtaUrl": "/about#team",
+      "block1Bullets": [
+        "Transparent Communication  ",
+        "On-Time Delivery",
+        "Expert Team",
+        "Long-Term Support"
+      ],
+      "headlinePart3": "That Drive",
+      "headlinePart4": "Real Growth.",
+      "mainParagraph": "At The Gold Technologies, we simplify technology for businesses. We are helping you succeed in the digital world.",
+      "block1Headline": "Your Partner in Digital Innovation",
+      "block2CtaLabel": "Meet Our Team",
+      "block2Headline": "Quality Tech Made",
+      "block1Description": "We don't just act as a service provider; we are your partners. We take the time to understand your business goals and challenges, crafting solutions that truly fit your needs. From small startups to established enterprises, we help everyone grow.",
+      "block2Description": "Technology shouldn't be complicated. We focus on building clean, user-friendly, and powerful software that just works. Whether it's a mobile app or a complex system, we make the process easy for you.",
+      "headlineHighlight": "Digital Products",
+      "block2HeadlineHighlight": "Simple & Accessible"
+    },
+    "order": 16,
+    "createdAt": "2026-03-12T10:36:50.350Z",
+    "updatedAt": "2026-03-12T10:36:50.350Z"
+  },
+  {
+    "id": "1163c32f-541e-4e09-a2b0-341211daa8fd",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "WhatWeDo",
+    "content": {
+      "services": [
+        {
+          "link": "/service/website-design-development",
+          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773312014288-web-mockup.webp",
+          "fullTitle": "Web Development",
+          "shortTitle": "Web Dev",
+          "description": "Scalable, high-performance websites built with modern tech."
+        },
+        {
+          "link": "/service/mobile-app-development",
+          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773312156389-ui-mockup.webp",
+          "fullTitle": "Mobile Development",
+          "shortTitle": "Mobile Apps",
+          "description": "Native & cross-platform apps for seamless experiences."
+        },
+        {
+          "link": "/service/ui-ux-designing",
+          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773312159100-web-mockup.webp",
+          "fullTitle": "UI/UX Design",
+          "shortTitle": "UI/UX",
+          "description": "Intuitive designs that drive engagement & conversion."
+        },
+        {
+          "link": "/service/custom-software-development",
+          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773312246226-541-800x500.jpg",
+          "fullTitle": "Custom Software",
+          "shortTitle": "Custom Soft",
+          "description": "Tailored software solutions for unique business workflows."
+        },
+        {
+          "link": "/service/iot-solutions",
+          "image": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773312247160-ui-mockup.webp",
+          "fullTitle": "IoT Solutions",
+          "shortTitle": "IOT",
+          "description": "Connecting devices for smarter real-time insights."
+        }
+      ],
+      "upperTag": "What We Do",
+      "ctaHeadline": "We deliver the fastest engineering solutions for your business. 👉",
+      "ctaButtonUrl": "/service/website-design-development",
+      "headlinePart1": "End-to-End",
+      "headlinePart3": "for Your",
+      "headlinePart4": "Digital Journey.",
+      "ctaButtonLabel": "  View All Services",
+      "mainDescription": "From initial concept to final deployment, we provide a full spectrum of digital services tailored to your unique business needs.",
+      "headlineHighlight": "Solutions"
+    },
+    "order": 17,
+    "createdAt": "2026-03-12T10:40:19.332Z",
+    "updatedAt": "2026-03-18T05:02:24.376Z"
+  },
+  {
+    "id": "3ebc4f72-03fa-42e1-aae6-37ac3a0c0b4b",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "Integrations",
+    "content": {
+      "stats": [
+        {
+          "value": " 50 +",
+          "labelLine1": "Happy Clients"
+        },
+        {
+          "value": "70 +",
+          "labelLine1": "Completed Projects"
+        },
+        {
+          "value": "7 + ",
+          "labelLine1": "Countries Served"
+        }
+      ],
+      "headlinePart1": "Home to the world's software teams",
+      "mainDescription": "Meet your developers where they already are. We integrate with over 50+ industry leading tools to create the perfect ecosystem."
+    },
+    "order": 18,
+    "createdAt": "2026-03-12T10:45:35.680Z",
+    "updatedAt": "2026-03-12T10:45:35.680Z"
+  },
+  {
+    "id": "0d248afe-b0f5-4c1f-b6fb-3c599b39d0cc",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "OurPartners",
+    "content": {
+      "logos": [
+        "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773313037309-Indian_vastu_experts_logo_gold.png",
+        "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773313038599-Himalyan.png",
+        "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773313039007-Ariya.webp",
+        "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773313041077-Centriik_Logo-new.png",
+        "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773313042499-Coolingtower.png",
+        "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773313042895-TheGoldenTree.png"
+      ],
+      "upperTag": " Partners ",
+      "headlinePart1": "Trusted by ",
+      "headlineHighlight": "Industry Leaders"
+    },
+    "order": 19,
+    "createdAt": "2026-03-12T10:57:25.661Z",
+    "updatedAt": "2026-04-07T09:56:45.411Z"
   },
   {
     "id": "8e37d479-fbd3-4505-a3e7-d2dba1ae6c40",
@@ -1971,373 +2327,257 @@
     "updatedAt": "2026-06-17T07:57:12.208Z"
   },
   {
-    "id": "1dc54c44-2993-489d-8700-5c8f0ad07ff3",
-    "pageId": "bc99d002-d4f3-46d6-b127-3f79db5da8a8",
-    "type": "main",
+    "id": "70b3f0f4-008b-427a-8aeb-51c171c78ead",
+    "pageId": "e9505f63-2630-43a5-803e-4b9df635fb8d",
+    "type": "AboutHero",
     "content": {
-      "message": {
-        "name": "Meghna",
-        "role": "Chief Executive Officer",
-        "title": "Building the Future of",
-        "avatar": "/images/Meghna.jpg",
-        "ctaLink": "/contact",
-        "ctaText": "Contact Us",
-        "yearsText": "Years of\nExcellence",
-        "headingTag": "h1",
-        "paragraphs": [
-          "At The Gold Technologies, we believe that true success is built on innovation, teamwork, and an unwavering commitment to trust. From our humble beginnings to our most remarkable achievements, our journey reflects a dedication to excellence in every single project we undertake.",
-          "As we continue to expand our horizons globally, our core focus remains absolute: creating sustainable impact, delivering measurable value to our clients, and empowering our people. Together, we strive to turn every challenge into an opportunity, and every great idea into a lasting legacy."
-        ],
-        "yearsLabel": "15+",
-        "titleItalic": "Digital Excellence."
-      },
-      "timeline": {
-        "title": "Journey of",
-        "upperTag": "Milestones",
-        "milestones": [
-          {
-            "year": "2015",
-            "title": "The Foundation",
-            "description": "Established The Gold Technologies with a core focus on innovative digital solutions and setting a new standard for luxury web experiences."
-          },
-          {
-            "year": "2018",
-            "title": "Global Expansion",
-            "description": "Opened our first international office, securing partnerships with Fortune 500 brands and accelerating our global footprint."
-          },
-          {
-            "year": "2021",
-            "title": "Transformative Growth",
-            "description": "Tripled our workforce and expanded into cutting-edge AI and SaaS architecture, fundamentally shifting our delivery capabilities."
-          },
-          {
-            "year": "2024",
-            "title": "Industry Leadership",
-            "description": "Recognized globally as a premier digital agency, setting the benchmark for performance, design, and reliable software engineering."
-          }
-        ],
-        "description": "Milestones that define our continuous pursuit of perfection and global impact.",
-        "titleHighlight": "Excellence"
-      },
-      "philosophy": {
-        "items": [
-          {
-            "icon": "Lightbulb",
-            "title": "Visionary Innovation",
-            "description": "We don’t just adapt to the future; we build it. By constantly pushing boundaries, we deliver solutions that redefine digital landscapes."
-          },
-          {
-            "icon": "Target",
-            "title": "Client-Centric Excellence",
-            "description": "Every partnership is a commitment. We measure our true success not by output, but by the tangible growth and success of our clients."
-          },
-          {
-            "icon": "ShieldCheck",
-            "title": "Unyielding Integrity",
-            "description": "Trust is our most valuable currency. We act with transparency, accountability, and a profound respect for the people we serve."
-          }
-        ],
-        "title": "Our Guiding",
-        "upperTag": "Core Values",
-        "description": "Leadership is more than pointing the way—it is about laying down the unbreakable foundation upon which greatness is built.",
-        "titleHighlight": "Philosophy"
-      }
+      "label": "(About us)",
+      "headlineTop": "The team behind",
+      "headlineHighlight": "brands that grow.",
+      "description": "Since 2023, our senior team, with 10+ years of experience behind it, has helped founders across 7+ countries brand, build and grow their businesses, and stayed long after launch.",
+      "meta": [
+        "Since 2023",
+        "Noida · Dubai",
+        "10+ years of expertise"
+      ],
+      "primaryLabel": "Book a free strategy call",
+      "primaryUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
+      "secondaryLabel": "Meet the team",
+      "secondaryUrl": "#team"
     },
     "order": 0,
-    "createdAt": "2026-06-17T07:45:37.231Z",
-    "updatedAt": "2026-08-06T08:32:23.734Z"
+    "createdAt": "2026-11-10T09:44:12.713Z",
+    "updatedAt": "2026-11-10T09:44:12.713Z"
   },
   {
-    "id": "c31aeda9-e609-485b-bb63-f8202c808529",
-    "pageId": "c0106638-9192-41b3-8887-4e053598d6c0",
-    "type": "MapSection",
+    "id": "0005fe43-212f-47bb-904f-dbe3887c7ec8",
+    "pageId": "e9505f63-2630-43a5-803e-4b9df635fb8d",
+    "type": "AboutStory",
     "content": {
-      "upperTag": "Our Location",
-      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.1715555629503!2d77.3861676!3d28.624620000000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cf120b6d88c5d%3A0x4365a1bad9758ff6!2sThe%20Gold%20Technologies!5e0!3m2!1sen!2sin!4v1771399558865!5m2!1sen!2sin",
-      "headlinePart1": "Visit",
-      "headlinePart3": "And Let's Build",
-      "headlinePart4": "Something Great.",
-      "mainParagraph": "  Find us at our office location. We’d love to meet you and discuss how The Gold Technologies can help your business grow.",
-      "headlineHighlight": "Our Office "
-    },
-    "order": 0,
-    "createdAt": "2026-03-20T07:21:06.360Z",
-    "updatedAt": "2026-03-20T07:24:01.335Z"
-  },
-  {
-    "id": "440dd862-b871-4af6-a740-becb22ca4506",
-    "pageId": "df79d2a1-d141-44e0-8e4f-a22fcdb6c048",
-    "type": "main",
-    "content": {
-      "hero": {
-        "label": "Our Product",
-        "ctaHref": "/products",
-        "ctaText": "Explore Product",
-        "statSince": "",
-        "paragraphs": [
-          "Our product is designed to simplify workflows, enhance productivity, and deliver seamless digital experiences. Built with scalability and performance in mind, it empowers businesses to manage operations efficiently from a single powerful platform.",
-          "With an intuitive interface, advanced analytics, and secure architecture, our solution helps organisations make smarter decisions, automate processes, and accelerate growth in today’s fast-paced digital environment.\n"
-        ],
-        "headingLine": " Smart Digital Product",
-        "statProjects": ""
-      },
-      "products": [
+      "label": "(Who we are)",
+      "text": "We started as engineers who cared about craft. Today we're one team of strategists, designers, developers and marketers who treat your growth as our own, measured not by what we ship, but by what it does for your business.",
+      "highlights": [
+        "craft.",
+        "growth",
+        "business."
+      ],
+      "stats": [
         {
-          "id": "1773314224377",
-          "link": "https://ip-erp.vercel.app/",
-          "title": "IP ERP",
-          "pillars": [
-            {
-              "desc": "Manage finance, HR, sales, inventory, and operations from a single unified platform.",
-              "title": "All-in-One ERP Solution",
-              "number": "01"
-            },
-            {
-              "desc": "Make smarter decisions with live dashboards, analytics, and detailed reporting tools.",
-              "title": "Real-Time Data & Insights",
-              "number": "02"
-            },
-            {
-              "desc": "Automate repetitive tasks and workflows to improve efficiency and reduce manual errors.",
-              "title": "Process Automation",
-              "number": "03"
-            },
-            {
-              "desc": "Access your business data anytime, anywhere with enterprise-grade security and reliability.",
-              "title": "Secure & Cloud-Based",
-              "number": "04"
-            }
-          ],
-          "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773314464495-Product1.webp",
-          "shortDesc": "ERP dashboard with a clean interface and efficient workflows."
+          "value": "2023",
+          "label": "Founded"
         },
         {
-          "id": "1773314282593",
-          "link": "https://catfy-catalog.vercel.app/",
-          "title": "Catfy Catalog",
-          "pillars": [
-            {
-              "desc": "Organise and showcase products in a clean, structured catalogue for easy browsing and discovery.",
-              "title": "Smart Product Catalog",
-              "number": "01"
-            },
-            {
-              "desc": "Quickly find items using powerful search, categories, and filtering options.",
-              "title": "Advanced Search & Filters",
-              "number": "02"
-            },
-            {
-              "desc": "Designed with a sleek, mobile-friendly interface for a seamless experience across devices.",
-              "title": "Modern Responsive UI",
-              "number": "03"
-            },
-            {
-              "desc": "Easily add, update, and manage products with a streamlined workflow.",
-              "title": "Efficient Catalog Management",
-              "number": "04"
-            }
-          ],
-          "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773314466685-product2.webp",
-          "shortDesc": "Modern product catalogue with intuitive navigation and layout."
+          "value": "70+",
+          "label": "Launches"
         },
         {
-          "id": "office-book-app",
-          "link": "https://staging.d169otpo08de98.amplifyapp.com/",
-          "title": "Office Book App",
-          "pillars": [
-            {
-              "desc": "Location-based attendance with selfie and login/logout.",
-              "title": "Attendance Tracking",
-              "number": "01"
-            },
-            {
-              "desc": "Automated salary calculation based on attendance, overtime, and leaves.",
-              "title": "Payroll Management",
-              "number": "02"
-            },
-            {
-              "desc": "Quotation creation and invoice generation with GST support.",
-              "title": "Billing & Invoicing",
-              "number": "03"
-            },
-            {
-              "desc": "Recording travel, office, utilities, and miscellaneous costs.",
-              "title": "Expense Tracking",
-              "number": "04"
-            }
-          ],
-          "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774947067223-Screenshot2026-03-31at2.20.29PM.webp",
-          "shortDesc": "An all-in-one office automation platform for attendance, payroll, billing, and expense tracking."
+          "value": "50+",
+          "label": "Businesses grown"
         },
         {
-          "id": "customer-book",
-          "link": "https://lightblue-eagle-871333.hostingersite.com/login",
-          "title": "Customer Book",
-          "pillars": [
-            {
-              "desc": "Centralized capture from calls, forms, and manual entry.",
-              "title": "Lead Capture",
-              "number": "01"
-            },
-            {
-              "desc": "Status-based tracking (New, Contacted, Interested, Closed).",
-              "title": "Pipeline Management",
-              "number": "02"
-            },
-            {
-              "desc": "Follow-up reminders and activity tracking for sales teams.",
-              "title": "Automated Reminders",
-              "number": "03"
-            },
-            {
-              "desc": "Daily follow-up and sales productivity monitoring.",
-              "title": "Performance Reports",
-              "number": "04"
-            }
-          ],
-          "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774947069080-Screenshot2026-03-31at2.20.46PM.webp",
-          "shortDesc": "Lead management and follow-up CRM for structured pipeline tracking and sales automation."
-        },
-        {
-          "id": "quick-commerce-app",
-          "link": " https://master.d3npgig7orcl9j.amplifyapp.com/dashboard/main",
-          "title": "Quick Commerce App",
-          "pillars": [
-            {
-              "desc": "10–30 minute delivery through dark store networks.",
-              "title": "Ultra-fast Delivery",
-              "number": "01"
-            },
-            {
-              "desc": "Category-wise product listing with real-time availability.",
-              "title": "Smart Search",
-              "number": "02"
-            },
-            {
-              "desc": "Options for UPI, wallet, cards, and COD.",
-              "title": "Multi-payment Support",
-              "number": "03"
-            },
-            {
-              "desc": "Real-time order tracking with delivery partner details.",
-              "title": "Live Tracking",
-              "number": "04"
-            }
-          ],
-          "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774947226279-Screenshot2026-03-31at2.22.01PM.webp",
-          "shortDesc": "Hyperlocal delivery solution enabling ultra-fast 10–30 minute deliveries."
-        },
-        {
-          "id": "cloud-kitchen",
-          "link": "https://master.d3npgig7orcl9j.amplifyapp.com/dashboard/main",
-          "title": "Cloud Kitchen with Own Delivery App",
-          "pillars": [
-            {
-              "desc": "Manage multiple brands from a single admin panel.",
-              "title": "Multi-brand Management",
-              "number": "01"
-            },
-            {
-              "desc": "Own delivery fleet management with rider assignment.",
-              "title": "Fleet Management",
-              "number": "02"
-            },
-            {
-              "desc": "Charges based on distance and real-time tracking.",
-              "title": "Dynamic Delivery",
-              "number": "03"
-            },
-            {
-              "desc": "Customer ratings and repeat-order incentives.",
-              "title": "Feedback System",
-              "number": "04"
-            }
-          ],
-          "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774947228341-Screenshot2026-03-31at2.22.01PM.webp",
-          "shortDesc": "Complete digital platform for cloud kitchens to manage ordering, operations, and delivery."
-        },
-        {
-          "id": "petrol-pump-system",
-          "link": "https://tan-crocodile-352730.hostingsite.com/login",
-          "title": "Petrol Pump Management System",
-          "pillars": [
-            {
-              "desc": "Fuel stock in and out tracking for petrol and diesel.",
-              "title": "Inventory Management",
-              "number": "01"
-            },
-            {
-              "desc": "Credit customer and fleet account management with ledgers.",
-              "title": "Credit Management",
-              "number": "02"
-            },
-            {
-              "desc": "Automated billing and daily summary reports.",
-              "title": "GST-ready Billing",
-              "number": "03"
-            },
-            {
-              "desc": "Role-based access for owner, manager, and accountant.",
-              "title": "User Access Control",
-              "number": "04"
-            }
-          ],
-          "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774947229243-Screenshot2026-03-31at2.23.14PM.webp",
-          "shortDesc": "Automation system to manage fuel inventory, credit customers, billing, and financial reporting."
-        },
-        {
-          "id": "evd-academy",
-          "link": "https://mkcadmin.majorkalshiclasses.com/dashboard/main",
-          "title": "EVD Academy",
-          "pillars": [
-            {
-              "desc": "Online enrollment, batch management, and live/recorded classes.",
-              "title": "Course Management",
-              "number": "01"
-            },
-            {
-              "desc": "Online examinations, assignment tracking, and result generation.",
-              "title": "Assessment System",
-              "number": "02"
-            },
-            {
-              "desc": "Automated certificate generation upon course completion.",
-              "title": "Certification",
-              "number": "03"
-            },
-            {
-              "desc": "Integrated fee management with payment tracking.",
-              "title": "Fee Tracking",
-              "number": "04"
-            }
-          ],
-          "imageUrl": "",
-          "shortDesc": "Digital learning and vocational training platform for structured courses and mentorship."
+          "value": "7+",
+          "label": "Countries served"
         }
       ]
     },
-    "order": 0,
-    "createdAt": "2026-03-12T11:17:02.243Z",
-    "updatedAt": "2026-06-17T08:13:53.043Z"
+    "order": 1,
+    "createdAt": "2026-11-10T09:44:12.713Z",
+    "updatedAt": "2026-11-10T09:44:12.713Z"
   },
   {
-    "id": "5740835c-a329-4cea-a9a9-8c4aff0811da",
+    "id": "ffe4fa7f-56d5-400e-b38b-3c36d9f337ab",
     "pageId": "e9505f63-2630-43a5-803e-4b9df635fb8d",
-    "type": "AboutFirm",
+    "type": "AboutPurpose",
     "content": {
-      "ctaUrl": "/contactUs",
-      "images": [
-        "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773313334622-aboutus.webp"
+      "label": "(Our foundation)",
+      "headlineMain": "Why we",
+      "headlineHighlight": "exist.",
+      "cards": [
+        {
+          "kicker": "Mission",
+          "title": "Make growth simple.",
+          "text": "Deliver strategy, design and technology that remove friction from your business, so you can scale with confidence instead of managing vendors."
+        },
+        {
+          "kicker": "Vision",
+          "title": "The partner growing brands trust.",
+          "text": "Be the team ambitious businesses worldwide rely on to brand, build and grow, today and for years to come."
+        }
       ],
-      "heading": "The Gold Technologies",
-      "ctaLabel": "Get in touch",
-      "topLabel": "Who We Are",
-      "paragraph1": "We are a dynamic IT solutions and consulting firm dedicated to empowering businesses through technology-driven solutions. With a client-focused approach and a commitment to innovation, we specialise in transforming our clients' digital journeys.",
-      "paragraph2": "Since 2015, we have been your dedicated partner in the digital age — providing comprehensive IT consultation and cutting-edge solutions to help you navigate the ever-evolving landscape of technology."
+      "values": [
+        "Transparent communication",
+        "On-time delivery",
+        "Senior expertise",
+        "Long-term support"
+      ]
     },
-    "order": 0,
-    "createdAt": "2026-03-12T11:02:21.279Z",
-    "updatedAt": "2026-03-12T11:02:21.279Z"
+    "order": 2,
+    "createdAt": "2026-11-10T09:44:12.713Z",
+    "updatedAt": "2026-11-10T09:44:12.713Z"
+  },
+  {
+    "id": "eb528a30-1ace-4300-a9ef-45cfad3dc812",
+    "pageId": "e9505f63-2630-43a5-803e-4b9df635fb8d",
+    "type": "FounderNote",
+    "content": {
+      "label": "(A note from our founder)",
+      "quote": "Every business we take on deserves a team that treats it",
+      "quoteHighlight": "like its own.",
+      "note": [
+        "When I started The Gold Technologies in 2023, the idea was simple: bring together a senior team with more than a decade of experience to handle brand, product and growth as one, so founders never have to juggle vendors again.",
+        "50+ businesses later, that is still how we work. If you are building something that matters, I would love to hear about it."
+      ],
+      "name": "Meghna Tiwari",
+      "role": "Founder & CEO",
+      "photo": "/images/founder/meghna-portrait.webp",
+      "backdrop": "Founder's note",
+      "ctaLabel": "Book a free strategy call",
+      "ctaUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9"
+    },
+    "order": 3,
+    "createdAt": "2026-11-10T09:44:12.713Z",
+    "updatedAt": "2026-11-10T09:44:12.713Z"
+  },
+  {
+    "id": "8be80180-b99b-4fe2-81fb-28e6570aac27",
+    "pageId": "e9505f63-2630-43a5-803e-4b9df635fb8d",
+    "type": "Journey",
+    "content": {
+      "label": "(Our journey)",
+      "headlineMain": "Founded in 2023,",
+      "headlineHighlight": "built on a decade.",
+      "milestones": [
+        {
+          "year": "2015",
+          "title": "The Foundation",
+          "description": "Established The Gold Technologies with a core focus on innovative digital solutions and setting a new standard for luxury web experiences."
+        },
+        {
+          "year": "2018",
+          "title": "Global Expansion",
+          "description": "Opened our first international office, securing partnerships with Fortune 500 brands and accelerating our global footprint."
+        },
+        {
+          "year": "2021",
+          "title": "Transformative Growth",
+          "description": "Tripled our workforce and expanded into cutting-edge AI and SaaS architecture, fundamentally shifting our delivery capabilities."
+        },
+        {
+          "year": "2024",
+          "title": "Industry Leadership",
+          "description": "Recognized globally as a premier digital agency, setting the benchmark for performance, design, and reliable software engineering."
+        }
+      ]
+    },
+    "order": 4,
+    "createdAt": "2026-11-10T09:44:12.713Z",
+    "updatedAt": "2026-11-10T09:44:12.713Z"
+  },
+  {
+    "id": "65796b66-87d2-4d62-9d9a-88259af3efc9",
+    "pageId": "e9505f63-2630-43a5-803e-4b9df635fb8d",
+    "type": "Team",
+    "content": {
+      "label": "(The team)",
+      "headlineMain": "The people",
+      "headlineHighlight": "behind the work.",
+      "description": "Senior strategists, designers, engineers and marketers. One team, one point of contact.",
+      "joinLabel": "We're hiring",
+      "joinTitle": "Your face could be here.",
+      "joinUrl": "mailto:info@thegoldtechnologies.com?subject=Careers%20at%20The%20Gold%20Technologies",
+      "members": [
+        {
+          "name": "Meghna Tiwari",
+          "photo": "/images/team/meghna-studio.webp",
+          "role": "Founder & CEO",
+          "bio": "The fuel that powers the company's vision, growth and innovation.",
+          "tag": "",
+          "linkedin": "https://www.linkedin.com/in/meghna-tiwari"
+        },
+        {
+          "name": "Saubhagya R Swain",
+          "photo": "/images/team/saubhagya-studio.webp",
+          "role": "Co-Founder & Director",
+          "bio": "The powerhouse of the company.",
+          "tag": "",
+          "linkedin": ""
+        },
+        {
+          "name": "Mitali Gulati",
+          "photo": "/images/team/mitali-studio.webp",
+          "role": "CGO",
+          "bio": "The driving force that makes sure the business grows consistently.",
+          "tag": "",
+          "linkedin": ""
+        },
+        {
+          "name": "Pranay",
+          "tag": "Global",
+          "photo": "/images/team/pranay.webp",
+          "role": "Strategic Technical Partner",
+          "bio": "Shapes technology strategy and architecture so every product we build is ready to scale.",
+          "linkedin": ""
+        },
+        {
+          "name": "Ayush",
+          "photo": "/images/team/ayush-full.webp",
+          "role": "Tech Lead, IT",
+          "bio": "Leads end-to-end technical architecture and development to accelerate project success.",
+          "tag": "",
+          "linkedin": "https://www.linkedin.com/in/ayush-kushwaha-b3b76915b/"
+        },
+        {
+          "name": "Kushal",
+          "photo": "/images/team/kushal-studio.webp",
+          "role": "Lead, Digital Marketing",
+          "bio": "Drives operational excellence, strategic growth and performance-focused digital marketing.",
+          "tag": "",
+          "linkedin": ""
+        },
+        {
+          "name": "Sudeesh",
+          "photo": "/images/team/sudeesh-studio.webp",
+          "role": "Full-Stack Developer",
+          "bio": "Builds scalable, high-performance web applications.",
+          "tag": "",
+          "linkedin": ""
+        },
+        {
+          "name": "Himanshu",
+          "photo": "/images/team/himanshu-studio.webp",
+          "role": "DevOps",
+          "bio": "Specialises in cloud infrastructure, CI/CD automation and scalable, secure systems.",
+          "tag": "",
+          "linkedin": ""
+        },
+        {
+          "name": "Sejal",
+          "photo": "/images/team/sejal-studio.webp",
+          "role": "LinkedIn Manager",
+          "bio": "Manages LinkedIn strategy, content and engagement to strengthen clients' online presence.",
+          "tag": "",
+          "linkedin": ""
+        }
+      ]
+    },
+    "order": 5,
+    "createdAt": "2026-11-10T09:44:12.713Z",
+    "updatedAt": "2026-11-10T09:44:12.713Z"
+  },
+  {
+    "id": "63a3c694-cf48-474c-8c95-1d36241db207",
+    "pageId": "e9505f63-2630-43a5-803e-4b9df635fb8d",
+    "type": "AboutFilm",
+    "content": {
+      "label": "(Inside TGT)",
+      "headlineMain": "See how we",
+      "headlineHighlight": "work.",
+      "descriptionText": "At The Gold Technologies, we help businesses innovate, grow, and scale through smart, reliable technology solutions tailored to deliver real results.",
+      "videoUrl": "https://www.youtube.com/embed/Zp1fuVhlP6o?si=M7ocbQbSEnPKZ0EQ"
+    },
+    "order": 6,
+    "createdAt": "2026-11-10T09:44:12.713Z",
+    "updatedAt": "2026-11-10T09:44:12.713Z"
   },
   {
     "id": "f836a9b7-6800-461c-992c-60b896a1112b",
@@ -2351,37 +2591,9 @@
       "headingHighlight1": "Crafted",
       "headingHighlight2": "Excellence"
     },
-    "order": 1,
+    "order": 7,
     "createdAt": "2026-03-12T11:03:48.501Z",
     "updatedAt": "2026-03-12T11:03:48.501Z"
-  },
-  {
-    "id": "0c392fa6-e45d-4a79-9065-03669f12bcf9",
-    "pageId": "e9505f63-2630-43a5-803e-4b9df635fb8d",
-    "type": "VisionSection",
-    "content": {
-      "ctaUrl": "/contactUs",
-      "ctaLabel": "Get in touch",
-      "topLabel": "Our Foundation",
-      "headingPart1": "The",
-      "headingPart2": "Driving",
-      "block1Heading": "Your Partner in Digital Innovation",
-      "block2Heading": "Delivering Smart That Drive Growth",
-      "block1Checklist": [
-        "Industry Leadership",
-        "Sustainable Growth",
-        "Future-Ready Strategy",
-        "Innovation Driven"
-      ],
-      "block1Description": "To establish ourselves as a trusted leader in IT solutions, empowering businesses to confidently embrace technology and excel in a rapidly evolving digital landscape.",
-      "block2Description": "To deliver innovative and scalable IT solutions that optimise processes, enhance security, and inspire innovation, enabling businesses to thrive in a tech- driven world",
-      "headerDescription": "At The Gold Technologies, we combine strategy, technology, and industry insight to build secure, scalable systems that power long-term business growth.",
-      "headingHighlight1": "Expertise",
-      "headingHighlight2": "Innovation"
-    },
-    "order": 2,
-    "createdAt": "2026-03-12T11:05:56.907Z",
-    "updatedAt": "2026-03-12T11:05:58.780Z"
   },
   {
     "id": "e1460bb0-d2ce-453a-b1ba-42cd4b7f05c3",
@@ -2465,7 +2677,7 @@
       "headingLine2": "",
       "descriptionText": "At Gold Technologies, our team is made up of passionate creators, strategists, and engineers committed to building impactful digital solutions and delivering real value to our clients."
     },
-    "order": 3,
+    "order": 8,
     "createdAt": "2026-03-12T11:08:08.331Z",
     "updatedAt": "2026-03-12T11:13:07.497Z"
   },
@@ -2939,427 +3151,421 @@
         "description": "Explore Our Diverse Portfolio of Digital Marketing and Mobile & Website Development Projects"
       }
     ],
-    "order": 4,
+    "order": 9,
     "createdAt": "2026-03-16T07:41:27.777Z",
     "updatedAt": "2026-04-08T11:12:47.198Z"
   },
   {
-    "id": "0fa1f03b-ad53-4b1c-be33-1561ea57a88f",
-    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
-    "type": "GrowthHero",
+    "id": "440dd862-b871-4af6-a740-becb22ca4506",
+    "pageId": "df79d2a1-d141-44e0-8e4f-a22fcdb6c048",
+    "type": "main",
     "content": {
-      "headlineTop": "One team to",
-      "headlineWords": [
-        "brand,",
-        "build"
-      ],
-      "headlinePrefix": "&",
-      "headlineHighlight": "grow",
-      "headlineSuffix": "your business.",
-      "description": "Strategy, design, technology and marketing under one roof. Built for founders and teams who want growth, not another vendor to manage.",
-      "primaryButtonLabel": "Book a free strategy call",
-      "primaryButtonUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
-      "secondaryButtonLabel": "See our work",
-      "secondaryButtonUrl": "#work",
-      "rating": "5.0",
-      "ratingLabel": "Average client rating",
-      "proofLine": "50+ businesses grown worldwide",
-      "responseLine": "Reply within 24 hours",
-      "ticker": [
-        "Branding",
-        "UI/UX Design",
-        "Websites",
-        "Mobile Apps",
-        "SaaS",
-        "ERP & CRM",
-        "SEO",
-        "Performance Ads",
-        "Social Media",
-        "AI Automation",
-        "Business Intelligence",
-        "Staff Augmentation"
-      ]
-    },
-    "order": 10,
-    "createdAt": "2026-11-10T08:41:54.253Z",
-    "updatedAt": "2026-11-10T08:41:54.253Z"
-  },
-  {
-    "id": "a2d898ce-806b-43d8-8882-3b811bd7097b",
-    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
-    "type": "Showreel",
-    "content": {
-      "label": "(Proof, not promises)",
-      "bigNumber": "70+",
-      "caption": "launches for brands in 7+ countries",
-      "linkLabel": "Explore the work",
-      "linkUrl": "#work"
-    },
-    "order": 11,
-    "createdAt": "2026-11-10T08:41:54.253Z",
-    "updatedAt": "2026-11-10T08:41:54.253Z"
-  },
-  {
-    "id": "5fa4d986-6137-4817-b814-514f0558d0d3",
-    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
-    "type": "Manifesto",
-    "content": {
-      "label": "(Our approach)",
-      "text": "Most agencies hand you a deliverable and walk away. We stay. One team across brand, product and marketing, measured not by what we ship, but by how much you grow.",
-      "highlights": [
-        "stay.",
-        "grow."
-      ],
-      "stats": [
-        {
-          "value": "1",
-          "label": "Team for everything"
-        },
-        {
-          "value": "24h",
-          "label": "Response time"
-        },
-        {
-          "value": "7+",
-          "label": "Countries served"
-        }
-      ]
-    },
-    "order": 12,
-    "createdAt": "2026-11-10T08:41:54.253Z",
-    "updatedAt": "2026-11-10T08:41:54.253Z"
-  },
-  {
-    "id": "188a8815-1545-49a0-a691-8122f22fbf7b",
-    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
-    "type": "ServicePillars",
-    "content": {
-      "label": "(What we do)",
-      "headlineMain": "Everything you need to grow.",
-      "headlineHighlight": "Under one roof.",
-      "description": "Eleven services organised around the four stages of growth. Start with one, or let us run the whole journey.",
-      "ctaLabel": "Not sure where to start? Get a free audit",
-      "ctaUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
-      "pillars": [
-        {
-          "id": "brand",
-          "number": "01",
-          "name": "Brand",
-          "title": "Look the part. Be remembered.",
-          "description": "We shape how customers see, feel and remember you, from positioning and identity to interfaces people love using.",
-          "outcome": "A brand customers trust at first glance.",
-          "services": [
-            {
-              "name": "Branding & Identity",
-              "href": "/service/branding",
-              "items": [
-                "Strategy & positioning",
-                "Logo & visual identity",
-                "Brand voice"
-              ]
-            },
-            {
-              "name": "UI/UX Design",
-              "href": "/service/ui-ux-designing",
-              "items": [
-                "Research",
-                "Prototypes",
-                "Interface & motion design"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "build",
-          "number": "02",
-          "name": "Build",
-          "title": "Products that work as hard as you do.",
-          "description": "Fast websites, mobile apps and custom software engineered to scale with your business, not hold it back.",
-          "outcome": "Digital products that turn visitors into customers.",
-          "services": [
-            {
-              "name": "Website Design & Development",
-              "href": "/service/website-design-development",
-              "items": [
-                "Web apps",
-                "E-commerce",
-                "CMS builds"
-              ]
-            },
-            {
-              "name": "Mobile App Development",
-              "href": "/service/mobile-app-development",
-              "items": [
-                "iOS & Android",
-                "Cross-platform",
-                "App Store launch"
-              ]
-            },
-            {
-              "name": "Custom Software Development",
-              "href": "/service/custom-software-development",
-              "items": [
-                "SaaS",
-                "CRM & ERP",
-                "API integrations"
-              ]
-            },
-            {
-              "name": "Business Software Solutions",
-              "href": "/service/business-software-solutions",
-              "items": [
-                "Workflow automation",
-                "Billing",
-                "HR & inventory"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "grow",
-          "number": "03",
-          "name": "Grow",
-          "title": "Get found. Get chosen. Get results.",
-          "description": "Data-driven marketing that puts you in front of the right people and turns attention into revenue.",
-          "outcome": "Predictable leads and sales you can measure.",
-          "services": [
-            {
-              "name": "Search & Content Marketing",
-              "href": "/service/search-content-marketing",
-              "items": [
-                "SEO",
-                "Content strategy",
-                "Email automation"
-              ]
-            },
-            {
-              "name": "Social & Performance Marketing",
-              "href": "/service/social-performance-marketing",
-              "items": [
-                "Social media",
-                "Paid ads",
-                "Conversion optimisation"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "scale",
-          "number": "04",
-          "name": "Scale",
-          "title": "Automate. Analyse. Innovate.",
-          "description": "Use AI, data and on-demand engineering talent to cut manual work, make sharper decisions and stay ahead of competitors.",
-          "outcome": "Leaner operations, sharper decisions and a team that scales with you.",
-          "services": [
-            {
-              "name": "AI & ML Solutions",
-              "href": "/service/ai-ml-solutions",
-              "items": [
-                "Generative AI",
-                "Chatbots",
-                "Recommendations"
-              ]
-            },
-            {
-              "name": "Business Intelligence",
-              "href": "/service/business-intelligence-solutions",
-              "items": [
-                "Dashboards",
-                "Predictive analytics"
-              ]
-            },
-            {
-              "name": "Staff Augmentation",
-              "href": "/service/staff-augmentation",
-              "items": [
-                "Dedicated developers",
-                "Designers",
-                "Flexible contracts"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "order": 13,
-    "createdAt": "2026-11-10T08:41:54.253Z",
-    "updatedAt": "2026-11-10T08:41:54.253Z"
-  },
-  {
-    "id": "b5156063-f366-40c6-8591-91e2dfcb5fb8",
-    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
-    "type": "WorkShowcase",
-    "content": {
-      "label": "(Selected work)",
-      "headlineMain": "Work that",
-      "headlineHighlight": "moves numbers.",
-      "description": "Real projects for real businesses across hospitality, travel, finance, retail and more.",
-      "viewAllLabel": "View full portfolio",
-      "viewAllUrl": "/portfolio",
-      "shortTitles": {
-        "ERP Software to centralise Internal Processes– Bir Credit Solution": "Bir Credit ERP Software"
+      "hero": {
+        "label": "Our Product",
+        "ctaHref": "/products",
+        "ctaText": "Explore Product",
+        "statSince": "",
+        "paragraphs": [
+          "Our product is designed to simplify workflows, enhance productivity, and deliver seamless digital experiences. Built with scalability and performance in mind, it empowers businesses to manage operations efficiently from a single powerful platform.",
+          "With an intuitive interface, advanced analytics, and secure architecture, our solution helps organisations make smarter decisions, automate processes, and accelerate growth in today’s fast-paced digital environment.\n"
+        ],
+        "headingLine": " Smart Digital Product",
+        "statProjects": ""
       },
-      "ctaEyebrow": "Your turn",
-      "ctaTitle": "Your project could be next.",
-      "ctaButtonLabel": "Book a free call",
-      "ctaButtonUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9"
-    },
-    "order": 14,
-    "createdAt": "2026-11-10T08:41:54.253Z",
-    "updatedAt": "2026-11-10T08:41:54.253Z"
-  },
-  {
-    "id": "c03f96da-6265-4ecb-8eaa-2023c145024b",
-    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
-    "type": "GrowthProcess",
-    "content": {
-      "label": "(How we work)",
-      "headlineMain": "A simple path from",
-      "headlineHighlight": "idea to impact.",
-      "description": "One roadmap, weekly progress and a team that stays with you after launch.",
-      "steps": [
+      "products": [
         {
-          "number": "01",
-          "title": "Discover",
-          "description": "We audit your brand, website and funnel, then agree on the goals and KPIs that matter to your business.",
-          "deliverable": "Growth audit & KPI roadmap"
+          "id": "1773314224377",
+          "link": "https://ip-erp.vercel.app/",
+          "title": "IP ERP",
+          "pillars": [
+            {
+              "desc": "Manage finance, HR, sales, inventory, and operations from a single unified platform.",
+              "title": "All-in-One ERP Solution",
+              "number": "01"
+            },
+            {
+              "desc": "Make smarter decisions with live dashboards, analytics, and detailed reporting tools.",
+              "title": "Real-Time Data & Insights",
+              "number": "02"
+            },
+            {
+              "desc": "Automate repetitive tasks and workflows to improve efficiency and reduce manual errors.",
+              "title": "Process Automation",
+              "number": "03"
+            },
+            {
+              "desc": "Access your business data anytime, anywhere with enterprise-grade security and reliability.",
+              "title": "Secure & Cloud-Based",
+              "number": "04"
+            }
+          ],
+          "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773314464495-Product1.webp",
+          "shortDesc": "ERP dashboard with a clean interface and efficient workflows."
         },
         {
-          "number": "02",
-          "title": "Strategise",
-          "description": "Positioning, identity and a clear 90 day plan so every next step pulls in the same direction.",
-          "deliverable": "Brand system & 90 day plan"
+          "id": "1773314282593",
+          "link": "https://catfy-catalog.vercel.app/",
+          "title": "Catfy Catalog",
+          "pillars": [
+            {
+              "desc": "Organise and showcase products in a clean, structured catalogue for easy browsing and discovery.",
+              "title": "Smart Product Catalog",
+              "number": "01"
+            },
+            {
+              "desc": "Quickly find items using powerful search, categories, and filtering options.",
+              "title": "Advanced Search & Filters",
+              "number": "02"
+            },
+            {
+              "desc": "Designed with a sleek, mobile-friendly interface for a seamless experience across devices.",
+              "title": "Modern Responsive UI",
+              "number": "03"
+            },
+            {
+              "desc": "Easily add, update, and manage products with a streamlined workflow.",
+              "title": "Efficient Catalog Management",
+              "number": "04"
+            }
+          ],
+          "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773314466685-product2.webp",
+          "shortDesc": "Modern product catalogue with intuitive navigation and layout."
         },
         {
-          "number": "03",
-          "title": "Build & Launch",
-          "description": "Design, development and QA in weekly sprints. You see progress every week, not just at the end.",
-          "deliverable": "Live website, app or platform"
+          "id": "office-book-app",
+          "link": "https://staging.d169otpo08de98.amplifyapp.com/",
+          "title": "Office Book App",
+          "pillars": [
+            {
+              "desc": "Location-based attendance with selfie and login/logout.",
+              "title": "Attendance Tracking",
+              "number": "01"
+            },
+            {
+              "desc": "Automated salary calculation based on attendance, overtime, and leaves.",
+              "title": "Payroll Management",
+              "number": "02"
+            },
+            {
+              "desc": "Quotation creation and invoice generation with GST support.",
+              "title": "Billing & Invoicing",
+              "number": "03"
+            },
+            {
+              "desc": "Recording travel, office, utilities, and miscellaneous costs.",
+              "title": "Expense Tracking",
+              "number": "04"
+            }
+          ],
+          "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774947067223-Screenshot2026-03-31at2.20.29PM.webp",
+          "shortDesc": "An all-in-one office automation platform for attendance, payroll, billing, and expense tracking."
         },
         {
-          "number": "04",
-          "title": "Grow",
-          "description": "Marketing, analytics and continuous improvement. We stay on as your growth team long after launch.",
-          "deliverable": "Monthly growth reports"
+          "id": "customer-book",
+          "link": "https://lightblue-eagle-871333.hostingersite.com/login",
+          "title": "Customer Book",
+          "pillars": [
+            {
+              "desc": "Centralized capture from calls, forms, and manual entry.",
+              "title": "Lead Capture",
+              "number": "01"
+            },
+            {
+              "desc": "Status-based tracking (New, Contacted, Interested, Closed).",
+              "title": "Pipeline Management",
+              "number": "02"
+            },
+            {
+              "desc": "Follow-up reminders and activity tracking for sales teams.",
+              "title": "Automated Reminders",
+              "number": "03"
+            },
+            {
+              "desc": "Daily follow-up and sales productivity monitoring.",
+              "title": "Performance Reports",
+              "number": "04"
+            }
+          ],
+          "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774947069080-Screenshot2026-03-31at2.20.46PM.webp",
+          "shortDesc": "Lead management and follow-up CRM for structured pipeline tracking and sales automation."
+        },
+        {
+          "id": "quick-commerce-app",
+          "link": " https://master.d3npgig7orcl9j.amplifyapp.com/dashboard/main",
+          "title": "Quick Commerce App",
+          "pillars": [
+            {
+              "desc": "10–30 minute delivery through dark store networks.",
+              "title": "Ultra-fast Delivery",
+              "number": "01"
+            },
+            {
+              "desc": "Category-wise product listing with real-time availability.",
+              "title": "Smart Search",
+              "number": "02"
+            },
+            {
+              "desc": "Options for UPI, wallet, cards, and COD.",
+              "title": "Multi-payment Support",
+              "number": "03"
+            },
+            {
+              "desc": "Real-time order tracking with delivery partner details.",
+              "title": "Live Tracking",
+              "number": "04"
+            }
+          ],
+          "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774947226279-Screenshot2026-03-31at2.22.01PM.webp",
+          "shortDesc": "Hyperlocal delivery solution enabling ultra-fast 10–30 minute deliveries."
+        },
+        {
+          "id": "cloud-kitchen",
+          "link": "https://master.d3npgig7orcl9j.amplifyapp.com/dashboard/main",
+          "title": "Cloud Kitchen with Own Delivery App",
+          "pillars": [
+            {
+              "desc": "Manage multiple brands from a single admin panel.",
+              "title": "Multi-brand Management",
+              "number": "01"
+            },
+            {
+              "desc": "Own delivery fleet management with rider assignment.",
+              "title": "Fleet Management",
+              "number": "02"
+            },
+            {
+              "desc": "Charges based on distance and real-time tracking.",
+              "title": "Dynamic Delivery",
+              "number": "03"
+            },
+            {
+              "desc": "Customer ratings and repeat-order incentives.",
+              "title": "Feedback System",
+              "number": "04"
+            }
+          ],
+          "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774947228341-Screenshot2026-03-31at2.22.01PM.webp",
+          "shortDesc": "Complete digital platform for cloud kitchens to manage ordering, operations, and delivery."
+        },
+        {
+          "id": "petrol-pump-system",
+          "link": "https://tan-crocodile-352730.hostingsite.com/login",
+          "title": "Petrol Pump Management System",
+          "pillars": [
+            {
+              "desc": "Fuel stock in and out tracking for petrol and diesel.",
+              "title": "Inventory Management",
+              "number": "01"
+            },
+            {
+              "desc": "Credit customer and fleet account management with ledgers.",
+              "title": "Credit Management",
+              "number": "02"
+            },
+            {
+              "desc": "Automated billing and daily summary reports.",
+              "title": "GST-ready Billing",
+              "number": "03"
+            },
+            {
+              "desc": "Role-based access for owner, manager, and accountant.",
+              "title": "User Access Control",
+              "number": "04"
+            }
+          ],
+          "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774947229243-Screenshot2026-03-31at2.23.14PM.webp",
+          "shortDesc": "Automation system to manage fuel inventory, credit customers, billing, and financial reporting."
+        },
+        {
+          "id": "evd-academy",
+          "link": "https://mkcadmin.majorkalshiclasses.com/dashboard/main",
+          "title": "EVD Academy",
+          "pillars": [
+            {
+              "desc": "Online enrollment, batch management, and live/recorded classes.",
+              "title": "Course Management",
+              "number": "01"
+            },
+            {
+              "desc": "Online examinations, assignment tracking, and result generation.",
+              "title": "Assessment System",
+              "number": "02"
+            },
+            {
+              "desc": "Automated certificate generation upon course completion.",
+              "title": "Certification",
+              "number": "03"
+            },
+            {
+              "desc": "Integrated fee management with payment tracking.",
+              "title": "Fee Tracking",
+              "number": "04"
+            }
+          ],
+          "imageUrl": "",
+          "shortDesc": "Digital learning and vocational training platform for structured courses and mentorship."
         }
-      ],
-      "commitments": [
-        "Transparent weekly updates",
-        "Delivered on time",
-        "One point of contact",
-        "Support for the long run"
       ]
     },
-    "order": 15,
-    "createdAt": "2026-11-10T08:41:54.253Z",
-    "updatedAt": "2026-11-10T08:41:54.253Z"
+    "order": 0,
+    "createdAt": "2026-03-12T11:17:02.243Z",
+    "updatedAt": "2026-06-17T08:13:53.043Z"
   },
   {
-    "id": "0fb4488f-5a0d-4d49-9808-5cff83d618dc",
-    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
-    "type": "Testimonials",
+    "id": "243ee274-4243-4801-83d2-5705ad6edcce",
+    "pageId": "35645c28-a601-42a8-8d4c-bfd8ca7ba91b",
+    "type": "main",
     "content": {
-      "label": "(Client stories)",
-      "headlineMain": "Don't take our word.",
-      "headlineHighlight": "Take theirs.",
-      "rating": "5.0",
-      "ratingLabel": "Average rating from 50+ clients",
-      "ctaLabel": "Book a free strategy call",
-      "ctaUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9"
+      "cta": {
+        "title": "",
+        "eyebrow": "Ready to build?",
+        "titleMain": "Let's create something",
+        "titlepart3": "together",
+        "description": "Have a project in mind? Book a free consultation and let's talk about how we can bring your vision to life.",
+        "titleHighlight": "extraordinary",
+        "primaryButtonLink": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
+        "primaryButtonText": "Book Free Consultation",
+        "secondaryButtonLink": "/service/website-design-development",
+        "secondaryButtonText": "View All  Services"
+      },
+      "hero": {
+        "ctaHref": "/contactUs",
+        "ctaText": "Start a project",
+        "eyebrow": "Our Work",
+        "description": "Every project we build is a partnership — rooted in understanding your goals, and executed with precision. Here's a selection of what we've shipped.",
+        "titlePrefix": "Work that ",
+        "titleSuffix": " for itself",
+        "description2": "We combine strategic thinking with beautifully crafted design to build solutions that elevate your brand and drive actual business results. Actionable metrics and user-friendly interfaces are at the core of what we do.",
+        "titleHighlight": "speaks",
+        "viewProjectsHref": "/",
+        "viewProjectsText": "View projects"
+      },
+      "collage": {
+        "mainImage": [
+          "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773744613258-app-mockup.webp"
+        ],
+        "ratingText": "5.0 Rating",
+        "ratingValue": "5.0",
+        "mainImageTag": "System Architecture",
+        "ratingSubtext": "50+ happy clients",
+        "tertiaryImage": [
+          "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773744613260-web-mockup.webp"
+        ],
+        "liveStatusText": "Live Project",
+        "mainImageTitle": "FinTech Evolution",
+        "secondaryImage": [
+          "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773744613260-ui-mockup.webp"
+        ],
+        "liveStatusSubtext": "Deployment ready",
+        "tertiaryImageTitle": "Health OS",
+        "secondaryImageTitle": "Luxe Commerce"
+      },
+      "showcase": {
+        "upperTag": "Projects",
+        "headlinePart1": "Discover",
+        "headlinePart3": "Digital",
+        "headlinePart4": "Masterpieces",
+        "mainDescription": "Explore a curated gallery of our most impactful case studies. The Gold Technologies leverages advanced engineering and design to drive measurable growth for global leaders.",
+        "headlineHighlight": "Industry-Defining"
+      }
     },
-    "order": 16,
-    "createdAt": "2026-11-10T08:41:54.253Z",
-    "updatedAt": "2026-11-10T08:41:54.253Z"
+    "order": 0,
+    "createdAt": "2026-03-17T10:30:02.887Z",
+    "updatedAt": "2026-06-17T08:13:41.395Z"
   },
   {
-    "id": "a49bd84d-3c7d-44df-8bf0-2071ff1af57d",
-    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
-    "type": "Insights",
+    "id": "c31aeda9-e609-485b-bb63-f8202c808529",
+    "pageId": "c0106638-9192-41b3-8887-4e053598d6c0",
+    "type": "MapSection",
     "content": {
-      "label": "(Insights)",
-      "headlineMain": "Ideas that",
-      "headlineHighlight": "grow businesses.",
-      "viewAllLabel": "All articles"
+      "upperTag": "Our Location",
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.1715555629503!2d77.3861676!3d28.624620000000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cf120b6d88c5d%3A0x4365a1bad9758ff6!2sThe%20Gold%20Technologies!5e0!3m2!1sen!2sin!4v1771399558865!5m2!1sen!2sin",
+      "headlinePart1": "Visit",
+      "headlinePart3": "And Let's Build",
+      "headlinePart4": "Something Great.",
+      "mainParagraph": "  Find us at our office location. We’d love to meet you and discuss how The Gold Technologies can help your business grow.",
+      "headlineHighlight": "Our Office "
     },
-    "order": 17,
-    "createdAt": "2026-11-10T08:41:54.253Z",
-    "updatedAt": "2026-11-10T08:41:54.253Z"
+    "order": 0,
+    "createdAt": "2026-03-20T07:21:06.360Z",
+    "updatedAt": "2026-03-20T07:24:01.335Z"
   },
   {
-    "id": "15a9a4c3-b41c-48f2-b553-0536cc214a8a",
-    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
-    "type": "GrowthCTA",
+    "id": "1dc54c44-2993-489d-8700-5c8f0ad07ff3",
+    "pageId": "bc99d002-d4f3-46d6-b127-3f79db5da8a8",
+    "type": "main",
     "content": {
-      "label": "(Let's talk)",
-      "headlineMain": "Let's grow",
-      "headlineHighlight": "together.",
-      "description": "Tell us where you want to grow. You'll get a reply within 24 hours with clear next steps, whether you work with us or not.",
-      "primaryButtonLabel": "Start your project",
-      "primaryButtonUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
-      "callTitle": "Prefer to talk?",
-      "formTitle": "Tell us about your project",
-      "formNote": "We reply within 24 hours with ideas, not a sales pitch.",
-      "interestsLabel": "I'm interested in",
-      "interests": [
-        "Branding",
-        "UI/UX Design",
-        "Website",
-        "Mobile App",
-        "Custom Software",
-        "Digital Marketing",
-        "AI & Automation",
-        "Staff Augmentation",
-        "Full growth partnership"
-      ],
-      "budgetLabel": "Project budget",
-      "budgets": [
-        "$5k to $10k",
-        "$10k to $25k",
-        "$25k to $50k",
-        "$50k+",
-        "Not sure yet"
-      ],
-      "submitLabel": "Send my brief",
-      "privacyNote": "No spam. We never share your details.",
-      "sentNote": "Thanks, your brief is in. We'll reply within 24 hours.",
-      "sendingNote": "Sending your brief...",
-      "fallbackNote": "We couldn't reach our server, so your email app has opened with the brief. Just hit send.",
-      "assurances": [
-        "Free 30-minute strategy call",
-        "No obligation",
-        "Reply within 24 hours"
-      ],
-      "clocks": [
-        {
-          "city": "Noida",
-          "country": "India",
-          "timeZone": "Asia/Kolkata"
-        },
-        {
-          "city": "Dubai",
-          "country": "UAE",
-          "timeZone": "Asia/Dubai"
-        }
-      ],
-      "localClockLabel": "Your time",
-      "clocksNote": "Wherever you are, we overlap with your workday."
+      "message": {
+        "name": "Meghna",
+        "role": "Chief Executive Officer",
+        "title": "Building the Future of",
+        "avatar": "/images/Meghna.jpg",
+        "ctaLink": "/contact",
+        "ctaText": "Contact Us",
+        "yearsText": "Years of\nExcellence",
+        "headingTag": "h1",
+        "paragraphs": [
+          "At The Gold Technologies, we believe that true success is built on innovation, teamwork, and an unwavering commitment to trust. From our humble beginnings to our most remarkable achievements, our journey reflects a dedication to excellence in every single project we undertake.",
+          "As we continue to expand our horizons globally, our core focus remains absolute: creating sustainable impact, delivering measurable value to our clients, and empowering our people. Together, we strive to turn every challenge into an opportunity, and every great idea into a lasting legacy."
+        ],
+        "yearsLabel": "15+",
+        "titleItalic": "Digital Excellence."
+      },
+      "timeline": {
+        "title": "Journey of",
+        "upperTag": "Milestones",
+        "milestones": [
+          {
+            "year": "2015",
+            "title": "The Foundation",
+            "description": "Established The Gold Technologies with a core focus on innovative digital solutions and setting a new standard for luxury web experiences."
+          },
+          {
+            "year": "2018",
+            "title": "Global Expansion",
+            "description": "Opened our first international office, securing partnerships with Fortune 500 brands and accelerating our global footprint."
+          },
+          {
+            "year": "2021",
+            "title": "Transformative Growth",
+            "description": "Tripled our workforce and expanded into cutting-edge AI and SaaS architecture, fundamentally shifting our delivery capabilities."
+          },
+          {
+            "year": "2024",
+            "title": "Industry Leadership",
+            "description": "Recognized globally as a premier digital agency, setting the benchmark for performance, design, and reliable software engineering."
+          }
+        ],
+        "description": "Milestones that define our continuous pursuit of perfection and global impact.",
+        "titleHighlight": "Excellence"
+      },
+      "philosophy": {
+        "items": [
+          {
+            "icon": "Lightbulb",
+            "title": "Visionary Innovation",
+            "description": "We don’t just adapt to the future; we build it. By constantly pushing boundaries, we deliver solutions that redefine digital landscapes."
+          },
+          {
+            "icon": "Target",
+            "title": "Client-Centric Excellence",
+            "description": "Every partnership is a commitment. We measure our true success not by output, but by the tangible growth and success of our clients."
+          },
+          {
+            "icon": "ShieldCheck",
+            "title": "Unyielding Integrity",
+            "description": "Trust is our most valuable currency. We act with transparency, accountability, and a profound respect for the people we serve."
+          }
+        ],
+        "title": "Our Guiding",
+        "upperTag": "Core Values",
+        "description": "Leadership is more than pointing the way—it is about laying down the unbreakable foundation upon which greatness is built.",
+        "titleHighlight": "Philosophy"
+      }
     },
-    "order": 18,
-    "createdAt": "2026-11-10T08:41:54.253Z",
-    "updatedAt": "2026-11-10T08:41:54.253Z"
-  },
-  {
-    "id": "232cfbfa-3fa1-4a2b-88c4-fd9410beba9a",
-    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
-    "type": "StickyCTA",
-    "content": {
-      "label": "Available for new projects",
-      "buttonLabel": "Book a free call",
-      "buttonUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9"
-    },
-    "order": 19,
-    "createdAt": "2026-11-10T08:41:54.253Z",
-    "updatedAt": "2026-11-10T08:41:54.253Z"
+    "order": 0,
+    "createdAt": "2026-06-17T07:45:37.231Z",
+    "updatedAt": "2026-08-06T08:32:23.734Z"
   },
   {
     "id": "300df7fe-2030-49b3-bc71-b2c5a63bd3e8",

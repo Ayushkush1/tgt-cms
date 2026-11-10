@@ -4,7 +4,11 @@ import React, { useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
-import { HomeSectionCard, StringListField, useHomeSection } from "./HomeSectionCard";
+import {
+  StaticSectionCard,
+  StringListField,
+  useStaticSection,
+} from "@/app/components/StaticSectionCard";
 
 interface ClockItem {
   city: string;
@@ -63,9 +67,16 @@ const DEFAULT_DATA: GrowthCTAData = {
   clocksNote: "",
 };
 
-export function GrowthCTA() {
+type GrowthCTAProps = {
+  title?: string;
+};
+
+export function GrowthCTA({
+  title = '5. Global "Let\'s Talk" CTA & Brief Modal (GrowthCTA)',
+}: GrowthCTAProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { formData, setFormData, isSaving, save } = useHomeSection(
+  const { formData, setFormData, isSaving, save } = useStaticSection(
+    "/api/home",
     "GrowthCTA",
     DEFAULT_DATA,
     "Growth CTA",
@@ -80,9 +91,9 @@ export function GrowthCTA() {
   const cleanList = (list: string[]) => (list || []).map((v) => v.trim()).filter(Boolean);
 
   return (
-    <HomeSectionCard
-      title="Growth CTA & Brief Modal"
-      description="Let's Talk CTA section, office timezone clocks, and project brief modal copy."
+    <StaticSectionCard
+      title={title}
+      description="Let's Talk CTA section, office timezone clocks, and project brief modal copy (shared globally across the site)."
       isOpen={isOpen}
       onToggle={() => setIsOpen((v) => !v)}
       isSaving={isSaving}
@@ -316,6 +327,6 @@ export function GrowthCTA() {
           columns={3}
         />
       </div>
-    </HomeSectionCard>
+    </StaticSectionCard>
   );
 }

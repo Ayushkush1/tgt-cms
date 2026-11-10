@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { PageHeader } from "@/app/components/PageHeader";
+import { GrowthCTA } from "@/app/components/GrowthCTA";
 import { InputField } from "@/app/components/InputField";
 import { TextAreaField } from "@/app/components/TextAreaField";
 import {
@@ -589,437 +590,449 @@ export default function SocialMediaFooterPage() {
     <section className="flex flex-col gap-6 pb-8">
       <PageHeader
         title="Social Media & Footer"
-        description="Configure your website branding, footer details, social links, and partner badges."
+        description="Configure your website branding, footer details, social links, partner badges, and global Let's Talk CTA."
       />
 
-      {importedFromLegacy && (
-        <p className="rounded-2xl border border-amber-200/70 bg-[#FFFDF4] px-5 py-4 text-sm text-[#8a6d1f]">
-          These details were copied from the old Home page footer section. Click <b>Save Changes</b>{" "}
-          to store them in the global settings, where the whole website reads them from.
-        </p>
-      )}
+      <div className="flex flex-col gap-6">
+        {importedFromLegacy && (
+          <p className="rounded-2xl border border-amber-200/70 bg-[#FFFDF4] px-5 py-4 text-sm text-[#8a6d1f]">
+            These details were copied from the old Home page footer section. Click{" "}
+            <b>Save Changes</b> to store them in the global settings, where the whole website reads
+            them from.
+          </p>
+        )}
 
-      {/* 1. Website Branding & Logos */}
-      <SectionCard
-        icon={ImageIcon}
-        iconBg="bg-teal-50 text-teal-700"
-        title="1. Website Branding & Logos"
-        description="Configure the logo and brand accessibility details used in the navbar and footer."
-      >
-        <div className="grid gap-5 md:grid-cols-2">
-          <LogoUploadSubCard
-            badgeIcon={Compass}
-            badgeLabel="Navbar & Footer Logo"
-            badgeColor="text-[#B8932A]"
-            title="Primary Brand Logo"
-            helperText="Displayed in the website navigation bar and footer."
-            value={data.logo}
-            onChange={(logo) => setData((prev) => ({ ...prev, logo }))}
-          />
+        {/* 1. Website Branding & Logos */}
+        <SectionCard
+          icon={ImageIcon}
+          iconBg="bg-teal-50 text-teal-700"
+          title="1. Website Branding & Logos"
+          description="Configure the logo and brand accessibility details used in the navbar and footer."
+        >
+          <div className="grid gap-5 md:grid-cols-2">
+            <LogoUploadSubCard
+              badgeIcon={Compass}
+              badgeLabel="Navbar & Footer Logo"
+              badgeColor="text-[#B8932A]"
+              title="Primary Brand Logo"
+              helperText="Displayed in the website navigation bar and footer."
+              value={data.logo}
+              onChange={(logo) => setData((prev) => ({ ...prev, logo }))}
+            />
 
-          <div className="flex flex-col justify-between gap-4 rounded-2xl border border-gray-100 bg-[#FAFAFC] p-5">
-            <div>
-              <p className="flex items-center gap-1.5 text-[11px] font-bold tracking-wider text-gray-500 uppercase">
-                <Sparkles className="h-3.5 w-3.5 text-[#B8932A]" />
-                Brand Identity
-              </p>
-              <h3 className="mt-1 text-sm font-bold text-[#0B0F29]">Logo Alt Text &amp; Tagline</h3>
-            </div>
-            <div className="grid gap-3">
-              <InputField
-                label="Logo Description (Alt Text)"
-                value={data.logoAlt}
-                onChange={setField("logoAlt")}
-                placeholder="e.g. The Gold Technologies logo"
-                className="bg-white"
-              />
-              <InputField
-                label="Short Line Under Name"
-                value={data.companyInitials}
-                onChange={setField("companyInitials")}
-                placeholder="e.g. Operating Worldwide"
-                className="bg-white"
-              />
+            <div className="flex flex-col justify-between gap-4 rounded-2xl border border-gray-100 bg-[#FAFAFC] p-5">
+              <div>
+                <p className="flex items-center gap-1.5 text-[11px] font-bold tracking-wider text-gray-500 uppercase">
+                  <Sparkles className="h-3.5 w-3.5 text-[#B8932A]" />
+                  Brand Identity
+                </p>
+                <h3 className="mt-1 text-sm font-bold text-[#0B0F29]">
+                  Logo Alt Text &amp; Tagline
+                </h3>
+              </div>
+              <div className="grid gap-3">
+                <InputField
+                  label="Logo Description (Alt Text)"
+                  value={data.logoAlt}
+                  onChange={setField("logoAlt")}
+                  placeholder="e.g. The Gold Technologies logo"
+                  className="bg-white"
+                />
+                <InputField
+                  label="Short Line Under Name"
+                  value={data.companyInitials}
+                  onChange={setField("companyInitials")}
+                  placeholder="e.g. Operating Worldwide"
+                  className="bg-white"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </SectionCard>
+        </SectionCard>
 
-      {/* 2. Footer Details & Contact Information */}
-      <SectionCard
-        icon={FileText}
-        iconBg="bg-orange-50 text-orange-600"
-        title="2. Footer Details & Contact Information"
-        description="Address, phone numbers, email, and brand description appearing in the website footer."
-      >
-        <div className="flex flex-col gap-5">
-          <TextAreaField
-            label="Footer Brand Description"
-            value={data.footerDescription}
-            onChange={setField("footerDescription")}
-            rows={2}
-            placeholder="e.g. We build digital products that drive real growth."
-          />
-
-          <div className="grid gap-4 md:grid-cols-3">
-            <InputField
-              label="Company Name"
-              value={data.companyName}
-              onChange={setField("companyName")}
-              placeholder="e.g. The Gold Technologies"
-              required
+        {/* 2. Footer Details & Contact Information */}
+        <SectionCard
+          icon={FileText}
+          iconBg="bg-orange-50 text-orange-600"
+          title="2. Footer Details & Contact Information"
+          description="Address, phone numbers, email, and brand description appearing in the website footer."
+        >
+          <div className="flex flex-col gap-5">
+            <TextAreaField
+              label="Footer Brand Description"
+              value={data.footerDescription}
+              onChange={setField("footerDescription")}
+              rows={2}
+              placeholder="e.g. We build digital products that drive real growth."
             />
-            <InputField
-              label="Official Contact Number"
-              value={data.phoneNumber}
-              onChange={setField("phoneNumber")}
-              placeholder="e.g. +91 98765 43210"
-            />
-            <InputField
-              label="Official Contact Email"
-              type="email"
-              value={data.emailAddress}
-              onChange={setField("emailAddress")}
-              placeholder="e.g. info@thegoldtechnologies.com"
-              required
-            />
-          </div>
 
-          {/* Warm highlight block: Office locations */}
-          <div className="rounded-2xl border border-amber-200/70 bg-[#FFFDF4] p-5">
-            <div className="mb-4">
-              <p className="text-xs font-bold tracking-wider text-[#9A781E] uppercase">
-                Office Locations (Up to Two Offices)
-              </p>
-              <p className="mt-0.5 text-xs text-[#9A781E]/80">
-                Configure the regional office addresses displayed in the footer columns.
-              </p>
-            </div>
-            <div className="grid gap-4 md:grid-cols-2">
-              {([1, 2] as const).map((n) => (
-                <div
-                  key={n}
-                  className="flex flex-col gap-3 rounded-xl border border-amber-100 bg-white/80 p-4"
-                >
-                  <p className="text-[11px] font-bold tracking-wider text-gray-500 uppercase">
-                    Office {n}
-                  </p>
-                  <InputField
-                    label="Country / Region"
-                    value={data[`loc${n}Country`]}
-                    onChange={setField(`loc${n}Country`)}
-                    placeholder={n === 1 ? "e.g. India" : "e.g. UAE"}
-                  />
-                  <TextAreaField
-                    label="Full Address"
-                    value={data[`loc${n}Address`]}
-                    onChange={setField(`loc${n}Address`)}
-                    rows={2}
-                    placeholder="Street, city, state"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Warm highlight block: Big footer wordmark */}
-          <div className="rounded-2xl border border-amber-200/70 bg-[#FFFDF4] p-5">
-            <div className="mb-4">
-              <p className="text-xs font-bold tracking-wider text-[#9A781E] uppercase">
-                Big Footer Wordmark
-              </p>
-              <p className="mt-0.5 text-xs text-[#9A781E]/80">
-                The large company name across the bottom of the footer, split into three parts.
-              </p>
-            </div>
             <div className="grid gap-4 md:grid-cols-3">
               <InputField
-                label="Left (Small)"
-                value={data.leftText}
-                onChange={setField("leftText")}
-                placeholder="e.g. THE"
-                className="bg-white"
+                label="Company Name"
+                value={data.companyName}
+                onChange={setField("companyName")}
+                placeholder="e.g. The Gold Technologies"
+                required
               />
               <InputField
-                label="Middle (Large)"
-                value={data.centerText}
-                onChange={setField("centerText")}
-                placeholder="e.g. GOLD TECH"
-                className="bg-white"
+                label="Official Contact Number"
+                value={data.phoneNumber}
+                onChange={setField("phoneNumber")}
+                placeholder="e.g. +91 98765 43210"
               />
               <InputField
-                label="Right (Small)"
-                value={data.rightText}
-                onChange={setField("rightText")}
-                placeholder="e.g. NOLOGIES"
-                className="bg-white"
+                label="Official Contact Email"
+                type="email"
+                value={data.emailAddress}
+                onChange={setField("emailAddress")}
+                placeholder="e.g. info@thegoldtechnologies.com"
+                required
               />
             </div>
-            {(data.leftText || data.centerText || data.rightText) && (
-              <div className="mt-4 flex flex-wrap items-baseline justify-center gap-2 rounded-xl bg-[#0B0F29] px-6 py-4 text-white">
-                {data.leftText && (
-                  <span className="text-xs font-semibold tracking-widest text-gray-300 uppercase">
-                    {data.leftText}
-                  </span>
-                )}
-                {data.centerText && (
-                  <span className="text-2xl font-black tracking-tight text-[#D4AF37] uppercase">
-                    {data.centerText}
-                  </span>
-                )}
-                {data.rightText && (
-                  <span className="text-xs font-semibold tracking-widest text-gray-300 uppercase">
-                    {data.rightText}
-                  </span>
-                )}
+
+            {/* Warm highlight block: Office locations */}
+            <div className="rounded-2xl border border-amber-200/70 bg-[#FFFDF4] p-5">
+              <div className="mb-4">
+                <p className="text-xs font-bold tracking-wider text-[#9A781E] uppercase">
+                  Office Locations (Up to Two Offices)
+                </p>
+                <p className="mt-0.5 text-xs text-[#9A781E]/80">
+                  Configure the regional office addresses displayed in the footer columns.
+                </p>
               </div>
-            )}
-          </div>
-        </div>
-      </SectionCard>
-
-      {/* 3. Social Media Links */}
-      <SectionCard
-        icon={Share2}
-        iconBg="bg-indigo-50 text-indigo-600"
-        title="3. Social Media Links"
-        description="Icons shown in the footer. Leave a link empty to hide that icon."
-        action={
-          <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-600 tabular-nums">
-            {activeSocialCount} / {SOCIALS.length} active
-          </span>
-        }
-      >
-        <div className="-m-6 divide-y divide-gray-100">
-          {SOCIALS.map(({ key, label, icon: Icon, placeholder, accent }, index) => {
-            const value = data[key];
-            const active = value.trim().length > 0;
-
-            return (
-              <div
-                key={key}
-                className="grid grid-cols-[28px_1fr_auto] items-center gap-3 px-6 py-4 transition-colors hover:bg-[#FAFAFC] md:grid-cols-[28px_170px_110px_1fr_auto] md:gap-4"
-              >
-                <span className="text-sm font-medium text-gray-400 tabular-nums">{index + 1}</span>
-
-                <div className="flex items-center gap-3">
-                  <span
-                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${accent}`}
+              <div className="grid gap-4 md:grid-cols-2">
+                {([1, 2] as const).map((n) => (
+                  <div
+                    key={n}
+                    className="flex flex-col gap-3 rounded-xl border border-amber-100 bg-white/80 p-4"
                   >
-                    <Icon className="h-4 w-4" />
-                  </span>
-                  <span className="text-sm font-semibold text-[#0B0F29]">{label}</span>
-                </div>
+                    <p className="text-[11px] font-bold tracking-wider text-gray-500 uppercase">
+                      Office {n}
+                    </p>
+                    <InputField
+                      label="Country / Region"
+                      value={data[`loc${n}Country`]}
+                      onChange={setField(`loc${n}Country`)}
+                      placeholder={n === 1 ? "e.g. India" : "e.g. UAE"}
+                    />
+                    <TextAreaField
+                      label="Full Address"
+                      value={data[`loc${n}Address`]}
+                      onChange={setField(`loc${n}Address`)}
+                      rows={2}
+                      placeholder="Street, city, state"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
 
-                <div className="hidden justify-center md:flex">
-                  <span
-                    className={`rounded-full px-3 py-1 text-[10px] font-bold tracking-wider uppercase ${
-                      active ? "bg-emerald-50 text-emerald-700" : "bg-gray-100 text-gray-500"
-                    }`}
-                  >
-                    {active ? "Active" : "Hidden"}
-                  </span>
-                </div>
-
-                <div className="col-span-3 md:col-span-1">
-                  <input
-                    type="url"
-                    value={value}
-                    onChange={setField(key)}
-                    placeholder={placeholder}
-                    aria-label={`${label} URL`}
-                    className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3.5 py-2.5 font-mono text-xs text-[#0B0F29] transition-all outline-none placeholder:text-gray-400 focus:border-[#D4AF37] focus:bg-white"
-                  />
-                </div>
-
-                <div className="flex items-center gap-2">
-                  {active && (
-                    <a
-                      href={value}
-                      target="_blank"
-                      rel="noreferrer"
-                      title={`Open ${label}`}
-                      aria-label={`Open ${label}`}
-                      className={boxedActionButton}
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                    </a>
+            {/* Warm highlight block: Big footer wordmark */}
+            <div className="rounded-2xl border border-amber-200/70 bg-[#FFFDF4] p-5">
+              <div className="mb-4">
+                <p className="text-xs font-bold tracking-wider text-[#9A781E] uppercase">
+                  Big Footer Wordmark
+                </p>
+                <p className="mt-0.5 text-xs text-[#9A781E]/80">
+                  The large company name across the bottom of the footer, split into three parts.
+                </p>
+              </div>
+              <div className="grid gap-4 md:grid-cols-3">
+                <InputField
+                  label="Left (Small)"
+                  value={data.leftText}
+                  onChange={setField("leftText")}
+                  placeholder="e.g. THE"
+                  className="bg-white"
+                />
+                <InputField
+                  label="Middle (Large)"
+                  value={data.centerText}
+                  onChange={setField("centerText")}
+                  placeholder="e.g. GOLD TECH"
+                  className="bg-white"
+                />
+                <InputField
+                  label="Right (Small)"
+                  value={data.rightText}
+                  onChange={setField("rightText")}
+                  placeholder="e.g. NOLOGIES"
+                  className="bg-white"
+                />
+              </div>
+              {(data.leftText || data.centerText || data.rightText) && (
+                <div className="mt-4 flex flex-wrap items-baseline justify-center gap-2 rounded-xl bg-[#0B0F29] px-6 py-4 text-white">
+                  {data.leftText && (
+                    <span className="text-xs font-semibold tracking-widest text-gray-300 uppercase">
+                      {data.leftText}
+                    </span>
                   )}
-                  <button
-                    type="button"
-                    title={`Clear ${label}`}
-                    aria-label={`Clear ${label}`}
-                    disabled={!active}
-                    onClick={() => setData((prev) => ({ ...prev, [key]: "" }))}
-                    className={`${boxedActionButton} disabled:pointer-events-none disabled:opacity-30`}
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
+                  {data.centerText && (
+                    <span className="text-2xl font-black tracking-tight text-[#D4AF37] uppercase">
+                      {data.centerText}
+                    </span>
+                  )}
+                  {data.rightText && (
+                    <span className="text-xs font-semibold tracking-widest text-gray-300 uppercase">
+                      {data.rightText}
+                    </span>
+                  )}
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      </SectionCard>
-
-      {/* 4. Footer Logos & Badges */}
-      <SectionCard
-        icon={Award}
-        iconBg="bg-amber-50 text-[#B8932A]"
-        title="4. Footer Logos & Badges"
-        description="Certificates, partner or award logos shown at the bottom of the footer. Drag rows to reorder."
-        action={
-          <button
-            type="button"
-            onClick={() =>
-              setData((prev) => ({
-                ...prev,
-                badges: [...prev.badges, { id: makeId(), image: null, alt: "", link: "" }],
-              }))
-            }
-            className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-2 text-xs font-semibold text-[#0B0F29] transition-colors hover:border-[#D4AF37]"
-          >
-            <Plus className="h-3.5 w-3.5" /> Add footer logo
-          </button>
-        }
-      >
-        {data.badges.length === 0 ? (
-          <div className="flex flex-col items-center gap-2 rounded-2xl bg-[#FAFAFC] px-6 py-10 text-center">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-gray-400 ring-1 ring-gray-100">
-              <Award className="h-5 w-5" />
-            </span>
-            <p className="text-sm font-semibold text-[#0B0F29]">No footer logos yet</p>
-            <p className="text-xs text-gray-400">
-              Add partner, certificate, or award logos to display in the footer.
-            </p>
+              )}
+            </div>
           </div>
-        ) : (
+        </SectionCard>
+
+        {/* 3. Social Media Links */}
+        <SectionCard
+          icon={Share2}
+          iconBg="bg-indigo-50 text-indigo-600"
+          title="3. Social Media Links"
+          description="Icons shown in the footer. Leave a link empty to hide that icon."
+          action={
+            <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-600 tabular-nums">
+              {activeSocialCount} / {SOCIALS.length} active
+            </span>
+          }
+        >
           <div className="-m-6 divide-y divide-gray-100">
-            {data.badges.map((badge, index) => {
-              const isDragging = draggedBadgeId === badge.id;
-              const canDrag = data.badges.length > 1;
+            {SOCIALS.map(({ key, label, icon: Icon, placeholder, accent }, index) => {
+              const value = data[key];
+              const active = value.trim().length > 0;
 
               return (
-                <div key={badge.id}>
-                  {dropTarget?.id === badge.id && dropTarget.position === "before" && (
-                    <div className="pointer-events-none h-0.5 bg-[#D4AF37] shadow-[0_0_8px_rgba(212,175,55,0.7)]" />
-                  )}
-                  <div
-                    draggable={canDrag}
-                    onDragStart={(e) => {
-                      e.dataTransfer.effectAllowed = "move";
-                      e.dataTransfer.setData("text/plain", badge.id);
-                      setDraggedBadgeId(badge.id);
-                    }}
-                    onDragOver={(e) => {
-                      if (!draggedBadgeId || draggedBadgeId === badge.id) return;
-                      e.preventDefault();
-                      const rect = e.currentTarget.getBoundingClientRect();
-                      const position: "before" | "after" =
-                        e.clientY < rect.top + rect.height / 2 ? "before" : "after";
-                      setDropTarget((prev) =>
-                        prev?.id === badge.id && prev.position === position
-                          ? prev
-                          : { id: badge.id, position },
-                      );
-                    }}
-                    onDrop={(e) => {
-                      if (!draggedBadgeId) return;
-                      e.preventDefault();
-                      const position = dropTarget?.id === badge.id ? dropTarget.position : "before";
-                      const fromId = draggedBadgeId;
-                      setDraggedBadgeId(null);
-                      setDropTarget(null);
-                      reorderBadges(fromId, badge.id, position);
-                    }}
-                    onDragEnd={() => {
-                      setDraggedBadgeId(null);
-                      setDropTarget(null);
-                    }}
-                    className={`group flex flex-col gap-4 px-6 py-5 transition-colors md:flex-row md:items-start ${
-                      isDragging ? "bg-amber-50/40 opacity-50" : "hover:bg-[#FAFAFC]"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 pt-1">
-                      <span
-                        title={canDrag ? "Drag to reorder" : undefined}
-                        className={`text-gray-300 transition-colors ${
-                          canDrag
-                            ? "cursor-grab opacity-0 group-hover:opacity-100 hover:text-gray-500 active:cursor-grabbing"
-                            : "opacity-0"
-                        }`}
+                <div
+                  key={key}
+                  className="grid grid-cols-[28px_1fr_auto] items-center gap-3 px-6 py-4 transition-colors hover:bg-[#FAFAFC] md:grid-cols-[28px_170px_110px_1fr_auto] md:gap-4"
+                >
+                  <span className="text-sm font-medium text-gray-400 tabular-nums">
+                    {index + 1}
+                  </span>
+
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${accent}`}
+                    >
+                      <Icon className="h-4 w-4" />
+                    </span>
+                    <span className="text-sm font-semibold text-[#0B0F29]">{label}</span>
+                  </div>
+
+                  <div className="hidden justify-center md:flex">
+                    <span
+                      className={`rounded-full px-3 py-1 text-[10px] font-bold tracking-wider uppercase ${
+                        active ? "bg-emerald-50 text-emerald-700" : "bg-gray-100 text-gray-500"
+                      }`}
+                    >
+                      {active ? "Active" : "Hidden"}
+                    </span>
+                  </div>
+
+                  <div className="col-span-3 md:col-span-1">
+                    <input
+                      type="url"
+                      value={value}
+                      onChange={setField(key)}
+                      placeholder={placeholder}
+                      aria-label={`${label} URL`}
+                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3.5 py-2.5 font-mono text-xs text-[#0B0F29] transition-all outline-none placeholder:text-gray-400 focus:border-[#D4AF37] focus:bg-white"
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    {active && (
+                      <a
+                        href={value}
+                        target="_blank"
+                        rel="noreferrer"
+                        title={`Open ${label}`}
+                        aria-label={`Open ${label}`}
+                        className={boxedActionButton}
                       >
-                        <GripVertical className="h-4 w-4" />
-                      </span>
-                      <span className="w-5 text-sm font-medium text-gray-500 tabular-nums">
-                        {index + 1}
-                      </span>
-                    </div>
-
-                    <div className="md:w-80">
-                      <LogoUploadSubCard
-                        badgeIcon={Award}
-                        badgeLabel={`Badge ${index + 1}`}
-                        badgeColor="text-[#B8932A]"
-                        title={`Footer Logo ${index + 1}`}
-                        helperText="Displayed at the bottom of the website footer."
-                        value={badge.image}
-                        onChange={(image) => updateBadge(badge.id, { image })}
-                      />
-                    </div>
-
-                    <div className="grid flex-1 gap-3">
-                      <InputField
-                        label="Name (for screen readers)"
-                        value={badge.alt}
-                        onChange={(e) => updateBadge(badge.id, { alt: e.target.value })}
-                        placeholder="e.g. Women Owned business"
-                      />
-                      <InputField
-                        label="Opens link (optional)"
-                        type="url"
-                        value={badge.link}
-                        onChange={(e) => updateBadge(badge.id, { link: e.target.value })}
-                        placeholder="https://…"
-                      />
-                    </div>
-
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
+                    )}
                     <button
                       type="button"
-                      title="Remove"
-                      aria-label={`Remove logo ${index + 1}`}
-                      onClick={() =>
-                        setData((prev) => ({
-                          ...prev,
-                          badges: prev.badges.filter((b) => b.id !== badge.id),
-                        }))
-                      }
-                      className={`${boxedActionButton} self-end text-gray-400 hover:border-red-200 hover:bg-red-50 hover:text-red-500 md:mt-2 md:self-start`}
+                      title={`Clear ${label}`}
+                      aria-label={`Clear ${label}`}
+                      disabled={!active}
+                      onClick={() => setData((prev) => ({ ...prev, [key]: "" }))}
+                      className={`${boxedActionButton} disabled:pointer-events-none disabled:opacity-30`}
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <X className="h-4 w-4" />
                     </button>
                   </div>
-                  {dropTarget?.id === badge.id && dropTarget.position === "after" && (
-                    <div className="pointer-events-none h-0.5 bg-[#D4AF37] shadow-[0_0_8px_rgba(212,175,55,0.7)]" />
-                  )}
                 </div>
               );
             })}
           </div>
-        )}
-      </SectionCard>
+        </SectionCard>
 
-      {/* Sticky full-width Save Changes bar */}
-      <div className="sticky bottom-4 z-30">
-        <button
-          type="button"
-          onClick={save}
-          disabled={isSaving}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#0B0F29] py-3.5 text-sm font-bold text-white shadow-[0_10px_28px_rgba(11,15,41,0.22)] transition-all hover:bg-black hover:shadow-[0_10px_28px_rgba(212,175,55,0.3)] disabled:opacity-50"
+        {/* 4. Footer Logos & Badges */}
+        <SectionCard
+          icon={Award}
+          iconBg="bg-amber-50 text-[#B8932A]"
+          title="4. Footer Logos & Badges"
+          description="Certificates, partner or award logos shown at the bottom of the footer. Drag rows to reorder."
+          action={
+            <button
+              type="button"
+              onClick={() =>
+                setData((prev) => ({
+                  ...prev,
+                  badges: [...prev.badges, { id: makeId(), image: null, alt: "", link: "" }],
+                }))
+              }
+              className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-2 text-xs font-semibold text-[#0B0F29] transition-colors hover:border-[#D4AF37]"
+            >
+              <Plus className="h-3.5 w-3.5" /> Add footer logo
+            </button>
+          }
         >
-          <Save className="h-4 w-4" />
-          {isSaving ? "Saving…" : "Save Changes"}
-        </button>
+          {data.badges.length === 0 ? (
+            <div className="flex flex-col items-center gap-2 rounded-2xl bg-[#FAFAFC] px-6 py-10 text-center">
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-gray-400 ring-1 ring-gray-100">
+                <Award className="h-5 w-5" />
+              </span>
+              <p className="text-sm font-semibold text-[#0B0F29]">No footer logos yet</p>
+              <p className="text-xs text-gray-400">
+                Add partner, certificate, or award logos to display in the footer.
+              </p>
+            </div>
+          ) : (
+            <div className="-m-6 divide-y divide-gray-100">
+              {data.badges.map((badge, index) => {
+                const isDragging = draggedBadgeId === badge.id;
+                const canDrag = data.badges.length > 1;
+
+                return (
+                  <div key={badge.id}>
+                    {dropTarget?.id === badge.id && dropTarget.position === "before" && (
+                      <div className="pointer-events-none h-0.5 bg-[#D4AF37] shadow-[0_0_8px_rgba(212,175,55,0.7)]" />
+                    )}
+                    <div
+                      draggable={canDrag}
+                      onDragStart={(e) => {
+                        e.dataTransfer.effectAllowed = "move";
+                        e.dataTransfer.setData("text/plain", badge.id);
+                        setDraggedBadgeId(badge.id);
+                      }}
+                      onDragOver={(e) => {
+                        if (!draggedBadgeId || draggedBadgeId === badge.id) return;
+                        e.preventDefault();
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        const position: "before" | "after" =
+                          e.clientY < rect.top + rect.height / 2 ? "before" : "after";
+                        setDropTarget((prev) =>
+                          prev?.id === badge.id && prev.position === position
+                            ? prev
+                            : { id: badge.id, position },
+                        );
+                      }}
+                      onDrop={(e) => {
+                        if (!draggedBadgeId) return;
+                        e.preventDefault();
+                        const position =
+                          dropTarget?.id === badge.id ? dropTarget.position : "before";
+                        const fromId = draggedBadgeId;
+                        setDraggedBadgeId(null);
+                        setDropTarget(null);
+                        reorderBadges(fromId, badge.id, position);
+                      }}
+                      onDragEnd={() => {
+                        setDraggedBadgeId(null);
+                        setDropTarget(null);
+                      }}
+                      className={`group flex flex-col gap-4 px-6 py-5 transition-colors md:flex-row md:items-start ${
+                        isDragging ? "bg-amber-50/40 opacity-50" : "hover:bg-[#FAFAFC]"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 pt-1">
+                        <span
+                          title={canDrag ? "Drag to reorder" : undefined}
+                          className={`text-gray-300 transition-colors ${
+                            canDrag
+                              ? "cursor-grab opacity-0 group-hover:opacity-100 hover:text-gray-500 active:cursor-grabbing"
+                              : "opacity-0"
+                          }`}
+                        >
+                          <GripVertical className="h-4 w-4" />
+                        </span>
+                        <span className="w-5 text-sm font-medium text-gray-500 tabular-nums">
+                          {index + 1}
+                        </span>
+                      </div>
+
+                      <div className="md:w-80">
+                        <LogoUploadSubCard
+                          badgeIcon={Award}
+                          badgeLabel={`Badge ${index + 1}`}
+                          badgeColor="text-[#B8932A]"
+                          title={`Footer Logo ${index + 1}`}
+                          helperText="Displayed at the bottom of the website footer."
+                          value={badge.image}
+                          onChange={(image) => updateBadge(badge.id, { image })}
+                        />
+                      </div>
+
+                      <div className="grid flex-1 gap-3">
+                        <InputField
+                          label="Name (for screen readers)"
+                          value={badge.alt}
+                          onChange={(e) => updateBadge(badge.id, { alt: e.target.value })}
+                          placeholder="e.g. Women Owned business"
+                        />
+                        <InputField
+                          label="Opens link (optional)"
+                          type="url"
+                          value={badge.link}
+                          onChange={(e) => updateBadge(badge.id, { link: e.target.value })}
+                          placeholder="https://…"
+                        />
+                      </div>
+
+                      <button
+                        type="button"
+                        title="Remove"
+                        aria-label={`Remove logo ${index + 1}`}
+                        onClick={() =>
+                          setData((prev) => ({
+                            ...prev,
+                            badges: prev.badges.filter((b) => b.id !== badge.id),
+                          }))
+                        }
+                        className={`${boxedActionButton} self-end text-gray-400 hover:border-red-200 hover:bg-red-50 hover:text-red-500 md:mt-2 md:self-start`}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                    {dropTarget?.id === badge.id && dropTarget.position === "after" && (
+                      <div className="pointer-events-none h-0.5 bg-[#D4AF37] shadow-[0_0_8px_rgba(212,175,55,0.7)]" />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </SectionCard>
+
+        {/* Sticky full-width Save Changes bar */}
+        <div className="sticky bottom-4 z-30">
+          <button
+            type="button"
+            onClick={save}
+            disabled={isSaving}
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#0B0F29] py-3.5 text-sm font-bold text-white shadow-[0_10px_28px_rgba(11,15,41,0.22)] transition-all hover:bg-black hover:shadow-[0_10px_28px_rgba(212,175,55,0.3)] disabled:opacity-50"
+          >
+            <Save className="h-4 w-4" />
+            {isSaving ? "Saving…" : "Save Changes"}
+          </button>
+        </div>
+      </div>
+
+      <div id="growth-cta" className="scroll-mt-6">
+        <GrowthCTA />
       </div>
     </section>
   );

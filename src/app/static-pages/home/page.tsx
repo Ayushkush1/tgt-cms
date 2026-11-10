@@ -9,7 +9,7 @@ import { WorkShowcase } from "./components/WorkShowcase";
 import { GrowthProcess } from "./components/GrowthProcess";
 import { Testimonials } from "./components/Testimonials";
 import { Insights } from "./components/Insights";
-import { GrowthCTA } from "./components/GrowthCTA";
+import { GlobalSectionRef } from "@/app/components/GlobalSectionRef";
 import { StickyCTA } from "./components/StickyCTA";
 
 export default function HomeCMSPage() {
@@ -28,7 +28,10 @@ export default function HomeCMSPage() {
       <GrowthProcess />
       <Testimonials />
       <Insights />
-      <GrowthCTA />
+      <GlobalSectionRef
+        title="Growth CTA & Brief Modal"
+        description="Let's Talk CTA section, office timezone clocks, and project brief modal copy (shared globally across the site)."
+      />
       <StickyCTA />
     </section>
   );
