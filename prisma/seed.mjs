@@ -67,6 +67,7 @@ async function seedContent() {
   const globalConfig = read("global-config").map((row) => ({
     ...row,
     socialLinks: jsonOrDbNull(row.socialLinks),
+    footer: jsonOrDbNull(row.footer ?? null),
   }));
   const pages = read("pages").map((row) => ({
     ...row,

@@ -9,7 +9,6 @@ import { OurPartnersSection } from "@/components/cms/sections/OurPartnersSection
 import { BlogSection } from "@/components/cms/sections/BlogSection";
 import { OurReputationSection } from "@/components/cms/sections/OurReputationSection";
 import EnquirySection from "./components/EnquirySection";
-import FooterCMS from "../components/FooterCMS";
 import TrustedBySection from "../components/TrustedBySection";
 
 export default function HomeCMSPage() {
@@ -29,7 +28,6 @@ export default function HomeCMSPage() {
       <OurReputationSection />
       <OurPartnersSection />
       <EnquirySection />
-      <FooterCMS />
     </section>
   );
 }

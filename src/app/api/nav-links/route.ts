@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../lib/prisma";
 import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
+import { isNavPlacement } from "@/lib/navPlacement";
 
 export async function GET() {
   try {
@@ -29,6 +30,8 @@ export async function POST(request: Request) {
         description: data.description,
         title: data.title,
         isStatic: data.isStatic || false,
+        // Falls back to the column default ("navbar") when no valid choice is sent
+        ...(isNavPlacement(data.placement) && { placement: data.placement }),
       },
     });
 

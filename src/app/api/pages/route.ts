@@ -1,9 +1,19 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../lib/prisma";
 import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
+import { isNavPlacement } from "@/lib/navPlacement";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    // ?list=1: just titles and slugs (for pickers), without the MBs of section content
+    if (new URL(request.url).searchParams.get("list") === "1") {
+      const list = await prisma.page.findMany({
+        select: { id: true, title: true, slug: true, type: true },
+        orderBy: { title: "asc" },
+      });
+      return NextResponse.json({ success: true, data: list });
+    }
+
     const pages = await prisma.page.findMany({
       include: {
         sections: {
@@ -57,10 +67,18 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { title, type = "standard" } = await request.json();
+    const { title, type = "standard", placement } = await request.json();
 
     if (!title) {
       return NextResponse.json({ success: false, error: "Title is required" }, { status: 400 });
+    }
+
+    // Where the new page's link is shown on the website: navbar, footer or both
+    if (!isNavPlacement(placement)) {
+      return NextResponse.json(
+        { success: false, error: "Choose where to show the page link" },
+        { status: 400 },
+      );
     }
 
     // Simple slugify function
@@ -99,6 +117,7 @@ export async function POST(request: Request) {
             label: title,
             url: `/${finalSlug}`,
             type: "Main Link",
+            placement,
             order: linkCount + 1,
           },
         });

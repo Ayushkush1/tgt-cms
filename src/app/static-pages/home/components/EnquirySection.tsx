@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { fetchWithCache } from "@/lib/apiCache";
 import toast from "react-hot-toast";
+import Link from "next/link";
 import { InputField } from "@/components/InputField";
 import { SaveButton } from "@/components/SaveButton";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -50,8 +51,6 @@ export default function EnquirySection() {
       ["upperTag", "Upper Tag"],
       ["headlinePart1", "Headline (Part 1)"],
       ["introDescription", "Intro Description"],
-      ["email", "Email Address"],
-      ["phone", "Phone Number"],
       ["submitButtonText", "Submit Button Text"],
     ];
     const errs = required
@@ -153,33 +152,14 @@ export default function EnquirySection() {
               <h1 className="col-span-2 mt-4 text-base font-bold text-gray-500">
                 Contact Information
               </h1>
-              <InputField
-                label="Email Address"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="e.g. hello@thegoldtech.com"
-                containerClassName="col-span-1"
-                required
-              />
-              <InputField
-                label="Phone Number"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="e.g. +1 (555) 123-4567"
-                containerClassName="col-span-1"
-                required
-              />
-              <TextAreaField
-                label="Physical Address"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                placeholder="e.g. 123 Innovation Dr, Tech City, CA"
-                containerClassName="col-span-2"
-                rows={2}
-              />
+              {/* Email, phone & address are global: set once in Social Media & Footer */}
+              <p className="col-span-2 rounded-xl border border-amber-200/70 bg-[#FFFDF4] px-4 py-3 text-sm text-[#8a6d1f]">
+                The email, phone number and address shown here come from{" "}
+                <Link href="/navigation/social-media" className="font-semibold underline underline-offset-2">
+                  Navigation &amp; Links → Social Media &amp; Footer
+                </Link>
+                , so they are the same everywhere on the website.
+              </p>
 
               <h1 className="col-span-2 mt-4 text-base font-bold text-gray-500">
                 Form Configuration

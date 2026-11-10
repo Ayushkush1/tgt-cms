@@ -73,8 +73,15 @@ export default function GlobalSEOPage() {
       const faviconUrl = faviconUrls[0] || null;
 
       // 2. Prepare payload
+      // Social links & footer belong to Navigation & Links → Social Media & Footer:
+      // leave them out so saving SEO never overwrites them
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { socialLinks, footer, ...seoSettings } = formData as typeof formData & {
+        socialLinks?: unknown;
+        footer?: unknown;
+      };
       const payload = {
-        ...formData,
+        ...seoSettings,
         favicon: faviconUrl,
       };
 

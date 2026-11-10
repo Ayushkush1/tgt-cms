@@ -32,11 +32,27 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { config } = body;
 
-    console.log("PUT /api/seo/global - config received:", JSON.stringify(config, null, 2));
-
     if (!config) {
       return NextResponse.json(
         { success: false, error: "Config data is required" },
+        { status: 400 },
+      );
+    }
+
+    // Fields left out of `config` are not changed (Prisma skips undefined), so the
+    // SEO page and the Social Media & Footer page each save only their own settings.
+    if (config.socialLinks !== undefined && !Array.isArray(config.socialLinks)) {
+      return NextResponse.json(
+        { success: false, error: "socialLinks must be an array" },
+        { status: 400 },
+      );
+    }
+    if (
+      config.footer !== undefined &&
+      (typeof config.footer !== "object" || config.footer === null || Array.isArray(config.footer))
+    ) {
+      return NextResponse.json(
+        { success: false, error: "footer must be an object" },
         { status: 400 },
       );
     }
@@ -53,6 +69,7 @@ export async function PUT(request: Request) {
         customHeaderScripts: config.customHeaderScripts,
         customFooterScripts: config.customFooterScripts,
         socialLinks: config.socialLinks,
+        footer: config.footer,
         canonicalOrdering: config.canonicalOrdering,
         sitemapEnabled: config.sitemapEnabled,
         sitemapCustomContent: config.sitemapCustomContent,
@@ -70,6 +87,7 @@ export async function PUT(request: Request) {
         customHeaderScripts: config.customHeaderScripts,
         customFooterScripts: config.customFooterScripts,
         socialLinks: config.socialLinks,
+        footer: config.footer,
         canonicalOrdering: config.canonicalOrdering,
         sitemapEnabled: config.sitemapEnabled !== undefined ? config.sitemapEnabled : true,
         sitemapCustomContent: config.sitemapCustomContent,
