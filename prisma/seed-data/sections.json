@@ -809,1524 +809,6 @@
     "updatedAt": "2026-04-07T09:56:45.411Z"
   },
   {
-    "id": "8e37d479-fbd3-4505-a3e7-d2dba1ae6c40",
-    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
-    "type": "custom-software-development",
-    "content": {
-      "seo": {
-        "noIndex": false,
-        "metaTitle": "Custom Software Development Services | Tailored Enterprise Solutions - TGT",
-        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/custom-software-development",
-        "targetKeywords": "custom software development, enterprise software solutions, dedicated development team, software integration services, SaaS development, software consulting",
-        "metaDescription": "Get tailored software solutions for your unique business needs. We specialize in custom enterprise applications, software integration, and scalable architecture."
-      },
-      "hero": {
-        "label": " Our Services ",
-        "ctaHref": "/contactUs",
-        "ctaText": "Get started",
-        "pillars": [
-          {
-            "desc": "Custom-built software designed specifically for your business processes and requirements.\n",
-            "title": "Tailored Solutions",
-            "number": "01"
-          },
-          {
-            "desc": "Robust, secure, and scalable applications built to handle complex business needs.",
-            "title": "Enterprise-Grade",
-            "number": "02"
-          },
-          {
-            "desc": "Streamline workflows and automate repetitive tasks to boost productivity and efficiency.\n",
-            "title": "Process Automation",
-            "number": "03"
-          },
-          {
-            "desc": "Continuous maintenance, updates, and enhancements to keep your software current and optimised.",
-            "title": "Ongoing Support",
-            "number": "04"
-          }
-        ],
-        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774936713696-banner-65b137c0c22a5-1706112960.webp",
-        "statSince": "",
-        "paragraphs": [
-          "We build tailored software solutions that fit your unique business processes. From enterprise applications to workflow automation and internal tools, we create custom software that streamlines operations and drives efficiency.",
-          "Our team analyses your requirements, designs scalable architectures, and delivers robust solutions using modern technologies and best practices. Your dedicated partner for custom software that grows with your business."
-        ],
-        "headingLine1": "Custom Software Development",
-        "headingLine2": "",
-        "statProjects": ""
-      },
-      "services": [
-        {
-          "tags": [
-            "ENTERPRISE",
-            "B2B SOLUTIONS",
-            "SCALABILITY",
-            "COMPLIANCE"
-          ],
-          "title": "Enterprise Software Engineering",
-          "number": "01",
-          "outcome": "Substantial overhead reduction and unified access across the whole enterprise.",
-          "category": "Corporate · Scaling",
-          "description": "Engineering highly complex, bespoke enterprise software capable of standardizing multi-department operations and handling millions of computational subsets."
-        },
-        {
-          "tags": [
-            "REFACTORING",
-            "MIGRATION",
-            "TECH DEBT",
-            "MICROSERVICES"
-          ],
-          "title": "Legacy System Modernization",
-          "number": "02",
-          "outcome": "Future-proofed architecture prepared entirely for modern integration standards.",
-          "category": "Refactoring · Upgrades",
-          "description": "Auditing and migrating outdated, monolithic legacy systems into highly decoupled microservices running on modern cloud infrastructure."
-        },
-        {
-          "tags": [
-            "ERP",
-            "CRM",
-            "AUTOMATION",
-            "RESOURCE MANAGEMENT"
-          ],
-          "title": "Custom CRM & ERP Solutions",
-          "number": "03",
-          "outcome": "A centralized command dashboard automating daily administrative burdens.",
-          "category": "Management · Automation",
-          "description": "Building proprietary Customer Relationship Management (CRM) or Enterprise Resource Planning (ERP) systems specifically modeled around your unique workflows."
-        },
-        {
-          "tags": [
-            "SAAS",
-            "MULTITENANCY",
-            "AWS / CLOUD",
-            "MONETIZATION"
-          ],
-          "title": "SaaS Product Development",
-          "number": "04",
-          "outcome": "A fully launched, highly-secure SaaS product ready to generate recurring revenue.",
-          "category": "Cloud · Subscriptions",
-          "description": "Developing scalable, multitenant Software-as-a-Service (SaaS) platforms from foundational concept through to revenue-generating subscription models."
-        },
-        {
-          "tags": [
-            "REST / SOAP",
-            "PAYMENT GATEWAYS",
-            "WEBHOOKS",
-            "MIDDLEWARE"
-          ],
-          "title": "Third-Party API Integrations",
-          "number": "05",
-          "outcome": "A unified digital ecosystem functioning synchronously without manual data entry.",
-          "category": "Connectivity · Web",
-          "description": "Seamlessly connecting your custom software with disparate external systems, payment providers, legacy databases, or marketing tools through rigorous API bridges."
-        },
-        {
-          "tags": [
-            "CI/CD",
-            "DOCKER",
-            "KUBERNETES",
-            "AUTOMATION"
-          ],
-          "title": "DevOps & Continuous Delivery",
-          "number": "06",
-          "outcome": "The ability to deploy software updates multiple times daily with zero downtime.",
-          "category": "Infrastructure · CI/CD",
-          "description": "Implementing automated testing, deployment pipelines, and sophisticated containerization (Docker/Kubernetes) to ensure rapid, error-free update cycles."
-        }
-      ],
-      "servicesHeader": {
-        "title": "Services That",
-        "upperTag": "What We Do",
-        "titleHighlight": "Drive Results"
-      }
-    },
-    "order": 0,
-    "createdAt": "2026-03-12T10:48:45.946Z",
-    "updatedAt": "2026-06-17T07:57:27.721Z"
-  },
-  {
-    "id": "2bb39594-ab89-4a6b-bfd5-8ff6c0875935",
-    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
-    "type": "iot-solutions",
-    "content": {
-      "seo": {
-        "noIndex": false,
-        "metaTitle": "IOT Solutions | Smart Connectivity & Automation - TGT",
-        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/iot-solutions",
-        "targetKeywords": "IoT solutions, internet of things development, smart device connectivity, industrial IoT, automation services, sensor integration",
-        "metaDescription": "Connect your world with innovative IoT solutions. We develop smart device connectivity, real-time monitoring systems, and industrial automation tools."
-      },
-      "hero": {
-        "label": "Our Services",
-        "ctaHref": "/contactUs",
-        "ctaText": "Start your IoT project",
-        "pillars": [
-          {
-            "desc": "Seamless connectivity between sensors, devices, and platforms.",
-            "title": "Smart Device Integration",
-            "number": "01"
-          },
-          {
-            "desc": "Track performance and data instantly with intelligent dashboards.",
-            "title": "Real-Time Monitoring",
-            "number": "02"
-          },
-          {
-            "desc": "Reliable infrastructure built for large-scale connected environments.",
-            "title": "Secure & Scalable Systems",
-            "number": "03"
-          },
-          {
-            "desc": "Optimise operations and reduce manual effort through smart automation.",
-            "title": "Automation & Efficiency",
-            "number": "04"
-          }
-        ],
-        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774936904212-banner-67a5ea5d95363-1738926685.webp",
-        "statSince": "",
-        "paragraphs": [
-          "We design and develop smart IoT solutions that connect devices, collect data, and automate processes in real time. From industrial automation to smart homes and connected products, we turn physical systems into intelligent digital ecosystems.",
-          "Our IoT services include device integration, cloud connectivity, data analytics, and secure infrastructure — enabling you to monitor, control, and optimise operations from anywhere. Your trusted partner for building connected technology solutions."
-        ],
-        "headingLine1": " IoT Solutions",
-        "headingLine2": "",
-        "statProjects": ""
-      },
-      "services": [
-        {
-          "tags": [
-            "SYSTEM ARCHITECTURE",
-            "HARDWARE PROTOCOLS",
-            "SENSORS",
-            "STRATEGY"
-          ],
-          "title": "IoT Architecture Consulting",
-          "number": "01",
-          "outcome": "A fault-tolerant technical blueprint ready for full-scale IoT implementation.",
-          "category": "Strategy · Hardware",
-          "description": "Designing the full technical infrastructure and communication protocols bridging physical hardware endpoints securely with centralized cloud networks."
-        },
-        {
-          "tags": [
-            "MQTT / COAP",
-            "EDGE COMPUTING",
-            "FIRMWARE",
-            "SENSORS"
-          ],
-          "title": "Smart Device Integration",
-          "number": "02",
-          "outcome": "Flawless communication latency between disjointed physical devices.",
-          "category": "Connectivity · Protocols",
-          "description": "Programming seamless edge integration utilizing MQTT, CoAP, and HTTP ensuring immediate biometric or mechanical sensor logic pushes over the wire."
-        },
-        {
-          "tags": [
-            "PREVENTATIVE MAINTENANCE",
-            "SENSORS",
-            "MANUFACTURING",
-            "IIOT"
-          ],
-          "title": "Industrial IoT (IIoT)",
-          "number": "03",
-          "outcome": "Total eradication of unpredictable and catastrophic factory downtime occurrences.",
-          "category": "Manufacturing · Automation",
-          "description": "Deploying ruggedized sensors directly into factory automation arrays allowing real-time preventative maintenance checks and assembly-line oversight."
-        },
-        {
-          "tags": [
-            "ENCRYPTION",
-            "OTA UPDATES",
-            "ENDPOINT SECURITY",
-            "DEFENSE"
-          ],
-          "title": "IoT Security & Encryption",
-          "number": "04",
-          "outcome": "A heavily fortified IoT botnet resistant wholly against external malicious hijacking.",
-          "category": "Defense · Cybersecurity",
-          "description": "Locking down vulnerability vectors by enforcing strict endpoint authentication, end-to-end payload encryption, and over-the-air (OTA) update security."
-        },
-        {
-          "tags": [
-            "HOME AUTOMATION",
-            "MOBILE INTEGRATION",
-            "SMART APPLIANCES",
-            "B2C"
-          ],
-          "title": "Consumer Smart Applications",
-          "number": "05",
-          "outcome": "A powerful, native-feeling control grid directly at the consumer's fingertips.",
-          "category": "Home · Automation",
-          "description": "Developing highly polished mobile interfaces allowing retail consumers to remotely command lighting, temperature, or appliances securely from afar."
-        },
-        {
-          "tags": [
-            "TELEMETRY",
-            "CLOUD INGESTION",
-            "BIG DATA",
-            "AGGREGATION"
-          ],
-          "title": "IoT Data Aggregation",
-          "number": "06",
-          "outcome": "Clear visibility into physical parameters traditionally rendered completely invisible.",
-          "category": "Analytics · Cloud",
-          "description": "Channeling telemetry from millions of distributed hardware endpoints directly into centralized databases to formulate deep physical insights."
-        }
-      ],
-      "servicesHeader": {
-        "title": "Services That",
-        "upperTag": "What We Do",
-        "titleHighlight": "Drive Results"
-      }
-    },
-    "order": 0,
-    "createdAt": "2026-03-12T11:44:18.358Z",
-    "updatedAt": "2026-06-17T07:57:09.002Z"
-  },
-  {
-    "id": "209dc10c-2651-4585-a8a4-a212761c3d32",
-    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
-    "type": "accessibility-services",
-    "content": {
-      "seo": {
-        "noIndex": false,
-        "metaTitle": "Accessibility Services | WCAG Compliance & Inclusive Design - TGT",
-        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/accessibility-services",
-        "targetKeywords": "web accessibility services, inclusive design, WCAG compliance, accessibility audit, ADA compliance, digital accessibility solutions",
-        "metaDescription": "Ensure your digital presence is accessible to everyone. TGT provides accessibility audits, inclusive design, and WCAG compliance services for websites and apps."
-      },
-      "hero": {
-        "label": "Our Services",
-        "ctaHref": "/contactUs",
-        "ctaText": "Make it accessible",
-        "pillars": [
-          {
-            "desc": "Audit and remediation to meet WCAG 2.1 AA standards for accessibility compliance.",
-            "title": "WCAG Compliance",
-            "number": "01"
-          },
-          {
-            "desc": "Comprehensive testing with screen readers, keyboard navigation, and assistive technologies.",
-            "title": "Testing & Validation",
-            "number": "02"
-          },
-          {
-            "desc": "Design and development practices that prioritise accessibility from the start.",
-            "title": "Inclusive Design",
-            "number": "03"
-          },
-          {
-            "desc": "Continuous monitoring and updates to maintain accessibility as your product evolves.",
-            "title": "Ongoing Support",
-            "number": "04"
-          }
-        ],
-        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773315297877-aboutus.webp",
-        "statSince": "",
-        "paragraphs": [
-          "We make your digital products accessible to everyone. From WCAG compliance audits to remediation and ongoing support, we ensure your websites and applications are usable by people with disabilities.",
-          "Our team combines accessibility expertise with technical implementation — we audit, fix, and test to meet WCAG 2.1 AA standards. We help you reach more users, reduce legal risk, and build inclusive digital experiences. Your dedicated partner for accessibility."
-        ],
-        "headingLine1": " Accessibility Services",
-        "headingLine2": "",
-        "statProjects": ""
-      },
-      "services": [
-        {
-          "tags": [
-            "WCAG 2.1",
-            "COMPLIANCE",
-            "MANUAL AUDIT",
-            "REPORTING"
-          ],
-          "title": "WCAG 2.1 Compliance Auditing",
-          "number": "01",
-          "outcome": "A definitive compliance roadmap actively shielding the business from liability.",
-          "category": "Auditing · Legal",
-          "description": "Conducting rigorous manual and automated audits against Web Content Accessibility Guidelines (WCAG) to identify critical accessibility barriers."
-        },
-        {
-          "tags": [
-            "ARIA LABELS",
-            "VOICEOVER",
-            "NVDA",
-            "SEMANTIC HTML"
-          ],
-          "title": "Screen Reader Optimization",
-          "number": "02",
-          "outcome": "A flawless browsing experience for visually impaired users.",
-          "category": "Assistive Tech · Code",
-          "description": "Refactoring HTML structures and implementing precise ARIA attributes ensuring seamless navigation for users utilizing VoiceOver, NVDA, or JAWS."
-        },
-        {
-          "tags": [
-            "COLOR CONTRAST",
-            "FOCUS STATES",
-            "TYPOGRAPHY",
-            "INCLUSIVE DESIGN"
-          ],
-          "title": "Accessible UI/UX Remediation",
-          "number": "03",
-          "outcome": "A beautiful application natively usable by individuals with varying visual abilities.",
-          "category": "Design · Contrast",
-          "description": "Redesigning visual interfaces to guarantee AA/AAA color contrast ratios, distinct focus states, and scalable typography without compromising aesthetics."
-        },
-        {
-          "tags": [
-            "KEYBOARD SCROLL",
-            "TAB ORDER",
-            "MOTOR ACCESSIBILITY",
-            "SKIP LINKS"
-          ],
-          "title": "Keyboard Navigation Enhancements",
-          "number": "04",
-          "outcome": "Unrestricted digital access empowering users relying solely on keyboard control.",
-          "category": "Interaction · Motor",
-          "description": "Engineering strict logical tab orders and custom 'skip-to-content' links allowing users with motor disabilities to navigate intuitively without a mouse."
-        },
-        {
-          "tags": [
-            "CLOSED CAPTIONS",
-            "TRANSCRIPTS",
-            "ACCESSIBLE PDFS",
-            "MEDIA"
-          ],
-          "title": "Document & Media Accessibility",
-          "number": "05",
-          "outcome": "Universal content consumption regardless of auditory or situational constraints.",
-          "category": "Content · Subtitles",
-          "description": "Ensuring all auxiliary content meets strict accessibility standards by providing closed captions, descriptive video transcripts, and fully accessible PDF tagging."
-        },
-        {
-          "tags": [
-            "CI/CD PIPELINE",
-            "REGRESSION TESTING",
-            "AUTOMATION",
-            "MONITORING"
-          ],
-          "title": "Continuous Accessibility Monitoring",
-          "number": "06",
-          "outcome": "Long-term, flawless accessibility preservation across all future updates.",
-          "category": "Maintenance · Automation",
-          "description": "Integrating automated accessibility regression testing directly into CI/CD pipelines to ensure future code deployments never break strict compliance standards."
-        }
-      ],
-      "servicesHeader": {
-        "title": "Services That",
-        "upperTag": "What We Do",
-        "titleHighlight": "Drive Results"
-      }
-    },
-    "order": 0,
-    "createdAt": "2026-03-12T11:35:04.060Z",
-    "updatedAt": "2026-06-17T07:57:15.537Z"
-  },
-  {
-    "id": "c21e3f83-185d-4a58-9a30-12f9a13629c1",
-    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
-    "type": "website-design-development",
-    "content": {
-      "seo": {
-        "noIndex": false,
-        "metaTitle": "Website Design & Development Services | Custom Web Solutions - TGT",
-        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/website-design-development",
-        "targetKeywords": "website design services, web development company, custom web development, responsive web design, Next.js development, React web design, e-commerce development",
-        "metaDescription": "Professional website design and development services. We build responsive, high-performance, and visually stunning websites tailored to your business goals."
-      },
-      "hero": {
-        "label": "Our Services",
-        "ctaHref": "/contactUs",
-        "ctaText": "Start your project",
-        "pillars": [
-          {
-            "desc": "Websites that look and perform beautifully across all devices and screen sizes.",
-            "title": "Responsive & Modern",
-            "number": "01"
-          },
-          {
-            "desc": "Fast load times and search-friendly structure to help you reach more customers.",
-            "title": "Performance & SEO",
-            "number": "02"
-          },
-          {
-            "desc": "Clean, maintainable code and scalable architecture for long-term growth.",
-            "title": "Scalable Development",
-            "number": "03"
-          },
-          {
-            "desc": "Your goals and timeline drive the process — we deliver on scope and quality.",
-            "title": "Client-Centric Delivery",
-            "number": "04"
-          }
-        ],
-        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774869149060-banner-674d80ca59188-1733132490.webp",
-        "statSince": "",
-        "paragraphs": [
-          "We build modern, fast, and scalable websites that drive growth. From responsive corporate sites to e-commerce and web applications, we combine clean design with robust development to deliver high-performing digital experiences.",
-          "Our team uses proven technologies and best practices — responsive layouts, performance optimisation, and SEO foundations — so your site looks great on every device and ranks well. Your dedicated partner for web design and development."
-        ],
-        "headingLine1": "Website Design & Development",
-        "headingLine2": "",
-        "statProjects": ""
-      },
-      "services": [
-        {
-          "tags": [
-            "REACT",
-            "NEXT.JS",
-            "NODE.JS",
-            "SCALABILITY"
-          ],
-          "title": "Custom Web Application Development",
-          "number": "01",
-          "outcome": "A proprietary web app that dramatically streamlines organizational workflows.",
-          "category": "Development · Solutions",
-          "description": "We build tailored, scalable, and secure web applications designed specifically to resolve complex business logic and accelerate daily operations."
-        },
-        {
-          "tags": [
-            "SINGLE PAGE APPS",
-            "VUE",
-            "TAILWIND CSS",
-            "OPTIMIZATION"
-          ],
-          "title": "Frontend Engineering & SPAs",
-          "number": "02",
-          "outcome": "An instant-loading application interface drastically improving user retention.",
-          "category": "Interface · Performance",
-          "description": "Delivering blazing-fast, responsive Single Page Applications (SPAs) that offer native-like smoothness and engaging visual fidelity for end-users."
-        },
-        {
-          "tags": [
-            "SHOPIFY PLUS",
-            "WOOCOMMERCE",
-            "STRIPE",
-            "CONVERSION"
-          ],
-          "title": "E-Commerce Platforms",
-          "number": "03",
-          "outcome": "A high-converting digital storefront handling high traffic scaling.",
-          "category": "Retail · Conversion",
-          "description": "End-to-end development of bespoke online storefronts, featuring secure payment gateways, inventory management, and intuitive cart behaviors."
-        },
-        {
-          "tags": [
-            "GRAPHQL",
-            "POSTGRESQL",
-            "REST APIS",
-            "MICROSERVICES"
-          ],
-          "title": "Backend & API Architecture",
-          "number": "04",
-          "outcome": "A reliable, high-availability data foundation for enterprise operations.",
-          "category": "Infrastructure · Data",
-          "description": "Constructing robust backend systems, RESTful and GraphQL APIs, and databases capable of seamlessly handling vast amounts of secure transactional data."
-        },
-        {
-          "tags": [
-            "HEADLESS CMS",
-            "WORDPRESS",
-            "SANITY",
-            "CONTENT STRATEGY"
-          ],
-          "title": "CMS Integration & Migration",
-          "number": "05",
-          "outcome": "Total editorial control over your content without needing developer assistance.",
-          "category": "Content · Management",
-          "description": "Implementing powerful Content Management Systems (like WordPress, Sanity, or custom Headless solutions) empowering you to seamlessly update website content."
-        },
-        {
-          "tags": [
-            "SECURITY AUDITS",
-            "SLA SUPPORT",
-            "CLOUD METRICS",
-            "SSL"
-          ],
-          "title": "Maintenance & Platform Security",
-          "number": "06",
-          "outcome": "Absolute peace of mind knowing the website is consistently secure and online.",
-          "category": "Support · Reliability",
-          "description": "Continuous performance audits, security patches, framework updates, and proactive server monitoring to ensure 99.9% uptime and data privacy."
-        }
-      ],
-      "servicesHeader": {
-        "title": "Services That",
-        "upperTag": "What We Do",
-        "titleHighlight": "Drive Results"
-      }
-    },
-    "order": 0,
-    "createdAt": "2026-03-12T11:28:53.879Z",
-    "updatedAt": "2026-06-17T07:57:13.490Z"
-  },
-  {
-    "id": "62b05a19-361e-4142-aa17-0c1a5dbc5b98",
-    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
-    "type": "ai-ml-solutions",
-    "content": {
-      "seo": {
-        "noIndex": false,
-        "metaTitle": "AI & ML Solutions | Advanced Algorithms & Intelligence - TGT",
-        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/ai-ml-solutions",
-        "targetKeywords": "AI development services, machine learning solutions, predictive modeling, artificial intelligence for business, automation using AI, model training",
-        "metaDescription": "Leverage AI and Machine Learning to stay ahead. We build predictive models, recommendation engines, and automated intelligence systems for modern businesses."
-      },
-      "hero": {
-        "label": "Our Services",
-        "ctaHref": "/contactUs",
-        "ctaText": "Start your AI project",
-        "pillars": [
-          {
-            "desc": "Automate repetitive tasks and workflows using smart AI-driven systems.",
-            "title": "Intelligent Automation",
-            "number": "01"
-          },
-          {
-            "desc": "Transform raw data into actionable insights with advanced analytics.",
-            "title": "Data-Driven Insights",
-            "number": "02"
-          },
-          {
-            "desc": "Robust and scalable machine learning models for long-term performance.",
-            "title": "Scalable AI Models",
-            "number": "03"
-          },
-          {
-            "desc": "Tailored AI solutions are integrated seamlessly into your business processes.",
-            "title": "Custom AI Integration",
-            "number": "04"
-          }
-        ],
-        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774936926543-banner-67593798aa675-1733900184.webp",
-        "statSince": "",
-        "paragraphs": [
-          "We build intelligent AI and Machine Learning solutions that help businesses automate processes, gain insights, and make smarter decisions. From predictive analytics to natural language processing, we turn data into powerful digital assets.",
-          "Our team designs scalable AI systems using modern frameworks and cloud technologies — ensuring accuracy, performance, and seamless integration with your existing platforms. Your trusted partner for AI-driven innovation."
-        ],
-        "headingLine1": "AI & ML Solutions",
-        "headingLine2": "",
-        "statProjects": ""
-      },
-      "services": [
-        {
-          "tags": [
-            "SUPERVISED LEARNING",
-            "CLASSIFICATION",
-            "NEURAL NETWORKS",
-            "TRAINING"
-          ],
-          "title": "Custom Machine Learning Models",
-          "number": "01",
-          "outcome": "A fully proprietary AI engine uniquely wired exclusively to solve your specific niche.",
-          "category": "Algorithms · Training",
-          "description": "Training bespoke Machine Learning algorithms natively using your proprietary datasets to classify, parse, or identify entirely unique enterprise logic parameters."
-        },
-        {
-          "tags": [
-            "NLP",
-            "SENTIMENT ANALYSIS",
-            "TEXT PARSING",
-            "CHATBOTS"
-          ],
-          "title": "Natural Language Processing (NLP)",
-          "number": "02",
-          "outcome": "The ability to instantaneously digest millions of user reviews or conversational logs.",
-          "category": "Linguistics · Logic",
-          "description": "Implementing NLP algorithms to comprehend, parse, translate, and autonomously synthesize profound lengths of human text into structured analytical data."
-        },
-        {
-          "tags": [
-            "OPENAI API",
-            "GENERATIVE AI",
-            "LLMS",
-            "PROMPT ENGINEERING"
-          ],
-          "title": "Generative AI Integration",
-          "number": "03",
-          "outcome": "A massively scaled, hyper-intelligent automation capability previously impossible.",
-          "category": "LLMs · Content",
-          "description": "Connecting powerful Large Language Models directly securely to internal systems empowering instant drafting, coding, or generative problem solving."
-        },
-        {
-          "tags": [
-            "COMPUTER VISION",
-            "OCR",
-            "IMAGE RECOGNITION",
-            "AI"
-          ],
-          "title": "Computer Vision Systems",
-          "number": "04",
-          "outcome": "Complete automated categorization and verification of visual real-world assets.",
-          "category": "Visuals · Recognition",
-          "description": "Training visual AI capable of immediately identifying objects, faces, optical anomalies, or character strings (OCR) within direct live video or photographic feeds."
-        },
-        {
-          "tags": [
-            "CONVERSATIONAL AI",
-            "CUSTOMER SUPPORT",
-            "VIRTUAL ASSISTANTS",
-            "AUTOMATION"
-          ],
-          "title": "AI Chatbots & Virtual Assistants",
-          "number": "05",
-          "outcome": "Radical decreases in human support overhead while sustaining 24/7 engagement metrics.",
-          "category": "Support · Conversational",
-          "description": "Engineering extremely fluid conversational interfaces capable of managing complex Tier 1 and Tier 2 customer service inquiries synchronously at total scale."
-        },
-        {
-          "tags": [
-            "RECOMMENDATION SYSTEM",
-            "UPSELLING",
-            "BEHAVIORAL ALGORITHMS",
-            "E-COMMERCE"
-          ],
-          "title": "Recommendation & Discovery Engines",
-          "number": "06",
-          "outcome": "Exponential gains natively in consumer basket sizes and cross-sectional engagement.",
-          "category": "E-Commerce · Algorithms",
-          "description": "Scripting deep learning recommendation networks matching consumer histories directly to optimal inventory SKUs dynamically increasing vertical upselling."
-        }
-      ],
-      "servicesHeader": {
-        "title": "Services That",
-        "upperTag": "What We Do",
-        "titleHighlight": "Drive Results"
-      }
-    },
-    "order": 0,
-    "createdAt": "2026-03-12T11:47:01.629Z",
-    "updatedAt": "2026-06-17T07:57:19.192Z"
-  },
-  {
-    "id": "28f2f0cf-890c-48ae-8bf3-2fc668a3d2ff",
-    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
-    "type": "business-intelligence-solutions",
-    "content": {
-      "seo": {
-        "noIndex": false,
-        "metaTitle": "Business Intelligence Solutions | Data-Driven Insights - TGT",
-        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/business-intelligence-solutions",
-        "targetKeywords": "business intelligence services, data visualization, data analytics solutions, dashboard development, strategic insights, predictive analytics",
-        "metaDescription": "Unlock the power of your data with our BI services. We provide data visualization, advanced analytics, and strategic insights for informed decision-making."
-      },
-      "hero": {
-        "label": "Our Services",
-        "ctaHref": "/contactUs",
-        "ctaText": "Unlock insights",
-        "pillars": [
-          {
-            "desc": "Align your data, KPIs, and governance with business objectives for trustworthy insights.",
-            "title": "Data Strategy",
-            "number": "01"
-          },
-          {
-            "desc": "Interactive dashboards and reports that give stakeholders real-time visibility into performance.",
-            "title": "Dashboards & Reporting",
-            "number": "02"
-          },
-          {
-            "desc": "Connect disparate systems and consolidate data into a single, reliable source of truth.",
-            "title": "Data Integration",
-            "number": "03"
-          },
-          {
-            "desc": "Leverage forecasting and deeper analysis to identify trends and opportunities earlier.",
-            "title": "Advanced Analytics",
-            "number": "04"
-          }
-        ],
-        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774936854911-banner-674400ed0f985-1732509933.webp",
-        "statSince": "",
-        "paragraphs": [
-          "We design and implement business intelligence solutions that turn your data into clear, actionable insights. From dashboards and reporting to self-service analytics, we help your teams make better decisions, faster.",
-          "Our experts work with your existing systems to centralise data, define reliable metrics, and deliver intuitive visualisations. Your dedicated partner for BI platforms that scale with your organisation."
-        ],
-        "headingLine1": "Business Intelligence Solutions",
-        "headingLine2": "",
-        "statProjects": ""
-      },
-      "services": [
-        {
-          "tags": [
-            "DATA LAKE",
-            "ETL PROCESSES",
-            "CLOUD WAREHOUSE",
-            "AGGREGATION"
-          ],
-          "title": "Data Warehousing",
-          "number": "01",
-          "outcome": "A fully unified underlying data infrastructure primed for high-speed querying.",
-          "category": "Big Data · Storage",
-          "description": "Structuring massive, scalable data warehouses that safely aggregate disjointed enterprise data into a single source of categorical truth."
-        },
-        {
-          "tags": [
-            "DATA VISUALIZATION",
-            "DASHBOARDS",
-            "TABLEAU",
-            "POWERBI"
-          ],
-          "title": "Interactive Dashboards & Visualization",
-          "number": "02",
-          "outcome": "Immediate strategic clarity allowing executives to comprehend matrixed realities instantly.",
-          "category": "Analytics · UI",
-          "description": "Building breathtaking, real-time visual dashboards utilizing modern analytics (PowerBI, Tableau) to visually interpret extremely complex datasets."
-        },
-        {
-          "tags": [
-            "PREDICTIVE MODELS",
-            "FORECASTING",
-            "TREND ANALYSIS",
-            "BIG DATA"
-          ],
-          "title": "Predictive Analytics & Forecasting",
-          "number": "03",
-          "outcome": "The definitive absolute advantage of acting decisively before market shifts occur.",
-          "category": "Machine Learning · Future",
-          "description": "Deploying proprietary models that analyze vast historical behaviors to accurately forecast future sales trends, market downturns, and supply deficits."
-        },
-        {
-          "tags": [
-            "KPI TRACKING",
-            "REPORT AUTOMATION",
-            "PERFORMANCE",
-            "CORPORATE"
-          ],
-          "title": "Business Performance Reporting",
-          "number": "04",
-          "outcome": "Consistent, error-free oversight on the exact health of overarching enterprise initiatives.",
-          "category": "Metrics · KPIs",
-          "description": "Automating cyclic performance reports tracking granular Key Performance Indicators (KPIs) and delivering them securely across executive channels."
-        },
-        {
-          "tags": [
-            "DATA GOVERNANCE",
-            "CLEANSING",
-            "ACCURACY",
-            "COMPLIANCE"
-          ],
-          "title": "Data Cleansing & Governance",
-          "number": "05",
-          "outcome": "Complete elimination of skewed analytical decision-making caused by 'dirty data'.",
-          "category": "Integrity · Compliance",
-          "description": "Scrubbing existing datasets for corrupt, replicated, or inaccurate vectors while establishing harsh data governance and compliance protocols."
-        },
-        {
-          "tags": [
-            "DATA MINING",
-            "WEB SCRAPING",
-            "ALGORITHMIC EXTRACTION",
-            "GLOBAL DATA"
-          ],
-          "title": "Real-time Mining Strategies",
-          "number": "06",
-          "outcome": "Access to hidden market insights previously obfuscated to manual analysts.",
-          "category": "Algorithms · Insights",
-          "description": "Engineering complex algorithmic web-scrapers and data injection pipelines specifically to mine competitor strategies and external market metrics globally."
-        }
-      ],
-      "servicesHeader": {
-        "title": "Services That",
-        "upperTag": "What We Do",
-        "titleHighlight": "Drive Results"
-      }
-    },
-    "order": 0,
-    "createdAt": "2026-03-12T11:41:28.781Z",
-    "updatedAt": "2026-06-17T07:57:17.238Z"
-  },
-  {
-    "id": "fd9312b7-23c8-447d-8f6a-3877fbc099c2",
-    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
-    "type": "branding",
-    "content": {
-      "seo": {
-        "noIndex": false,
-        "metaTitle": "Branding Services | Identity Design & Creative Strategy - TGT",
-        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/branding",
-        "targetKeywords": "branding services, brand identity design, logo design, creative strategy, visual branding, brand positioning, storytelling",
-        "metaDescription": "Build a brand that resonates. TGT provides identity design, creative strategy, and visual storytelling services to help your business stand out in the market."
-      },
-      "hero": {
-        "label": "Our Services",
-        "ctaHref": "/contactUs",
-        "ctaText": "Start your branding project",
-        "pillars": [
-          {
-            "desc": "Clear positioning and messaging that defines your brand’s purpose.",
-            "title": "Brand Strategy",
-            "number": "01"
-          },
-          {
-            "desc": "Logos, colours, typography, and design systems that represent your brand.",
-            "title": "Visual Identity",
-            "number": "02"
-          },
-          {
-            "desc": "A unified brand experience across web, mobile, and marketing materials.",
-            "title": "Consistency Across Platforms",
-            "number": "03"
-          },
-          {
-            "desc": "Design that builds recognition, trust, and long-term loyalty.",
-            "title": "Memorable Brand Experience",
-            "number": "04"
-          }
-        ],
-        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773316181081-aboutus.webp",
-        "statSince": "234",
-        "paragraphs": [
-          "We create powerful brand identities that connect with your audience and set you apart from the competition. From logo design to complete brand systems, we craft visual stories that reflect your values and vision.",
-          "\nOur branding process combines strategy, creativity, and market insight — ensuring your brand looks consistent across every platform and leaves a lasting impression. Your trusted partner for building meaningful brands."
-        ],
-        "headingLine1": "Branding & Identity",
-        "headingLine2": "",
-        "statProjects": "341"
-      },
-      "services": [
-        {
-          "tags": [
-            "BRAND POSITIONING",
-            "MARKET RESEARCH",
-            "COMPETITOR ANALYSIS",
-            "CORE VALUES"
-          ],
-          "title": "Brand Strategy & Positioning",
-          "number": "01",
-          "outcome": "A clear, distinctive brand identity that resonates deeply with audiences.",
-          "category": "Strategy · Identity",
-          "description": "Developing a robust foundational strategy that defines your brand's core values, mission, target audience, and unique market positioning."
-        },
-        {
-          "tags": [
-            "LOGO DESIGN",
-            "BRAND GUIDELINES",
-            "TYPOGRAPHY",
-            "COLOR THEORY"
-          ],
-          "title": "Logo Design & Visual Identity",
-          "number": "02",
-          "outcome": "A stunning, instantly recognizable visual representation of your business.",
-          "category": "Visuals · Aesthetics",
-          "description": "Crafting memorable, timeless bespoke logos and comprehensive visual guidelines strictly detailing typography, color palettes, and imagery rules."
-        },
-        {
-          "tags": [
-            "BUSINESS CARDS",
-            "STATIONARY",
-            "PITCH DECKS",
-            "LETTERHEADS"
-          ],
-          "title": "Corporate Identity Collateral",
-          "number": "03",
-          "outcome": "Professional consistency across absolutely every corporate touchpoint.",
-          "category": "Print · Digital",
-          "description": "Designing coherent brand collateral ranging from premium business cards and stationary to expansive digital presentation decks."
-        },
-        {
-          "tags": [
-            "TONE OF VOICE",
-            "COPYWRITING",
-            "MESSAGING FRAMEWORK",
-            "COMMUNICATION"
-          ],
-          "title": "Brand Voice & Messaging",
-          "number": "04",
-          "outcome": "A cohesive narrative that engages consumers and builds authoritative trust.",
-          "category": "Copywriting · Tone",
-          "description": "Defining a distinct, authentic brand voice and structuring compelling copywriting guidelines to ensure uniform communication globally."
-        },
-        {
-          "tags": [
-            "REBRANDING",
-            "BRAND AUDIT",
-            "MODERNIZATION",
-            "LEGACY"
-          ],
-          "title": "Rebranding & Modernization",
-          "number": "05",
-          "outcome": "A revitalized corporate image optimized exclusively for contemporary markets.",
-          "category": "Evolution · Refinement",
-          "description": "Breathing new life into outdated brands by carefully auditing current market sentiment and modernizing visuals while maintaining core legacy recognition."
-        },
-        {
-          "tags": [
-            "PACKAGING DESIGN",
-            "SPATIAL DESIGN",
-            "RETAIL GRAPHICS",
-            "PHYSICAL EXPERIENCE"
-          ],
-          "title": "Packaging & Environmental Design",
-          "number": "06",
-          "outcome": "An immersive, tactile consumer experience extending beyond the screen.",
-          "category": "Physical · Spatial",
-          "description": "Translating digital brand identities into physical spaces through premium product packaging, retail interiors, and spatial graphic installations."
-        }
-      ],
-      "servicesHeader": {
-        "title": "Services That",
-        "upperTag": "What We Do",
-        "titleHighlight": "Drive Results"
-      }
-    },
-    "order": 0,
-    "createdAt": "2026-03-12T11:49:53.331Z",
-    "updatedAt": "2026-06-17T07:57:22.400Z"
-  },
-  {
-    "id": "fc760eab-b1e8-4222-9cc0-4b7241964bf7",
-    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
-    "type": "ui-ux-designing",
-    "content": {
-      "seo": {
-        "noIndex": false,
-        "metaTitle": "UI/UX Designing Services | Modern UI Design & User Experience - TGT",
-        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/ui-ux-designing",
-        "targetKeywords": "UI/UX design services, user interface design, user experience design, web design, mobile app design, prototype design, wireframing services",
-        "metaDescription": "TGT offers professional UI/UX designing services to create modern, user-friendly, and engaging digital experiences that improve user satisfaction and conversions."
-      },
-      "hero": {
-        "label": " Our Services",
-        "ctaHref": "/contactUs",
-        "ctaText": "Start your project",
-        "pillars": [
-          {
-            "desc": "Thoughtful planning tailored to your unique business goals and market position.",
-            "title": "Strategic Approach",
-            "number": "01"
-          },
-          {
-            "desc": "Your success is our benchmark — we build solutions around your needs.",
-            "title": "Client-Centric Approach",
-            "number": "02"
-          },
-          {
-            "desc": "Seasoned professionals with deep expertise across every technology domain.",
-            "title": "Expert Team",
-            "number": "03"
-          },
-          {
-            "desc": "Leveraging the latest innovations to keep your business ahead of the curve",
-            "title": "Cutting-Edge Technology",
-            "number": "04"
-          }
-        ],
-        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774868509693-banner-674da92a0a73f-1733142826.webp",
-        "statSince": "",
-        "paragraphs": [
-          "\nWe are a dynamic IT solutions and consulting firm dedicated to empowering businesses through technology-driven solutions. With a client-focused approach and a commitment to innovation, we specialise in transforming our clients' digital journeys.",
-          "We pride ourselves on being at the forefront of innovation, providing comprehensive IT consultation and cutting-edge IT Solution services to empower businesses in the digital age — your dedicated partner in navigating the ever-evolving landscape of information technology."
-        ],
-        "headingLine1": "UI UX Designing",
-        "headingLine2": "",
-        "statProjects": ""
-      },
-      "services": [
-        {
-          "tags": [
-            "USER INTERVIEWS",
-            "USABILITY TESTING",
-            "PERSONAS",
-            "JOURNEY MAPPING"
-          ],
-          "title": "User Research & Discovery",
-          "number": "01",
-          "outcome": "Actionable insights forming the foundation of a user-centric product strategy.",
-          "category": "Research · Strategy",
-          "description": "We dive deep into your users' behaviours, needs, and pain points through interviews, surveys, and usability testing to inform every design decision."
-        },
-        {
-          "tags": [
-            "SITE MAPS",
-            "USER FLOWS",
-            "CARD SORTING",
-            "CONTENT STRATEGY"
-          ],
-          "title": "Information Architecture",
-          "number": "02",
-          "outcome": "A clear and intuitive navigation structure that significantly enhances user engagement.",
-          "category": "Structure · Organization",
-          "description": "We organize, structure, and label content in an effective and sustainable way. The goal is to help users intuitively find information and naturally complete tasks."
-        },
-        {
-          "tags": [
-            "LOW-FIDELITY",
-            "HIGH-FIDELITY",
-            "INTERACTIVE PROTOTYPES",
-            "FIGMA"
-          ],
-          "title": "Wireframing & Prototyping",
-          "number": "03",
-          "outcome": "A validated visual blueprint of the product that aligns stakeholders and accelerates development.",
-          "category": "Layout · Interaction",
-          "description": "From low-fidelity sketches to high-fidelity clickable prototypes, we map out every screen, flow, and transition before a single line of code is written."
-        },
-        {
-          "tags": [
-            "TYPOGRAPHY",
-            "COLOR THEORY",
-            "DESIGN SYSTEMS",
-            "ACCESSIBILITY"
-          ],
-          "title": "Visual & Interface Design",
-          "number": "04",
-          "outcome": "An engaging, beautiful, and consistent interface that delights users and builds brand trust.",
-          "category": "Aesthetics · Branding",
-          "description": "We craft visually stunning interfaces that perfectly reflect your brand identity, while ensuring absolute accessibility, readability, and a premium look and feel."
-        },
-        {
-          "tags": [
-            "MICRO-INTERACTIONS",
-            "MOTION GRAPHICS",
-            "FEEDBACK LOOPS",
-            "TRANSITIONS"
-          ],
-          "title": "Interaction & Motion Design",
-          "number": "05",
-          "outcome": "An interface that feels alive, responsive, and intuitive, practically eliminating user frustration.",
-          "category": "Engagement · Emotion",
-          "description": "We design engaging micro-interactions and smooth transitional animations that subtly guide users, providing immediate, satisfying visual feedback for their actions."
-        },
-        {
-          "tags": [
-            "A/B TESTING",
-            "HEATMAPS",
-            "GUEST FEEDBACK",
-            "DESIGN REVISION"
-          ],
-          "title": "Usability Testing & Iteration",
-          "number": "06",
-          "outcome": "A fully optimized digital product backed completely by real qualitative behavioral data.",
-          "category": "Validation · Refinement",
-          "description": "We rigorously validate our designs with real users, analyzing their behavioral interactions to uncover friction points and iteratively polish the experience."
-        }
-      ],
-      "servicesHeader": {
-        "title": "Services That",
-        "upperTag": "What We Do",
-        "titleHighlight": "Drive Results"
-      }
-    },
-    "order": 0,
-    "createdAt": "2026-03-12T11:24:30.370Z",
-    "updatedAt": "2026-06-17T07:57:25.511Z"
-  },
-  {
-    "id": "ee19240d-b2b0-482e-9906-c641315e8443",
-    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
-    "type": "digital-marketing",
-    "content": {
-      "seo": {
-        "noIndex": false,
-        "metaTitle": "Digital Marketing Services | SEO, SMM & Growth Strategies - TGT",
-        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/digital-marketing",
-        "targetKeywords": "digital marketing services, SEO agency, social media marketing, content marketing, growth hacking, PPC management, online visibility",
-        "metaDescription": "Maximize your reach with our digital marketing expertise. We provide SEO, Social Media Marketing, and growth strategies to drive traffic and engagement."
-      },
-      "hero": {
-        "label": "Our Services",
-        "ctaHref": "/contactUs",
-        "ctaText": "Start your marketing campaign",
-        "pillars": [
-          {
-            "desc": "Improve visibility and rank higher on search engines to attract organic traffic.",
-            "title": "Search Engine Optimization",
-            "number": "01"
-          },
-          {
-            "desc": "Engage your audience and grow your brand across social platforms.",
-            "title": "Social Media Marketing",
-            "number": "02"
-          },
-          {
-            "desc": "Targeted ad campaigns designed to drive conversions and revenue.",
-            "title": "Performance Advertising",
-            "number": "03"
-          },
-          {
-            "desc": "Strategic content backed by insights to optimise marketing performance.",
-            "title": "Content & Analytics",
-            "number": "04"
-          }
-        ],
-        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1773316608478-aboutus.webp",
-        "statSince": "234",
-        "paragraphs": [
-          "We create data-driven digital marketing strategies that help your business grow online, attract the right audience, and increase conversions. From SEO and social media to paid advertising and content marketing, we deliver measurable results.",
-          "Our team combines creativity with analytics — optimising campaigns, tracking performance, and refining strategies to maximise ROI. Your trusted partner for building a strong and impactful online presence."
-        ],
-        "headingLine1": " Digital Marketing",
-        "headingLine2": "",
-        "statProjects": "343"
-      },
-      "services": [
-        {
-          "tags": [
-            "TECHNICAL SEO",
-            "KEYWORD RESEARCH",
-            "ON-PAGE",
-            "LINK BUILDING"
-          ],
-          "title": "Search Engine Optimization (SEO)",
-          "number": "01",
-          "outcome": "Sustained organic traffic and authoritative dominance over market keywords.",
-          "category": "Organic · Traffic",
-          "description": "Executing deep technical, on-page, and off-page SEO strategies to dramatically increase your organic visibility and conquer high-value search queries."
-        },
-        {
-          "tags": [
-            "CONTENT CALENDAR",
-            "COMMUNITY",
-            "LINKEDIN",
-            "INSTAGRAM"
-          ],
-          "title": "Social Media Management (SMM)",
-          "number": "02",
-          "outcome": "A fiercely loyal online community and significantly expanded brand awareness.",
-          "category": "Engagement · Reach",
-          "description": "Curating high-quality content, fostering community engagement, and executing targeted campaigns across major platforms like LinkedIn, Instagram, and Twitter."
-        },
-        {
-          "tags": [
-            "GOOGLE ADS",
-            "META ADS",
-            "RETARGETING",
-            "ROI OPTIMIZATION"
-          ],
-          "title": "Pay-Per-Click Advertising (PPC)",
-          "number": "03",
-          "outcome": "Immediate, scalable influxes of highly qualified commercial leads.",
-          "category": "Paid · Conversion",
-          "description": "Designing highly structured Google Ads and social media paid funnels meticulously optimized for maximum ROI and lowest cost-per-acquisition."
-        },
-        {
-          "tags": [
-            "BLOGGING",
-            "WHITEPAPERS",
-            "VIDEO SCRIPTS",
-            "INBOUND"
-          ],
-          "title": "Content Marketing Strategy",
-          "number": "04",
-          "outcome": "Established industry thought-leadership and a robust inbound acquisition pipeline.",
-          "category": "Inbound · Authority",
-          "description": "Producing valuable, authoritative long-form blogs, whitepapers, and video scripts designed to educate users and capture inbound traffic natively."
-        },
-        {
-          "tags": [
-            "DRIP CAMPAIGNS",
-            "NEWSLETTERS",
-            "KLAVIYO",
-            "LEAD NURTURING"
-          ],
-          "title": "Email Marketing Automation",
-          "number": "05",
-          "outcome": "Maximized customer lifetime value and an engaged direct-access audience.",
-          "category": "Retention · Nurturing",
-          "description": "Setting up sophisticated, automated drip campaigns and newsletters that progressively nurture cold leads into loyal, repeat customers."
-        },
-        {
-          "tags": [
-            "A/B TESTING",
-            "HEATMAPS",
-            "ANALYTICS",
-            "UX ADJUSTMENTS"
-          ],
-          "title": "Conversion Rate Optimization (CRO)",
-          "number": "06",
-          "outcome": "Significantly more leads generated without increasing existing ad spend.",
-          "category": "Analytics · Performance",
-          "description": "Analyzing user behavior metrics via heatmaps and A/B testing to algorithmically improve landing page layouts and maximize conversion yields."
-        }
-      ],
-      "servicesHeader": {
-        "title": "Services That",
-        "upperTag": "What We Do",
-        "titleHighlight": "Drive Results"
-      }
-    },
-    "order": 0,
-    "createdAt": "2026-03-12T11:56:56.541Z",
-    "updatedAt": "2026-06-17T07:57:29.290Z"
-  },
-  {
-    "id": "028afb0d-dbc4-4fda-a3e3-b0553024fb52",
-    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
-    "type": "mobile-app-development",
-    "content": {
-      "seo": {
-        "noIndex": false,
-        "metaTitle": "Mobile App Development Services | Android & iOS Apps - TGT",
-        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/mobile-app-development",
-        "targetKeywords": "mobile app development services, Android app development, iOS app development, custom mobile app development, React Native app development, mobile app development company, cross-platform app development",
-        "metaDescription": "TGT offers mobile app development services for Android and iOS. Build fast, scalable, and user-friendly mobile applications with modern technologies."
-      },
-      "hero": {
-        "label": "Our Services",
-        "ctaHref": "/contactUs",
-        "ctaText": "Build your app",
-        "pillars": [
-          {
-            "desc": "iOS, Android, and cross-platform apps built with the right technology for your needs.",
-            "title": "Native & Cross-Platform",
-            "number": "01"
-          },
-          {
-            "desc": "Intuitive interfaces and smooth performance that keep users engaged and coming back.",
-            "title": "User Experience Focus",
-            "number": "02"
-          },
-          {
-            "desc": "Clean code and scalable backend integration to support growth and future features.",
-            "title": "Scalable Architecture",
-            "number": "03"
-          },
-          {
-            "desc": "From design to deployment and maintenance — we support you through every stage.",
-            "title": "End-to-End Support",
-            "number": "04"
-          }
-        ],
-        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774936692500-banner-674060ecdd9c0-1732272364.webp",
-        "statSince": "",
-        "paragraphs": [
-          "We build native and cross-platform mobile applications for iOS and Android. From concept to launch, we deliver apps that are fast, intuitive, and aligned with your business goals.",
-          "Our team uses modern frameworks and best practices — React Native, Flutter, and native development — to create apps that perform well, engage users, and scale with your growth. Your dedicated partner for mobile app development."
-        ],
-        "headingLine1": " Mobile App Development",
-        "headingLine2": "",
-        "statProjects": ""
-      },
-      "services": [
-        {
-          "tags": [
-            "SWIFT",
-            "OBJECTIVE-C",
-            "XCODE",
-            "APPLE UI"
-          ],
-          "title": "Native iOS Development",
-          "number": "01",
-          "outcome": "A premium application deeply integrated with Apple hardware and services.",
-          "category": "Apple Ecosystem · Swift",
-          "description": "Crafting flawless, high-performance native applications for iOS utilizing Swift, optimized specifically for the latest iPhone and iPad feature sets."
-        },
-        {
-          "tags": [
-            "KOTLIN",
-            "ANDROID STUDIO",
-            "MATERIAL DESIGN",
-            "PLAY STORE"
-          ],
-          "title": "Native Android Development",
-          "number": "02",
-          "outcome": "Vast market reach on the Android platform with flawless native performance.",
-          "category": "Google Ecosystem · Kotlin",
-          "description": "Developing robust, scalable native Android applications utilizing Kotlin, ensuring compatibility and high fluidity across fragmentation in device screens."
-        },
-        {
-          "tags": [
-            "REACT NATIVE",
-            "FLUTTER",
-            "SINGLE CODEBASE",
-            "EFFICIENCY"
-          ],
-          "title": "Cross-Platform Frameworks",
-          "number": "03",
-          "outcome": "Reduced development timeline and simplified maintenance without sacrificing quality.",
-          "category": "Hybrid · Efficiency",
-          "description": "Building hybrid applications utilizing React Native or Flutter, allowing a single codebase to natively compile and execute flawlessly on both iOS and Android."
-        },
-        {
-          "tags": [
-            "DISCOVERY",
-            "MARKET RESEARCH",
-            "MVP PLANNING",
-            "STRATEGY"
-          ],
-          "title": "App Strategy & Consultation",
-          "number": "04",
-          "outcome": "A concrete product roadmap that minimizes technical debt and mitigates risks.",
-          "category": "Planning · Roadmap",
-          "description": "Aligning your mobile vision with intensive market research, evaluating technical feasibility, defining the MVP scope, and planning long-term scaling routes."
-        },
-        {
-          "tags": [
-            "MOBILE-FIRST",
-            "GESTURE CONTROLS",
-            "THUMB ZONE",
-            "PROTOTYPING"
-          ],
-          "title": "Mobile Interface & Experience",
-          "number": "05",
-          "outcome": "An intuitive mobile application that guarantees smooth and natural user operation.",
-          "category": "Design · Mobile UI",
-          "description": "Executing mobile-first design philosophies, focusing intently on touch targets, thumb-zones, gesture interactions, and platform-specific navigation idioms."
-        },
-        {
-          "tags": [
-            "ASO",
-            "APP STORE CONNECT",
-            "LAUNCH",
-            "GOOGLE PLAY"
-          ],
-          "title": "App Store Deployment & ASO",
-          "number": "06",
-          "outcome": "Successful deployment followed by accelerated organic user downloads.",
-          "category": "Launch · Optimization",
-          "description": "Handling entire application deployment processes into App Store and Play Store, bundled with aggressive App Store Optimization (ASO) for maximum visibility."
-        }
-      ],
-      "servicesHeader": {
-        "title": "Services That",
-        "upperTag": "What We Do",
-        "titleHighlight": "Drive Results"
-      }
-    },
-    "order": 0,
-    "createdAt": "2026-03-12T11:31:46.780Z",
-    "updatedAt": "2026-06-17T07:57:10.351Z"
-  },
-  {
-    "id": "2a352af5-c7cc-43d5-9ed7-926ac3dcd7e3",
-    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
-    "type": "business-software-solutions",
-    "content": {
-      "seo": {
-        "noIndex": false,
-        "metaTitle": "Business Software Solutions | Streamline Your Operations - TGT",
-        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/business-software-solutions",
-        "targetKeywords": "business software solutions, ERP development, CRM solutions, business automation, workflow management, enterprise productivity tools",
-        "metaDescription": "Empower your business with modern software solutions. From ERP to CRM, we build tools that enhance productivity and streamline business workflows."
-      },
-      "hero": {
-        "label": " Our Services",
-        "ctaHref": "/conatctUs",
-        "ctaText": "Explore solutions",
-        "pillars": [
-          {
-            "desc": "\nSeamlessly connect ERP, CRM, and other business systems for unified operations and data flow.\n",
-            "title": "Integrated Systems",
-            "number": "01"
-          },
-          {
-            "desc": "Transform data into actionable insights with analytics and reporting tools that drive decision-making.",
-            "title": "Business Intelligence",
-            "number": "02"
-          },
-          {
-            "desc": "Flexible deployment options — cloud-based or on-premise solutions tailored to your infrastructure needs.",
-            "title": "Cloud & On-Premise",
-            "number": "03"
-          },
-          {
-            "desc": "Expert guidance to select, implement, and optimise software solutions that deliver measurable ROI.",
-            "title": "Strategic Consulting",
-            "number": "04"
-          }
-        ],
-        "imageUrl": "https://jrltxuhcmvqxuwukacju.supabase.co/storage/v1/object/public/uploadsFiles/1774936827345-banner-6745983da54ad-1732614205.webp",
-        "statSince": "",
-        "paragraphs": [
-          "We deliver comprehensive software solutions that transform how your business operates. From ERP and CRM systems to business intelligence and analytics platforms, we provide integrated solutions that drive growth and efficiency.",
-          "Our team combines deep industry knowledge with technical expertise to deliver software that aligns with your business goals. We ensure seamless integration, data security, and scalability. Your dedicated partner for business software solutions."
-        ],
-        "headingLine1": "Business Software Solutions",
-        "headingLine2": "",
-        "statProjects": ""
-      },
-      "services": [
-        {
-          "tags": [
-            "AUTOMATION",
-            "BPM",
-            "RPA",
-            "EFFICIENCY"
-          ],
-          "title": "Workflow Process Automation",
-          "number": "01",
-          "outcome": "Thousands of labor hours saved annually and drastically reduced human error.",
-          "category": "Operations · Efficiency",
-          "description": "Identifying repetitive manual tasks and engineering automated software scripts to execute them flawlessly in fractions of standard operation time."
-        },
-        {
-          "tags": [
-            "FINTECH",
-            "INVOICING",
-            "SECURE DATA",
-            "COMPLIANCE"
-          ],
-          "title": "Financial & Billing Systems",
-          "number": "02",
-          "outcome": "An airtight financial pipeline eliminating delayed payments and accounting errors.",
-          "category": "Finance · Security",
-          "description": "Designing closed-loop financial tracking, automated invoicing, and corporate billing portals integrating securely with tier-1 banking APIs."
-        },
-        {
-          "tags": [
-            "HRMS",
-            "ONBOARDING",
-            "PAYROLL",
-            "INTERNAL WIKI"
-          ],
-          "title": "Human Resource Portals",
-          "number": "03",
-          "outcome": "A highly synthesized internal culture backed by simple human resource tracking.",
-          "category": "HR · Enterprise",
-          "description": "Creating comprehensive HR tracking suites handling employee onboarding, payroll allocations, attendance charting, and internal communication matrices."
-        },
-        {
-          "tags": [
-            "LOGISTICS",
-            "WAREHOUSING",
-            "TRACKING",
-            "SUPPLY CHAIN"
-          ],
-          "title": "Inventory & Supply Chain",
-          "number": "04",
-          "outcome": "Zero inventory discrepancy and drastically lowered logistical overhead.",
-          "category": "Logistics · Live Tracking",
-          "description": "Deploying logistics solutions granting absolute real-time visibility into warehouse supplies, fleet tracking, shipping milestones, and supplier communication."
-        },
-        {
-          "tags": [
-            "CLIENT PORTAL",
-            "SECURE LOGIN",
-            "DOCUMENT SHARING",
-            "B2B"
-          ],
-          "title": "Client Portal Dashboards",
-          "number": "05",
-          "outcome": "Unprecedented client transparency increasing customer satisfaction vertically.",
-          "category": "B2C · Customer Experience",
-          "description": "Engineering secure entry portals where corporate clients or consumers can track their project status, submit tickets, and download secure documents."
-        },
-        {
-          "tags": [
-            "DISASTER RECOVERY",
-            "ENCRYPTION",
-            "CLOUD BACKUP",
-            "CONTINUITY"
-          ],
-          "title": "Data Backup & Recovery Systems",
-          "number": "06",
-          "outcome": "Absolute insurance preventing catastrophic data loss regardless of variable risks.",
-          "category": "Security · Continuity",
-          "description": "Integrating unshakeable data backup protocols natively within business software, guaranteeing instantaneous failovers and disaster recovery metrics."
-        }
-      ],
-      "servicesHeader": {
-        "title": "Services That",
-        "upperTag": "What We Do",
-        "titleHighlight": "Drive Results"
-      }
-    },
-    "order": 0,
-    "createdAt": "2026-03-12T11:38:24.508Z",
-    "updatedAt": "2026-06-17T07:57:12.208Z"
-  },
-  {
     "id": "70b3f0f4-008b-427a-8aeb-51c171c78ead",
     "pageId": "e9505f63-2630-43a5-803e-4b9df635fb8d",
     "type": "AboutHero",
@@ -3586,5 +2068,1824 @@
     },
     "createdAt": "2026-11-10T09:13:43.911Z",
     "updatedAt": "2026-11-10T09:13:43.911Z"
+  },
+  {
+    "id": "fd9312b7-23c8-447d-8f6a-3877fbc099c2",
+    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
+    "type": "branding",
+    "order": 0,
+    "content": {
+      "seo": {
+        "noIndex": false,
+        "metaTitle": "Branding Services | Identity Design & Creative Strategy - TGT",
+        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/branding",
+        "targetKeywords": "branding services, brand identity design, logo design, creative strategy, visual branding, brand positioning, storytelling",
+        "metaDescription": "Build a brand that resonates. TGT provides identity design, creative strategy, and visual storytelling services to help your business stand out in the market."
+      },
+      "hero": {
+        "name": "Branding & Identity",
+        "pillar": "brand",
+        "headingLine1": "Brands people",
+        "headingLine2": "remember.",
+        "paragraphs": [
+          "We create powerful brand identities that connect with your audience and set you apart from the competition. From logo design to complete brand systems, we craft visual stories that reflect your values and vision.",
+          "\nOur branding process combines strategy, creativity, and market insight — ensuring your brand looks consistent across every platform and leaves a lasting impression. Your trusted partner for building meaningful brands."
+        ],
+        "pillars": [
+          {
+            "number": "01",
+            "title": "Brand Strategy",
+            "desc": "Clear positioning and messaging that defines your brand’s purpose."
+          },
+          {
+            "number": "02",
+            "title": "Visual Identity",
+            "desc": "Logos, colours, typography, and design systems that represent your brand."
+          },
+          {
+            "number": "03",
+            "title": "Consistency Across Platforms",
+            "desc": "A unified brand experience across web, mobile, and marketing materials."
+          },
+          {
+            "number": "04",
+            "title": "Memorable Brand Experience",
+            "desc": "Design that builds recognition, trust, and long-term loyalty."
+          }
+        ]
+      },
+      "services": [
+        {
+          "number": "01",
+          "title": "Brand Strategy & Positioning",
+          "category": "Strategy · Identity",
+          "description": "Developing a robust foundational strategy that defines your brand's core values, mission, target audience, and unique market positioning.",
+          "tags": [
+            "BRAND POSITIONING",
+            "MARKET RESEARCH",
+            "COMPETITOR ANALYSIS",
+            "CORE VALUES"
+          ],
+          "outcome": "A clear, distinctive brand identity that resonates deeply with audiences."
+        },
+        {
+          "number": "02",
+          "title": "Logo Design & Visual Identity",
+          "category": "Visuals · Aesthetics",
+          "description": "Crafting memorable, timeless bespoke logos and comprehensive visual guidelines strictly detailing typography, color palettes, and imagery rules.",
+          "tags": [
+            "LOGO DESIGN",
+            "BRAND GUIDELINES",
+            "TYPOGRAPHY",
+            "COLOR THEORY"
+          ],
+          "outcome": "A stunning, instantly recognizable visual representation of your business."
+        },
+        {
+          "number": "03",
+          "title": "Corporate Identity Collateral",
+          "category": "Print · Digital",
+          "description": "Designing coherent brand collateral ranging from premium business cards and stationary to expansive digital presentation decks.",
+          "tags": [
+            "BUSINESS CARDS",
+            "STATIONARY",
+            "PITCH DECKS",
+            "LETTERHEADS"
+          ],
+          "outcome": "Professional consistency across absolutely every corporate touchpoint."
+        },
+        {
+          "number": "04",
+          "title": "Brand Voice & Messaging",
+          "category": "Copywriting · Tone",
+          "description": "Defining a distinct, authentic brand voice and structuring compelling copywriting guidelines to ensure uniform communication globally.",
+          "tags": [
+            "TONE OF VOICE",
+            "COPYWRITING",
+            "MESSAGING FRAMEWORK",
+            "COMMUNICATION"
+          ],
+          "outcome": "A cohesive narrative that engages consumers and builds authoritative trust."
+        },
+        {
+          "number": "05",
+          "title": "Rebranding & Modernization",
+          "category": "Evolution · Refinement",
+          "description": "Breathing new life into outdated brands by carefully auditing current market sentiment and modernizing visuals while maintaining core legacy recognition.",
+          "tags": [
+            "REBRANDING",
+            "BRAND AUDIT",
+            "MODERNIZATION",
+            "LEGACY"
+          ],
+          "outcome": "A revitalized corporate image optimized exclusively for contemporary markets."
+        },
+        {
+          "number": "06",
+          "title": "Packaging & Environmental Design",
+          "category": "Physical · Spatial",
+          "description": "Translating digital brand identities into physical spaces through premium product packaging, retail interiors, and spatial graphic installations.",
+          "tags": [
+            "PACKAGING DESIGN",
+            "SPATIAL DESIGN",
+            "RETAIL GRAPHICS",
+            "PHYSICAL EXPERIENCE"
+          ],
+          "outcome": "An immersive, tactile consumer experience extending beyond the screen."
+        }
+      ],
+      "proof": [
+        {
+          "title": "The Social Beacon",
+          "text": "A full website redesign and refreshed digital presence for a digital marketing agency.",
+          "metrics": []
+        }
+      ],
+      "work": [
+        "The Social Beacon",
+        "Label",
+        "Indian Vastu Experts",
+        "The Embassy Inn",
+        "Kokalachi"
+      ],
+      "stack": [
+        "Brand strategy",
+        "Logo & visual identity",
+        "Personal branding",
+        "Company branding",
+        "Brand voice",
+        "Social creatives"
+      ],
+      "related": [
+        "ui-ux-designing",
+        "website-design-development",
+        "social-performance-marketing"
+      ]
+    }
+  },
+  {
+    "id": "fc760eab-b1e8-4222-9cc0-4b7241964bf7",
+    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
+    "type": "ui-ux-designing",
+    "order": 1,
+    "content": {
+      "seo": {
+        "noIndex": false,
+        "metaTitle": "UI/UX Designing Services | Modern UI Design & User Experience - TGT",
+        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/ui-ux-designing",
+        "targetKeywords": "UI/UX design services, user interface design, user experience design, web design, mobile app design, prototype design, wireframing services",
+        "metaDescription": "TGT offers professional UI/UX designing services to create modern, user-friendly, and engaging digital experiences that improve user satisfaction and conversions."
+      },
+      "hero": {
+        "name": "UI/UX Design",
+        "pillar": "brand",
+        "headingLine1": "Interfaces people",
+        "headingLine2": "love using.",
+        "paragraphs": [
+          "\nWe are a dynamic IT solutions and consulting firm dedicated to empowering businesses through technology-driven solutions. With a client-focused approach and a commitment to innovation, we specialise in transforming our clients' digital journeys.",
+          "We pride ourselves on being at the forefront of innovation, providing comprehensive IT consultation and cutting-edge IT Solution services to empower businesses in the digital age — your dedicated partner in navigating the ever-evolving landscape of information technology."
+        ],
+        "pillars": [
+          {
+            "number": "01",
+            "title": "Strategic Approach",
+            "desc": "Thoughtful planning tailored to your unique business goals and market position."
+          },
+          {
+            "number": "02",
+            "title": "Client-Centric Approach",
+            "desc": "Your success is our benchmark — we build solutions around your needs."
+          },
+          {
+            "number": "03",
+            "title": "Expert Team",
+            "desc": "Seasoned professionals with deep expertise across every technology domain."
+          },
+          {
+            "number": "04",
+            "title": "Cutting-Edge Technology",
+            "desc": "Leveraging the latest innovations to keep your business ahead of the curve"
+          }
+        ]
+      },
+      "services": [
+        {
+          "number": "01",
+          "title": "User Research & Discovery",
+          "category": "Research · Strategy",
+          "description": "We dive deep into your users' behaviours, needs, and pain points through interviews, surveys, and usability testing to inform every design decision.",
+          "tags": [
+            "USER INTERVIEWS",
+            "USABILITY TESTING",
+            "PERSONAS",
+            "JOURNEY MAPPING"
+          ],
+          "outcome": "Actionable insights forming the foundation of a user-centric product strategy."
+        },
+        {
+          "number": "02",
+          "title": "Information Architecture",
+          "category": "Structure · Organization",
+          "description": "We organize, structure, and label content in an effective and sustainable way. The goal is to help users intuitively find information and naturally complete tasks.",
+          "tags": [
+            "SITE MAPS",
+            "USER FLOWS",
+            "CARD SORTING",
+            "CONTENT STRATEGY"
+          ],
+          "outcome": "A clear and intuitive navigation structure that significantly enhances user engagement."
+        },
+        {
+          "number": "03",
+          "title": "Wireframing & Prototyping",
+          "category": "Layout · Interaction",
+          "description": "From low-fidelity sketches to high-fidelity clickable prototypes, we map out every screen, flow, and transition before a single line of code is written.",
+          "tags": [
+            "LOW-FIDELITY",
+            "HIGH-FIDELITY",
+            "INTERACTIVE PROTOTYPES",
+            "FIGMA"
+          ],
+          "outcome": "A validated visual blueprint of the product that aligns stakeholders and accelerates development."
+        },
+        {
+          "number": "04",
+          "title": "Visual & Interface Design",
+          "category": "Aesthetics · Branding",
+          "description": "We craft visually stunning interfaces that perfectly reflect your brand identity, while ensuring absolute accessibility, readability, and a premium look and feel.",
+          "tags": [
+            "TYPOGRAPHY",
+            "COLOR THEORY",
+            "DESIGN SYSTEMS",
+            "ACCESSIBILITY"
+          ],
+          "outcome": "An engaging, beautiful, and consistent interface that delights users and builds brand trust."
+        },
+        {
+          "number": "05",
+          "title": "Interaction & Motion Design",
+          "category": "Engagement · Emotion",
+          "description": "We design engaging micro-interactions and smooth transitional animations that subtly guide users, providing immediate, satisfying visual feedback for their actions.",
+          "tags": [
+            "MICRO-INTERACTIONS",
+            "MOTION GRAPHICS",
+            "FEEDBACK LOOPS",
+            "TRANSITIONS"
+          ],
+          "outcome": "An interface that feels alive, responsive, and intuitive, practically eliminating user frustration."
+        },
+        {
+          "number": "06",
+          "title": "Usability Testing & Iteration",
+          "category": "Validation · Refinement",
+          "description": "We rigorously validate our designs with real users, analyzing their behavioral interactions to uncover friction points and iteratively polish the experience.",
+          "tags": [
+            "A/B TESTING",
+            "HEATMAPS",
+            "GUEST FEEDBACK",
+            "DESIGN REVISION"
+          ],
+          "outcome": "A fully optimized digital product backed completely by real qualitative behavioral data."
+        }
+      ],
+      "proof": [
+        {
+          "title": "Product interfaces we designed",
+          "text": "Clean, task-focused interfaces for our own SaaS products: Catfy, Office Book, IP ERP and Customer Book.",
+          "metrics": []
+        }
+      ],
+      "work": [
+        "Catfy",
+        "Office Book",
+        "IP ERP",
+        "Customer Book",
+        "Quick Commerce"
+      ],
+      "stack": [
+        "Wireframing",
+        "Prototyping",
+        "Website UI",
+        "App UI",
+        "Software UI",
+        "Accessibility design"
+      ],
+      "related": [
+        "branding",
+        "website-design-development",
+        "mobile-app-development"
+      ]
+    }
+  },
+  {
+    "id": "c21e3f83-185d-4a58-9a30-12f9a13629c1",
+    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
+    "type": "website-design-development",
+    "order": 2,
+    "content": {
+      "seo": {
+        "noIndex": false,
+        "metaTitle": "Website Design & Development Services | Custom Web Solutions - TGT",
+        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/website-design-development",
+        "targetKeywords": "website design services, web development company, custom web development, responsive web design, Next.js development, React web design, e-commerce development",
+        "metaDescription": "Professional website design and development services. We build responsive, high-performance, and visually stunning websites tailored to your business goals."
+      },
+      "hero": {
+        "name": "Website Design & Development",
+        "pillar": "build",
+        "headingLine1": "Websites that",
+        "headingLine2": "sell for you.",
+        "paragraphs": [
+          "We build modern, fast, and scalable websites that drive growth. From responsive corporate sites to e-commerce and web applications, we combine clean design with robust development to deliver high-performing digital experiences.",
+          "Our team uses proven technologies and best practices — responsive layouts, performance optimisation, and SEO foundations — so your site looks great on every device and ranks well. Your dedicated partner for web design and development."
+        ],
+        "pillars": [
+          {
+            "number": "01",
+            "title": "Responsive & Modern",
+            "desc": "Websites that look and perform beautifully across all devices and screen sizes."
+          },
+          {
+            "number": "02",
+            "title": "Performance & SEO",
+            "desc": "Fast load times and search-friendly structure to help you reach more customers."
+          },
+          {
+            "number": "03",
+            "title": "Scalable Development",
+            "desc": "Clean, maintainable code and scalable architecture for long-term growth."
+          },
+          {
+            "number": "04",
+            "title": "Client-Centric Delivery",
+            "desc": "Your goals and timeline drive the process — we deliver on scope and quality."
+          }
+        ]
+      },
+      "services": [
+        {
+          "number": "01",
+          "title": "Custom Web Application Development",
+          "category": "Development · Solutions",
+          "description": "We build tailored, scalable, and secure web applications designed specifically to resolve complex business logic and accelerate daily operations.",
+          "tags": [
+            "REACT",
+            "NEXT.JS",
+            "NODE.JS",
+            "SCALABILITY"
+          ],
+          "outcome": "A proprietary web app that dramatically streamlines organizational workflows."
+        },
+        {
+          "number": "02",
+          "title": "Frontend Engineering & SPAs",
+          "category": "Interface · Performance",
+          "description": "Delivering blazing-fast, responsive Single Page Applications (SPAs) that offer native-like smoothness and engaging visual fidelity for end-users.",
+          "tags": [
+            "SINGLE PAGE APPS",
+            "VUE",
+            "TAILWIND CSS",
+            "OPTIMIZATION"
+          ],
+          "outcome": "An instant-loading application interface drastically improving user retention."
+        },
+        {
+          "number": "03",
+          "title": "E-Commerce Platforms",
+          "category": "Retail · Conversion",
+          "description": "End-to-end development of bespoke online storefronts, featuring secure payment gateways, inventory management, and intuitive cart behaviors.",
+          "tags": [
+            "SHOPIFY PLUS",
+            "WOOCOMMERCE",
+            "STRIPE",
+            "CONVERSION"
+          ],
+          "outcome": "A high-converting digital storefront handling high traffic scaling."
+        },
+        {
+          "number": "04",
+          "title": "Backend & API Architecture",
+          "category": "Infrastructure · Data",
+          "description": "Constructing robust backend systems, RESTful and GraphQL APIs, and databases capable of seamlessly handling vast amounts of secure transactional data.",
+          "tags": [
+            "GRAPHQL",
+            "POSTGRESQL",
+            "REST APIS",
+            "MICROSERVICES"
+          ],
+          "outcome": "A reliable, high-availability data foundation for enterprise operations."
+        },
+        {
+          "number": "05",
+          "title": "CMS Integration & Migration",
+          "category": "Content · Management",
+          "description": "Implementing powerful Content Management Systems (like WordPress, Sanity, or custom Headless solutions) empowering you to seamlessly update website content.",
+          "tags": [
+            "HEADLESS CMS",
+            "WORDPRESS",
+            "SANITY",
+            "CONTENT STRATEGY"
+          ],
+          "outcome": "Total editorial control over your content without needing developer assistance."
+        },
+        {
+          "number": "06",
+          "title": "Maintenance & Platform Security",
+          "category": "Support · Reliability",
+          "description": "Continuous performance audits, security patches, framework updates, and proactive server monitoring to ensure 99.9% uptime and data privacy.",
+          "tags": [
+            "SECURITY AUDITS",
+            "SLA SUPPORT",
+            "CLOUD METRICS",
+            "SSL"
+          ],
+          "outcome": "Absolute peace of mind knowing the website is consistently secure and online."
+        }
+      ],
+      "proof": [
+        {
+          "title": "GreatWaterFilters.com.au",
+          "text": "A rebuilt e-commerce website for an Australian water filtration brand.",
+          "metrics": [
+            {
+              "value": "50%",
+              "label": "Conversion rate"
+            },
+            {
+              "value": "28%",
+              "label": "Lower bounce rate"
+            }
+          ]
+        }
+      ],
+      "work": [
+        "PCT Suite",
+        "Himalyanagro",
+        "Encotec Energy",
+        "LFCS Schools",
+        "Cinemac Animation",
+        "Fee-Fam",
+        "D;Space",
+        "UnivDatos",
+        "Kumar Power",
+        "Bir Credit Solution",
+        "Indian Vastu Experts",
+        "Kokalachi",
+        "The Social Beacon",
+        "The Embassy Inn",
+        "The Seven Stars",
+        "Counsel India",
+        "Label",
+        "VCARE InfoTech"
+      ],
+      "stack": [
+        "React JS",
+        "Next.js",
+        "Vue JS",
+        "Node & Express",
+        "Nest JS",
+        "Laravel",
+        "Django",
+        "WordPress",
+        "Shopify"
+      ],
+      "related": [
+        "ui-ux-designing",
+        "search-content-marketing",
+        "custom-software-development"
+      ]
+    }
+  },
+  {
+    "id": "028afb0d-dbc4-4fda-a3e3-b0553024fb52",
+    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
+    "type": "mobile-app-development",
+    "order": 3,
+    "content": {
+      "seo": {
+        "noIndex": false,
+        "metaTitle": "Mobile App Development Services | Android & iOS Apps - TGT",
+        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/mobile-app-development",
+        "targetKeywords": "mobile app development services, Android app development, iOS app development, custom mobile app development, React Native app development, mobile app development company, cross-platform app development",
+        "metaDescription": "TGT offers mobile app development services for Android and iOS. Build fast, scalable, and user-friendly mobile applications with modern technologies."
+      },
+      "hero": {
+        "name": "Mobile App Development",
+        "pillar": "build",
+        "headingLine1": "Apps people",
+        "headingLine2": "keep opening.",
+        "paragraphs": [
+          "We build native and cross-platform mobile applications for iOS and Android. From concept to launch, we deliver apps that are fast, intuitive, and aligned with your business goals.",
+          "Our team uses modern frameworks and best practices — React Native, Flutter, and native development — to create apps that perform well, engage users, and scale with your growth. Your dedicated partner for mobile app development."
+        ],
+        "pillars": [
+          {
+            "number": "01",
+            "title": "Native & Cross-Platform",
+            "desc": "iOS, Android, and cross-platform apps built with the right technology for your needs."
+          },
+          {
+            "number": "02",
+            "title": "User Experience Focus",
+            "desc": "Intuitive interfaces and smooth performance that keep users engaged and coming back."
+          },
+          {
+            "number": "03",
+            "title": "Scalable Architecture",
+            "desc": "Clean code and scalable backend integration to support growth and future features."
+          },
+          {
+            "number": "04",
+            "title": "End-to-End Support",
+            "desc": "From design to deployment and maintenance — we support you through every stage."
+          }
+        ]
+      },
+      "services": [
+        {
+          "number": "01",
+          "title": "Native iOS Development",
+          "category": "Apple Ecosystem · Swift",
+          "description": "Crafting flawless, high-performance native applications for iOS utilizing Swift, optimized specifically for the latest iPhone and iPad feature sets.",
+          "tags": [
+            "SWIFT",
+            "OBJECTIVE-C",
+            "XCODE",
+            "APPLE UI"
+          ],
+          "outcome": "A premium application deeply integrated with Apple hardware and services."
+        },
+        {
+          "number": "02",
+          "title": "Native Android Development",
+          "category": "Google Ecosystem · Kotlin",
+          "description": "Developing robust, scalable native Android applications utilizing Kotlin, ensuring compatibility and high fluidity across fragmentation in device screens.",
+          "tags": [
+            "KOTLIN",
+            "ANDROID STUDIO",
+            "MATERIAL DESIGN",
+            "PLAY STORE"
+          ],
+          "outcome": "Vast market reach on the Android platform with flawless native performance."
+        },
+        {
+          "number": "03",
+          "title": "Cross-Platform Frameworks",
+          "category": "Hybrid · Efficiency",
+          "description": "Building hybrid applications utilizing React Native or Flutter, allowing a single codebase to natively compile and execute flawlessly on both iOS and Android.",
+          "tags": [
+            "REACT NATIVE",
+            "FLUTTER",
+            "SINGLE CODEBASE",
+            "EFFICIENCY"
+          ],
+          "outcome": "Reduced development timeline and simplified maintenance without sacrificing quality."
+        },
+        {
+          "number": "04",
+          "title": "App Strategy & Consultation",
+          "category": "Planning · Roadmap",
+          "description": "Aligning your mobile vision with intensive market research, evaluating technical feasibility, defining the MVP scope, and planning long-term scaling routes.",
+          "tags": [
+            "DISCOVERY",
+            "MARKET RESEARCH",
+            "MVP PLANNING",
+            "STRATEGY"
+          ],
+          "outcome": "A concrete product roadmap that minimizes technical debt and mitigates risks."
+        },
+        {
+          "number": "05",
+          "title": "Mobile Interface & Experience",
+          "category": "Design · Mobile UI",
+          "description": "Executing mobile-first design philosophies, focusing intently on touch targets, thumb-zones, gesture interactions, and platform-specific navigation idioms.",
+          "tags": [
+            "MOBILE-FIRST",
+            "GESTURE CONTROLS",
+            "THUMB ZONE",
+            "PROTOTYPING"
+          ],
+          "outcome": "An intuitive mobile application that guarantees smooth and natural user operation."
+        },
+        {
+          "number": "06",
+          "title": "App Store Deployment & ASO",
+          "category": "Launch · Optimization",
+          "description": "Handling entire application deployment processes into App Store and Play Store, bundled with aggressive App Store Optimization (ASO) for maximum visibility.",
+          "tags": [
+            "ASO",
+            "APP STORE CONNECT",
+            "LAUNCH",
+            "GOOGLE PLAY"
+          ],
+          "outcome": "Successful deployment followed by accelerated organic user downloads."
+        }
+      ],
+      "proof": [
+        {
+          "title": "Apps in the field",
+          "text": "Home healthcare services, Scan & Sign document signing, and an attendance and loan app for sales teams.",
+          "metrics": []
+        }
+      ],
+      "work": [
+        "Home Healthcare Services",
+        "Scan & Sign",
+        "Attendance & Loan App"
+      ],
+      "stack": [
+        "Flutter",
+        "React Native",
+        "iOS (Swift)",
+        "Android (Java, Kotlin)",
+        "Cross-platform",
+        "App testing & QA"
+      ],
+      "related": [
+        "ui-ux-designing",
+        "custom-software-development",
+        "website-design-development"
+      ]
+    }
+  },
+  {
+    "id": "8e37d479-fbd3-4505-a3e7-d2dba1ae6c40",
+    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
+    "type": "custom-software-development",
+    "order": 4,
+    "content": {
+      "seo": {
+        "noIndex": false,
+        "metaTitle": "Custom Software Development Services | Tailored Enterprise Solutions - TGT",
+        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/custom-software-development",
+        "targetKeywords": "custom software development, enterprise software solutions, dedicated development team, software integration services, SaaS development, software consulting",
+        "metaDescription": "Get tailored software solutions for your unique business needs. We specialize in custom enterprise applications, software integration, and scalable architecture."
+      },
+      "hero": {
+        "name": "Custom Software Development",
+        "pillar": "build",
+        "headingLine1": "Software built around",
+        "headingLine2": "your business.",
+        "paragraphs": [
+          "We build tailored software solutions that fit your unique business processes. From enterprise applications to workflow automation and internal tools, we create custom software that streamlines operations and drives efficiency.",
+          "Our team analyses your requirements, designs scalable architectures, and delivers robust solutions using modern technologies and best practices. Your dedicated partner for custom software that grows with your business."
+        ],
+        "pillars": [
+          {
+            "number": "01",
+            "title": "Tailored Solutions",
+            "desc": "Custom-built software designed specifically for your business processes and requirements.\n"
+          },
+          {
+            "number": "02",
+            "title": "Enterprise-Grade",
+            "desc": "Robust, secure, and scalable applications built to handle complex business needs."
+          },
+          {
+            "number": "03",
+            "title": "Process Automation",
+            "desc": "Streamline workflows and automate repetitive tasks to boost productivity and efficiency.\n"
+          },
+          {
+            "number": "04",
+            "title": "Ongoing Support",
+            "desc": "Continuous maintenance, updates, and enhancements to keep your software current and optimised."
+          }
+        ]
+      },
+      "services": [
+        {
+          "number": "01",
+          "title": "Enterprise Software Engineering",
+          "category": "Corporate · Scaling",
+          "description": "Engineering highly complex, bespoke enterprise software capable of standardizing multi-department operations and handling millions of computational subsets.",
+          "tags": [
+            "ENTERPRISE",
+            "B2B SOLUTIONS",
+            "SCALABILITY",
+            "COMPLIANCE"
+          ],
+          "outcome": "Substantial overhead reduction and unified access across the whole enterprise."
+        },
+        {
+          "number": "02",
+          "title": "Legacy System Modernization",
+          "category": "Refactoring · Upgrades",
+          "description": "Auditing and migrating outdated, monolithic legacy systems into highly decoupled microservices running on modern cloud infrastructure.",
+          "tags": [
+            "REFACTORING",
+            "MIGRATION",
+            "TECH DEBT",
+            "MICROSERVICES"
+          ],
+          "outcome": "Future-proofed architecture prepared entirely for modern integration standards."
+        },
+        {
+          "number": "03",
+          "title": "Custom CRM & ERP Solutions",
+          "category": "Management · Automation",
+          "description": "Building proprietary Customer Relationship Management (CRM) or Enterprise Resource Planning (ERP) systems specifically modeled around your unique workflows.",
+          "tags": [
+            "ERP",
+            "CRM",
+            "AUTOMATION",
+            "RESOURCE MANAGEMENT"
+          ],
+          "outcome": "A centralized command dashboard automating daily administrative burdens."
+        },
+        {
+          "number": "04",
+          "title": "SaaS Product Development",
+          "category": "Cloud · Subscriptions",
+          "description": "Developing scalable, multitenant Software-as-a-Service (SaaS) platforms from foundational concept through to revenue-generating subscription models.",
+          "tags": [
+            "SAAS",
+            "MULTITENANCY",
+            "AWS / CLOUD",
+            "MONETIZATION"
+          ],
+          "outcome": "A fully launched, highly-secure SaaS product ready to generate recurring revenue."
+        },
+        {
+          "number": "05",
+          "title": "Third-Party API Integrations",
+          "category": "Connectivity · Web",
+          "description": "Seamlessly connecting your custom software with disparate external systems, payment providers, legacy databases, or marketing tools through rigorous API bridges.",
+          "tags": [
+            "REST / SOAP",
+            "PAYMENT GATEWAYS",
+            "WEBHOOKS",
+            "MIDDLEWARE"
+          ],
+          "outcome": "A unified digital ecosystem functioning synchronously without manual data entry."
+        },
+        {
+          "number": "06",
+          "title": "DevOps & Continuous Delivery",
+          "category": "Infrastructure · CI/CD",
+          "description": "Implementing automated testing, deployment pipelines, and sophisticated containerization (Docker/Kubernetes) to ensure rapid, error-free update cycles.",
+          "tags": [
+            "CI/CD",
+            "DOCKER",
+            "KUBERNETES",
+            "AUTOMATION"
+          ],
+          "outcome": "The ability to deploy software updates multiple times daily with zero downtime."
+        }
+      ],
+      "proof": [
+        {
+          "title": "PharmID: barcoding for pharma",
+          "text": "End-to-end serialization and aggregation with barcode labelling for export packaging.",
+          "metrics": [
+            {
+              "value": "25+",
+              "label": "Countries' regulations met"
+            }
+          ]
+        },
+        {
+          "title": "ERP for a financing firm",
+          "text": "One platform for loans, insurance, order deliveries and sales-purchase operations, eliminating manual work.",
+          "metrics": []
+        },
+        {
+          "title": "CRM for a travel agency",
+          "text": "Bookings, trip manager assignment, discount coupons, trip schedules, queries and payments in one place.",
+          "metrics": []
+        }
+      ],
+      "work": [],
+      "stack": [
+        "MERN Stack",
+        "MEAN Stack",
+        ".NET",
+        "Java",
+        "Python",
+        "Laravel",
+        "Django",
+        "Nest JS",
+        "Blockchain & Web3"
+      ],
+      "related": [
+        "business-software-solutions",
+        "mobile-app-development",
+        "ai-ml-solutions"
+      ]
+    }
+  },
+  {
+    "id": "2a352af5-c7cc-43d5-9ed7-926ac3dcd7e3",
+    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
+    "type": "business-software-solutions",
+    "order": 5,
+    "content": {
+      "seo": {
+        "noIndex": false,
+        "metaTitle": "Business Software Solutions | Streamline Your Operations - TGT",
+        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/business-software-solutions",
+        "targetKeywords": "business software solutions, ERP development, CRM solutions, business automation, workflow management, enterprise productivity tools",
+        "metaDescription": "Empower your business with modern software solutions. From ERP to CRM, we build tools that enhance productivity and streamline business workflows."
+      },
+      "hero": {
+        "name": "Business Software Solutions",
+        "pillar": "build",
+        "headingLine1": "Run your whole business",
+        "headingLine2": "from one place.",
+        "paragraphs": [
+          "We deliver comprehensive software solutions that transform how your business operates. From ERP and CRM systems to business intelligence and analytics platforms, we provide integrated solutions that drive growth and efficiency.",
+          "Our team combines deep industry knowledge with technical expertise to deliver software that aligns with your business goals. We ensure seamless integration, data security, and scalability. Your dedicated partner for business software solutions."
+        ],
+        "pillars": [
+          {
+            "number": "01",
+            "title": "Integrated Systems",
+            "desc": "\nSeamlessly connect ERP, CRM, and other business systems for unified operations and data flow.\n"
+          },
+          {
+            "number": "02",
+            "title": "Business Intelligence",
+            "desc": "Transform data into actionable insights with analytics and reporting tools that drive decision-making."
+          },
+          {
+            "number": "03",
+            "title": "Cloud & On-Premise",
+            "desc": "Flexible deployment options — cloud-based or on-premise solutions tailored to your infrastructure needs."
+          },
+          {
+            "number": "04",
+            "title": "Strategic Consulting",
+            "desc": "Expert guidance to select, implement, and optimise software solutions that deliver measurable ROI."
+          }
+        ]
+      },
+      "services": [
+        {
+          "number": "01",
+          "title": "Workflow Process Automation",
+          "category": "Operations · Efficiency",
+          "description": "Identifying repetitive manual tasks and engineering automated software scripts to execute them flawlessly in fractions of standard operation time.",
+          "tags": [
+            "AUTOMATION",
+            "BPM",
+            "RPA",
+            "EFFICIENCY"
+          ],
+          "outcome": "Thousands of labor hours saved annually and drastically reduced human error."
+        },
+        {
+          "number": "02",
+          "title": "Financial & Billing Systems",
+          "category": "Finance · Security",
+          "description": "Designing closed-loop financial tracking, automated invoicing, and corporate billing portals integrating securely with tier-1 banking APIs.",
+          "tags": [
+            "FINTECH",
+            "INVOICING",
+            "SECURE DATA",
+            "COMPLIANCE"
+          ],
+          "outcome": "An airtight financial pipeline eliminating delayed payments and accounting errors."
+        },
+        {
+          "number": "03",
+          "title": "Human Resource Portals",
+          "category": "HR · Enterprise",
+          "description": "Creating comprehensive HR tracking suites handling employee onboarding, payroll allocations, attendance charting, and internal communication matrices.",
+          "tags": [
+            "HRMS",
+            "ONBOARDING",
+            "PAYROLL",
+            "INTERNAL WIKI"
+          ],
+          "outcome": "A highly synthesized internal culture backed by simple human resource tracking."
+        },
+        {
+          "number": "04",
+          "title": "Inventory & Supply Chain",
+          "category": "Logistics · Live Tracking",
+          "description": "Deploying logistics solutions granting absolute real-time visibility into warehouse supplies, fleet tracking, shipping milestones, and supplier communication.",
+          "tags": [
+            "LOGISTICS",
+            "WAREHOUSING",
+            "TRACKING",
+            "SUPPLY CHAIN"
+          ],
+          "outcome": "Zero inventory discrepancy and drastically lowered logistical overhead."
+        },
+        {
+          "number": "05",
+          "title": "Client Portal Dashboards",
+          "category": "B2C · Customer Experience",
+          "description": "Engineering secure entry portals where corporate clients or consumers can track their project status, submit tickets, and download secure documents.",
+          "tags": [
+            "CLIENT PORTAL",
+            "SECURE LOGIN",
+            "DOCUMENT SHARING",
+            "B2B"
+          ],
+          "outcome": "Unprecedented client transparency increasing customer satisfaction vertically."
+        },
+        {
+          "number": "06",
+          "title": "Data Backup & Recovery Systems",
+          "category": "Security · Continuity",
+          "description": "Integrating unshakeable data backup protocols natively within business software, guaranteeing instantaneous failovers and disaster recovery metrics.",
+          "tags": [
+            "DISASTER RECOVERY",
+            "ENCRYPTION",
+            "CLOUD BACKUP",
+            "CONTINUITY"
+          ],
+          "outcome": "Absolute insurance preventing catastrophic data loss regardless of variable risks."
+        }
+      ],
+      "proof": [
+        {
+          "title": "Complete ERP for the IP industry",
+          "text": "Data bank, sales, operations, accounts and analytics in one system with real-time tracking and reporting.",
+          "metrics": []
+        },
+        {
+          "title": "Inventory management system",
+          "text": "Real-time tracking with a unique QR code per item, barcode stock-out and instant audit reports.",
+          "metrics": []
+        },
+        {
+          "title": "Officink office platform",
+          "text": "HR, finance and task management with workflow automation, live dashboards and secure documents.",
+          "metrics": []
+        }
+      ],
+      "work": [],
+      "stack": [
+        "ERP",
+        "CRM",
+        "Inventory management",
+        "HR & payroll",
+        "Workflow automation",
+        "SAP",
+        "Document management"
+      ],
+      "related": [
+        "custom-software-development",
+        "business-intelligence-solutions",
+        "ai-ml-solutions"
+      ]
+    }
+  },
+  {
+    "id": "a1da3b55-ca8c-4610-aaac-779b4fa761a4",
+    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
+    "type": "search-content-marketing",
+    "order": 6,
+    "content": {
+      "seo": {
+        "metaTitle": "Search & Content Marketing | The Gold Technologies",
+        "metaDescription": "We help the right customers find you. Technical SEO, AI search visibility and content that earns trust, so your website brings in qualified traffic month after month.",
+        "targetKeywords": "",
+        "canonicalUrl": "https://thegoldtechnologies.com/service/search-content-marketing",
+        "noIndex": false
+      },
+      "hero": {
+        "name": "Search & Content Marketing",
+        "pillar": "grow",
+        "headingLine1": "Get found by",
+        "headingLine2": "the right buyers.",
+        "paragraphs": [
+          "We help the right customers find you. Technical SEO, AI search visibility and content that earns trust, so your website brings in qualified traffic month after month.",
+          "We start with what your buyers actually search for, fix what holds your site back, then publish content that answers them better than anyone else. Every month you see rankings, traffic and leads, not vanity metrics."
+        ],
+        "pillars": [
+          {
+            "number": "01",
+            "title": "Search research",
+            "desc": "Keywords and questions your buyers use, mapped to the pages that should win them."
+          },
+          {
+            "number": "02",
+            "title": "Technical foundations",
+            "desc": "Speed, structure and indexing fixed so search engines can read and trust your site."
+          },
+          {
+            "number": "03",
+            "title": "Content that ranks",
+            "desc": "Articles, guides and landing pages written to answer real questions and convert."
+          },
+          {
+            "number": "04",
+            "title": "Nurture and measure",
+            "desc": "Email journeys that turn readers into leads, with monthly reporting you can act on."
+          }
+        ]
+      },
+      "services": [
+        {
+          "number": "01",
+          "title": "Search Engine Optimization (SEO)",
+          "category": "Organic · Traffic",
+          "description": "Executing deep technical, on-page, and off-page SEO strategies to dramatically increase your organic visibility and conquer high-value search queries.",
+          "tags": [
+            "TECHNICAL SEO",
+            "KEYWORD RESEARCH",
+            "ON-PAGE",
+            "LINK BUILDING"
+          ],
+          "outcome": "Sustained organic traffic and authoritative dominance over market keywords."
+        },
+        {
+          "number": "02",
+          "title": "Content Marketing Strategy",
+          "category": "Inbound · Authority",
+          "description": "Producing valuable, authoritative long-form blogs, whitepapers, and video scripts designed to educate users and capture inbound traffic natively.",
+          "tags": [
+            "BLOGGING",
+            "WHITEPAPERS",
+            "VIDEO SCRIPTS",
+            "INBOUND"
+          ],
+          "outcome": "Established industry thought-leadership and a robust inbound acquisition pipeline."
+        },
+        {
+          "number": "03",
+          "title": "Email Marketing Automation",
+          "category": "Retention · Nurturing",
+          "description": "Setting up sophisticated, automated drip campaigns and newsletters that progressively nurture cold leads into loyal, repeat customers.",
+          "tags": [
+            "DRIP CAMPAIGNS",
+            "NEWSLETTERS",
+            "KLAVIYO",
+            "LEAD NURTURING"
+          ],
+          "outcome": "Maximized customer lifetime value and an engaged direct-access audience."
+        },
+        {
+          "number": "04",
+          "title": "AI Search Optimization (AEO & GEO)",
+          "category": "Discovery · AI search",
+          "description": "Structuring your content and data so answer engines and AI assistants like ChatGPT, Gemini and Google's AI results cite and recommend your business.",
+          "tags": [
+            "AEO",
+            "GEO",
+            "SCHEMA",
+            "ENTITY SEO"
+          ],
+          "outcome": "Your brand shows up where buyers now ask their questions."
+        }
+      ],
+      "proof": [
+        {
+          "title": "The Embassy Inn: hotel website and marketing",
+          "text": "A new booking website backed by search and content marketing, leading to more bookings, stronger brand awareness and better search rankings.",
+          "metrics": []
+        }
+      ],
+      "work": [
+        "The Embassy Inn",
+        "The Social Beacon",
+        "GreatWaterFilters"
+      ],
+      "stack": [
+        "SEO",
+        "AEO, AIO & GEO",
+        "Technical SEO",
+        "Content marketing",
+        "Email automation",
+        "Klaviyo",
+        "Podcast management",
+        "Analytics"
+      ],
+      "related": [
+        "social-performance-marketing",
+        "website-design-development",
+        "branding"
+      ]
+    }
+  },
+  {
+    "id": "f9c05cf9-900a-4f4d-ba4e-0cf027d6e30d",
+    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
+    "type": "social-performance-marketing",
+    "order": 7,
+    "content": {
+      "seo": {
+        "metaTitle": "Social & Performance Marketing | The Gold Technologies",
+        "metaDescription": "Campaigns that turn attention into revenue. We run social media, paid ads and landing page optimisation as one system, so every part of your budget is tracked to results.",
+        "targetKeywords": "",
+        "canonicalUrl": "https://thegoldtechnologies.com/service/social-performance-marketing",
+        "noIndex": false
+      },
+      "hero": {
+        "name": "Social & Performance Marketing",
+        "pillar": "grow",
+        "headingLine1": "Attention that turns",
+        "headingLine2": "into revenue.",
+        "paragraphs": [
+          "Campaigns that turn attention into revenue. We run social media, paid ads and landing page optimisation as one system, so every part of your budget is tracked to results.",
+          "We find the audiences most likely to buy, build creative that stops the scroll, and send them to pages designed to convert. Then we test, cut what wastes money and scale what works."
+        ],
+        "pillars": [
+          {
+            "number": "01",
+            "title": "Audience and creative",
+            "desc": "Clear targeting and scroll-stopping content for each platform your buyers use."
+          },
+          {
+            "number": "02",
+            "title": "Paid funnels",
+            "desc": "Google and Meta campaigns structured for the lowest cost per lead or sale."
+          },
+          {
+            "number": "03",
+            "title": "Conversion optimisation",
+            "desc": "Landing pages tested and refined so more of your traffic becomes customers."
+          },
+          {
+            "number": "04",
+            "title": "Clear reporting",
+            "desc": "Spend, leads and revenue in one view, reviewed with you every month."
+          }
+        ]
+      },
+      "services": [
+        {
+          "number": "01",
+          "title": "Social Media Management (SMM)",
+          "category": "Engagement · Reach",
+          "description": "Curating high-quality content, fostering community engagement, and executing targeted campaigns across major platforms like LinkedIn, Instagram, and Twitter.",
+          "tags": [
+            "CONTENT CALENDAR",
+            "COMMUNITY",
+            "LINKEDIN",
+            "INSTAGRAM"
+          ],
+          "outcome": "A fiercely loyal online community and significantly expanded brand awareness."
+        },
+        {
+          "number": "02",
+          "title": "Pay-Per-Click Advertising (PPC)",
+          "category": "Paid · Conversion",
+          "description": "Designing highly structured Google Ads and social media paid funnels meticulously optimized for maximum ROI and lowest cost-per-acquisition.",
+          "tags": [
+            "GOOGLE ADS",
+            "META ADS",
+            "RETARGETING",
+            "ROI OPTIMIZATION"
+          ],
+          "outcome": "Immediate, scalable influxes of highly qualified commercial leads."
+        },
+        {
+          "number": "03",
+          "title": "Conversion Rate Optimization (CRO)",
+          "category": "Analytics · Performance",
+          "description": "Analyzing user behavior metrics via heatmaps and A/B testing to algorithmically improve landing page layouts and maximize conversion yields.",
+          "tags": [
+            "A/B TESTING",
+            "HEATMAPS",
+            "ANALYTICS",
+            "UX ADJUSTMENTS"
+          ],
+          "outcome": "Significantly more leads generated without increasing existing ad spend."
+        },
+        {
+          "number": "04",
+          "title": "Influencer & Video Marketing",
+          "category": "Reach · Creative",
+          "description": "Short-form video, creator partnerships and campaign content that build trust quickly and feed your paid and social channels.",
+          "tags": [
+            "REELS",
+            "CREATORS",
+            "UGC",
+            "VIDEO ADS"
+          ],
+          "outcome": "Content people actually watch, and a brand they remember."
+        }
+      ],
+      "proof": [
+        {
+          "title": "Kokalachi: travel brand ads",
+          "text": "A paid ad campaign for a travel brand that delivered results within its first month.",
+          "metrics": [
+            {
+              "value": "1 month",
+              "label": "To measurable results"
+            }
+          ]
+        },
+        {
+          "title": "Fee-Fam: clothing brand ads",
+          "text": "An ad campaign for a clothing brand that generated sales in its very first month.",
+          "metrics": [
+            {
+              "value": "Month 1",
+              "label": "First sales generated"
+            }
+          ]
+        }
+      ],
+      "work": [
+        "Kokalachi",
+        "Fee-Fam",
+        "The Embassy Inn",
+        "The Social Beacon"
+      ],
+      "stack": [
+        "Social media management",
+        "Google Ads",
+        "Meta Ads",
+        "Performance marketing",
+        "Influencer marketing",
+        "Video marketing",
+        "Retargeting",
+        "Analytics & CRO"
+      ],
+      "related": [
+        "search-content-marketing",
+        "branding",
+        "business-intelligence-solutions"
+      ]
+    }
+  },
+  {
+    "id": "62b05a19-361e-4142-aa17-0c1a5dbc5b98",
+    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
+    "type": "ai-ml-solutions",
+    "order": 8,
+    "content": {
+      "seo": {
+        "noIndex": false,
+        "metaTitle": "AI & ML Solutions | Advanced Algorithms & Intelligence - TGT",
+        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/ai-ml-solutions",
+        "targetKeywords": "AI development services, machine learning solutions, predictive modeling, artificial intelligence for business, automation using AI, model training",
+        "metaDescription": "Leverage AI and Machine Learning to stay ahead. We build predictive models, recommendation engines, and automated intelligence systems for modern businesses."
+      },
+      "hero": {
+        "name": "AI & ML Solutions",
+        "pillar": "scale",
+        "headingLine1": "AI that does the",
+        "headingLine2": "heavy lifting.",
+        "paragraphs": [
+          "We build intelligent AI and Machine Learning solutions that help businesses automate processes, gain insights, and make smarter decisions. From predictive analytics to natural language processing, we turn data into powerful digital assets.",
+          "Our team designs scalable AI systems using modern frameworks and cloud technologies — ensuring accuracy, performance, and seamless integration with your existing platforms. Your trusted partner for AI-driven innovation."
+        ],
+        "pillars": [
+          {
+            "number": "01",
+            "title": "Intelligent Automation",
+            "desc": "Automate repetitive tasks and workflows using smart AI-driven systems."
+          },
+          {
+            "number": "02",
+            "title": "Data-Driven Insights",
+            "desc": "Transform raw data into actionable insights with advanced analytics."
+          },
+          {
+            "number": "03",
+            "title": "Scalable AI Models",
+            "desc": "Robust and scalable machine learning models for long-term performance."
+          },
+          {
+            "number": "04",
+            "title": "Custom AI Integration",
+            "desc": "Tailored AI solutions are integrated seamlessly into your business processes."
+          }
+        ]
+      },
+      "services": [
+        {
+          "number": "01",
+          "title": "Custom Machine Learning Models",
+          "category": "Algorithms · Training",
+          "description": "Training bespoke Machine Learning algorithms natively using your proprietary datasets to classify, parse, or identify entirely unique enterprise logic parameters.",
+          "tags": [
+            "SUPERVISED LEARNING",
+            "CLASSIFICATION",
+            "NEURAL NETWORKS",
+            "TRAINING"
+          ],
+          "outcome": "A fully proprietary AI engine uniquely wired exclusively to solve your specific niche."
+        },
+        {
+          "number": "02",
+          "title": "Natural Language Processing (NLP)",
+          "category": "Linguistics · Logic",
+          "description": "Implementing NLP algorithms to comprehend, parse, translate, and autonomously synthesize profound lengths of human text into structured analytical data.",
+          "tags": [
+            "NLP",
+            "SENTIMENT ANALYSIS",
+            "TEXT PARSING",
+            "CHATBOTS"
+          ],
+          "outcome": "The ability to instantaneously digest millions of user reviews or conversational logs."
+        },
+        {
+          "number": "03",
+          "title": "Generative AI Integration",
+          "category": "LLMs · Content",
+          "description": "Connecting powerful Large Language Models directly securely to internal systems empowering instant drafting, coding, or generative problem solving.",
+          "tags": [
+            "OPENAI API",
+            "GENERATIVE AI",
+            "LLMS",
+            "PROMPT ENGINEERING"
+          ],
+          "outcome": "A massively scaled, hyper-intelligent automation capability previously impossible."
+        },
+        {
+          "number": "04",
+          "title": "Computer Vision Systems",
+          "category": "Visuals · Recognition",
+          "description": "Training visual AI capable of immediately identifying objects, faces, optical anomalies, or character strings (OCR) within direct live video or photographic feeds.",
+          "tags": [
+            "COMPUTER VISION",
+            "OCR",
+            "IMAGE RECOGNITION",
+            "AI"
+          ],
+          "outcome": "Complete automated categorization and verification of visual real-world assets."
+        },
+        {
+          "number": "05",
+          "title": "AI Chatbots & Virtual Assistants",
+          "category": "Support · Conversational",
+          "description": "Engineering extremely fluid conversational interfaces capable of managing complex Tier 1 and Tier 2 customer service inquiries synchronously at total scale.",
+          "tags": [
+            "CONVERSATIONAL AI",
+            "CUSTOMER SUPPORT",
+            "VIRTUAL ASSISTANTS",
+            "AUTOMATION"
+          ],
+          "outcome": "Radical decreases in human support overhead while sustaining 24/7 engagement metrics."
+        },
+        {
+          "number": "06",
+          "title": "Recommendation & Discovery Engines",
+          "category": "E-Commerce · Algorithms",
+          "description": "Scripting deep learning recommendation networks matching consumer histories directly to optimal inventory SKUs dynamically increasing vertical upselling.",
+          "tags": [
+            "RECOMMENDATION SYSTEM",
+            "UPSELLING",
+            "BEHAVIORAL ALGORITHMS",
+            "E-COMMERCE"
+          ],
+          "outcome": "Exponential gains natively in consumer basket sizes and cross-sectional engagement."
+        }
+      ],
+      "proof": [
+        {
+          "title": "Catfy: AI catalogue builder",
+          "text": "AI-written product descriptions and image creation, ready templates, and PDF or web sharing.",
+          "metrics": []
+        },
+        {
+          "title": "LeadZenor: AI event networking",
+          "text": "QR visitor capture, automatic follow-ups and AI event recommendations for exhibitors and organisers.",
+          "metrics": []
+        }
+      ],
+      "work": [],
+      "stack": [
+        "AI & machine learning",
+        "Python",
+        "Flask",
+        "Django",
+        "Generative AI",
+        "AI chatbots",
+        "Recommendations"
+      ],
+      "related": [
+        "business-intelligence-solutions",
+        "custom-software-development",
+        "business-software-solutions"
+      ]
+    }
+  },
+  {
+    "id": "28f2f0cf-890c-48ae-8bf3-2fc668a3d2ff",
+    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
+    "type": "business-intelligence-solutions",
+    "order": 9,
+    "content": {
+      "seo": {
+        "noIndex": false,
+        "metaTitle": "Business Intelligence Solutions | Data-Driven Insights - TGT",
+        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/business-intelligence-solutions",
+        "targetKeywords": "business intelligence services, data visualization, data analytics solutions, dashboard development, strategic insights, predictive analytics",
+        "metaDescription": "Unlock the power of your data with our BI services. We provide data visualization, advanced analytics, and strategic insights for informed decision-making."
+      },
+      "hero": {
+        "name": "Business Intelligence",
+        "pillar": "scale",
+        "headingLine1": "Turn your data into",
+        "headingLine2": "decisions.",
+        "paragraphs": [
+          "We design and implement business intelligence solutions that turn your data into clear, actionable insights. From dashboards and reporting to self-service analytics, we help your teams make better decisions, faster.",
+          "Our experts work with your existing systems to centralise data, define reliable metrics, and deliver intuitive visualisations. Your dedicated partner for BI platforms that scale with your organisation."
+        ],
+        "pillars": [
+          {
+            "number": "01",
+            "title": "Data Strategy",
+            "desc": "Align your data, KPIs, and governance with business objectives for trustworthy insights."
+          },
+          {
+            "number": "02",
+            "title": "Dashboards & Reporting",
+            "desc": "Interactive dashboards and reports that give stakeholders real-time visibility into performance."
+          },
+          {
+            "number": "03",
+            "title": "Data Integration",
+            "desc": "Connect disparate systems and consolidate data into a single, reliable source of truth."
+          },
+          {
+            "number": "04",
+            "title": "Advanced Analytics",
+            "desc": "Leverage forecasting and deeper analysis to identify trends and opportunities earlier."
+          }
+        ]
+      },
+      "services": [
+        {
+          "number": "01",
+          "title": "Data Warehousing",
+          "category": "Big Data · Storage",
+          "description": "Structuring massive, scalable data warehouses that safely aggregate disjointed enterprise data into a single source of categorical truth.",
+          "tags": [
+            "DATA LAKE",
+            "ETL PROCESSES",
+            "CLOUD WAREHOUSE",
+            "AGGREGATION"
+          ],
+          "outcome": "A fully unified underlying data infrastructure primed for high-speed querying."
+        },
+        {
+          "number": "02",
+          "title": "Interactive Dashboards & Visualization",
+          "category": "Analytics · UI",
+          "description": "Building breathtaking, real-time visual dashboards utilizing modern analytics (PowerBI, Tableau) to visually interpret extremely complex datasets.",
+          "tags": [
+            "DATA VISUALIZATION",
+            "DASHBOARDS",
+            "TABLEAU",
+            "POWERBI"
+          ],
+          "outcome": "Immediate strategic clarity allowing executives to comprehend matrixed realities instantly."
+        },
+        {
+          "number": "03",
+          "title": "Predictive Analytics & Forecasting",
+          "category": "Machine Learning · Future",
+          "description": "Deploying proprietary models that analyze vast historical behaviors to accurately forecast future sales trends, market downturns, and supply deficits.",
+          "tags": [
+            "PREDICTIVE MODELS",
+            "FORECASTING",
+            "TREND ANALYSIS",
+            "BIG DATA"
+          ],
+          "outcome": "The definitive absolute advantage of acting decisively before market shifts occur."
+        },
+        {
+          "number": "04",
+          "title": "Business Performance Reporting",
+          "category": "Metrics · KPIs",
+          "description": "Automating cyclic performance reports tracking granular Key Performance Indicators (KPIs) and delivering them securely across executive channels.",
+          "tags": [
+            "KPI TRACKING",
+            "REPORT AUTOMATION",
+            "PERFORMANCE",
+            "CORPORATE"
+          ],
+          "outcome": "Consistent, error-free oversight on the exact health of overarching enterprise initiatives."
+        },
+        {
+          "number": "05",
+          "title": "Data Cleansing & Governance",
+          "category": "Integrity · Compliance",
+          "description": "Scrubbing existing datasets for corrupt, replicated, or inaccurate vectors while establishing harsh data governance and compliance protocols.",
+          "tags": [
+            "DATA GOVERNANCE",
+            "CLEANSING",
+            "ACCURACY",
+            "COMPLIANCE"
+          ],
+          "outcome": "Complete elimination of skewed analytical decision-making caused by 'dirty data'."
+        },
+        {
+          "number": "06",
+          "title": "Real-time Mining Strategies",
+          "category": "Algorithms · Insights",
+          "description": "Engineering complex algorithmic web-scrapers and data injection pipelines specifically to mine competitor strategies and external market metrics globally.",
+          "tags": [
+            "DATA MINING",
+            "WEB SCRAPING",
+            "ALGORITHMIC EXTRACTION",
+            "GLOBAL DATA"
+          ],
+          "outcome": "Access to hidden market insights previously obfuscated to manual analysts."
+        }
+      ],
+      "proof": [
+        {
+          "title": "Financial analytics dashboards",
+          "text": "Optimised slow reports and built balance sheet, cash flow, financial ratio and executive summary dashboards.",
+          "metrics": [
+            {
+              "value": "15s → 3s",
+              "label": "Report load time"
+            }
+          ]
+        }
+      ],
+      "work": [],
+      "stack": [
+        "Power BI",
+        "Tableau",
+        "Data warehousing",
+        "Data engineering",
+        "Data visualisation",
+        "Advanced analytics"
+      ],
+      "related": [
+        "ai-ml-solutions",
+        "business-software-solutions",
+        "social-performance-marketing"
+      ]
+    }
+  },
+  {
+    "id": "5e4594ad-f323-4bfd-bd24-5af2b15066b2",
+    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
+    "type": "staff-augmentation",
+    "order": 10,
+    "content": {
+      "seo": {
+        "metaTitle": "Staff Augmentation | The Gold Technologies",
+        "metaDescription": "Add experienced developers, designers and QA engineers to your team without the cost and delay of hiring. They work in your tools and your hours, on flexible contracts you can scale up or down.",
+        "targetKeywords": "",
+        "canonicalUrl": "https://thegoldtechnologies.com/service/staff-augmentation",
+        "noIndex": false
+      },
+      "hero": {
+        "name": "Staff Augmentation",
+        "pillar": "scale",
+        "headingLine1": "Senior talent,",
+        "headingLine2": "on demand.",
+        "paragraphs": [
+          "Add experienced developers, designers and QA engineers to your team without the cost and delay of hiring. They work in your tools and your hours, on flexible contracts you can scale up or down.",
+          "Tell us the skills and seniority you need. We match people from our own team, start with a short trial, and handle contracts, payroll and replacements, so you only manage the work."
+        ],
+        "pillars": [
+          {
+            "number": "01",
+            "title": "Share your brief",
+            "desc": "The roles, skills, seniority and hours you need, in one short call."
+          },
+          {
+            "number": "02",
+            "title": "Meet your match",
+            "desc": "Profiles from our own team, interviewed by you before anyone starts."
+          },
+          {
+            "number": "03",
+            "title": "Start with a trial",
+            "desc": "A short paid trial so you see the quality of work before committing."
+          },
+          {
+            "number": "04",
+            "title": "Scale freely",
+            "desc": "Add, swap or pause people month to month as your roadmap changes."
+          }
+        ]
+      },
+      "services": [
+        {
+          "number": "01",
+          "title": "Dedicated Developers",
+          "category": "Engineering · Full-time",
+          "description": "Frontend, backend, full-stack and mobile developers who join your standups, work in your repositories and ship to your process.",
+          "tags": [
+            "FRONTEND",
+            "BACKEND",
+            "FULL-STACK",
+            "MOBILE"
+          ],
+          "outcome": "More shipped features without growing your payroll."
+        },
+        {
+          "number": "02",
+          "title": "UI/UX Designers",
+          "category": "Design · Product",
+          "description": "Product and interface designers for research, wireframes, design systems and polished screens, working alongside your developers.",
+          "tags": [
+            "FIGMA",
+            "DESIGN SYSTEMS",
+            "PROTOTYPES",
+            "RESEARCH"
+          ],
+          "outcome": "Consistent, user-tested design at the pace your team builds."
+        },
+        {
+          "number": "03",
+          "title": "QA & Test Engineers",
+          "category": "Quality · Release",
+          "description": "Manual and automated testing across web and mobile, so releases go out on time without surprises for your users.",
+          "tags": [
+            "AUTOMATION",
+            "REGRESSION",
+            "MOBILE QA",
+            "API TESTING"
+          ],
+          "outcome": "Fewer bugs in production and calmer release days."
+        },
+        {
+          "number": "04",
+          "title": "DevOps & Cloud Engineers",
+          "category": "Infrastructure · Scale",
+          "description": "Engineers who set up and run your cloud, CI/CD pipelines and monitoring, keeping systems fast, secure and affordable.",
+          "tags": [
+            "AWS",
+            "CI/CD",
+            "DOCKER",
+            "MONITORING"
+          ],
+          "outcome": "Reliable infrastructure that grows with your traffic."
+        },
+        {
+          "number": "05",
+          "title": "Project & Delivery Managers",
+          "category": "Delivery · Planning",
+          "description": "Experienced managers who plan sprints, keep stakeholders aligned and make sure the work lands on schedule.",
+          "tags": [
+            "AGILE",
+            "SCRUM",
+            "ROADMAPS",
+            "REPORTING"
+          ],
+          "outcome": "Predictable delivery and clear visibility for leadership."
+        },
+        {
+          "number": "06",
+          "title": "Dedicated Product Teams",
+          "category": "Team · End to end",
+          "description": "A ready-made team of developers, a designer, QA and a manager that runs a whole product or workstream for you.",
+          "tags": [
+            "CROSS-FUNCTIONAL",
+            "OWNERSHIP",
+            "FAST START",
+            "FLEXIBLE"
+          ],
+          "outcome": "A complete team, productive from week one, without months of hiring."
+        }
+      ],
+      "proof": [],
+      "work": [],
+      "stack": [
+        "React JS",
+        "Next.js",
+        "Node & Express",
+        "Laravel",
+        "Python",
+        "Flutter",
+        "React Native",
+        "AWS",
+        "Figma"
+      ],
+      "related": [
+        "custom-software-development",
+        "website-design-development",
+        "mobile-app-development"
+      ]
+    }
+  },
+  {
+    "id": "ee19240d-b2b0-482e-9906-c641315e8443",
+    "pageId": "45aa87e6-cc0b-4432-81fe-2fecfc4ef2ba",
+    "type": "digital-marketing",
+    "order": 11,
+    "content": {
+      "seo": {
+        "noIndex": false,
+        "metaTitle": "Digital Marketing Services | SEO, SMM & Growth Strategies - TGT",
+        "canonicalUrl": "https://tgt-landing-page-jade.vercel.app/service/digital-marketing",
+        "targetKeywords": "digital marketing services, SEO agency, social media marketing, content marketing, growth hacking, PPC management, online visibility",
+        "metaDescription": "Maximize your reach with our digital marketing expertise. We provide SEO, Social Media Marketing, and growth strategies to drive traffic and engagement."
+      },
+      "hero": {
+        "name": "Digital Marketing (Shared Source)",
+        "pillar": "grow",
+        "headingLine1": " Digital Marketing",
+        "headingLine2": "",
+        "paragraphs": [
+          "We create data-driven digital marketing strategies that help your business grow online, attract the right audience, and increase conversions. From SEO and social media to paid advertising and content marketing, we deliver measurable results.",
+          "Our team combines creativity with analytics — optimising campaigns, tracking performance, and refining strategies to maximise ROI. Your trusted partner for building a strong and impactful online presence."
+        ],
+        "pillars": [
+          {
+            "desc": "Improve visibility and rank higher on search engines to attract organic traffic.",
+            "title": "Search Engine Optimization",
+            "number": "01"
+          },
+          {
+            "desc": "Engage your audience and grow your brand across social platforms.",
+            "title": "Social Media Marketing",
+            "number": "02"
+          },
+          {
+            "desc": "Targeted ad campaigns designed to drive conversions and revenue.",
+            "title": "Performance Advertising",
+            "number": "03"
+          },
+          {
+            "desc": "Strategic content backed by insights to optimise marketing performance.",
+            "title": "Content & Analytics",
+            "number": "04"
+          }
+        ]
+      },
+      "services": [
+        {
+          "tags": [
+            "TECHNICAL SEO",
+            "KEYWORD RESEARCH",
+            "ON-PAGE",
+            "LINK BUILDING"
+          ],
+          "title": "Search Engine Optimization (SEO)",
+          "number": "01",
+          "outcome": "Sustained organic traffic and authoritative dominance over market keywords.",
+          "category": "Organic · Traffic",
+          "description": "Executing deep technical, on-page, and off-page SEO strategies to dramatically increase your organic visibility and conquer high-value search queries."
+        },
+        {
+          "tags": [
+            "CONTENT CALENDAR",
+            "COMMUNITY",
+            "LINKEDIN",
+            "INSTAGRAM"
+          ],
+          "title": "Social Media Management (SMM)",
+          "number": "02",
+          "outcome": "A fiercely loyal online community and significantly expanded brand awareness.",
+          "category": "Engagement · Reach",
+          "description": "Curating high-quality content, fostering community engagement, and executing targeted campaigns across major platforms like LinkedIn, Instagram, and Twitter."
+        },
+        {
+          "tags": [
+            "GOOGLE ADS",
+            "META ADS",
+            "RETARGETING",
+            "ROI OPTIMIZATION"
+          ],
+          "title": "Pay-Per-Click Advertising (PPC)",
+          "number": "03",
+          "outcome": "Immediate, scalable influxes of highly qualified commercial leads.",
+          "category": "Paid · Conversion",
+          "description": "Designing highly structured Google Ads and social media paid funnels meticulously optimized for maximum ROI and lowest cost-per-acquisition."
+        },
+        {
+          "tags": [
+            "BLOGGING",
+            "WHITEPAPERS",
+            "VIDEO SCRIPTS",
+            "INBOUND"
+          ],
+          "title": "Content Marketing Strategy",
+          "number": "04",
+          "outcome": "Established industry thought-leadership and a robust inbound acquisition pipeline.",
+          "category": "Inbound · Authority",
+          "description": "Producing valuable, authoritative long-form blogs, whitepapers, and video scripts designed to educate users and capture inbound traffic natively."
+        },
+        {
+          "tags": [
+            "DRIP CAMPAIGNS",
+            "NEWSLETTERS",
+            "KLAVIYO",
+            "LEAD NURTURING"
+          ],
+          "title": "Email Marketing Automation",
+          "number": "05",
+          "outcome": "Maximized customer lifetime value and an engaged direct-access audience.",
+          "category": "Retention · Nurturing",
+          "description": "Setting up sophisticated, automated drip campaigns and newsletters that progressively nurture cold leads into loyal, repeat customers."
+        },
+        {
+          "tags": [
+            "A/B TESTING",
+            "HEATMAPS",
+            "ANALYTICS",
+            "UX ADJUSTMENTS"
+          ],
+          "title": "Conversion Rate Optimization (CRO)",
+          "number": "06",
+          "outcome": "Significantly more leads generated without increasing existing ad spend.",
+          "category": "Analytics · Performance",
+          "description": "Analyzing user behavior metrics via heatmaps and A/B testing to algorithmically improve landing page layouts and maximize conversion yields."
+        }
+      ],
+      "proof": [],
+      "work": [],
+      "stack": [],
+      "related": []
+    }
   }
 ]

@@ -1,279 +1,183 @@
 "use client";
-import { useState, useEffect } from "react";
-import { PageHeader } from "@/components/PageHeader";
-import { SaveButton } from "@/components/SaveButton";
-import { fetchWithCache } from "@/lib/apiCache";
+
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { ServiceHeroCMS } from "./components/ServiceHeroCMS";
-import { WhatWeDoCMS } from "./components/WhatWeDoCMS";
-import { InputField } from "@/components/InputField";
+import { PageHeader } from "@/components/PageHeader";
+import { SelectField } from "@/components/SelectField";
+import { GlobalSectionRef } from "@/app/components/GlobalSectionRef";
+import { clearCache, fetchWithCache } from "@/lib/apiCache";
+import { ServiceHero } from "./components/ServiceHero";
+import { ServiceApproach } from "./components/ServiceApproach";
+import { ServiceDeliver } from "./components/ServiceDeliver";
+import { ServiceProof } from "./components/ServiceProof";
+import { ServiceStack } from "./components/ServiceStack";
+import {
+  SERVICE_OPTIONS,
+  createDefaultServiceData,
+  normalizeServiceData,
+  type ServicePageData,
+} from "./types";
 
-const SERVICE_OPTIONS = [
-  { id: "accessibility-services", label: "Accessibility Services" },
-  { id: "ui-ux-designing", label: "UI/UX Designing" },
-  { id: "website-design-development", label: "Website Design & Development" },
-  { id: "mobile-app-development", label: "Mobile App Development" },
-  { id: "custom-software-development", label: "Custom Software Development" },
-  { id: "business-software-solutions", label: "Business Software Solutions" },
-  {
-    id: "business-intelligence-solutions",
-    label: "Business Intelligence Solutions",
-  },
-  { id: "iot-solutions", label: "IOT Solutions" },
-  { id: "ai-ml-solutions", label: "AI & ML Solution" },
-  { id: "branding", label: "Branding" },
-  { id: "digital-marketing", label: "Digital Marketing" },
+const SELECTOR_OPTIONS = [
+  { value: "", label: "Select a service page..." },
+  ...SERVICE_OPTIONS.map((opt) => ({ value: opt.id, label: opt.label })),
 ];
-
-import { uploadFiles } from "@/app/lib/uploadHelpers";
-
-interface ServiceItem {
-  number: string;
-  title: string;
-  category: string;
-  description: string;
-  tags: string[];
-  outcome: string;
-}
-
-interface HeroData {
-  label: string;
-  headingLine1: string;
-  headingLine2: string;
-  paragraphs: string[];
-  ctaText: string;
-  ctaHref: string;
-  imageUrl: string | File;
-  statSince: string;
-  statProjects: string;
-  pillars: { number: string; title: string; desc: string }[];
-  headingTag?: string;
-}
-
-interface PageData {
-  hero: HeroData;
-  services: ServiceItem[];
-  servicesHeader?: {
-    upperTag: string;
-    title: string;
-    titleHighlight: string;
-  };
-}
-
-const defaultData: PageData = {
-  hero: {
-    label: "",
-    headingLine1: "",
-    headingLine2: "",
-    paragraphs: ["", ""],
-    ctaText: "",
-    ctaHref: "",
-    imageUrl: "",
-    statSince: "",
-    statProjects: "",
-    headingTag: "h1",
-    pillars: [
-      { number: "01", title: "", desc: "" },
-      { number: "02", title: "", desc: "" },
-      { number: "03", title: "", desc: "" },
-      { number: "04", title: "", desc: "" },
-    ],
-  },
-  services: [
-    {
-      number: "01",
-      title: "",
-      category: "",
-      description: "",
-      tags: [] as string[],
-      outcome: "",
-    },
-  ],
-  servicesHeader: {
-    upperTag: "",
-    title: "",
-    titleHighlight: "",
-  },
-};
 
 export default function ServicesCMS() {
   const [selectedServiceId, setSelectedServiceId] = useState(SERVICE_OPTIONS[0].id);
-  const [formData, setFormData] = useState<PageData>(defaultData);
+  const [formData, setFormData] = useState<ServicePageData>(createDefaultServiceData);
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load data when selected service changes
   useEffect(() => {
+    if (!selectedServiceId) {
+      setFormData(createDefaultServiceData());
+      setIsLoading(false);
+      return;
+    }
+
+    let active = true;
     setIsLoading(true);
     fetchWithCache(`/api/services?id=${selectedServiceId}`)
       .then((json) => {
-        if (json.success && json.data) {
-          setFormData({
-            ...defaultData,
-            ...json.data,
-            hero: { ...defaultData.hero, ...json.data.hero },
-            services: json.data.services || defaultData.services,
-            servicesHeader: json.data.servicesHeader || defaultData.servicesHeader,
-          });
+        if (!active) return;
+        if (json?.success && json.data) {
+          setFormData(normalizeServiceData(json.data));
         } else {
-          setFormData(defaultData); // Fallback to default
+          setFormData(createDefaultServiceData());
         }
       })
       .catch((err) => {
         console.error(err);
-        setFormData(defaultData);
+        if (active) setFormData(createDefaultServiceData());
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        if (active) setIsLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
   }, [selectedServiceId]);
 
   const handleSave = async () => {
-    // Validation
-    const errs: string[] = [];
-    if (!formData.hero.headingLine1.trim()) errs.push("Hero Heading Line 1 is required");
-    if (!formData.hero.paragraphs[0]?.trim()) errs.push("Hero Paragraph 1 is required");
-
-    formData.hero.pillars.forEach((p, i) => {
-      if (!p.title.trim()) errs.push(`Pillar ${i + 1} Title is required`);
-      if (!p.desc.trim()) errs.push(`Pillar ${i + 1} Description is required`);
-    });
-
-    formData.services.forEach((s, i) => {
-      if (!s.title.trim()) errs.push(`Service Card ${i + 1} Title is required`);
-      if (!s.category.trim()) errs.push(`Service Card ${i + 1} Category is required`);
-      if (!s.description.trim()) errs.push(`Service Card ${i + 1} Description is required`);
-    });
-
-    if (errs.length > 0) {
-      errs.forEach((e) => toast.error(e));
+    if (!selectedServiceId) {
+      toast.error("Please select a service first.");
       return;
     }
+
+    const cleanList = (list: string[]) => (list || []).map((item) => item.trim()).filter(Boolean);
+
+    const payload: ServicePageData = {
+      ...formData,
+      services: (formData.services || []).map((item, idx) => ({
+        ...item,
+        number: item.number || String(idx + 1).padStart(2, "0"),
+        tags: cleanList(item.tags),
+      })),
+      proof: (formData.proof || []).map((item) => ({
+        ...item,
+        metrics: (item.metrics || []).filter((m) => m.value.trim() || m.label.trim()),
+      })),
+      work: cleanList(formData.work),
+      stack: cleanList(formData.stack),
+      related: cleanList(formData.related),
+    };
 
     setIsSaving(true);
     const tid = toast.loading(`Saving ${selectedServiceId}...`);
     try {
-      // 1. Upload Hero Image if it's a File
-      const uploadedUrls = await uploadFiles([formData.hero.imageUrl]);
-      const finalHero = {
-        ...formData.hero,
-        imageUrl: uploadedUrls[0] || "",
-      };
-
-      const finalPayload = {
-        ...formData,
-        hero: finalHero,
-      };
-
       const res = await fetch("/api/services", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id: selectedServiceId,
-          content: finalPayload,
+          content: payload,
         }),
       });
       const json = await res.json();
-      if (json.success) {
-        toast.success("Saved successfully!", { id: tid });
-        setFormData(finalPayload);
-      } else {
-        toast.error("Failed to save.", { id: tid });
+      if (!res.ok || !json.success) {
+        throw new Error(json?.error || "Failed to save.");
       }
+      clearCache(`/api/services?id=${selectedServiceId}`);
+      clearCache("/api/services");
+      setFormData(payload);
+      toast.success("Service content saved and published!", { id: tid });
     } catch (err) {
       console.error("Save error:", err);
-      toast.error("Network error.", { id: tid });
+      toast.error(err instanceof Error ? err.message : "Network error.", { id: tid });
     } finally {
       setIsSaving(false);
     }
   };
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-6 pb-20">
+    <section className="flex flex-col gap-6 pb-16">
       <PageHeader
-        title="Services Pages Management"
-        description="Select a service from the dropdown to manage its specific content (Hero and What We Do sections)."
+        title="Services Pages Content"
+        description="Manage all sections displayed on each live /service/[slug] page, in exact website order."
       />
 
-      {/* Service Selector */}
-      <div className="flex items-center gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-        <label className="font-bold text-gray-700">Select Service:</label>
-        <select
+      <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+        <SelectField
+          label="Select Service Page"
           value={selectedServiceId}
           onChange={(e) => setSelectedServiceId(e.target.value)}
-          className="flex-1 rounded-xl border border-gray-200 bg-gray-50 p-3 font-medium text-gray-700 transition-all outline-none focus:ring-2 focus:ring-[#0A0F29]"
-        >
-          {SERVICE_OPTIONS.map((opt) => (
-            <option key={opt.id} value={opt.id}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
+          options={SELECTOR_OPTIONS}
+        />
       </div>
 
-      {isLoading ? (
-        <div className="py-10 text-center font-medium text-gray-400">Loading content...</div>
+      {!selectedServiceId ? (
+        <div className="rounded-2xl border border-dashed border-gray-200 bg-white p-10 text-center text-sm text-gray-400">
+          Choose a service page above to edit its content.
+        </div>
+      ) : isLoading ? (
+        <div className="rounded-2xl border border-gray-100 bg-white py-12 text-center text-sm font-medium text-gray-400 shadow-sm">
+          Loading service content...
+        </div>
       ) : (
         <>
-          <ServiceHeroCMS
+          <ServiceHero
             data={formData.hero}
-            onChange={(hero) => setFormData({ ...formData, hero })}
+            onChange={(hero) => setFormData((prev) => ({ ...prev, hero }))}
+            isSaving={isSaving}
+            onSave={handleSave}
           />
-
-          <div className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-            <h3 className="mb-2 text-lg font-bold text-gray-800">Services Section Heading</h3>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-              <InputField
-                label="Upper Tag"
-                value={formData.servicesHeader?.upperTag || ""}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    servicesHeader: {
-                      ...(formData.servicesHeader || defaultData.servicesHeader!),
-                      upperTag: e.target.value,
-                    },
-                  })
-                }
-                placeholder="e.g. What We Do"
-              />
-              <InputField
-                label="Title (Prefix)"
-                value={formData.servicesHeader?.title || ""}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    servicesHeader: {
-                      ...(formData.servicesHeader || defaultData.servicesHeader!),
-                      title: e.target.value,
-                    },
-                  })
-                }
-                placeholder="e.g. Services That"
-              />
-              <InputField
-                label="Title (Highlight)"
-                value={formData.servicesHeader?.titleHighlight || ""}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    servicesHeader: {
-                      ...(formData.servicesHeader || defaultData.servicesHeader!),
-                      titleHighlight: e.target.value,
-                    },
-                  })
-                }
-                placeholder="e.g. Drive Results"
-              />
-            </div>
-          </div>
-
-          <WhatWeDoCMS
+          <ServiceApproach
+            data={formData.hero}
+            onChange={(hero) => setFormData((prev) => ({ ...prev, hero }))}
+            isSaving={isSaving}
+            onSave={handleSave}
+          />
+          <ServiceDeliver
             services={formData.services}
-            onChange={(services) => setFormData({ ...formData, services })}
+            onChange={(services) => setFormData((prev) => ({ ...prev, services }))}
+            isSaving={isSaving}
+            onSave={handleSave}
           />
-
-          <SaveButton onClick={handleSave} disabled={isSaving} />
+          <ServiceProof
+            proof={formData.proof}
+            work={formData.work}
+            onProofChange={(proof) => setFormData((prev) => ({ ...prev, proof }))}
+            onWorkChange={(work) => setFormData((prev) => ({ ...prev, work }))}
+            isSaving={isSaving}
+            onSave={handleSave}
+          />
+          <ServiceStack
+            currentSlug={selectedServiceId}
+            stack={formData.stack}
+            related={formData.related}
+            onStackChange={(stack) => setFormData((prev) => ({ ...prev, stack }))}
+            onRelatedChange={(related) => setFormData((prev) => ({ ...prev, related }))}
+            isSaving={isSaving}
+            onSave={handleSave}
+          />
+          <GlobalSectionRef
+            title="Growth CTA & Brief Modal"
+            description="Let's Talk CTA section, office timezone clocks, and project brief modal copy (shared globally across the site)."
+          />
         </>
       )}
-    </div>
+    </section>
   );
 }
