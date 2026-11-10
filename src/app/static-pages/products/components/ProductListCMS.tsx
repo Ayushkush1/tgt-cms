@@ -244,12 +244,14 @@ export function ProductListCMS({
                                 label="Title"
                                 value={pillar.title}
                                 onChange={(e) => updatePillar(pIndex, i, "title", e.target.value)}
+                                placeholder="e.g. Automated Billing"
                                 containerClassName="mb-3"
                               />
                               <TextAreaField
                                 label="Description"
                                 value={pillar.desc}
                                 onChange={(e) => updatePillar(pIndex, i, "desc", e.target.value)}
+                                placeholder="Describe this product feature..."
                                 rows={2}
                               />
                             </div>

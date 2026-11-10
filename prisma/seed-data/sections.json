@@ -2897,5 +2897,443 @@
     "order": 4,
     "createdAt": "2026-03-16T07:41:27.777Z",
     "updatedAt": "2026-04-08T11:12:47.198Z"
+  },
+  {
+    "id": "0fa1f03b-ad53-4b1c-be33-1561ea57a88f",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "GrowthHero",
+    "content": {
+      "headlineTop": "One team to",
+      "headlineWords": [
+        "brand,",
+        "build"
+      ],
+      "headlinePrefix": "&",
+      "headlineHighlight": "grow",
+      "headlineSuffix": "your business.",
+      "description": "Strategy, design, technology and marketing under one roof. Built for founders and teams who want growth, not another vendor to manage.",
+      "primaryButtonLabel": "Book a free strategy call",
+      "primaryButtonUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
+      "secondaryButtonLabel": "See our work",
+      "secondaryButtonUrl": "#work",
+      "rating": "5.0",
+      "ratingLabel": "Average client rating",
+      "proofLine": "50+ businesses grown worldwide",
+      "responseLine": "Reply within 24 hours",
+      "ticker": [
+        "Branding",
+        "UI/UX Design",
+        "Websites",
+        "Mobile Apps",
+        "SaaS",
+        "ERP & CRM",
+        "SEO",
+        "Performance Ads",
+        "Social Media",
+        "AI Automation",
+        "Business Intelligence",
+        "Staff Augmentation"
+      ]
+    },
+    "order": 10,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "a2d898ce-806b-43d8-8882-3b811bd7097b",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "Showreel",
+    "content": {
+      "label": "(Proof, not promises)",
+      "bigNumber": "70+",
+      "caption": "launches for brands in 7+ countries",
+      "linkLabel": "Explore the work",
+      "linkUrl": "#work"
+    },
+    "order": 11,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "5fa4d986-6137-4817-b814-514f0558d0d3",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "Manifesto",
+    "content": {
+      "label": "(Our approach)",
+      "text": "Most agencies hand you a deliverable and walk away. We stay. One team across brand, product and marketing, measured not by what we ship, but by how much you grow.",
+      "highlights": [
+        "stay.",
+        "grow."
+      ],
+      "stats": [
+        {
+          "value": "1",
+          "label": "Team for everything"
+        },
+        {
+          "value": "24h",
+          "label": "Response time"
+        },
+        {
+          "value": "7+",
+          "label": "Countries served"
+        }
+      ]
+    },
+    "order": 12,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "188a8815-1545-49a0-a691-8122f22fbf7b",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "ServicePillars",
+    "content": {
+      "label": "(What we do)",
+      "headlineMain": "Everything you need to grow.",
+      "headlineHighlight": "Under one roof.",
+      "description": "Eleven services organised around the four stages of growth. Start with one, or let us run the whole journey.",
+      "ctaLabel": "Not sure where to start? Get a free audit",
+      "ctaUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
+      "pillars": [
+        {
+          "id": "brand",
+          "number": "01",
+          "name": "Brand",
+          "title": "Look the part. Be remembered.",
+          "description": "We shape how customers see, feel and remember you, from positioning and identity to interfaces people love using.",
+          "outcome": "A brand customers trust at first glance.",
+          "services": [
+            {
+              "name": "Branding & Identity",
+              "href": "/service/branding",
+              "items": [
+                "Strategy & positioning",
+                "Logo & visual identity",
+                "Brand voice"
+              ]
+            },
+            {
+              "name": "UI/UX Design",
+              "href": "/service/ui-ux-designing",
+              "items": [
+                "Research",
+                "Prototypes",
+                "Interface & motion design"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "build",
+          "number": "02",
+          "name": "Build",
+          "title": "Products that work as hard as you do.",
+          "description": "Fast websites, mobile apps and custom software engineered to scale with your business, not hold it back.",
+          "outcome": "Digital products that turn visitors into customers.",
+          "services": [
+            {
+              "name": "Website Design & Development",
+              "href": "/service/website-design-development",
+              "items": [
+                "Web apps",
+                "E-commerce",
+                "CMS builds"
+              ]
+            },
+            {
+              "name": "Mobile App Development",
+              "href": "/service/mobile-app-development",
+              "items": [
+                "iOS & Android",
+                "Cross-platform",
+                "App Store launch"
+              ]
+            },
+            {
+              "name": "Custom Software Development",
+              "href": "/service/custom-software-development",
+              "items": [
+                "SaaS",
+                "CRM & ERP",
+                "API integrations"
+              ]
+            },
+            {
+              "name": "Business Software Solutions",
+              "href": "/service/business-software-solutions",
+              "items": [
+                "Workflow automation",
+                "Billing",
+                "HR & inventory"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "grow",
+          "number": "03",
+          "name": "Grow",
+          "title": "Get found. Get chosen. Get results.",
+          "description": "Data-driven marketing that puts you in front of the right people and turns attention into revenue.",
+          "outcome": "Predictable leads and sales you can measure.",
+          "services": [
+            {
+              "name": "Search & Content Marketing",
+              "href": "/service/search-content-marketing",
+              "items": [
+                "SEO",
+                "Content strategy",
+                "Email automation"
+              ]
+            },
+            {
+              "name": "Social & Performance Marketing",
+              "href": "/service/social-performance-marketing",
+              "items": [
+                "Social media",
+                "Paid ads",
+                "Conversion optimisation"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "scale",
+          "number": "04",
+          "name": "Scale",
+          "title": "Automate. Analyse. Innovate.",
+          "description": "Use AI, data and on-demand engineering talent to cut manual work, make sharper decisions and stay ahead of competitors.",
+          "outcome": "Leaner operations, sharper decisions and a team that scales with you.",
+          "services": [
+            {
+              "name": "AI & ML Solutions",
+              "href": "/service/ai-ml-solutions",
+              "items": [
+                "Generative AI",
+                "Chatbots",
+                "Recommendations"
+              ]
+            },
+            {
+              "name": "Business Intelligence",
+              "href": "/service/business-intelligence-solutions",
+              "items": [
+                "Dashboards",
+                "Predictive analytics"
+              ]
+            },
+            {
+              "name": "Staff Augmentation",
+              "href": "/service/staff-augmentation",
+              "items": [
+                "Dedicated developers",
+                "Designers",
+                "Flexible contracts"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "order": 13,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "b5156063-f366-40c6-8591-91e2dfcb5fb8",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "WorkShowcase",
+    "content": {
+      "label": "(Selected work)",
+      "headlineMain": "Work that",
+      "headlineHighlight": "moves numbers.",
+      "description": "Real projects for real businesses across hospitality, travel, finance, retail and more.",
+      "viewAllLabel": "View full portfolio",
+      "viewAllUrl": "/portfolio",
+      "shortTitles": {
+        "ERP Software to centralise Internal Processes– Bir Credit Solution": "Bir Credit ERP Software"
+      },
+      "ctaEyebrow": "Your turn",
+      "ctaTitle": "Your project could be next.",
+      "ctaButtonLabel": "Book a free call",
+      "ctaButtonUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9"
+    },
+    "order": 14,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "c03f96da-6265-4ecb-8eaa-2023c145024b",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "GrowthProcess",
+    "content": {
+      "label": "(How we work)",
+      "headlineMain": "A simple path from",
+      "headlineHighlight": "idea to impact.",
+      "description": "One roadmap, weekly progress and a team that stays with you after launch.",
+      "steps": [
+        {
+          "number": "01",
+          "title": "Discover",
+          "description": "We audit your brand, website and funnel, then agree on the goals and KPIs that matter to your business.",
+          "deliverable": "Growth audit & KPI roadmap"
+        },
+        {
+          "number": "02",
+          "title": "Strategise",
+          "description": "Positioning, identity and a clear 90 day plan so every next step pulls in the same direction.",
+          "deliverable": "Brand system & 90 day plan"
+        },
+        {
+          "number": "03",
+          "title": "Build & Launch",
+          "description": "Design, development and QA in weekly sprints. You see progress every week, not just at the end.",
+          "deliverable": "Live website, app or platform"
+        },
+        {
+          "number": "04",
+          "title": "Grow",
+          "description": "Marketing, analytics and continuous improvement. We stay on as your growth team long after launch.",
+          "deliverable": "Monthly growth reports"
+        }
+      ],
+      "commitments": [
+        "Transparent weekly updates",
+        "Delivered on time",
+        "One point of contact",
+        "Support for the long run"
+      ]
+    },
+    "order": 15,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "0fb4488f-5a0d-4d49-9808-5cff83d618dc",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "Testimonials",
+    "content": {
+      "label": "(Client stories)",
+      "headlineMain": "Don't take our word.",
+      "headlineHighlight": "Take theirs.",
+      "rating": "5.0",
+      "ratingLabel": "Average rating from 50+ clients",
+      "ctaLabel": "Book a free strategy call",
+      "ctaUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9"
+    },
+    "order": 16,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "a49bd84d-3c7d-44df-8bf0-2071ff1af57d",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "Insights",
+    "content": {
+      "label": "(Insights)",
+      "headlineMain": "Ideas that",
+      "headlineHighlight": "grow businesses.",
+      "viewAllLabel": "All articles"
+    },
+    "order": 17,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "15a9a4c3-b41c-48f2-b553-0536cc214a8a",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "GrowthCTA",
+    "content": {
+      "label": "(Let's talk)",
+      "headlineMain": "Let's grow",
+      "headlineHighlight": "together.",
+      "description": "Tell us where you want to grow. You'll get a reply within 24 hours with clear next steps, whether you work with us or not.",
+      "primaryButtonLabel": "Start your project",
+      "primaryButtonUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
+      "callTitle": "Prefer to talk?",
+      "formTitle": "Tell us about your project",
+      "formNote": "We reply within 24 hours with ideas, not a sales pitch.",
+      "interestsLabel": "I'm interested in",
+      "interests": [
+        "Branding",
+        "UI/UX Design",
+        "Website",
+        "Mobile App",
+        "Custom Software",
+        "Digital Marketing",
+        "AI & Automation",
+        "Staff Augmentation",
+        "Full growth partnership"
+      ],
+      "budgetLabel": "Project budget",
+      "budgets": [
+        "$5k to $10k",
+        "$10k to $25k",
+        "$25k to $50k",
+        "$50k+",
+        "Not sure yet"
+      ],
+      "submitLabel": "Send my brief",
+      "privacyNote": "No spam. We never share your details.",
+      "sentNote": "Thanks, your brief is in. We'll reply within 24 hours.",
+      "sendingNote": "Sending your brief...",
+      "fallbackNote": "We couldn't reach our server, so your email app has opened with the brief. Just hit send.",
+      "assurances": [
+        "Free 30-minute strategy call",
+        "No obligation",
+        "Reply within 24 hours"
+      ],
+      "clocks": [
+        {
+          "city": "Noida",
+          "country": "India",
+          "timeZone": "Asia/Kolkata"
+        },
+        {
+          "city": "Dubai",
+          "country": "UAE",
+          "timeZone": "Asia/Dubai"
+        }
+      ],
+      "localClockLabel": "Your time",
+      "clocksNote": "Wherever you are, we overlap with your workday."
+    },
+    "order": 18,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "232cfbfa-3fa1-4a2b-88c4-fd9410beba9a",
+    "pageId": "14d4f8e5-4200-4e97-ae6f-f71b331b575b",
+    "type": "StickyCTA",
+    "content": {
+      "label": "Available for new projects",
+      "buttonLabel": "Book a free call",
+      "buttonUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9"
+    },
+    "order": 19,
+    "createdAt": "2026-11-10T08:41:54.253Z",
+    "updatedAt": "2026-11-10T08:41:54.253Z"
+  },
+  {
+    "id": "300df7fe-2030-49b3-bc71-b2c5a63bd3e8",
+    "pageId": "8f3c2d1e-6a4b-4c9a-9f12-3e4d5c6b7a89",
+    "type": "BlogIndex",
+    "order": 0,
+    "content": {
+      "label": "(Insights) Blog",
+      "top": "Ideas that",
+      "highlight": "grow businesses.",
+      "description": "Practical guides on websites, search, software and marketing, written by the people who build them.",
+      "secondaryLabel": "Read the articles",
+      "listLabel": "(All articles)",
+      "empty": "New articles are on their way. Check back soon.",
+      "mediaPrompt": "Looking for press coverage?",
+      "mediaLabel": "See media & articles",
+      "mediaUrl": "/media"
+    },
+    "createdAt": "2026-11-10T09:13:43.911Z",
+    "updatedAt": "2026-11-10T09:13:43.911Z"
   }
 ]

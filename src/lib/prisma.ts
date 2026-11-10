@@ -69,7 +69,8 @@ function createPrismaClient() {
   const adapter = new PrismaPg(pool);
   const rawPrisma = new PrismaClient({
     adapter,
-    log: ["query"],
+    // Logging every query (with its SQL) slows requests and floods the logs: development only
+    log: process.env.NODE_ENV === "production" ? ["warn", "error"] : ["query", "warn", "error"],
   });
 
   // ---------- Cleanup of replaced / removed files ----------

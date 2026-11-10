@@ -156,5 +156,27 @@
     "headingOptions": null,
     "createdAt": "2026-06-17T07:45:30.587Z",
     "updatedAt": "2026-07-09T05:05:49.842Z"
+  },
+  {
+    "id": "8f3c2d1e-6a4b-4c9a-9f12-3e4d5c6b7a89",
+    "title": "Blog",
+    "slug": "blog",
+    "content": null,
+    "type": "static",
+    "visibility": "published",
+    "metaTitle": "Blog | The Gold Technologies",
+    "metaDescription": "Practical guides on websites, SEO, software and digital marketing from The Gold Technologies team.",
+    "targetKeywords": "blog, web development guides, SEO tips, digital marketing articles, TGT insights",
+    "canonicalUrl": "https://thegoldtechnologies.com/blog",
+    "noIndex": false,
+    "featuredImage": null,
+    "parentPage": null,
+    "ogTitle": null,
+    "ogDescription": null,
+    "ogImage": null,
+    "schema": "{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"Blog\",\n  \"name\": \"Blog\",\n  \"description\": \"Practical guides on websites, SEO, software and digital marketing from The Gold Technologies team.\",\n  \"url\": \"https://thegoldtechnologies.com/blog\"\n}",
+    "headingOptions": null,
+    "createdAt": "2026-11-10T09:13:43.911Z",
+    "updatedAt": "2026-11-10T09:13:43.911Z"
   }
 ]

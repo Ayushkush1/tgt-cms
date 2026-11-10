@@ -16,6 +16,7 @@ export const TextAreaField: React.FC<TextAreaFieldProps> = ({
   rows = 4,
   tooltip,
   allowJsonUpload = false,
+  placeholder,
   ...props
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -62,7 +63,9 @@ export const TextAreaField: React.FC<TextAreaFieldProps> = ({
     e.target.value = "";
   };
 
-  const textareaClass = `w-full px-6 py-4 bg-gray-50 border-none rounded-2xl text-sm focus:ring-2 focus:outline-none focus:border-[#0A0F29] focus:ring-1 focus:ring-[#0A0F29] outline-none transition-all text-gray-800 ${className}`;
+  const resolvedPlaceholder =
+    placeholder ?? (label ? `Enter ${label.toLowerCase()}…` : "Enter details…");
+  const textareaClass = `w-full px-5 py-3.5 bg-white border border-gray-200 rounded-2xl text-sm leading-relaxed text-[#0B0F29] placeholder:text-gray-400 focus:outline-none focus:border-[#0B0F29] focus:ring-2 focus:ring-[#0B0F29]/15 outline-none transition-all ${className}`;
 
   const handleOpenLinkModal = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -167,7 +170,13 @@ export const TextAreaField: React.FC<TextAreaFieldProps> = ({
         </div>
       </div>
 
-      <textarea ref={textareaRef} rows={rows} className={textareaClass} {...props} />
+      <textarea
+        ref={textareaRef}
+        rows={rows}
+        className={textareaClass}
+        placeholder={resolvedPlaceholder}
+        {...props}
+      />
 
       {/* Styled Inline Link Dialog/Modal */}
       {showLinkModal && (

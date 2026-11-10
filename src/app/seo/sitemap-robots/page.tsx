@@ -332,7 +332,7 @@ export default function SitemapRobotsPage() {
                 onChange={(e) => setFormData({ ...formData, robotsTxt: e.target.value })}
                 placeholder="User-agent: *&#10;Allow: /"
                 rows={8}
-                className="w-full rounded-2xl border border-gray-200 bg-gray-50 p-4 font-mono text-xs text-gray-800 transition-all outline-none focus:border-[#475DB1] focus:bg-white"
+                className="w-full rounded-2xl border border-gray-200 bg-white px-5 py-3.5 font-mono text-xs leading-relaxed text-[#0B0F29] transition-all outline-none placeholder:text-gray-400 focus:border-[#0B0F29] focus:ring-2 focus:ring-[#0B0F29]/15"
               />
             </div>
           </div>

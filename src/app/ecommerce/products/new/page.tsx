@@ -210,7 +210,7 @@ function ProductEditorInternal() {
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="min-h-[200px] w-full rounded-3xl border-none bg-gray-50 p-6 text-sm transition-all outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
+                className="min-h-[200px] w-full rounded-2xl border border-gray-200 bg-white px-5 py-4 text-sm leading-relaxed text-[#0B0F29] transition-all outline-none placeholder:text-gray-400 focus:border-[#0B0F29] focus:ring-2 focus:ring-[#0B0F29]/15"
                 placeholder="Full product details, materials, care instructions..."
               />
             </div>

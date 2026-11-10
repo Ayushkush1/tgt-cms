@@ -17,10 +17,13 @@ export const InputField: React.FC<InputFieldProps> = ({
   type = "text",
   icon,
   tooltip,
+  placeholder,
   ...props
 }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const inputClass = `w-full ${icon ? "pl-12" : "px-6"} py-4 bg-gray-50 border-none rounded-2xl text-sm focus:ring-2 focus:outline-none focus:border-[#0A0F29] focus:ring-1 focus:ring-[#0A0F29] outline-none transition-all text-gray-800 ${className}`;
+  const resolvedPlaceholder =
+    placeholder ?? (label ? `Enter ${label.toLowerCase()}…` : "Enter value…");
+  const inputClass = `w-full ${icon ? "pl-12 pr-5" : "px-5"} py-3.5 bg-white border border-gray-200 rounded-2xl text-sm text-[#0B0F29] placeholder:text-gray-400 focus:outline-none focus:border-[#0B0F29] focus:ring-2 focus:ring-[#0B0F29]/15 outline-none transition-all ${className}`;
 
   const isPassword = type === "password";
   const currentType = isPassword ? (showPassword ? "text" : "password") : type;
@@ -28,7 +31,12 @@ export const InputField: React.FC<InputFieldProps> = ({
   const inputElement = (
     <div className="relative w-full">
       {icon && <div className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-400">{icon}</div>}
-      <input className={inputClass} type={currentType} {...props} />
+      <input
+        className={inputClass}
+        type={currentType}
+        placeholder={resolvedPlaceholder}
+        {...props}
+      />
       {isPassword && (
         <button
           type="button"

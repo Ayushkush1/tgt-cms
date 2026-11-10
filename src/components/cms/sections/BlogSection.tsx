@@ -7,8 +7,9 @@ import { SaveButton } from "@/components/SaveButton";
 import { SectionHeader } from "@/components/SectionHeader";
 import { TextAreaField } from "@/components/TextAreaField";
 import { hasInlineImages, uploadFiles, uploadInlineImages } from "@/lib/uploadHelpers";
-import { fetchWithCache } from "@/lib/apiCache";
+import { clearCache, fetchWithCache } from "@/lib/apiCache";
 import { RichTextEditor } from "@/components/RichTextEditor";
+import { useConfirmDelete } from "@/app/components/ConfirmDeleteModal";
 
 interface BlogItem {
   category: string;
@@ -21,6 +22,8 @@ interface BlogItem {
   views: string;
   image?: string;
   contentHtml?: string;
+  tags?: string[];
+  takeaways?: string[];
   isExpanded?: boolean;
 }
 
@@ -34,6 +37,8 @@ const defaultBlog = (): BlogItem => ({
   readTime: "",
   views: "",
   contentHtml: "",
+  tags: [],
+  takeaways: [],
   isExpanded: false,
 });
 
@@ -53,6 +58,9 @@ interface BlogSectionProps {
   initialData?: Record<string, unknown>;
   saveUrl?: string; // e.g. /api/home or /api/sections
   onSave?: (data: Record<string, unknown>) => void;
+  defaultOpen?: boolean;
+  title?: string;
+  description?: string;
 }
 
 export function BlogSection({
@@ -60,8 +68,12 @@ export function BlogSection({
   initialData,
   saveUrl = "/api/home",
   onSave,
+  defaultOpen,
+  title = "Blog Highlights Section",
+  description = "Manage featured blog posts.",
 }: BlogSectionProps) {
-  const [isOpen, setIsOpen] = useState(!initialData);
+  const [isOpen, setIsOpen] = useState(defaultOpen ?? !initialData);
+  const confirmDelete = useConfirmDelete();
   const [isSaving, setIsSaving] = useState(false);
   const [blogImages, setBlogImages] = useState<(File | string | null)[]>([]);
   const [isDragging, setIsDragging] = useState<number | null>(null);
@@ -96,7 +108,7 @@ export function BlogSection({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleBlogChange = (index: number, field: keyof BlogItem, value: string) => {
+  const handleBlogChange = (index: number, field: keyof BlogItem, value: string | string[]) => {
     setFormData((prev) => {
       const updated = [...prev.blogs];
       updated[index] = { ...updated[index], [field]: value };
@@ -118,12 +130,20 @@ export function BlogSection({
   const addBlog = () => {
     setFormData((prev) => ({
       ...prev,
-      blogs: [...prev.blogs, defaultBlog()],
+      blogs: [{ ...defaultBlog(), isExpanded: true }, ...prev.blogs],
     }));
-    setBlogImages((prev) => [...prev, null]);
+    setBlogImages((prev) => [null, ...prev]);
   };
 
-  const removeBlog = (indexToRemove: number) => {
+  const removeBlog = async (indexToRemove: number) => {
+    const targetTitle =
+      formData.blogs[indexToRemove]?.title?.trim() || `Blog #${indexToRemove + 1}`;
+    const ok = await confirmDelete({
+      title: `Delete "${targetTitle}"?`,
+      message:
+        "This removes the blog post from Home Insights, /blog, and its article page once saved.",
+    });
+    if (!ok) return;
     setFormData((prev) => ({
       ...prev,
       blogs: prev.blogs.filter((_, i) => i !== indexToRemove),
@@ -168,6 +188,8 @@ export function BlogSection({
           ...item,
           image: uploadedUrls[idx] || undefined,
           contentHtml: contents[idx],
+          tags: (item.tags || []).map((t) => t.trim()).filter(Boolean),
+          takeaways: (item.takeaways || []).map((t) => t.trim()).filter(Boolean),
         })),
       };
       // The editors now point at the uploaded URLs, so saving again won't upload twice
@@ -193,7 +215,8 @@ export function BlogSection({
 
       const json = await res.json();
       if (json.success) {
-        toast.success("Section saved!", { id: toastId });
+        clearCache(saveUrl);
+        toast.success("Blog posts saved and published across website!", { id: toastId });
         if (onSave) onSave(payload as unknown as Record<string, unknown>);
       } else {
         toast.error(json.error || "Save failed", { id: toastId });
@@ -209,8 +232,8 @@ export function BlogSection({
     <section>
       <div className="flex flex-col gap-6 rounded-2xl border border-gray-100 bg-white p-8 shadow-sm transition-all">
         <SectionHeader
-          title="Blog Highlights Section"
-          description="Manage featured blog posts."
+          title={title}
+          description={description}
           isOpen={isOpen}
           onToggle={() => setIsOpen(!isOpen)}
         />
@@ -218,7 +241,7 @@ export function BlogSection({
         {isOpen && (
           <div className="animate-in fade-in flex flex-col gap-8 pt-4 duration-500">
             {/* 1. Header Fields Grid */}
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 items-end gap-6">
               <InputField
                 label="Upper Tag"
                 name="upperTag"
@@ -362,7 +385,7 @@ export function BlogSection({
                           placeholder="e.g. Senior Design Engineer · Studio Volta"
                         />
 
-                        <div className="col-span-2 grid grid-cols-2 gap-4">
+                        <div className="col-span-2 grid grid-cols-1 items-end gap-4 md:grid-cols-2">
                           <InputField
                             label="Published"
                             value={blog.datePublished}
@@ -378,6 +401,31 @@ export function BlogSection({
                             placeholder="e.g. 5 min read"
                           />
                         </div>
+
+                        <InputField
+                          label="Tags (comma separated)"
+                          value={(Array.isArray(blog.tags) ? blog.tags : []).join(", ")}
+                          onChange={(e) =>
+                            handleBlogChange(
+                              index,
+                              "tags",
+                              e.target.value.split(",").map((t) => t.trim()),
+                            )
+                          }
+                          placeholder="e.g. Next.js, SEO, Growth"
+                          containerClassName="col-span-2"
+                        />
+
+                        <TextAreaField
+                          label="Key Takeaways (one per line)"
+                          value={(Array.isArray(blog.takeaways) ? blog.takeaways : []).join("\n")}
+                          onChange={(e) =>
+                            handleBlogChange(index, "takeaways", e.target.value.split("\n"))
+                          }
+                          rows={3}
+                          placeholder="Enter one key takeaway per line..."
+                          containerClassName="col-span-2"
+                        />
 
                         <div className="col-span-2 flex flex-col gap-1.5">
                           <label className="text-sm font-medium text-gray-700">Cover Image</label>
@@ -466,14 +514,13 @@ export function BlogSection({
                 ))}
               </div>
 
-              {(formData.blogs || []).length < 10 && (
-                <button
-                  onClick={addBlog}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-gray-200 py-4 font-semibold text-gray-500 transition-colors hover:bg-gray-50"
-                >
-                  <Plus className="h-5 w-5" /> Add Blog Post
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={addBlog}
+                className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-gray-200 py-4 font-semibold text-gray-500 transition-colors hover:bg-gray-50"
+              >
+                <Plus className="h-5 w-5" /> Add Blog Post
+              </button>
 
               <div className="flex justify-end pt-4">
                 <SaveButton onClick={handleSave} disabled={isSaving} className="w-40" />

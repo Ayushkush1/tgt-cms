@@ -101,7 +101,11 @@ export async function PUT(request: Request) {
       });
     }
 
-    revalidateWebsite(WebsiteTag.page(HOME_SLUG));
+    if (section === "BlogSection" || section === "Insights") {
+      revalidateWebsite(WebsiteTag.page(HOME_SLUG), WebsiteTag.page("blog"));
+    } else {
+      revalidateWebsite(WebsiteTag.page(HOME_SLUG));
+    }
     return NextResponse.json({ success: true, data: savedSection });
   } catch (error) {
     console.error("Error saving home page section:", error);

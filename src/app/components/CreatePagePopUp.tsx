@@ -106,7 +106,7 @@ export const CreatePagePopUp = ({
                       value={pageName}
                       onChange={(e) => setPageName(e.target.value)}
                       placeholder="e.g. About Us, Contact"
-                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-black placeholder-gray-400 outline-none focus:border-[#0B0F29]"
+                      className="w-full rounded-2xl border border-gray-200 bg-white px-5 py-3.5 text-sm text-[#0B0F29] transition-all outline-none placeholder:text-gray-400 focus:border-[#0B0F29] focus:ring-2 focus:ring-[#0B0F29]/15"
                     />
                   </div>
 
