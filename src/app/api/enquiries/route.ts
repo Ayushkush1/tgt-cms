@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { isWebsiteRequest } from "@/lib/revalidateWebsite";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
+import { sendEnquiryNotification } from "@/lib/mailer";
 
 export async function GET(request: Request) {
   try {
@@ -14,8 +15,9 @@ export async function GET(request: Request) {
     const where = search
       ? {
           OR: [
-            { name: { contains: search, mode: "insensitive" as any } },
-            { email: { contains: search, mode: "insensitive" as any } },
+            { name: { contains: search, mode: "insensitive" as const } },
+            { email: { contains: search, mode: "insensitive" as const } },
+            { sourcePage: { contains: search, mode: "insensitive" as const } },
           ],
         }
       : {};
@@ -62,7 +64,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { name, email, interestedIn, budget, projectGoals } = body;
+    const { name, email, interestedIn, budget, projectGoals, sourcePage } = body;
 
     if (!name || !email) {
       return NextResponse.json(
@@ -71,6 +73,9 @@ export async function POST(request: Request) {
       );
     }
 
+    const normalizedSourcePage =
+      typeof sourcePage === "string" && sourcePage.trim() ? sourcePage.trim().slice(0, 500) : null;
+
     const enquiry = await prisma.enquiry.create({
       data: {
         name,
@@ -78,8 +83,11 @@ export async function POST(request: Request) {
         interestedIn,
         budget,
         projectGoals,
+        sourcePage: normalizedSourcePage,
       },
     });
+
+    await sendEnquiryNotification(enquiry);
 
     return NextResponse.json({ success: true, data: enquiry }, { status: 201 });
   } catch (error) {

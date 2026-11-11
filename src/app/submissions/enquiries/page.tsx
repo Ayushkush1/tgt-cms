@@ -13,8 +13,10 @@ import {
   Tag,
   DollarSign,
   Target,
+  Globe,
 } from "lucide-react";
 import { InputField } from "@/app/components/InputField";
+import { SubmissionDetailModal } from "@/app/components/SubmissionDetailModal";
 import toast from "react-hot-toast";
 
 interface Enquiry {
@@ -24,6 +26,7 @@ interface Enquiry {
   interestedIn: string | null;
   budget: string | null;
   projectGoals: string | null;
+  sourcePage: string | null;
   status: string;
   createdAt: string;
 }
@@ -41,6 +44,7 @@ export default function EnquiriesPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
+  const [selectedEnquiry, setSelectedEnquiry] = useState<Enquiry | null>(null);
 
   const fetchEnquiries = async () => {
     setIsLoading(true);
@@ -73,7 +77,7 @@ export default function EnquiriesPage() {
 
       <div className="flex flex-col items-center justify-between gap-4 rounded-3xl border border-gray-100 bg-white p-6 shadow-sm md:flex-row">
         <InputField
-          placeholder="Search by name or email..."
+          placeholder="Search by name, email, or page..."
           value={searchQuery}
           onChange={(e) => {
             setSearchQuery(e.target.value);
@@ -93,6 +97,9 @@ export default function EnquiriesPage() {
                   Name & Email
                 </th>
                 <th className="px-6 py-4 text-[11px] font-bold tracking-widest text-gray-400 uppercase">
+                  Page
+                </th>
+                <th className="px-6 py-4 text-[11px] font-bold tracking-widest text-gray-400 uppercase">
                   Interest
                 </th>
                 <th className="px-6 py-4 text-[11px] font-bold tracking-widest text-gray-400 uppercase">
@@ -109,13 +116,13 @@ export default function EnquiriesPage() {
             <tbody className="divide-y divide-gray-50">
               {isLoading ? (
                 <tr>
-                  <td colSpan={5} className="py-20 text-center">
+                  <td colSpan={6} className="py-20 text-center">
                     <Loader2 className="mx-auto h-8 w-8 animate-spin text-[#D4AF37]" />
                   </td>
                 </tr>
               ) : enquiries.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-20 text-center text-gray-400 italic">
+                  <td colSpan={6} className="py-20 text-center text-gray-400 italic">
                     No enquiries found.
                   </td>
                 </tr>
@@ -133,6 +140,15 @@ export default function EnquiriesPage() {
                           {enquiry.email}
                         </span>
                       </div>
+                    </td>
+                    <td className="px-6 py-5">
+                      <span
+                        title={enquiry.sourcePage || "Not recorded"}
+                        className="inline-flex max-w-[200px] items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700"
+                      >
+                        <Globe className="h-3 w-3 shrink-0 text-gray-400" />
+                        <span className="truncate">{enquiry.sourcePage || "Not recorded"}</span>
+                      </span>
                     </td>
                     <td className="px-6 py-5">
                       <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-[11px] font-bold tracking-wider text-blue-600 uppercase">
@@ -154,7 +170,9 @@ export default function EnquiriesPage() {
                     </td>
                     <td className="px-6 py-5 pr-8 text-right">
                       <button
-                        onClick={() => alert(enquiry.projectGoals || "No goals specified")}
+                        type="button"
+                        onClick={() => setSelectedEnquiry(enquiry)}
+                        title="View project goals"
                         className="rounded-xl bg-gray-50 p-2 text-gray-400 transition-all hover:bg-[#D4AF37] hover:text-[#0B0F29]"
                       >
                         <Target className="h-4 w-4" />
@@ -193,6 +211,30 @@ export default function EnquiriesPage() {
           </div>
         )}
       </div>
+
+      <SubmissionDetailModal
+        isOpen={Boolean(selectedEnquiry)}
+        onClose={() => setSelectedEnquiry(null)}
+        eyebrow="Service Enquiry"
+        title={selectedEnquiry?.name || ""}
+        subtitle={selectedEnquiry?.email || undefined}
+        meta={
+          selectedEnquiry
+            ? [
+                { label: "Source Page", value: selectedEnquiry.sourcePage || "Not recorded" },
+                { label: "Interest", value: selectedEnquiry.interestedIn || "N/A" },
+                { label: "Budget", value: selectedEnquiry.budget || "Not Specified" },
+                {
+                  label: "Submitted",
+                  value: new Date(selectedEnquiry.createdAt).toLocaleDateString(),
+                },
+              ]
+            : []
+        }
+        bodyTitle="Project Goals & Message"
+        body={selectedEnquiry?.projectGoals?.trim() || "No goals specified."}
+        replyEmail={selectedEnquiry?.email}
+      />
     </div>
   );
 }

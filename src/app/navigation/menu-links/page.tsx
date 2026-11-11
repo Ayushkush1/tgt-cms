@@ -297,12 +297,12 @@ export default function NavLinksPage() {
           childrenOf(link.id)
             .filter((child) => placementOf(child) === placementOf(link))
             .map((child) =>
-            fetch(`/api/nav-links/${child.id}`, {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ placement }),
-            }),
-          ),
+              fetch(`/api/nav-links/${child.id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ placement }),
+              }),
+            ),
         );
       }
 
@@ -498,7 +498,9 @@ export default function NavLinksPage() {
           type="button"
           title={shownIn(link, tab) ? `Hide from the ${tab}` : `Show in the ${tab}`}
           aria-label={
-            shownIn(link, tab) ? `Hide ${link.label} from the ${tab}` : `Show ${link.label} in the ${tab}`
+            shownIn(link, tab)
+              ? `Hide ${link.label} from the ${tab}`
+              : `Show ${link.label} in the ${tab}`
           }
           onClick={() => toggleShownIn(link, tab)}
           className={boxedActionButton}
@@ -952,8 +954,8 @@ export default function NavLinksPage() {
                       )}
                     </div>
                     <span className="text-xs text-gray-400">
-                      Untick to hide this link there without deleting it. It can only show where
-                      the “{parentMenu.label}” dropdown shows.
+                      Untick to hide this link there without deleting it. It can only show where the
+                      “{parentMenu.label}” dropdown shows.
                     </span>
                   </fieldset>
                 ) : (

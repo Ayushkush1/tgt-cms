@@ -7,7 +7,12 @@ import { uploadFiles } from "@/lib/uploadHelpers";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { HomeSectionCard, StringListField } from "./HomeSectionCard";
-import { ClientLogosField, clientLogoRows, type ClientLogo, type ClientLogoRow } from "./ClientLogosField";
+import {
+  ClientLogosField,
+  clientLogoRows,
+  type ClientLogo,
+  type ClientLogoRow,
+} from "./ClientLogosField";
 
 interface GrowthHeroData {
   headlineTop: string;

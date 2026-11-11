@@ -139,7 +139,9 @@ function TechStackField({
       </div>
 
       {items.length === 0 ? (
-        <p className="rounded-2xl bg-gray-50 px-4 py-3 text-xs text-gray-400">No items added yet.</p>
+        <p className="rounded-2xl bg-gray-50 px-4 py-3 text-xs text-gray-400">
+          No items added yet.
+        </p>
       ) : (
         <div className="grid grid-cols-1 gap-2.5 md:grid-cols-3">
           {items.map((item, idx) => (

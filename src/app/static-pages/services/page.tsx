@@ -47,7 +47,9 @@ export default function ServicesCMS() {
   const techKey = (name: string) => name.trim().toLowerCase();
   const findTechLogo = (list: TechLogo[], name: string) => {
     const key = techKey(name);
-    return list.find((t) => t.name === key || (Array.isArray(t.matches) && t.matches.includes(key)));
+    return list.find(
+      (t) => t.name === key || (Array.isArray(t.matches) && t.matches.includes(key)),
+    );
   };
   const techLogoFor = (name: string) =>
     pendingTechLogos[techKey(name)] ?? findTechLogo(techLogos, name)?.image ?? null;

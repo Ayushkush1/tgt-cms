@@ -412,7 +412,10 @@ export default function SocialMediaFooterPage() {
           homeBackground: str(images.homeBackground) || null,
         };
         setData({
-          ...fromGlobal(footer && typeof footer === "object" ? footer : {}, global.data?.socialLinks),
+          ...fromGlobal(
+            footer && typeof footer === "object" ? footer : {},
+            global.data?.socialLinks,
+          ),
           ...siteImages,
         });
       })
@@ -587,7 +590,6 @@ export default function SocialMediaFooterPage() {
               value={data.homeBackground}
               onChange={(homeBackground) => setData((prev) => ({ ...prev, homeBackground }))}
             />
-
           </div>
         </SectionCard>
 

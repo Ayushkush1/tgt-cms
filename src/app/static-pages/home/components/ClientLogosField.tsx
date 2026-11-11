@@ -22,7 +22,10 @@ export interface ClientLogo {
 export type ClientLogoRow = Omit<ClientLogo, "image"> & { id: string; image: LogoValue };
 
 export const newClientLogoRow = (logo: Partial<ClientLogo> = {}): ClientLogoRow => ({
-  id: typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : `${Math.random()}`,
+  id:
+    typeof crypto !== "undefined" && "randomUUID" in crypto
+      ? crypto.randomUUID()
+      : `${Math.random()}`,
   name: typeof logo.name === "string" ? logo.name : "",
   image: typeof logo.image === "string" && logo.image ? logo.image : null,
   width: typeof logo.width === "number" ? logo.width : 0,
@@ -41,7 +44,8 @@ export function clientLogoRows(trusted: Record<string, unknown>): ClientLogoRow[
   return [];
 }
 
-const toggle = "flex items-center gap-1.5 text-[11px] font-semibold text-gray-600 whitespace-nowrap";
+const toggle =
+  "flex items-center gap-1.5 text-[11px] font-semibold text-gray-600 whitespace-nowrap";
 
 export function ClientLogosField({
   rows,
@@ -65,8 +69,8 @@ export function ClientLogosField({
             </span>
           </p>
           <p className="mt-0.5 text-xs text-gray-500">
-            Tick “Hero pill” to show a logo in the headline. The name links the logo to service pages
-            that list the same client under “Brands We&apos;ve Built For”.
+            Tick “Hero pill” to show a logo in the headline. The name links the logo to service
+            pages that list the same client under “Brands We&apos;ve Built For”.
           </p>
         </div>
         <button

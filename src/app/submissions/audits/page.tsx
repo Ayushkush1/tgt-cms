@@ -14,6 +14,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { InputField } from "@/app/components/InputField";
+import { SubmissionDetailModal } from "@/app/components/SubmissionDetailModal";
 import toast from "react-hot-toast";
 
 interface Audit {
@@ -39,6 +40,7 @@ export default function AuditsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
+  const [selectedAudit, setSelectedAudit] = useState<Audit | null>(null);
 
   const fetchAudits = async () => {
     setIsLoading(true);
@@ -158,7 +160,9 @@ export default function AuditsPage() {
                     </td>
                     <td className="px-6 py-5 pr-8 text-right">
                       <button
-                        onClick={() => alert(audit.improve || "No message specified")}
+                        type="button"
+                        onClick={() => setSelectedAudit(audit)}
+                        title="View audit message"
                         className="rounded-xl bg-gray-50 p-2 text-gray-400 transition-all hover:bg-[#D4AF37] hover:text-[#0B0F29]"
                       >
                         <MessageSquare className="h-4 w-4" />
@@ -197,6 +201,29 @@ export default function AuditsPage() {
           </div>
         )}
       </div>
+
+      <SubmissionDetailModal
+        isOpen={Boolean(selectedAudit)}
+        onClose={() => setSelectedAudit(null)}
+        eyebrow="Audit Request"
+        title={selectedAudit?.name || ""}
+        subtitle={selectedAudit?.email || undefined}
+        meta={
+          selectedAudit
+            ? [
+                { label: "Website", value: selectedAudit.webUrl || "N/A" },
+                { label: "Status", value: selectedAudit.status || "Pending" },
+                {
+                  label: "Submitted",
+                  value: new Date(selectedAudit.createdAt).toLocaleDateString(),
+                },
+              ]
+            : []
+        }
+        bodyTitle="What to Improve"
+        body={selectedAudit?.improve?.trim() || "No message specified."}
+        replyEmail={selectedAudit?.email}
+      />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { isWebsiteRequest } from "@/lib/revalidateWebsite";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
+import { sendAuditNotification } from "@/lib/mailer";
 
 export async function GET(request: Request) {
   try {
@@ -14,9 +15,9 @@ export async function GET(request: Request) {
     const where = search
       ? {
           OR: [
-            { name: { contains: search, mode: "insensitive" as any } },
-            { email: { contains: search, mode: "insensitive" as any } },
-            { webUrl: { contains: search, mode: "insensitive" as any } },
+            { name: { contains: search, mode: "insensitive" as const } },
+            { email: { contains: search, mode: "insensitive" as const } },
+            { webUrl: { contains: search, mode: "insensitive" as const } },
           ],
         }
       : {};
@@ -80,6 +81,8 @@ export async function POST(request: Request) {
         improve,
       },
     });
+
+    await sendAuditNotification(audit);
 
     return NextResponse.json({ success: true, data: audit }, { status: 201 });
   } catch (error) {
