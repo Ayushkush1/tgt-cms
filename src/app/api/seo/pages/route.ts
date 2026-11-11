@@ -24,7 +24,7 @@ interface ServiceOrBlogSectionContent {
 export async function GET() {
   try {
     // Pages listed in SEO even without a navigation link. Home is not one: it uses Global SEO.
-    const knownStaticSlugs = ["blog", "media", "ceo"];
+    const knownStaticSlugs = ["blog", "media"];
 
     const pages = await prisma.page.findMany({
       select: {

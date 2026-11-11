@@ -53,7 +53,8 @@ const staticSidebarLinks: SidebarLink[] = [
       { title: "Portfolio", href: "/static-pages/portfolio" },
       { title: "Blog", href: "/static-pages/blog" },
       { title: "Media", href: "/static-pages/media" },
-      { title: "CEO", href: "/static-pages/ceo" },
+      // Hidden while /ceo has no standalone website route (Journey milestones still sync to /api/ceo)
+      // { title: "CEO", href: "/static-pages/ceo" },
     ],
   },
   {
