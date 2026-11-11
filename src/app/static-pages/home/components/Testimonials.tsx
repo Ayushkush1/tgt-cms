@@ -10,7 +10,8 @@ import { TextAreaField } from "@/components/TextAreaField";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import { CollapsibleCard } from "@/app/components/CollapsibleCard";
 import { useConfirmDelete } from "@/app/components/ConfirmDeleteModal";
-import { HomeSectionCard } from "./HomeSectionCard";
+import { saveCustomSection } from "@/app/components/StaticSectionCard";
+import { HomeSectionCard, type SectionInstanceProps } from "./HomeSectionCard";
 
 interface TestimonialsHeaderData {
   label: string;
@@ -46,7 +47,11 @@ const emptyStory = (): ClientStory => ({
   image: null,
 });
 
-export function Testimonials() {
+export function Testimonials(sectionProps?: SectionInstanceProps) {
+  const sectionId = sectionProps?.sectionId;
+  const initialData = sectionProps?.initialData;
+  const sectionSaveUrl = sectionProps?.saveUrl;
+
   const [isOpen, setIsOpen] = useState(false);
   const [expandedQuote, setExpandedQuote] = useState<number | null>(null);
   const [isSaving, setIsSaving] = useState(false);
@@ -57,6 +62,15 @@ export function Testimonials() {
   const confirmDelete = useConfirmDelete();
 
   useEffect(() => {
+    if (sectionId) {
+      const data = initialData || {};
+      setFormData({ ...DEFAULT_HEADER, ...(data as Partial<TestimonialsHeaderData>) });
+      const list = Array.isArray(data.testimonials) ? (data.testimonials as ClientStory[]) : [];
+      setStories(list);
+      setStoryImages(list.map((t) => t.image || null));
+      return;
+    }
+
     let active = true;
     fetchWithCache("/api/home")
       .then((json) => {
@@ -77,7 +91,7 @@ export function Testimonials() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [sectionId, initialData]);
 
   const setText = (key: keyof TestimonialsHeaderData) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setFormData((prev) => ({ ...prev, [key]: e.target.value }));
@@ -110,30 +124,38 @@ export function Testimonials() {
         }))
         .filter((s) => s.clientName || s.quote.trim());
 
-      const [headerRes, repRes] = await Promise.all([
-        fetch("/api/home", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ section: "Testimonials", content: formData }),
-        }),
-        fetch("/api/home", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            section: "OurReputation",
-            content: { ...reputationMeta, testimonials: cleanStories },
+      if (sectionId) {
+        await saveCustomSection(
+          sectionId,
+          { ...formData, testimonials: cleanStories },
+          sectionSaveUrl,
+        );
+      } else {
+        const [headerRes, repRes] = await Promise.all([
+          fetch("/api/home", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ section: "Testimonials", content: formData }),
           }),
-        }),
-      ]);
+          fetch("/api/home", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              section: "OurReputation",
+              content: { ...reputationMeta, testimonials: cleanStories },
+            }),
+          }),
+        ]);
 
-      const [headerJson, repJson] = await Promise.all([headerRes.json(), repRes.json()]);
-      if (!headerRes.ok || !headerJson.success || !repRes.ok || !repJson.success) {
-        throw new Error(headerJson?.error || repJson?.error || "Save failed");
+        const [headerJson, repJson] = await Promise.all([headerRes.json(), repRes.json()]);
+        if (!headerRes.ok || !headerJson.success || !repRes.ok || !repJson.success) {
+          throw new Error(headerJson?.error || repJson?.error || "Save failed");
+        }
+        clearCache("/api/home");
       }
 
       setStories(cleanStories);
       setStoryImages(cleanStories.map((s) => s.image || null));
-      clearCache("/api/home");
       toast.success("Testimonials saved and published!", { id: toastId });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not save. Please try again.", {

@@ -9,6 +9,7 @@ import {
   StaticSectionCard,
   StringListField,
   useStaticSection,
+  type SectionInstanceProps,
 } from "@/app/components/StaticSectionCard";
 
 interface AboutHeroData {
@@ -38,7 +39,7 @@ const DEFAULT_DATA: AboutHeroData = {
   secondaryUrl: "",
 };
 
-export function AboutHero() {
+export function AboutHero(sectionProps?: SectionInstanceProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const { formData, setFormData, isSaving, save } = useStaticSection(
@@ -46,6 +47,7 @@ export function AboutHero() {
     "AboutHero",
     DEFAULT_DATA,
     "About Hero",
+    sectionProps,
   );
 
   const setText =

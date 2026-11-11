@@ -9,6 +9,7 @@ import {
   StaticSectionCard,
   StringListField,
   useStaticSection,
+  type SectionInstanceProps,
 } from "@/app/components/StaticSectionCard";
 
 interface PurposeCard {
@@ -34,7 +35,7 @@ const DEFAULT_DATA: AboutPurposeData = {
   values: [],
 };
 
-export function AboutPurpose() {
+export function AboutPurpose(sectionProps?: SectionInstanceProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
   const { formData, setFormData, isSaving, save } = useStaticSection(
@@ -42,6 +43,7 @@ export function AboutPurpose() {
     "AboutPurpose",
     DEFAULT_DATA,
     "About Purpose",
+    sectionProps,
   );
 
   const cards = Array.isArray(formData.cards) ? formData.cards : [];

@@ -5,7 +5,12 @@ import { Plus } from "lucide-react";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { CollapsibleCard } from "@/app/components/CollapsibleCard";
-import { HomeSectionCard, StringListField, useHomeSection } from "./HomeSectionCard";
+import {
+  HomeSectionCard,
+  StringListField,
+  useHomeSection,
+  type SectionInstanceProps,
+} from "./HomeSectionCard";
 
 interface ProcessStep {
   number: string;
@@ -33,13 +38,14 @@ const DEFAULT_DATA: GrowthProcessData = {
   commitments: [],
 };
 
-export function GrowthProcess() {
+export function GrowthProcess(sectionProps?: SectionInstanceProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedStep, setExpandedStep] = useState<number | null>(null);
   const { formData, setFormData, isSaving, save } = useHomeSection(
     "GrowthProcess",
     DEFAULT_DATA,
     "Growth Process",
+    sectionProps,
   );
 
   const steps = Array.isArray(formData.steps) ? formData.steps : [];

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight, FileText } from "lucide-react";
 import { InputField } from "@/components/InputField";
-import { HomeSectionCard, useHomeSection } from "./HomeSectionCard";
+import { HomeSectionCard, useHomeSection, type SectionInstanceProps } from "./HomeSectionCard";
 
 interface InsightsData {
   [key: string]: unknown;
@@ -21,12 +21,13 @@ const DEFAULT_DATA: InsightsData = {
   viewAllLabel: "",
 };
 
-export function Insights() {
+export function Insights(sectionProps?: SectionInstanceProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { formData, setFormData, isSaving, save } = useHomeSection(
     "Insights",
     DEFAULT_DATA,
     "Insights Header",
+    sectionProps,
   );
 
   const setText = (key: keyof InsightsData) => (e: React.ChangeEvent<HTMLInputElement>) =>

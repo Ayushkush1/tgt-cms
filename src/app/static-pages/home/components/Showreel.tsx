@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { InputField } from "@/components/InputField";
-import { HomeSectionCard, useHomeSection } from "./HomeSectionCard";
+import { HomeSectionCard, useHomeSection, type SectionInstanceProps } from "./HomeSectionCard";
 
 interface ShowreelData {
   [key: string]: unknown;
@@ -21,12 +21,13 @@ const DEFAULT_DATA: ShowreelData = {
   linkUrl: "",
 };
 
-export function Showreel() {
+export function Showreel(sectionProps?: SectionInstanceProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { formData, setFormData, isSaving, save } = useHomeSection(
     "Showreel",
     DEFAULT_DATA,
     "Showreel",
+    sectionProps,
   );
 
   const setText = (key: keyof ShowreelData) => (e: React.ChangeEvent<HTMLInputElement>) =>

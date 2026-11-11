@@ -66,7 +66,7 @@ const defaultPortfolio = (): PortfolioItem => ({
 
 interface PortfolioCMSProps {
   sectionId?: string;
-  initialData?: PortfolioItem[];
+  initialData?: PortfolioItem[] | Record<string, unknown>;
   saveUrl?: string;
   responseKey?: string;
   sectionName?: string;
@@ -91,8 +91,16 @@ export function PortfolioCMS({
   const [items, setItems] = useState<PortfolioItem[]>([]);
 
   useEffect(() => {
-    if (initialData && Array.isArray(initialData)) {
-      const mapped = initialData.map((item: any) => ({
+    if (sectionId || (initialData && Array.isArray(initialData))) {
+      const source = Array.isArray(initialData)
+        ? initialData
+        : initialData &&
+            typeof initialData === "object" &&
+            "items" in initialData &&
+            Array.isArray(initialData.items)
+          ? initialData.items
+          : [];
+      const mapped = source.map((item: any) => ({
         ...item,
         image: item.image ? [item.image] : [],
         isExpanded: false,
@@ -102,7 +110,7 @@ export function PortfolioCMS({
           tags: Array.isArray(s.tags) ? s.tags.join(", ") : s.tags || "",
         })),
       }));
-      setItems(mapped.length > 0 ? mapped : [defaultPortfolio()]);
+      setItems(mapped.length > 0 ? mapped : sectionId ? [] : [defaultPortfolio()]);
     } else {
       fetchWithCache(saveUrl)
         .then((json: any) => {
@@ -131,7 +139,7 @@ export function PortfolioCMS({
           setItems([defaultPortfolio()]);
         });
     }
-  }, [initialData, saveUrl]);
+  }, [sectionId, initialData, saveUrl]);
 
   const handleItemChange = (idx: number, field: keyof PortfolioItem, value: any) => {
     setItems((prev) => {

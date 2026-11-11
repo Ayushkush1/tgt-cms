@@ -8,6 +8,7 @@ import {
   StaticSectionCard,
   StringListField,
   useStaticSection,
+  type SectionInstanceProps,
 } from "@/app/components/StaticSectionCard";
 
 interface StoryStat {
@@ -30,13 +31,14 @@ const DEFAULT_DATA: AboutStoryData = {
   stats: [],
 };
 
-export function AboutStory() {
+export function AboutStory(sectionProps?: SectionInstanceProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { formData, setFormData, isSaving, save } = useStaticSection(
     "/api/about",
     "AboutStory",
     DEFAULT_DATA,
     "About Story",
+    sectionProps,
   );
 
   const stats = Array.isArray(formData.stats) ? formData.stats : [];

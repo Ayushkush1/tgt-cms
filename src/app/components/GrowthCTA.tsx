@@ -8,6 +8,7 @@ import {
   StaticSectionCard,
   StringListField,
   useStaticSection,
+  type SectionInstanceProps,
 } from "@/app/components/StaticSectionCard";
 
 interface ClockItem {
@@ -67,12 +68,15 @@ const DEFAULT_DATA: GrowthCTAData = {
   clocksNote: "",
 };
 
-type GrowthCTAProps = {
+type GrowthCTAProps = SectionInstanceProps & {
   title?: string;
 };
 
 export function GrowthCTA({
   title = '5. Global "Let\'s Talk" CTA & Brief Modal (GrowthCTA)',
+  sectionId,
+  initialData,
+  saveUrl,
 }: GrowthCTAProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { formData, setFormData, isSaving, save } = useStaticSection(
@@ -80,6 +84,7 @@ export function GrowthCTA({
     "GrowthCTA",
     DEFAULT_DATA,
     "Growth CTA",
+    { sectionId, initialData, saveUrl },
   );
 
   const clocks = Array.isArray(formData.clocks) ? formData.clocks : [];

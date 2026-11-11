@@ -7,20 +7,56 @@ import { clearCache, fetchWithCache } from "@/lib/apiCache";
 import { SaveButton } from "@/components/SaveButton";
 import { SectionHeader } from "@/components/SectionHeader";
 
+export interface SectionInstanceProps {
+  sectionId?: string;
+  initialData?: Record<string, unknown>;
+  saveUrl?: string;
+}
+
+/** Saves an individual custom-page section record via PUT /api/sections. */
+export async function saveCustomSection(
+  sectionId: string,
+  content: unknown,
+  saveUrl = "/api/sections",
+) {
+  const res = await fetch(saveUrl, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: sectionId, content }),
+  });
+  const json = await res.json();
+  if (!res.ok || !json.success) {
+    throw new Error(json?.error || "Save failed");
+  }
+  return json.data;
+}
+
 /**
- * Loads and saves a single section from any static page API (e.g. /api/home, /api/about)
- * with shared caching, error handling, and toast notifications.
+ * Loads and saves a single section from any static page API (e.g. /api/home, /api/about),
+ * or from an individual custom page section when `sectionOptions.sectionId` is passed.
  */
 export function useStaticSection<T extends Record<string, unknown>>(
   apiUrl: string,
   sectionKey: string,
   defaultValue: T,
   displayName: string,
+  sectionOptions?: SectionInstanceProps,
 ) {
-  const [formData, setFormData] = useState<T>(defaultValue);
+  const sectionId = sectionOptions?.sectionId;
+  const initialData = sectionOptions?.initialData;
+  const sectionSaveUrl = sectionOptions?.saveUrl || "/api/sections";
+
+  const [formData, setFormData] = useState<T>(() =>
+    sectionId ? { ...defaultValue, ...((initialData as Partial<T>) || {}) } : defaultValue,
+  );
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
+    if (sectionId) {
+      setFormData({ ...defaultValue, ...((initialData as Partial<T>) || {}) });
+      return;
+    }
+
     let active = true;
     fetchWithCache(apiUrl)
       .then((json) => {
@@ -36,23 +72,30 @@ export function useStaticSection<T extends Record<string, unknown>>(
     };
     // defaultValue is a module-level constant per section
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [apiUrl, sectionKey]);
+  }, [apiUrl, sectionKey, sectionId, initialData]);
 
   const save = async (override?: T) => {
     const payload = override ?? formData;
     setIsSaving(true);
     const toastId = toast.loading(`Saving ${displayName}…`);
     try {
-      const res = await fetch(apiUrl, {
+      const targetUrl = sectionId ? sectionSaveUrl : apiUrl;
+      const body = sectionId
+        ? { id: sectionId, content: payload }
+        : { section: sectionKey, content: payload };
+
+      const res = await fetch(targetUrl, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ section: sectionKey, content: payload }),
+        body: JSON.stringify(body),
       });
       const json = await res.json();
       if (!res.ok || !json.success) {
         throw new Error(json?.error || "Save failed");
       }
-      clearCache(apiUrl);
+      if (!sectionId) {
+        clearCache(apiUrl);
+      }
       toast.success(`${displayName} saved and published!`, { id: toastId });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not save. Please try again.", {

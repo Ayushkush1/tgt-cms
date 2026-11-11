@@ -4,7 +4,12 @@ import React, { useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
-import { HomeSectionCard, StringListField, useHomeSection } from "./HomeSectionCard";
+import {
+  HomeSectionCard,
+  StringListField,
+  useHomeSection,
+  type SectionInstanceProps,
+} from "./HomeSectionCard";
 
 interface ManifestoStat {
   value: string;
@@ -26,12 +31,13 @@ const DEFAULT_DATA: ManifestoData = {
   stats: [],
 };
 
-export function Manifesto() {
+export function Manifesto(sectionProps?: SectionInstanceProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { formData, setFormData, isSaving, save } = useHomeSection(
     "Manifesto",
     DEFAULT_DATA,
     "Manifesto",
+    sectionProps,
   );
 
   const stats = Array.isArray(formData.stats) ? formData.stats : [];

@@ -9,6 +9,7 @@ import { SaveButton } from "@/components/SaveButton";
 import { SectionHeader } from "@/components/SectionHeader";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import { uploadFiles } from "@/app/lib/uploadHelpers";
+import { saveCustomSection, type SectionInstanceProps } from "@/app/components/StaticSectionCard";
 
 interface BlogIndexData {
   label: string;
@@ -40,12 +41,26 @@ const DEFAULT_DATA: BlogIndexData = {
 
 const SECTION_KEY = "BlogIndex";
 
-export function BlogIndex() {
+export function BlogIndex(sectionProps?: SectionInstanceProps) {
+  const sectionId = sectionProps?.sectionId;
+  const initialData = sectionProps?.initialData;
+  const sectionSaveUrl = sectionProps?.saveUrl;
+
   const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState<BlogIndexData>(DEFAULT_DATA);
 
   useEffect(() => {
+    if (sectionId) {
+      const data = (initialData as Partial<BlogIndexData>) || {};
+      setFormData({
+        ...DEFAULT_DATA,
+        ...data,
+        imageUrl: typeof data.imageUrl === "string" ? data.imageUrl : "",
+      });
+      return;
+    }
+
     let active = true;
     fetchWithCache("/api/blog")
       .then((json) => {
@@ -64,7 +79,7 @@ export function BlogIndex() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [sectionId, initialData]);
 
   const setText =
     (key: keyof BlogIndexData) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -76,17 +91,23 @@ export function BlogIndex() {
     try {
       const [imageUrl] = await uploadFiles([formData.imageUrl || ""]);
       const payload: BlogIndexData = { ...formData, imageUrl: imageUrl || "" };
-      const res = await fetch("/api/blog", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ section: SECTION_KEY, content: payload }),
-      });
-      const json = await res.json();
-      if (!res.ok || !json.success) {
-        throw new Error(json?.error || "Save failed");
+
+      if (sectionId) {
+        await saveCustomSection(sectionId, payload, sectionSaveUrl);
+      } else {
+        const res = await fetch("/api/blog", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ section: SECTION_KEY, content: payload }),
+        });
+        const json = await res.json();
+        if (!res.ok || !json.success) {
+          throw new Error(json?.error || "Save failed");
+        }
+        clearCache("/api/blog");
       }
+
       setFormData(payload);
-      clearCache("/api/blog");
       toast.success("Blog Page settings saved and published!", { id: toastId });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not save. Please try again.", {

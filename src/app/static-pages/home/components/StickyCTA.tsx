@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { InputField } from "@/components/InputField";
-import { HomeSectionCard, useHomeSection } from "./HomeSectionCard";
+import { HomeSectionCard, useHomeSection, type SectionInstanceProps } from "./HomeSectionCard";
 
 interface StickyCTAData {
   [key: string]: unknown;
@@ -17,12 +17,13 @@ const DEFAULT_DATA: StickyCTAData = {
   buttonUrl: "",
 };
 
-export function StickyCTA() {
+export function StickyCTA(sectionProps?: SectionInstanceProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { formData, setFormData, isSaving, save } = useHomeSection(
     "StickyCTA",
     DEFAULT_DATA,
     "Sticky CTA",
+    sectionProps,
   );
 
   const setText = (key: keyof StickyCTAData) => (e: React.ChangeEvent<HTMLInputElement>) =>

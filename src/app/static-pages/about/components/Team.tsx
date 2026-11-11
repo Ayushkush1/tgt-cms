@@ -10,7 +10,11 @@ import { TextAreaField } from "@/components/TextAreaField";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import { CollapsibleCard } from "@/app/components/CollapsibleCard";
 import { useConfirmDelete } from "@/app/components/ConfirmDeleteModal";
-import { StaticSectionCard } from "@/app/components/StaticSectionCard";
+import {
+  StaticSectionCard,
+  saveCustomSection,
+  type SectionInstanceProps,
+} from "@/app/components/StaticSectionCard";
 
 interface TeamMember {
   name: string;
@@ -52,7 +56,11 @@ const emptyMember = (): TeamMember => ({
   linkedin: "",
 });
 
-export function Team() {
+export function Team(sectionProps?: SectionInstanceProps) {
+  const sectionId = sectionProps?.sectionId;
+  const initialData = sectionProps?.initialData;
+  const sectionSaveUrl = sectionProps?.saveUrl;
+
   const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [expandedMember, setExpandedMember] = useState<number | null>(null);
@@ -62,6 +70,28 @@ export function Team() {
   const confirmDelete = useConfirmDelete();
 
   useEffect(() => {
+    if (sectionId) {
+      const incoming = initialData || {};
+      const rawList = Array.isArray(incoming.members)
+        ? (incoming.members as Record<string, unknown>[])
+        : [];
+      const normalized: TeamMember[] = rawList.map((m) => ({
+        name: String(m.name || ""),
+        role: String(m.role || m.designation || ""),
+        bio: String(m.bio || ""),
+        tag: String(m.tag || ""),
+        photo: String(m.photo || m.imageUrl || ""),
+        linkedin: String(m.linkedin || m.linkedinUrl || ""),
+      }));
+      setFormData({
+        ...DEFAULT_DATA,
+        ...(incoming as Partial<TeamData>),
+        members: normalized,
+      });
+      setMemberPhotos(normalized.map((m) => m.photo || null));
+      return;
+    }
+
     let active = true;
     fetchWithCache("/api/about")
       .then((json) => {
@@ -98,7 +128,7 @@ export function Team() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [sectionId, initialData]);
 
   const members = Array.isArray(formData.members) ? formData.members : [];
 
@@ -150,41 +180,45 @@ export function Team() {
         members: cleanMembers,
       };
 
-      const legacyMembers = cleanMembers.map((m, i) => ({
-        name: m.name,
-        designation: m.role,
-        role: m.role,
-        bio: m.bio,
-        tag: m.tag,
-        col: i,
-        linkedinUrl: m.linkedin,
-        imageUrl: m.photo,
-      }));
+      if (sectionId) {
+        await saveCustomSection(sectionId, teamPayload, sectionSaveUrl);
+      } else {
+        const legacyMembers = cleanMembers.map((m, i) => ({
+          name: m.name,
+          designation: m.role,
+          role: m.role,
+          bio: m.bio,
+          tag: m.tag,
+          col: i,
+          linkedinUrl: m.linkedin,
+          imageUrl: m.photo,
+        }));
 
-      const [teamRes, legacyRes] = await Promise.all([
-        fetch("/api/about", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ section: "Team", content: teamPayload }),
-        }),
-        fetch("/api/about", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            section: "OurTeam",
-            content: { ...ourTeamMeta, members: legacyMembers },
+        const [teamRes, legacyRes] = await Promise.all([
+          fetch("/api/about", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ section: "Team", content: teamPayload }),
           }),
-        }),
-      ]);
+          fetch("/api/about", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              section: "OurTeam",
+              content: { ...ourTeamMeta, members: legacyMembers },
+            }),
+          }),
+        ]);
 
-      const [teamJson, legacyJson] = await Promise.all([teamRes.json(), legacyRes.json()]);
-      if (!teamRes.ok || !teamJson.success || !legacyRes.ok || !legacyJson.success) {
-        throw new Error(teamJson?.error || legacyJson?.error || "Save failed");
+        const [teamJson, legacyJson] = await Promise.all([teamRes.json(), legacyRes.json()]);
+        if (!teamRes.ok || !teamJson.success || !legacyRes.ok || !legacyJson.success) {
+          throw new Error(teamJson?.error || legacyJson?.error || "Save failed");
+        }
+        clearCache("/api/about");
       }
 
       setFormData(teamPayload);
       setMemberPhotos(cleanMembers.map((m) => m.photo || null));
-      clearCache("/api/about");
       toast.success("Team saved and published!", { id: toastId });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not save. Please try again.", {

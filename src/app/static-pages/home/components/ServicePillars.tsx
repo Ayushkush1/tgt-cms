@@ -5,7 +5,7 @@ import { Plus, Trash2 } from "lucide-react";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { CollapsibleCard } from "@/app/components/CollapsibleCard";
-import { HomeSectionCard, useHomeSection } from "./HomeSectionCard";
+import { HomeSectionCard, useHomeSection, type SectionInstanceProps } from "./HomeSectionCard";
 
 interface PillarService {
   name: string;
@@ -51,13 +51,14 @@ const PILLAR_IDS = [
   { value: "scale", label: "scale" },
 ];
 
-export function ServicePillars() {
+export function ServicePillars(sectionProps?: SectionInstanceProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedPillar, setExpandedPillar] = useState<number | null>(null);
   const { formData, setFormData, isSaving, save } = useHomeSection(
     "ServicePillars",
     DEFAULT_DATA,
     "Service Pillars",
+    sectionProps,
   );
 
   const pillars = Array.isArray(formData.pillars) ? formData.pillars : [];

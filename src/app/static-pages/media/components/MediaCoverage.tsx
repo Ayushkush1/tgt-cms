@@ -7,7 +7,11 @@ import { SelectField } from "@/components/SelectField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { useConfirmDelete } from "@/app/components/ConfirmDeleteModal";
 import { CollapsibleCard } from "@/app/components/CollapsibleCard";
-import { StaticSectionCard, useStaticSection } from "@/app/components/StaticSectionCard";
+import {
+  StaticSectionCard,
+  useStaticSection,
+  type SectionInstanceProps,
+} from "@/app/components/StaticSectionCard";
 
 export interface MediaCoverageItem {
   outlet: string;
@@ -35,7 +39,7 @@ const MEDIA_TYPE_OPTIONS = [
   { value: "Podcast", label: "Podcast" },
 ];
 
-export function MediaCoverage() {
+export function MediaCoverage(sectionProps?: SectionInstanceProps) {
   const confirmDelete = useConfirmDelete();
   const [isOpen, setIsOpen] = useState(false);
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
@@ -44,6 +48,7 @@ export function MediaCoverage() {
     "MediaItems",
     DEFAULT_DATA,
     "Press Coverage",
+    sectionProps,
   );
 
   const items = Array.isArray(formData.items) ? formData.items : [];

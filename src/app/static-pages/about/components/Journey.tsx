@@ -8,7 +8,11 @@ import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { CollapsibleCard } from "@/app/components/CollapsibleCard";
 import { useConfirmDelete } from "@/app/components/ConfirmDeleteModal";
-import { StaticSectionCard } from "@/app/components/StaticSectionCard";
+import {
+  StaticSectionCard,
+  saveCustomSection,
+  type SectionInstanceProps,
+} from "@/app/components/StaticSectionCard";
 
 interface Milestone {
   year: string;
@@ -30,7 +34,11 @@ const DEFAULT_DATA: JourneyData = {
   milestones: [],
 };
 
-export function Journey() {
+export function Journey(sectionProps?: SectionInstanceProps) {
+  const sectionId = sectionProps?.sectionId;
+  const initialData = sectionProps?.initialData;
+  const sectionSaveUrl = sectionProps?.saveUrl;
+
   const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [expandedMilestone, setExpandedMilestone] = useState<number | null>(null);
@@ -39,6 +47,17 @@ export function Journey() {
   const confirmDelete = useConfirmDelete();
 
   useEffect(() => {
+    if (sectionId) {
+      const incoming = initialData || {};
+      const list = Array.isArray(incoming.milestones) ? (incoming.milestones as Milestone[]) : [];
+      setFormData({
+        ...DEFAULT_DATA,
+        ...(incoming as Partial<JourneyData>),
+        milestones: list,
+      });
+      return;
+    }
+
     let active = true;
     Promise.all([fetchWithCache("/api/about"), fetch("/api/ceo").then((r) => r.json())])
       .then(([aboutJson, ceoJson]) => {
@@ -64,7 +83,7 @@ export function Journey() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [sectionId, initialData]);
 
   const milestones = Array.isArray(formData.milestones) ? formData.milestones : [];
 
@@ -102,6 +121,12 @@ export function Journey() {
         (m) => m.year.trim() || m.title.trim() || m.description.trim(),
       );
       const journeyPayload: JourneyData = { ...formData, milestones: cleanMilestones };
+
+      if (sectionId) {
+        await saveCustomSection(sectionId, journeyPayload, sectionSaveUrl);
+        toast.success("Journey saved!", { id: toastId });
+        return;
+      }
 
       const requests: Promise<Response>[] = [
         fetch("/api/about", {

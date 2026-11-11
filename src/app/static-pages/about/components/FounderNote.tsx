@@ -7,7 +7,11 @@ import { uploadFiles } from "@/lib/uploadHelpers";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { ImageUploadField } from "@/components/ImageUploadField";
-import { StaticSectionCard } from "@/app/components/StaticSectionCard";
+import {
+  StaticSectionCard,
+  saveCustomSection,
+  type SectionInstanceProps,
+} from "@/app/components/StaticSectionCard";
 
 interface FounderNoteData {
   label: string;
@@ -35,7 +39,11 @@ const DEFAULT_DATA: FounderNoteData = {
   ctaUrl: "",
 };
 
-export function FounderNote() {
+export function FounderNote(sectionProps?: SectionInstanceProps) {
+  const sectionId = sectionProps?.sectionId;
+  const initialData = sectionProps?.initialData;
+  const sectionSaveUrl = sectionProps?.saveUrl;
+
   const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState<FounderNoteData>(DEFAULT_DATA);
@@ -43,6 +51,20 @@ export function FounderNote() {
   const [noteDraft, setNoteDraft] = useState("");
 
   useEffect(() => {
+    if (sectionId) {
+      const incoming = initialData || {};
+      const noteList = Array.isArray(incoming.note) ? (incoming.note as string[]) : [];
+      const merged: FounderNoteData = {
+        ...DEFAULT_DATA,
+        ...(incoming as Partial<FounderNoteData>),
+        note: noteList,
+      };
+      setFormData(merged);
+      setNoteDraft(noteList.join("\n\n"));
+      setPhotoFiles(merged.photo ? [merged.photo] : []);
+      return;
+    }
+
     let active = true;
     fetchWithCache("/api/about")
       .then((json) => {
@@ -64,7 +86,7 @@ export function FounderNote() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [sectionId, initialData]);
 
   const setText =
     (key: keyof FounderNoteData) =>
@@ -87,17 +109,21 @@ export function FounderNote() {
         note: paragraphs,
       };
 
-      const res = await fetch("/api/about", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ section: "FounderNote", content: payload }),
-      });
-      const json = await res.json();
-      if (!res.ok || !json.success) {
-        throw new Error(json?.error || "Save failed");
+      if (sectionId) {
+        await saveCustomSection(sectionId, payload, sectionSaveUrl);
+      } else {
+        const res = await fetch("/api/about", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ section: "FounderNote", content: payload }),
+        });
+        const json = await res.json();
+        if (!res.ok || !json.success) {
+          throw new Error(json?.error || "Save failed");
+        }
+        clearCache("/api/about");
       }
       setPhotoFiles(photoUrl ? [photoUrl] : []);
-      clearCache("/api/about");
       toast.success("Founder Note saved and published!", { id: toastId });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not save. Please try again.", {

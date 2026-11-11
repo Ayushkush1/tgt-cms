@@ -5,7 +5,11 @@ import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import { uploadFiles } from "@/app/lib/uploadHelpers";
-import { StaticSectionCard, useStaticSection } from "@/app/components/StaticSectionCard";
+import {
+  StaticSectionCard,
+  useStaticSection,
+  type SectionInstanceProps,
+} from "@/app/components/StaticSectionCard";
 
 interface ContactHeroData {
   [key: string]: unknown;
@@ -32,7 +36,7 @@ const DEFAULT_DATA: ContactHeroData = {
   secondaryUrl: "",
 };
 
-export function ContactHero() {
+export function ContactHero(sectionProps?: SectionInstanceProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const { formData, setFormData, isSaving, save } = useStaticSection(
@@ -40,6 +44,7 @@ export function ContactHero() {
     "ContactHero",
     DEFAULT_DATA,
     "Contact Hero",
+    sectionProps,
   );
 
   const setField =

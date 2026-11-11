@@ -6,7 +6,8 @@ import { clearCache, fetchWithCache } from "@/lib/apiCache";
 import { uploadFiles } from "@/lib/uploadHelpers";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
-import { HomeSectionCard, StringListField } from "./HomeSectionCard";
+import { saveCustomSection } from "@/app/components/StaticSectionCard";
+import { HomeSectionCard, StringListField, type SectionInstanceProps } from "./HomeSectionCard";
 import {
   ClientLogosField,
   clientLogoRows,
@@ -50,7 +51,11 @@ const DEFAULT_DATA: GrowthHeroData = {
   ticker: [],
 };
 
-export function GrowthHero() {
+export function GrowthHero(sectionProps?: SectionInstanceProps) {
+  const sectionId = sectionProps?.sectionId;
+  const initialData = sectionProps?.initialData;
+  const sectionSaveUrl = sectionProps?.saveUrl;
+
   const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState<GrowthHeroData>(DEFAULT_DATA);
@@ -58,6 +63,14 @@ export function GrowthHero() {
   const [logos, setLogos] = useState<ClientLogoRow[]>([]);
 
   useEffect(() => {
+    if (sectionId) {
+      const data = initialData || {};
+      setFormData({ ...DEFAULT_DATA, ...(data as Partial<GrowthHeroData>) });
+      const trustedSource = Array.isArray(data.logos) || Array.isArray(data.images) ? data : null;
+      setLogos(trustedSource ? clientLogoRows(trustedSource) : []);
+      return;
+    }
+
     let active = true;
     fetchWithCache("/api/home")
       .then((json) => {
@@ -76,7 +89,7 @@ export function GrowthHero() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [sectionId, initialData]);
 
   const setText =
     (key: keyof GrowthHeroData) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -115,29 +128,37 @@ export function GrowthHero() {
         ticker: (formData.ticker || []).map((t) => t.trim()).filter(Boolean),
       };
 
-      const [heroRes, trustedRes] = await Promise.all([
-        fetch("/api/home", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ section: "GrowthHero", content: heroPayload }),
-        }),
-        fetch("/api/home", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            section: "TrustedBySection",
-            content: { ...trustedByMeta, logos: savedLogos, images: heroImages },
+      if (sectionId) {
+        await saveCustomSection(
+          sectionId,
+          { ...heroPayload, logos: savedLogos, images: heroImages },
+          sectionSaveUrl,
+        );
+      } else {
+        const [heroRes, trustedRes] = await Promise.all([
+          fetch("/api/home", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ section: "GrowthHero", content: heroPayload }),
           }),
-        }),
-      ]);
+          fetch("/api/home", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              section: "TrustedBySection",
+              content: { ...trustedByMeta, logos: savedLogos, images: heroImages },
+            }),
+          }),
+        ]);
 
-      const [heroJson, trustedJson] = await Promise.all([heroRes.json(), trustedRes.json()]);
-      if (!heroRes.ok || !heroJson.success || !trustedRes.ok || !trustedJson.success) {
-        throw new Error(heroJson?.error || trustedJson?.error || "Save failed");
+        const [heroJson, trustedJson] = await Promise.all([heroRes.json(), trustedRes.json()]);
+        if (!heroRes.ok || !heroJson.success || !trustedRes.ok || !trustedJson.success) {
+          throw new Error(heroJson?.error || trustedJson?.error || "Save failed");
+        }
+        clearCache("/api/home");
       }
 
       setLogos(kept.map((l, i) => ({ ...l, image: uploaded[i] || null })));
-      clearCache("/api/home");
       toast.success("Growth Hero saved and published!", { id: toastId });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not save. Please try again.", {

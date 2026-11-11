@@ -2,7 +2,11 @@
 
 import React, { useState } from "react";
 import { InputField } from "@/components/InputField";
-import { StaticSectionCard, useStaticSection } from "@/app/components/StaticSectionCard";
+import {
+  StaticSectionCard,
+  useStaticSection,
+  type SectionInstanceProps,
+} from "@/app/components/StaticSectionCard";
 
 interface ContactDirectData {
   [key: string]: unknown;
@@ -21,13 +25,14 @@ const DEFAULT_DATA: ContactDirectData = {
   replyNote: "",
 };
 
-export function ContactDirect() {
+export function ContactDirect(sectionProps?: SectionInstanceProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { formData, setFormData, isSaving, save } = useStaticSection(
     "/api/contact",
     "ContactDirect",
     DEFAULT_DATA,
     "Direct Lines Copy",
+    sectionProps,
   );
 
   const setField = (key: keyof ContactDirectData) => (e: React.ChangeEvent<HTMLInputElement>) =>

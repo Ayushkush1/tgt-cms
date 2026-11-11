@@ -3,7 +3,11 @@
 import React, { useState } from "react";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
-import { StaticSectionCard, useStaticSection } from "@/app/components/StaticSectionCard";
+import {
+  StaticSectionCard,
+  useStaticSection,
+  type SectionInstanceProps,
+} from "@/app/components/StaticSectionCard";
 
 interface MapSectionData {
   [key: string]: unknown;
@@ -22,13 +26,14 @@ const DEFAULT_DATA: MapSectionData = {
   mapEmbedUrl: "",
 };
 
-export default function MapSection() {
+export default function MapSection(sectionProps?: SectionInstanceProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { formData, setFormData, isSaving, save } = useStaticSection(
     "/api/contact",
     "MapSection",
     DEFAULT_DATA,
     "Offices & Map",
+    sectionProps,
   );
 
   const setField =

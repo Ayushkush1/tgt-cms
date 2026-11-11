@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
-import { HomeSectionCard, useHomeSection } from "./HomeSectionCard";
+import { HomeSectionCard, useHomeSection, type SectionInstanceProps } from "./HomeSectionCard";
 
 interface WorkShowcaseData {
   [key: string]: unknown;
@@ -35,12 +35,13 @@ const DEFAULT_DATA: WorkShowcaseData = {
   ctaButtonUrl: "",
 };
 
-export function WorkShowcase() {
+export function WorkShowcase(sectionProps?: SectionInstanceProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { formData, setFormData, isSaving, save } = useHomeSection(
     "WorkShowcase",
     DEFAULT_DATA,
     "Work Showcase",
+    sectionProps,
   );
 
   const setText =

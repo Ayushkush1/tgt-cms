@@ -5,7 +5,11 @@ import toast from "react-hot-toast";
 import { clearCache, fetchWithCache } from "@/lib/apiCache";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
-import { StaticSectionCard } from "@/app/components/StaticSectionCard";
+import {
+  StaticSectionCard,
+  saveCustomSection,
+  type SectionInstanceProps,
+} from "@/app/components/StaticSectionCard";
 
 interface AboutFilmData {
   label: string;
@@ -23,13 +27,22 @@ const DEFAULT_DATA: AboutFilmData = {
   videoUrl: "",
 };
 
-export function AboutFilm() {
+export function AboutFilm(sectionProps?: SectionInstanceProps) {
+  const sectionId = sectionProps?.sectionId;
+  const initialData = sectionProps?.initialData;
+  const sectionSaveUrl = sectionProps?.saveUrl;
+
   const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState<AboutFilmData>(DEFAULT_DATA);
   const [videoMeta, setVideoMeta] = useState<Record<string, unknown>>({});
 
   useEffect(() => {
+    if (sectionId) {
+      setFormData({ ...DEFAULT_DATA, ...((initialData as Partial<AboutFilmData>) || {}) });
+      return;
+    }
+
     let active = true;
     fetchWithCache("/api/about")
       .then((json) => {
@@ -50,7 +63,7 @@ export function AboutFilm() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [sectionId, initialData]);
 
   const setText =
     (key: keyof AboutFilmData) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -60,32 +73,36 @@ export function AboutFilm() {
     setIsSaving(true);
     const toastId = toast.loading("Saving About Film…");
     try {
-      const [filmRes, videoRes] = await Promise.all([
-        fetch("/api/about", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ section: "AboutFilm", content: formData }),
-        }),
-        fetch("/api/about", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            section: "VideoSection",
-            content: {
-              ...videoMeta,
-              videoUrl: formData.videoUrl,
-              descriptionText: formData.descriptionText,
-            },
+      if (sectionId) {
+        await saveCustomSection(sectionId, formData, sectionSaveUrl);
+      } else {
+        const [filmRes, videoRes] = await Promise.all([
+          fetch("/api/about", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ section: "AboutFilm", content: formData }),
           }),
-        }),
-      ]);
+          fetch("/api/about", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              section: "VideoSection",
+              content: {
+                ...videoMeta,
+                videoUrl: formData.videoUrl,
+                descriptionText: formData.descriptionText,
+              },
+            }),
+          }),
+        ]);
 
-      const [filmJson, videoJson] = await Promise.all([filmRes.json(), videoRes.json()]);
-      if (!filmRes.ok || !filmJson.success || !videoRes.ok || !videoJson.success) {
-        throw new Error(filmJson?.error || videoJson?.error || "Save failed");
+        const [filmJson, videoJson] = await Promise.all([filmRes.json(), videoRes.json()]);
+        if (!filmRes.ok || !filmJson.success || !videoRes.ok || !videoJson.success) {
+          throw new Error(filmJson?.error || videoJson?.error || "Save failed");
+        }
+
+        clearCache("/api/about");
       }
-
-      clearCache("/api/about");
       toast.success("About Film saved and published!", { id: toastId });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not save. Please try again.", {
