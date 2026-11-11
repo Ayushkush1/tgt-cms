@@ -28,14 +28,15 @@ import { TextAreaField } from "@/app/components/TextAreaField";
 import {
   isSocialPlatform,
   type SiteFooter,
+  type SiteImages,
   type SocialLink,
   type SocialPlatform,
 } from "@/lib/siteFooter";
 
 /**
- * Social Media & Footer: the site logo (navbar & footer), social links, contact
+ * Social Media & Footer: the site logo (navbar & footer), site-wide photos, social links, contact
  * details, offices, footer badges and wordmark. Saved in the global settings
- * (GlobalConfig.footer & .socialLinks) through the global API: /api/seo/global.
+ * (GlobalConfig.footer, .siteImages & .socialLinks) through the global API: /api/seo/global.
  */
 
 // Home page sections the live website still reads these details from. Each save copies
@@ -54,6 +55,8 @@ interface Badge {
 
 interface FooterData {
   logo: ImageValue;
+  homeBackground: ImageValue;
+  pageHero: ImageValue;
   logoAlt: string;
   facebookUrl: string;
   twitterUrl: string;
@@ -81,6 +84,8 @@ interface DropTarget {
 
 const EMPTY: FooterData = {
   logo: null,
+  homeBackground: null,
+  pageHero: null,
   logoAlt: "",
   facebookUrl: "",
   twitterUrl: "",
@@ -100,6 +105,10 @@ const EMPTY: FooterData = {
   rightText: "",
   companyInitials: "",
 };
+
+// Fields that hold images, not text
+const IMAGE_KEYS: string[] = ["logo", "homeBackground", "pageHero", "badges"];
+const isTextKey = (k: string) => !IMAGE_KEYS.includes(k);
 
 type TextKey = {
   [K in keyof FooterData]: FooterData[K] extends string ? K : never;
@@ -200,7 +209,7 @@ function fromLegacy(content: Record<string, unknown>): FooterData {
     ...EMPTY,
     ...Object.fromEntries(
       Object.keys(EMPTY)
-        .filter((k) => k !== "badges" && k !== "logo")
+        .filter(isTextKey)
         .map((k) => [k, str(content[k])]),
     ),
     logo: str(content.logo) || null,
@@ -449,10 +458,15 @@ export default function SocialMediaFooterPage() {
         });
 
         const footer = global.data?.footer;
+        const images: Partial<SiteImages> = global.data?.siteImages ?? {};
+        const siteImages = {
+          homeBackground: str(images.homeBackground) || null,
+          pageHero: str(images.pageHero) || null,
+        };
         if (footer && typeof footer === "object") {
-          setData(fromGlobal(footer, global.data?.socialLinks));
+          setData({ ...fromGlobal(footer, global.data?.socialLinks), ...siteImages });
         } else {
-          setData(fromLegacy(sectionContent(LEGACY_FOOTER)));
+          setData({ ...fromLegacy(sectionContent(LEGACY_FOOTER)), ...siteImages });
           setImportedFromLegacy(true);
         }
       })
@@ -493,8 +507,10 @@ export default function SocialMediaFooterPage() {
     setIsSaving(true);
     const toastId = toast.loading("Saving…");
     try {
-      const [logo, ...badgeImages] = await Promise.all([
+      const [logo, homeBackground, pageHero, ...badgeImages] = await Promise.all([
         toUrl(data.logo),
+        toUrl(data.homeBackground),
+        toUrl(data.pageHero),
         ...data.badges.map((b) => toUrl(b.image)),
       ]);
       const badges = data.badges.map((b, i) => ({
@@ -518,6 +534,8 @@ export default function SocialMediaFooterPage() {
         badges,
         wordmark: { left: trim("leftText"), center: trim("centerText"), right: trim("rightText") },
       };
+      // Only the photos: the tech logos are saved from the Services editor
+      const siteImages: Pick<SiteImages, "homeBackground" | "pageHero"> = { homeBackground, pageHero };
       const socialLinks: SocialLink[] = SOCIALS.map(({ key, platform }) => ({
         platform,
         url: trim(key),
@@ -527,7 +545,7 @@ export default function SocialMediaFooterPage() {
       const res = await fetch("/api/seo/global", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ config: { footer, socialLinks } }),
+        body: JSON.stringify({ config: { footer, socialLinks, siteImages } }),
       });
       const json = await res.json();
       if (!json.success) throw new Error(json.error);
@@ -537,7 +555,7 @@ export default function SocialMediaFooterPage() {
         ...legacy[LEGACY_FOOTER],
         ...Object.fromEntries(
           (Object.keys(EMPTY) as (keyof FooterData)[])
-            .filter((k) => k !== "badges" && k !== "logo")
+            .filter(isTextKey)
             .map((k) => [k, trim(k as TextKey)]),
         ),
         logo,
@@ -561,6 +579,8 @@ export default function SocialMediaFooterPage() {
       setData((prev) => ({
         ...prev,
         logo: logo || null,
+        homeBackground: homeBackground || null,
+        pageHero: pageHero || null,
         badges: prev.badges.map((b, i) => ({
           ...b,
           image: badges[i]?.image || null,
@@ -607,7 +627,7 @@ export default function SocialMediaFooterPage() {
           icon={ImageIcon}
           iconBg="bg-teal-50 text-teal-700"
           title="1. Website Branding & Logos"
-          description="Configure the logo and brand accessibility details used in the navbar and footer."
+          description="The logo used in the navbar and footer, and the site-wide photos."
         >
           <div className="grid gap-5 md:grid-cols-2">
             <LogoUploadSubCard
@@ -647,6 +667,26 @@ export default function SocialMediaFooterPage() {
                 />
               </div>
             </div>
+
+            <LogoUploadSubCard
+              badgeIcon={ImageIcon}
+              badgeLabel="Home Page"
+              badgeColor="text-teal-700"
+              title="Home Page Background"
+              helperText="Faint full-page photo behind the home page. Leave empty for a plain background."
+              value={data.homeBackground}
+              onChange={(homeBackground) => setData((prev) => ({ ...prev, homeBackground }))}
+            />
+
+            <LogoUploadSubCard
+              badgeIcon={ImageIcon}
+              badgeLabel="Page Heroes"
+              badgeColor="text-teal-700"
+              title="Default Hero Photo"
+              helperText="Large photo at the top of pages (About, Contact, Portfolio…) that don't set their own."
+              value={data.pageHero}
+              onChange={(pageHero) => setData((prev) => ({ ...prev, pageHero }))}
+            />
           </div>
         </SectionCard>
 

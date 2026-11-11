@@ -49,3 +49,6 @@ prettier.config.*
 .prettierignore
 .vscode/
 .formatter/
+
+# DB backups written by scripts/*.mjs before live updates
+/scripts/db-backup-*.json

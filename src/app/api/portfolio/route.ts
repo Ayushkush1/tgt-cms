@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../lib/prisma";
 import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
+import { loadPageSeo } from "@/lib/siteContent";
 
 const PAGE_SLUG = "portfolio";
 
+/** GET /api/portfolio: { success, data: <main section content>, seo } */
 export async function GET() {
   try {
+    const seo = await loadPageSeo(PAGE_SLUG);
     const page = await prisma.page.findUnique({
       where: { slug: PAGE_SLUG },
       include: {
@@ -16,10 +19,10 @@ export async function GET() {
     });
 
     if (!page || page.sections.length === 0) {
-      return NextResponse.json({ success: true, data: null });
+      return NextResponse.json({ success: true, data: null, seo });
     }
 
-    return NextResponse.json({ success: true, data: page.sections[0].content });
+    return NextResponse.json({ success: true, data: page.sections[0].content, seo });
   } catch (error) {
     console.error("Error fetching portfolio content:", error);
     return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
 import { toHeadingTag } from "@/lib/headingTags";
@@ -62,6 +63,32 @@ export async function PUT(request: Request) {
       );
     }
 
+    if (
+      config.siteImages !== undefined &&
+      (typeof config.siteImages !== "object" ||
+        config.siteImages === null ||
+        Array.isArray(config.siteImages))
+    ) {
+      return NextResponse.json(
+        { success: false, error: "siteImages must be an object" },
+        { status: 400 },
+      );
+    }
+
+    // siteImages is edited from two pages, each sending only its own keys: merge into what's stored
+    let siteImages: Prisma.InputJsonObject | undefined;
+    if (config.siteImages !== undefined) {
+      const current = await prisma.globalConfig.findUnique({
+        where: { id: "global" },
+        select: { siteImages: true },
+      });
+      const stored = current?.siteImages;
+      siteImages = {
+        ...(stored && typeof stored === "object" && !Array.isArray(stored) ? stored : {}),
+        ...config.siteImages,
+      };
+    }
+
     const headingTag =
       config.headingOptions === undefined ? undefined : toHeadingTag(config.headingOptions);
 
@@ -78,6 +105,7 @@ export async function PUT(request: Request) {
         customFooterScripts: config.customFooterScripts,
         socialLinks: config.socialLinks,
         footer: config.footer,
+        siteImages,
         headingOptions: headingTag,
         canonicalOrdering: config.canonicalOrdering,
         sitemapEnabled: config.sitemapEnabled,
@@ -97,6 +125,7 @@ export async function PUT(request: Request) {
         customFooterScripts: config.customFooterScripts,
         socialLinks: config.socialLinks,
         footer: config.footer,
+        siteImages,
         headingOptions: headingTag,
         canonicalOrdering: config.canonicalOrdering,
         sitemapEnabled: config.sitemapEnabled !== undefined ? config.sitemapEnabled : true,

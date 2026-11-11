@@ -6,7 +6,7 @@
  * 3. Creates one admin login from SEED_ADMIN_EMAIL / SEED_ADMIN_PASSWORD.
  *
  * For a brand-new database, create the tables first: `npx prisma db push`
- * Images are not copied: the seeded content keeps pointing at the existing Supabase Storage files.
+ * Images are not copied: the seeded content points at the Cloudinary copies (scripts/migrate-images.mjs).
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -68,6 +68,7 @@ async function seedContent() {
     ...row,
     socialLinks: jsonOrDbNull(row.socialLinks),
     footer: jsonOrDbNull(row.footer ?? null),
+    siteImages: jsonOrDbNull(row.siteImages ?? null),
   }));
   const pages = read("pages").map((row) => ({
     ...row,

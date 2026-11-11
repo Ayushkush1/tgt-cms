@@ -1,36 +1,18 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../lib/prisma";
 import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
+import { pageResponse } from "@/lib/siteContent";
 
 const HOME_SLUG = "home";
 
 /**
  * GET /api/home
- * Returns all sections of the Home page as { [sectionType]: content } map.
+ * { success, data: { [sectionType]: content }, seo }: the Home page's editable sections
+ * (see PAGE_SECTIONS in src/lib/websiteSections.ts) and its SEO.
  */
 export async function GET() {
   try {
-    const page = await prisma.page.findUnique({
-      where: { slug: HOME_SLUG },
-      include: {
-        sections: {
-          orderBy: { order: "asc" },
-        },
-      },
-    });
-
-    if (!page) {
-      // Home page not created yet — return empty data
-      return NextResponse.json({ success: true, data: {} });
-    }
-
-    // Transform sections array into a map keyed by section type
-    const sectionsMap: Record<string, unknown> = {};
-    for (const section of page.sections) {
-      sectionsMap[section.type] = section.content;
-    }
-
-    return NextResponse.json({ success: true, data: sectionsMap });
+    return NextResponse.json(await pageResponse(HOME_SLUG, { blogBodies: true }));
   } catch (error) {
     console.error("Error fetching home page content:", error);
     return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });

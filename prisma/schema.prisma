@@ -44,6 +44,7 @@ model GlobalConfig {
   customFooterScripts   String?
   socialLinks           Json? // [{ platform: "linkedin" | "instagram" | "facebook" | "twitter", url }]
   footer                Json? // logo, company & contact details, offices, footer badges, wordmark (see src/lib/siteFooter.ts)
+  siteImages            Json? // site-wide photos: home page background, default page hero (see src/lib/siteFooter.ts)
   canonicalOrdering     String?
   sitemapEnabled        Boolean  @default(true)
   sitemapCustomContent  String?

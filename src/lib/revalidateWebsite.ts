@@ -1,17 +1,8 @@
 import { timingSafeEqual } from "node:crypto";
 import { after } from "next/server";
+import { WebsiteTag } from "./websiteSections";
 
-/**
- * Cache tags shared with the website (TGT-LandingPage). The website caches every CMS
- * response under one of these tags and only refetches a tag after we ping it here, so
- * content saves show up on the live site within seconds without the site polling the CMS.
- *
- * Must match CmsTag in TGT-LandingPage/src/lib/cms.ts
- */
-export const WebsiteTag = {
-  site: "site", // global SEO, navigation links & banners
-  page: (slug: string) => `page:${slug}`,
-};
+export { WebsiteTag };
 
 /**
  * Tells the website to refetch the given tags. Runs after the response is sent,

@@ -39,5 +39,26 @@ export interface SiteFooter {
   wordmark: { left: string; center: string; right: string };
 }
 
+/**
+ * A technology's logo, shown next to service stacks and CMS tags that match one of its names.
+ * Shared by all services; edited in the Services editor's Tech Stack card.
+ * (Client logos live on the home "TrustedBySection", edited in Growth Hero.)
+ */
+export interface TechLogo {
+  name: string; // e.g. "react"
+  image: string;
+  matches: string[]; // lowercase names it stands for, e.g. ["react js", "react native"]
+}
+
+/**
+ * GlobalConfig.siteImages: site-wide images (Cloudinary URLs). The photos are edited on
+ * Social Media & Footer, the tech logos in the Services editor; each saves only its own keys.
+ */
+export interface SiteImages {
+  homeBackground: string; // faint full-page background behind the home page
+  pageHero: string; // hero photo on pages that don't set their own
+  techLogos: TechLogo[];
+}
+
 export const isSocialPlatform = (value: unknown): value is SocialPlatform =>
   SOCIAL_PLATFORMS.some((platform) => platform === value);

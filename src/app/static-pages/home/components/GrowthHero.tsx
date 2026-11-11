@@ -6,8 +6,8 @@ import { clearCache, fetchWithCache } from "@/lib/apiCache";
 import { uploadFiles } from "@/lib/uploadHelpers";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
-import { ImageUploadField } from "@/components/ImageUploadField";
 import { HomeSectionCard, StringListField } from "./HomeSectionCard";
+import { ClientLogosField, clientLogoRows, type ClientLogo, type ClientLogoRow } from "./ClientLogosField";
 
 interface GrowthHeroData {
   headlineTop: string;
@@ -50,7 +50,7 @@ export function GrowthHero() {
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState<GrowthHeroData>(DEFAULT_DATA);
   const [trustedByMeta, setTrustedByMeta] = useState<Record<string, unknown>>({});
-  const [logoImages, setLogoImages] = useState<(File | string | null)[]>([]);
+  const [logos, setLogos] = useState<ClientLogoRow[]>([]);
 
   useEffect(() => {
     let active = true;
@@ -64,7 +64,7 @@ export function GrowthHero() {
         const trusted = json.data?.TrustedBySection;
         if (trusted && typeof trusted === "object") {
           setTrustedByMeta(trusted as Record<string, unknown>);
-          setLogoImages(Array.isArray(trusted.images) ? trusted.images : []);
+          setLogos(clientLogoRows(trusted as Record<string, unknown>));
         }
       })
       .catch(console.error);
@@ -89,8 +89,20 @@ export function GrowthHero() {
     setIsSaving(true);
     const toastId = toast.loading("Saving Growth Hero…");
     try {
-      const uploadedLogos = await uploadFiles(logoImages);
-      const cleanLogos = uploadedLogos.filter((u): u is string => Boolean(u));
+      const kept = logos.filter((l) => l.image);
+      const uploaded = await uploadFiles(kept.map((l) => l.image));
+      const savedLogos: ClientLogo[] = kept
+        .map((l, i) => ({
+          name: (l.name || "").trim(),
+          image: uploaded[i] || "",
+          width: l.width || 0,
+          height: l.height || 0,
+          dark: l.dark,
+          showInHero: l.showInHero,
+        }))
+        .filter((l) => l.image);
+      // `images`: the hero pill's logos, as the website reads them
+      const heroImages = savedLogos.filter((l) => l.showInHero).map((l) => l.image);
 
       const heroPayload = {
         ...formData,
@@ -109,7 +121,7 @@ export function GrowthHero() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             section: "TrustedBySection",
-            content: { ...trustedByMeta, images: cleanLogos },
+            content: { ...trustedByMeta, logos: savedLogos, images: heroImages },
           }),
         }),
       ]);
@@ -119,7 +131,7 @@ export function GrowthHero() {
         throw new Error(heroJson?.error || trustedJson?.error || "Save failed");
       }
 
-      setLogoImages(cleanLogos);
+      setLogos(kept.map((l, i) => ({ ...l, image: uploaded[i] || null })));
       clearCache("/api/home");
       toast.success("Growth Hero saved and published!", { id: toastId });
     } catch (err) {
@@ -134,7 +146,7 @@ export function GrowthHero() {
   return (
     <HomeSectionCard
       title="Growth Hero"
-      description="Main landing hero headline, client logos pill, CTAs, proof rating card, and service ticker."
+      description="Main landing hero headline, client logos (hero pill & service pages), CTAs, proof rating card, and service ticker."
       isOpen={isOpen}
       onToggle={() => setIsOpen((v) => !v)}
       isSaving={isSaving}
@@ -247,13 +259,7 @@ export function GrowthHero() {
       </div>
 
       <div className="rounded-2xl border border-gray-100 bg-gray-50/70 p-4">
-        <ImageUploadField
-          label="Headline Client Logos Pill"
-          images={logoImages}
-          onImagesChange={setLogoImages}
-          maxImages={50}
-          tooltip="Logos displayed inside the animated headline pill and marquee."
-        />
+        <ClientLogosField rows={logos} onChange={setLogos} />
       </div>
 
       <StringListField

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../lib/prisma";
 import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
+import { loadPageSeo } from "@/lib/siteContent";
 
 const PAGE_SLUG = "services";
 
@@ -8,6 +9,8 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const serviceId = searchParams.get("id");
+    // Services page SEO; with ?id, the service's own SEO instead (below)
+    const seo = serviceId ? null : await loadPageSeo(PAGE_SLUG);
 
     if (!serviceId) {
       // Return all services as an array if no ID is provided
@@ -21,7 +24,7 @@ export async function GET(request: Request) {
       });
 
       if (!page) {
-        return NextResponse.json({ success: true, data: [] });
+        return NextResponse.json({ success: true, data: [], seo });
       }
 
       const services = page.sections.map((section) => {
@@ -34,7 +37,7 @@ export async function GET(request: Request) {
         };
       });
 
-      return NextResponse.json({ success: true, data: services });
+      return NextResponse.json({ success: true, data: services, seo });
     }
 
     const page = await prisma.page.findUnique({
@@ -47,7 +50,7 @@ export async function GET(request: Request) {
     });
 
     if (!page || page.sections.length === 0) {
-      return NextResponse.json({ success: true, data: null });
+      return NextResponse.json({ success: true, data: null, seo });
     }
 
     const section = page.sections[0];
@@ -58,6 +61,8 @@ export async function GET(request: Request) {
         ...content,
         seo: content.seo || null,
       },
+      // A service page's SEO is its own (SEO → Page Settings → service/<slug>)
+      seo: content.seo || null,
     });
   } catch (error) {
     console.error("Error fetching service content:", error);

@@ -7,6 +7,7 @@ import { SelectField } from "@/components/SelectField";
 import { GlobalSectionRef } from "@/app/components/GlobalSectionRef";
 import { clearCache, fetchWithCache } from "@/lib/apiCache";
 import { uploadFiles } from "@/app/lib/uploadHelpers";
+import type { TechLogo } from "@/lib/siteFooter";
 import { ServiceHero } from "./components/ServiceHero";
 import { ServiceApproach } from "./components/ServiceApproach";
 import { ServiceDeliver } from "./components/ServiceDeliver";
@@ -29,6 +30,52 @@ export default function ServicesCMS() {
   const [formData, setFormData] = useState<ServicePageData>(createDefaultServiceData);
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  // Tech logos are shared by all services (GlobalConfig.siteImages.techLogos)
+  const [techLogos, setTechLogos] = useState<TechLogo[]>([]);
+  const [pendingTechLogos, setPendingTechLogos] = useState<Record<string, File>>({});
+
+  useEffect(() => {
+    fetch("/api/seo/global")
+      .then((r) => r.json())
+      .then((json) => {
+        const list = json?.data?.siteImages?.techLogos;
+        if (Array.isArray(list)) setTechLogos(list);
+      })
+      .catch(console.error);
+  }, []);
+
+  const techKey = (name: string) => name.trim().toLowerCase();
+  const findTechLogo = (list: TechLogo[], name: string) => {
+    const key = techKey(name);
+    return list.find((t) => t.name === key || (Array.isArray(t.matches) && t.matches.includes(key)));
+  };
+  const techLogoFor = (name: string) =>
+    pendingTechLogos[techKey(name)] ?? findTechLogo(techLogos, name)?.image ?? null;
+
+  /** Uploads logos picked in the Tech Stack card and saves the shared list. */
+  const saveTechLogos = async () => {
+    const names = Object.keys(pendingTechLogos);
+    if (names.length === 0) return;
+    const urls = await uploadFiles(names.map((n) => pendingTechLogos[n]));
+    let next = [...techLogos];
+    names.forEach((name, i) => {
+      const image = urls[i];
+      if (!image) return;
+      const existing = findTechLogo(next, name);
+      next = existing
+        ? next.map((t) => (t === existing ? { ...t, image } : t))
+        : [...next, { name, image, matches: [name] }];
+    });
+    const res = await fetch("/api/seo/global", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ config: { siteImages: { techLogos: next } } }),
+    });
+    const json = await res.json();
+    if (!res.ok || !json.success) throw new Error(json?.error || "Could not save the tech logos.");
+    setTechLogos(next);
+    setPendingTechLogos({});
+  };
 
   useEffect(() => {
     if (!selectedServiceId) {
@@ -70,6 +117,7 @@ export default function ServicesCMS() {
     setIsSaving(true);
     const tid = toast.loading(`Saving ${selectedServiceId}...`);
     try {
+      await saveTechLogos();
       const uploadedUrls = await uploadFiles([formData.hero.imageUrl || ""]);
       const cleanList = (list: string[]) => (list || []).map((item) => item.trim()).filter(Boolean);
 
@@ -175,6 +223,10 @@ export default function ServicesCMS() {
             related={formData.related}
             onStackChange={(stack) => setFormData((prev) => ({ ...prev, stack }))}
             onRelatedChange={(related) => setFormData((prev) => ({ ...prev, related }))}
+            techLogoFor={techLogoFor}
+            onPickTechLogo={(name, file) =>
+              setPendingTechLogos((prev) => ({ ...prev, [techKey(name)]: file }))
+            }
             isSaving={isSaving}
             onSave={handleSave}
           />
