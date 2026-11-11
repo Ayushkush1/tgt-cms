@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { isWebsiteRequest } from "@/lib/revalidateWebsite";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
@@ -87,6 +88,33 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, data: audit }, { status: 201 });
   } catch (error) {
     console.error("Audit submission error:", error);
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const session = await auth();
+    if (!session) {
+      return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+    }
+
+    const id = new URL(request.url).searchParams.get("id")?.trim();
+    if (!id) {
+      return NextResponse.json({ success: false, error: "Audit id is required" }, { status: 400 });
+    }
+
+    const deleted = await prisma.audit.deleteMany({
+      where: { id },
+    });
+
+    if (deleted.count === 0) {
+      return NextResponse.json({ success: false, error: "Audit not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true, message: "Audit deleted" });
+  } catch (error) {
+    console.error("Audit delete error:", error);
     return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }

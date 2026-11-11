@@ -12,8 +12,10 @@ import {
   User,
   Globe,
   MessageSquare,
+  Trash2,
 } from "lucide-react";
 import { InputField } from "@/app/components/InputField";
+import { useConfirmDelete } from "@/app/components/ConfirmDeleteModal";
 import { SubmissionDetailModal } from "@/app/components/SubmissionDetailModal";
 import toast from "react-hot-toast";
 
@@ -41,6 +43,8 @@ export default function AuditsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [selectedAudit, setSelectedAudit] = useState<Audit | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const confirmDelete = useConfirmDelete();
 
   const fetchAudits = async () => {
     setIsLoading(true);
@@ -63,6 +67,37 @@ export default function AuditsPage() {
   useEffect(() => {
     fetchAudits();
   }, [page, searchQuery]);
+
+  const handleDelete = async (audit: Audit) => {
+    const confirmed = await confirmDelete({
+      title: "Delete this audit request?",
+      message: `Remove audit request from ${audit.name} (${audit.email})?`,
+    });
+    if (!confirmed) return;
+
+    setDeletingId(audit.id);
+    try {
+      const res = await fetch(`/api/audits?id=${encodeURIComponent(audit.id)}`, {
+        method: "DELETE",
+      });
+      const json = await res.json();
+      if (json.success) {
+        toast.success("Audit request deleted");
+        if (selectedAudit?.id === audit.id) setSelectedAudit(null);
+        if (audits.length === 1 && page > 1) {
+          setPage(page - 1);
+        } else {
+          fetchAudits();
+        }
+      } else {
+        toast.error(json.error || "Failed to delete audit request");
+      }
+    } catch {
+      toast.error("Network error");
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-8 pb-20">
@@ -102,7 +137,7 @@ export default function AuditsPage() {
                   Date Submitted
                 </th>
                 <th className="px-6 py-4 pr-8 text-right text-[11px] font-bold tracking-widest text-gray-400 uppercase">
-                  Message
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -159,14 +194,31 @@ export default function AuditsPage() {
                       </div>
                     </td>
                     <td className="px-6 py-5 pr-8 text-right">
-                      <button
-                        type="button"
-                        onClick={() => setSelectedAudit(audit)}
-                        title="View audit message"
-                        className="rounded-xl bg-gray-50 p-2 text-gray-400 transition-all hover:bg-[#D4AF37] hover:text-[#0B0F29]"
-                      >
-                        <MessageSquare className="h-4 w-4" />
-                      </button>
+                      <div className="inline-flex items-center justify-end gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setSelectedAudit(audit)}
+                          title="View audit message"
+                          aria-label="View audit message"
+                          className="rounded-xl bg-gray-50 p-2 text-gray-400 transition-all hover:bg-[#D4AF37] hover:text-[#0B0F29]"
+                        >
+                          <MessageSquare className="h-4 w-4" />
+                        </button>
+                        <button
+                          type="button"
+                          disabled={deletingId === audit.id}
+                          onClick={() => handleDelete(audit)}
+                          title="Delete audit request"
+                          aria-label="Delete audit request"
+                          className="rounded-xl bg-gray-50 p-2 text-gray-400 transition-all hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
+                        >
+                          {deletingId === audit.id ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Trash2 className="h-4 w-4" />
+                          )}
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))

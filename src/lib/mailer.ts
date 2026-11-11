@@ -241,7 +241,7 @@ async function sendNotification(input: SubmissionTemplateInput): Promise<MailRes
     const cleanReplyEmail = input.replyEmail.replace(/[\r\n]/g, "").trim();
     const cleanReplyName = input.replyName.replace(/[\r\n]/g, " ").trim();
 
-    await transporter.sendMail({
+    const info = await transporter.sendMail({
       from: {
         name: cfg.fromName,
         address: cfg.fromEmail || cfg.user,
@@ -257,6 +257,20 @@ async function sendNotification(input: SubmissionTemplateInput): Promise<MailRes
       text,
       html,
     });
+
+    console.info(
+      "[mailer] Notification sent to",
+      cfg.notificationEmail,
+      "messageId:",
+      info.messageId,
+    );
+
+    console.info(
+      "[mailer] Notification sent to",
+      cfg.notificationEmail,
+      "messageId:",
+      info.messageId,
+    );
 
     return { sent: true };
   } catch (error) {

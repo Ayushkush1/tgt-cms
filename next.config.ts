@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 // The website reads this CMS server-to-server only, so the API sends no CORS headers.
 const nextConfig: NextConfig = {
+  serverExternalPackages: ["nodemailer"],
   async headers() {
     return [
       {

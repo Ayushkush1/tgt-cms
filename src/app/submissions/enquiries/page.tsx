@@ -14,8 +14,10 @@ import {
   DollarSign,
   Target,
   Globe,
+  Trash2,
 } from "lucide-react";
 import { InputField } from "@/app/components/InputField";
+import { useConfirmDelete } from "@/app/components/ConfirmDeleteModal";
 import { SubmissionDetailModal } from "@/app/components/SubmissionDetailModal";
 import toast from "react-hot-toast";
 
@@ -45,6 +47,8 @@ export default function EnquiriesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [selectedEnquiry, setSelectedEnquiry] = useState<Enquiry | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const confirmDelete = useConfirmDelete();
 
   const fetchEnquiries = async () => {
     setIsLoading(true);
@@ -67,6 +71,37 @@ export default function EnquiriesPage() {
   useEffect(() => {
     fetchEnquiries();
   }, [page, searchQuery]);
+
+  const handleDelete = async (enquiry: Enquiry) => {
+    const confirmed = await confirmDelete({
+      title: "Delete this enquiry?",
+      message: `Remove enquiry from ${enquiry.name} (${enquiry.email})?`,
+    });
+    if (!confirmed) return;
+
+    setDeletingId(enquiry.id);
+    try {
+      const res = await fetch(`/api/enquiries?id=${encodeURIComponent(enquiry.id)}`, {
+        method: "DELETE",
+      });
+      const json = await res.json();
+      if (json.success) {
+        toast.success("Enquiry deleted");
+        if (selectedEnquiry?.id === enquiry.id) setSelectedEnquiry(null);
+        if (enquiries.length === 1 && page > 1) {
+          setPage(page - 1);
+        } else {
+          fetchEnquiries();
+        }
+      } else {
+        toast.error(json.error || "Failed to delete enquiry");
+      }
+    } catch {
+      toast.error("Network error");
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-8 pb-20">
@@ -109,7 +144,7 @@ export default function EnquiriesPage() {
                   Date
                 </th>
                 <th className="px-6 py-4 pr-8 text-right text-[11px] font-bold tracking-widest text-gray-400 uppercase">
-                  Goals
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -169,14 +204,31 @@ export default function EnquiriesPage() {
                       </div>
                     </td>
                     <td className="px-6 py-5 pr-8 text-right">
-                      <button
-                        type="button"
-                        onClick={() => setSelectedEnquiry(enquiry)}
-                        title="View project goals"
-                        className="rounded-xl bg-gray-50 p-2 text-gray-400 transition-all hover:bg-[#D4AF37] hover:text-[#0B0F29]"
-                      >
-                        <Target className="h-4 w-4" />
-                      </button>
+                      <div className="inline-flex items-center justify-end gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setSelectedEnquiry(enquiry)}
+                          title="View project goals"
+                          aria-label="View project goals"
+                          className="rounded-xl bg-gray-50 p-2 text-gray-400 transition-all hover:bg-[#D4AF37] hover:text-[#0B0F29]"
+                        >
+                          <Target className="h-4 w-4" />
+                        </button>
+                        <button
+                          type="button"
+                          disabled={deletingId === enquiry.id}
+                          onClick={() => handleDelete(enquiry)}
+                          title="Delete enquiry"
+                          aria-label="Delete enquiry"
+                          className="rounded-xl bg-gray-50 p-2 text-gray-400 transition-all hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
+                        >
+                          {deletingId === enquiry.id ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Trash2 className="h-4 w-4" />
+                          )}
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
