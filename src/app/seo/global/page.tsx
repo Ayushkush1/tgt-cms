@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { PageHeader } from "@/components/PageHeader";
 import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
@@ -35,6 +36,7 @@ const defaultData: GlobalConfig = {
 };
 
 export default function GlobalSEOPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState<GlobalConfig>(defaultData);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -105,6 +107,7 @@ export default function GlobalSEOPage() {
 
       const json = await res.json();
       if (json.success) {
+        router.refresh();
         toast.success("Global SEO settings saved!", { id: tid });
       } else {
         const errMsg =

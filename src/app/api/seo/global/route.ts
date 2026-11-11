@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
@@ -132,6 +133,7 @@ export async function PUT(request: Request) {
     });
 
     revalidateWebsite(WebsiteTag.site);
+    revalidatePath("/", "layout");
     return NextResponse.json({ success: true, data: updatedConfig });
   } catch (error: any) {
     console.error("Error updating global SEO config:", error);
