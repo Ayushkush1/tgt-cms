@@ -53,10 +53,10 @@ export interface TechLogo {
 /**
  * GlobalConfig.siteImages: site-wide images (Cloudinary URLs). The photos are edited on
  * Social Media & Footer, the tech logos in the Services editor; each saves only its own keys.
+ * Page hero photos are set on each page's hero section.
  */
 export interface SiteImages {
   homeBackground: string; // faint full-page background behind the home page
-  pageHero: string; // hero photo on pages that don't set their own
   techLogos: TechLogo[];
 }
 

@@ -8,7 +8,7 @@
     "gtmId": "GTM-59DCSVDV",
     "searchConsoleId": "4kD9H2fqRgqKEk",
     "customHeaderScripts": "",
-    "customFooterScripts": " ",
+    "customFooterScripts": "",
     "socialLinks": [
       {
         "platform": "linkedin",
@@ -67,7 +67,6 @@
     },
     "siteImages": {
       "homeBackground": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375987/tgt/bg-4-1794375987031.webp",
-      "pageHero": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375986/tgt/team-1794375986217.webp",
       "techLogos": [
         {
           "name": "react",

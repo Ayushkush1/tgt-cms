@@ -24,8 +24,6 @@ export async function GET(request: Request) {
           googleAnalyticsId: true,
           gtmId: true,
           searchConsoleId: true,
-          customHeaderScripts: true,
-          customFooterScripts: true,
           schema: true,
           headingOptions: true,
           footer: true,

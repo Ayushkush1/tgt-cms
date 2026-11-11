@@ -5,12 +5,13 @@
     "url": "/service/ui-ux-designing",
     "type": "Sub-link",
     "parent": "c6415fed-8d21-49cc-8822-5f1293edb795",
-    "order": 1,
+    "order": 2,
     "createdAt": "2026-03-12T16:23:53.167Z",
     "updatedAt": "2026-03-13T07:23:30.869Z",
     "description": "Intuitive, engaging, and user-centric interfaces.",
     "title": null,
-    "isStatic": true
+    "isStatic": true,
+    "placement": "both"
   },
   {
     "id": "366ab8fe-1c5b-474e-8bdb-6188e63fe437",
@@ -23,7 +24,8 @@
     "updatedAt": "2026-06-17T08:13:53.608Z",
     "description": "ERP dashboard with a clean interface and efficient workflows.",
     "title": null,
-    "isStatic": false
+    "isStatic": false,
+    "placement": "both"
   },
   {
     "id": "f2bca9c0-0e13-4cef-8351-780381c5e319",
@@ -36,7 +38,8 @@
     "updatedAt": "2026-04-06T08:51:43.585Z",
     "description": "",
     "title": "",
-    "isStatic": true
+    "isStatic": true,
+    "placement": "both"
   },
   {
     "id": "5e1379aa-56b3-47e7-a6e4-d060f9cdb61c",
@@ -49,7 +52,8 @@
     "updatedAt": "2026-06-17T08:13:53.789Z",
     "description": "Modern product catalogue with intuitive navigation and layout.",
     "title": null,
-    "isStatic": false
+    "isStatic": false,
+    "placement": "both"
   },
   {
     "id": "c6415fed-8d21-49cc-8822-5f1293edb795",
@@ -62,7 +66,8 @@
     "updatedAt": "2026-03-13T07:31:09.744Z",
     "description": "Tailored digital solutions to elevate your business performance and user experience.",
     "title": "Our Expertise",
-    "isStatic": true
+    "isStatic": true,
+    "placement": "both"
   },
   {
     "id": "6691a1d6-f8ea-46cb-a929-04c032e8d044",
@@ -70,12 +75,13 @@
     "url": "/service/website-design-development",
     "type": "Sub-link",
     "parent": "c6415fed-8d21-49cc-8822-5f1293edb795",
-    "order": 2,
+    "order": 3,
     "createdAt": "2026-03-12T16:23:53.167Z",
     "updatedAt": "2026-03-13T07:23:28.752Z",
     "description": "High-performance, responsive, and modern websites.",
     "title": null,
-    "isStatic": false
+    "isStatic": false,
+    "placement": "both"
   },
   {
     "id": "8ab326f3-2a62-4b76-8a9e-ea2ce22d8b05",
@@ -88,7 +94,8 @@
     "updatedAt": "2026-06-17T08:13:53.970Z",
     "description": "An all-in-one office automation platform for attendance, payroll, billing, and expense tracking.",
     "title": null,
-    "isStatic": false
+    "isStatic": false,
+    "placement": "both"
   },
   {
     "id": "f90f3929-3f15-4582-8b3b-5ff3cc97f9e7",
@@ -96,12 +103,13 @@
     "url": "/service/mobile-app-development",
     "type": "Sub-link",
     "parent": "c6415fed-8d21-49cc-8822-5f1293edb795",
-    "order": 3,
+    "order": 4,
     "createdAt": "2026-03-12T16:23:53.167Z",
     "updatedAt": "2026-03-13T07:23:33.761Z",
     "description": "Native and cross-platform apps for iOS & Android.",
     "title": null,
-    "isStatic": false
+    "isStatic": false,
+    "placement": "both"
   },
   {
     "id": "cbe64fe6-a824-4bcb-a6e5-03c983fb8426",
@@ -114,7 +122,8 @@
     "updatedAt": "2026-04-06T09:10:51.038Z",
     "description": "Innovative software solutions designed to streamline your business operations.",
     "title": "Business Products",
-    "isStatic": false
+    "isStatic": false,
+    "placement": "both"
   },
   {
     "id": "461293e2-fc27-45a1-a933-9cb1e6313c9c",
@@ -127,7 +136,8 @@
     "updatedAt": "2026-06-17T08:13:54.152Z",
     "description": "Lead management and follow-up CRM for structured pipeline tracking and sales automation.",
     "title": null,
-    "isStatic": false
+    "isStatic": false,
+    "placement": "both"
   },
   {
     "id": "f065180b-0990-412c-a2bf-57925ed37188",
@@ -140,7 +150,8 @@
     "updatedAt": "2026-03-18T07:30:43.920Z",
     "description": "",
     "title": "",
-    "isStatic": false
+    "isStatic": false,
+    "placement": "both"
   },
   {
     "id": "3605ed79-262b-499d-b946-687d01a40d4a",
@@ -148,12 +159,13 @@
     "url": "/service/custom-software-development",
     "type": "Sub-link",
     "parent": "c6415fed-8d21-49cc-8822-5f1293edb795",
-    "order": 4,
+    "order": 5,
     "createdAt": "2026-03-12T16:23:53.168Z",
     "updatedAt": "2026-03-13T07:23:34.733Z",
     "description": "Tailored software solutions for unique business needs.",
     "title": null,
-    "isStatic": false
+    "isStatic": false,
+    "placement": "both"
   },
   {
     "id": "6d5249c6-5f3f-44d4-9737-d22d348340df",
@@ -166,7 +178,8 @@
     "updatedAt": "2026-06-17T08:13:54.333Z",
     "description": "Hyperlocal delivery solution enabling ultra-fast 10–30 minute deliveries.",
     "title": null,
-    "isStatic": false
+    "isStatic": false,
+    "placement": "both"
   },
   {
     "id": "423e24f7-5666-4c12-98a4-f421dc29f6b2",
@@ -174,12 +187,13 @@
     "url": "/service/business-software-solutions",
     "type": "Sub-link",
     "parent": "c6415fed-8d21-49cc-8822-5f1293edb795",
-    "order": 5,
+    "order": 6,
     "createdAt": "2026-03-12T16:23:53.167Z",
     "updatedAt": "2026-03-13T07:23:25.734Z",
     "description": "Scalable ERP, CRM, and enterprise management tools.",
     "title": null,
-    "isStatic": false
+    "isStatic": false,
+    "placement": "both"
   },
   {
     "id": "92596435-e033-431e-a37c-08c2a4a62915",
@@ -192,7 +206,8 @@
     "updatedAt": "2026-06-17T08:13:54.513Z",
     "description": "Complete digital platform for cloud kitchens to manage ordering, operations, and delivery.",
     "title": null,
-    "isStatic": false
+    "isStatic": false,
+    "placement": "both"
   },
   {
     "id": "35ef2d6c-3aef-43ed-8656-d16e914f0640",
@@ -200,12 +215,13 @@
     "url": "/service/business-intelligence-solutions",
     "type": "Sub-link",
     "parent": "c6415fed-8d21-49cc-8822-5f1293edb795",
-    "order": 6,
+    "order": 10,
     "createdAt": "2026-03-12T16:23:53.167Z",
     "updatedAt": "2026-03-13T07:23:35.753Z",
     "description": "Data-driven insights to spark strategic growth.",
     "title": null,
-    "isStatic": false
+    "isStatic": false,
+    "placement": "both"
   },
   {
     "id": "40854608-825e-4156-928d-04bd8017e60d",
@@ -218,20 +234,8 @@
     "updatedAt": "2026-06-17T08:13:54.694Z",
     "description": "Automation system to manage fuel inventory, credit customers, billing, and financial reporting.",
     "title": null,
-    "isStatic": false
-  },
-  {
-    "id": "99aa7ecd-0654-441b-907f-014be50c5422",
-    "label": "IOT Solutions",
-    "url": "/service/iot-solutions",
-    "type": "Sub-link",
-    "parent": "c6415fed-8d21-49cc-8822-5f1293edb795",
-    "order": 7,
-    "createdAt": "2026-03-12T16:23:53.168Z",
-    "updatedAt": "2026-03-13T07:23:27.728Z",
-    "description": "Smart connectivity and automation for devices.",
-    "title": null,
-    "isStatic": false
+    "isStatic": false,
+    "placement": "both"
   },
   {
     "id": "5e7c27f1-18c3-4ecd-bd2e-842db9b64c1c",
@@ -239,12 +243,13 @@
     "url": "/service/ai-ml-solutions",
     "type": "Sub-link",
     "parent": "c6415fed-8d21-49cc-8822-5f1293edb795",
-    "order": 8,
+    "order": 9,
     "createdAt": "2026-03-12T16:23:53.168Z",
     "updatedAt": "2026-03-13T07:23:26.737Z",
     "description": "Advanced AI algorithms and predictive modeling.",
     "title": null,
-    "isStatic": false
+    "isStatic": false,
+    "placement": "both"
   },
   {
     "id": "60c51688-015f-4b7b-b501-4b474fa42495",
@@ -257,7 +262,8 @@
     "updatedAt": "2026-06-17T08:13:54.876Z",
     "description": "Digital learning and vocational training platform for structured courses and mentorship.",
     "title": null,
-    "isStatic": false
+    "isStatic": false,
+    "placement": "both"
   },
   {
     "id": "b6414466-9ab7-4b97-aabd-03f0750eed79",
@@ -265,38 +271,13 @@
     "url": "/service/branding",
     "type": "Sub-link",
     "parent": "c6415fed-8d21-49cc-8822-5f1293edb795",
-    "order": 9,
+    "order": 1,
     "createdAt": "2026-03-12T16:23:53.168Z",
     "updatedAt": "2026-03-13T07:23:32.792Z",
     "description": "Distinctive brand identities that resonate with audiences.",
     "title": null,
-    "isStatic": false
-  },
-  {
-    "id": "792f333d-367c-48ec-94de-b5f1dcbdf9bb",
-    "label": "Digital Marketing",
-    "url": "/service/digital-marketing",
-    "type": "Sub-link",
-    "parent": "c6415fed-8d21-49cc-8822-5f1293edb795",
-    "order": 10,
-    "createdAt": "2026-03-12T16:23:53.168Z",
-    "updatedAt": "2026-03-13T07:23:29.774Z",
-    "description": "SEO, SMM, and paid strategies to maximize reach.",
-    "title": null,
-    "isStatic": false
-  },
-  {
-    "id": "b8790f79-81be-468a-8665-e425dafcd16c",
-    "label": "Accessibility Services",
-    "url": "/service/accessibility-services",
-    "type": "Main Link",
-    "parent": "c6415fed-8d21-49cc-8822-5f1293edb795",
-    "order": 18,
-    "createdAt": "2026-03-18T05:09:06.812Z",
-    "updatedAt": "2026-03-18T05:09:55.943Z",
-    "description": "Ensuring digital presence is accessible to everyone.",
-    "title": "",
-    "isStatic": false
+    "isStatic": false,
+    "placement": "both"
   },
   {
     "id": "b6202bf1-084c-4104-bcfe-d551e5a69eb4",
@@ -309,7 +290,8 @@
     "updatedAt": "2026-03-20T08:02:40.722Z",
     "description": null,
     "title": null,
-    "isStatic": true
+    "isStatic": true,
+    "placement": "both"
   },
   {
     "id": "90de4851-7087-4e4e-b0d8-1637c7d5cad3",
@@ -322,7 +304,8 @@
     "updatedAt": "2026-11-10T10:32:41.132Z",
     "description": "Guides, articles, and press coverage from The Gold Technologies.",
     "title": "Insights & Press",
-    "isStatic": true
+    "isStatic": true,
+    "placement": "both"
   },
   {
     "id": "858b8975-f1a5-4a21-bc74-d9a42b3e3d00",
@@ -335,7 +318,8 @@
     "updatedAt": "2026-11-10T10:32:41.132Z",
     "description": "Guides and ideas on design, development and growth from our team.",
     "title": null,
-    "isStatic": true
+    "isStatic": true,
+    "placement": "both"
   },
   {
     "id": "63806598-b4ef-4222-918e-09c1cc6e1484",
@@ -348,6 +332,49 @@
     "updatedAt": "2026-11-10T10:32:41.132Z",
     "description": "Press coverage, interviews and articles featuring The Gold Technologies.",
     "title": null,
-    "isStatic": true
+    "isStatic": true,
+    "placement": "both"
+  },
+  {
+    "id": "a05712b4-c752-4ca7-ac19-c6b43f43ec9e",
+    "label": "Search & Content Marketing",
+    "url": "/service/search-content-marketing",
+    "type": "Sub-link",
+    "parent": "c6415fed-8d21-49cc-8822-5f1293edb795",
+    "order": 7,
+    "createdAt": "2026-11-11T06:46:06.085Z",
+    "updatedAt": "2026-11-11T06:46:06.090Z",
+    "description": null,
+    "title": null,
+    "isStatic": false,
+    "placement": "both"
+  },
+  {
+    "id": "2afd3f9b-2b2b-4c0a-b959-05da3fc2318b",
+    "label": "Social & Performance Marketing",
+    "url": "/service/social-performance-marketing",
+    "type": "Sub-link",
+    "parent": "c6415fed-8d21-49cc-8822-5f1293edb795",
+    "order": 8,
+    "createdAt": "2026-11-11T06:46:06.090Z",
+    "updatedAt": "2026-11-11T06:46:06.090Z",
+    "description": null,
+    "title": null,
+    "isStatic": false,
+    "placement": "both"
+  },
+  {
+    "id": "8a66f02c-0daf-4c13-abe3-af6edfa6060b",
+    "label": "Staff Augmentation",
+    "url": "/service/staff-augmentation",
+    "type": "Sub-link",
+    "parent": "c6415fed-8d21-49cc-8822-5f1293edb795",
+    "order": 11,
+    "createdAt": "2026-11-11T06:46:06.090Z",
+    "updatedAt": "2026-11-11T06:46:06.090Z",
+    "description": null,
+    "title": null,
+    "isStatic": false,
+    "placement": "both"
   }
 ]

@@ -5,6 +5,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   ChevronRight,
   ExternalLink,
+  Eye,
+  EyeOff,
   FolderOpen,
   GripVertical,
   Link2,
@@ -19,7 +21,13 @@ import {
 import toast from "react-hot-toast";
 import { PageHeader } from "@/app/components/PageHeader";
 import { useConfirmDelete } from "@/app/components/ConfirmDeleteModal";
-import { NAV_PLACEMENTS, navPlacementLabel, type NavPlacement } from "@/lib/navPlacement";
+import {
+  NAV_PLACEMENTS,
+  linkShownIn,
+  placementFrom,
+  type NavPlace,
+  type NavPlacement,
+} from "@/lib/navPlacement";
 
 /** A row of the NavLink table, as returned by /api/nav-links. */
 interface NavLink {
@@ -31,10 +39,10 @@ interface NavLink {
   order: number;
   description?: string | null;
   isStatic?: boolean;
-  placement?: string;
+  placement?: string; // a link inside a dropdown may also be "none" (hidden)
 }
 
-type Tab = "navbar" | "footer";
+type Tab = NavPlace;
 type EditorKind = "link" | "menu";
 
 interface Editor {
@@ -48,6 +56,9 @@ interface FormState {
   description: string;
   parent: string; // "" = not inside a menu
   placement: NavPlacement | "";
+  // Link inside a dropdown: where it shows (only where its dropdown shows)
+  showNavbar: boolean;
+  showFooter: boolean;
 }
 
 interface DragItem {
@@ -61,7 +72,15 @@ interface DropTarget {
   position: "before" | "after";
 }
 
-const EMPTY_FORM: FormState = { label: "", url: "", description: "", parent: "", placement: "" };
+const EMPTY_FORM: FormState = {
+  label: "",
+  url: "",
+  description: "",
+  parent: "",
+  placement: "",
+  showNavbar: true,
+  showFooter: true,
+};
 
 const TABS: { value: Tab; label: string; icon: React.ElementType }[] = [
   { value: "navbar", label: "Navbar", icon: PanelTop },
@@ -70,8 +89,7 @@ const TABS: { value: Tab; label: string; icon: React.ElementType }[] = [
 
 // Rows saved before placement existed are navbar links (the column's default)
 const placementOf = (link: NavLink) => link.placement ?? "navbar";
-const shownIn = (link: NavLink, tab: Tab) =>
-  placementOf(link) === tab || placementOf(link) === "both";
+const shownIn = (link: NavLink, tab: Tab) => linkShownIn(placementOf(link), tab);
 const isMenu = (link: NavLink) => link.type === "Dropdown";
 const isExternal = (url: string) => /^https?:\/\//.test(url);
 const byOrder = (a: NavLink, b: NavLink) => a.order - b.order || a.label.localeCompare(b.label);
@@ -163,7 +181,10 @@ export default function NavLinksPage() {
   const rootsIn = (t: Tab) => links.filter((l) => isTopLevel(l) && shownIn(l, t)).sort(byOrder);
   const visibleRoots = rootsIn(tab);
   const countIn = (t: Tab) =>
-    rootsIn(t).reduce((n, l) => n + (isMenu(l) ? childrenOf(l.id).length : 1), 0);
+    rootsIn(t).reduce(
+      (n, l) => n + (isMenu(l) ? childrenOf(l.id).filter((c) => shownIn(c, t)).length : 1),
+      0,
+    );
 
   const toggleMenu = (menuId: string) => {
     setExpandedMenus((prev) => {
@@ -185,10 +206,24 @@ export default function NavLinksPage() {
             url: link.url ?? "",
             description: link.description ?? "",
             parent: isTopLevel(link) ? "" : link.parent,
-            placement: placementOf(link) as NavPlacement,
+            placement: (isTopLevel(link) ? placementOf(link) : "") as NavPlacement | "",
+            showNavbar: shownIn(link, "navbar"),
+            showFooter: shownIn(link, "footer"),
           }
         : { ...EMPTY_FORM, parent, placement: parent ? "" : tab },
     );
+  };
+
+  /** Picking a dropdown in the form: the link starts out shown everywhere that dropdown is. */
+  const chooseParent = (parent: string) => {
+    const menu = menus.find((m) => m.id === parent);
+    setForm({
+      ...form,
+      parent,
+      placement: parent ? "" : form.placement || tab,
+      showNavbar: menu ? shownIn(menu, "navbar") : true,
+      showFooter: menu ? shownIn(menu, "footer") : true,
+    });
   };
 
   const closeEditor = () => {
@@ -219,8 +254,14 @@ export default function NavLinksPage() {
       return toast.error("Links start with / (a page on this site) or https:// (another website)");
     if (!parentMenu && !form.placement) return toast.error("Please choose where to show it");
 
-    // A link inside a menu is shown wherever its menu is shown
-    const placement = kind === "link" && parentMenu ? placementOf(parentMenu) : form.placement;
+    // A link inside a menu is shown only where its menu is shown, and can be hidden from each
+    const placement =
+      kind === "link" && parentMenu
+        ? placementFrom(
+            form.showNavbar && shownIn(parentMenu, "navbar"),
+            form.showFooter && shownIn(parentMenu, "footer"),
+          )
+        : form.placement;
     const parent = kind === "link" && parentMenu ? parentMenu.id : "-";
     const type = kind === "menu" ? "Dropdown" : parent === "-" ? "Main Link" : "Sub-link";
 
@@ -250,10 +291,12 @@ export default function NavLinksPage() {
       });
       if (!res.ok) throw new Error(String(res.status));
 
-      // A menu's links follow it to the navbar / footer
+      // A menu's links follow it to the navbar / footer (links hidden somewhere stay as they are)
       if (link && kind === "menu" && placement !== placementOf(link)) {
         await Promise.all(
-          childrenOf(link.id).map((child) =>
+          childrenOf(link.id)
+            .filter((child) => placementOf(child) === placementOf(link))
+            .map((child) =>
             fetch(`/api/nav-links/${child.id}`, {
               method: "PUT",
               headers: { "Content-Type": "application/json" },
@@ -355,6 +398,28 @@ export default function NavLinksPage() {
     }
   };
 
+  /** Shows or hides a dropdown's link in one place (navbar / footer) without deleting it. */
+  const toggleShownIn = async (child: NavLink, where: Tab) => {
+    const nowShown = shownIn(child, where);
+    const placement = placementFrom(
+      where === "navbar" ? !nowShown : shownIn(child, "navbar"),
+      where === "footer" ? !nowShown : shownIn(child, "footer"),
+    );
+    setLinks((prev) => prev.map((l) => (l.id === child.id ? { ...l, placement } : l)));
+    try {
+      const res = await fetch(`/api/nav-links/${child.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ placement }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      toast.success(nowShown ? `Hidden from the ${where}` : `Shown in the ${where}`);
+    } catch {
+      toast.error("Could not save. Please try again.");
+      fetchLinks();
+    }
+  };
+
   const clearDrag = () => {
     setDraggedItem(null);
     setDropTarget(null);
@@ -423,11 +488,24 @@ export default function NavLinksPage() {
     );
   };
 
-  const renderActions = (link: NavLink) => (
+  const renderActions = (link: NavLink, visibilityToggle = false) => (
     <div
       className="flex shrink-0 items-center justify-end gap-2"
       onClick={(e) => e.stopPropagation()}
     >
+      {visibilityToggle && (
+        <button
+          type="button"
+          title={shownIn(link, tab) ? `Hide from the ${tab}` : `Show in the ${tab}`}
+          aria-label={
+            shownIn(link, tab) ? `Hide ${link.label} from the ${tab}` : `Show ${link.label} in the ${tab}`
+          }
+          onClick={() => toggleShownIn(link, tab)}
+          className={boxedActionButton}
+        >
+          {shownIn(link, tab) ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+        </button>
+      )}
       <button
         type="button"
         title={`Edit ${link.label}`}
@@ -645,6 +723,7 @@ export default function NavLinksPage() {
                               const isDraggingChild =
                                 draggedItem?.id === child.id && draggedItem.groupKey === root.id;
                               const canDragChild = children.length > 1;
+                              const hiddenHere = !shownIn(child, tab);
 
                               return (
                                 <div key={child.id}>
@@ -655,7 +734,7 @@ export default function NavLinksPage() {
                                       isDraggingChild
                                         ? "bg-amber-50/40 opacity-50"
                                         : "hover:bg-white"
-                                    }`}
+                                    } ${hiddenHere ? "[&>*:not(:last-child)]:opacity-50" : ""}`}
                                   >
                                     <div className="flex items-center gap-1.5">
                                       <span
@@ -676,8 +755,15 @@ export default function NavLinksPage() {
                                     <div className="flex min-w-0 items-center gap-2.5 pl-4">
                                       <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gray-300" />
                                       <div className="min-w-0 flex-1">
-                                        <span className="block truncate text-sm font-medium text-[#0B0F29]">
-                                          {child.label}
+                                        <span className="flex min-w-0 items-center gap-2">
+                                          <span className="truncate text-sm font-medium text-[#0B0F29]">
+                                            {child.label}
+                                          </span>
+                                          {hiddenHere && (
+                                            <span className="shrink-0 rounded-full bg-gray-200 px-2 py-0.5 text-[10px] font-semibold text-gray-600">
+                                              Hidden in {tab}
+                                            </span>
+                                          )}
                                         </span>
                                         <div className="mt-0.5 flex flex-wrap items-center gap-2 md:hidden">
                                           {renderUrlCell(child)}
@@ -699,7 +785,7 @@ export default function NavLinksPage() {
                                       {renderUrlCell(child)}
                                     </div>
 
-                                    {renderActions(child)}
+                                    {renderActions(child, true)}
                                   </div>
                                   {renderDropLine(child.id, root.id, "after")}
                                 </div>
@@ -825,7 +911,7 @@ export default function NavLinksPage() {
                     <span className="text-sm font-semibold text-gray-700">Inside a dropdown?</span>
                     <select
                       value={form.parent}
-                      onChange={(e) => setForm({ ...form, parent: e.target.value })}
+                      onChange={(e) => chooseParent(e.target.value)}
                       className={inputClass}
                     >
                       <option value="">No, show it on its own</option>
@@ -839,10 +925,37 @@ export default function NavLinksPage() {
                 )}
 
                 {editor.kind === "link" && parentMenu ? (
-                  <p className="rounded-xl bg-amber-50/70 px-4 py-3 text-xs leading-relaxed text-[#8a6d1f]">
-                    This link is shown wherever the “{parentMenu.label}” dropdown is shown:{" "}
-                    <b>{navPlacementLabel(placementOf(parentMenu))}</b>.
-                  </p>
+                  <fieldset className="flex flex-col gap-1.5">
+                    <legend className="mb-1.5 text-sm font-semibold text-gray-700">Show in</legend>
+                    <div className="flex flex-col gap-2">
+                      {TABS.filter(({ value }) => shownIn(parentMenu, value)).map(
+                        ({ value, label, icon: Icon }) => {
+                          const key = value === "navbar" ? "showNavbar" : "showFooter";
+                          return (
+                            <label
+                              key={value}
+                              className="flex cursor-pointer items-center justify-between rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm font-semibold text-gray-700"
+                            >
+                              <span className="flex items-center gap-2">
+                                <Icon className="h-4 w-4 text-gray-400" />
+                                {label}
+                              </span>
+                              <input
+                                type="checkbox"
+                                checked={form[key]}
+                                onChange={(e) => setForm({ ...form, [key]: e.target.checked })}
+                                className="h-4 w-4 accent-[#0B0F29]"
+                              />
+                            </label>
+                          );
+                        },
+                      )}
+                    </div>
+                    <span className="text-xs text-gray-400">
+                      Untick to hide this link there without deleting it. It can only show where
+                      the “{parentMenu.label}” dropdown shows.
+                    </span>
+                  </fieldset>
                 ) : (
                   <fieldset className="flex flex-col gap-1.5">
                     <legend className="mb-1.5 text-sm font-semibold text-gray-700">Show in</legend>

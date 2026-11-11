@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../../lib/prisma";
 import { revalidateWebsite, WebsiteTag } from "@/lib/revalidateWebsite";
-import { isNavPlacement } from "@/lib/navPlacement";
+import { isLinkPlacement } from "@/lib/navPlacement";
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -25,7 +25,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         title: data.title,
         isStatic: data.isStatic,
         // Only change where the link shows when a valid choice is sent
-        ...(isNavPlacement(data.placement) && { placement: data.placement }),
+        ...(isLinkPlacement(data.placement) && { placement: data.placement }),
       },
     });
 

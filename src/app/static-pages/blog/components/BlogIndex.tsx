@@ -7,6 +7,8 @@ import { InputField } from "@/components/InputField";
 import { TextAreaField } from "@/components/TextAreaField";
 import { SaveButton } from "@/components/SaveButton";
 import { SectionHeader } from "@/components/SectionHeader";
+import { ImageUploadField } from "@/components/ImageUploadField";
+import { uploadFiles } from "@/app/lib/uploadHelpers";
 
 interface BlogIndexData {
   label: string;
@@ -19,6 +21,7 @@ interface BlogIndexData {
   mediaPrompt: string;
   mediaLabel: string;
   mediaUrl: string;
+  imageUrl: string | File; // hero background photo
 }
 
 const DEFAULT_DATA: BlogIndexData = {
@@ -32,6 +35,7 @@ const DEFAULT_DATA: BlogIndexData = {
   mediaPrompt: "",
   mediaLabel: "",
   mediaUrl: "",
+  imageUrl: "",
 };
 
 const SECTION_KEY = "BlogIndex";
@@ -48,12 +52,12 @@ export function BlogIndex() {
         if (!active) return;
         const incoming = json?.success ? json?.data?.[SECTION_KEY] : null;
         if (incoming && typeof incoming === "object") {
-          // The /blog hero has no image, so an old saved imageUrl is dropped
-          const { imageUrl: _unusedImage, ...rest } = incoming as Partial<BlogIndexData> & {
-            imageUrl?: unknown;
-          };
-          void _unusedImage;
-          setFormData({ ...DEFAULT_DATA, ...rest });
+          const data = incoming as Partial<BlogIndexData>;
+          setFormData({
+            ...DEFAULT_DATA,
+            ...data,
+            imageUrl: typeof data.imageUrl === "string" ? data.imageUrl : "",
+          });
         }
       })
       .catch(console.error);
@@ -70,7 +74,8 @@ export function BlogIndex() {
     setIsSaving(true);
     const toastId = toast.loading("Saving Blog Page settings…");
     try {
-      const payload: BlogIndexData = { ...formData };
+      const [imageUrl] = await uploadFiles([formData.imageUrl || ""]);
+      const payload: BlogIndexData = { ...formData, imageUrl: imageUrl || "" };
       const res = await fetch("/api/blog", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -97,7 +102,7 @@ export function BlogIndex() {
       <div className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all">
         <SectionHeader
           title="Blog Page Header & Copy"
-          description="Hero headline, intro description, articles list label, empty-state text, and media link shown on /blog."
+          description="Hero headline, intro description, hero image, articles list label, empty-state text, and media link shown on /blog."
           isOpen={isOpen}
           onToggle={() => setIsOpen((v) => !v)}
         />
@@ -135,6 +140,16 @@ export function BlogIndex() {
                   containerClassName="md:col-span-3"
                   placeholder="e.g. Practical guides on websites, search, software and marketing..."
                 />
+                <div className="md:col-span-3">
+                  <ImageUploadField
+                    label="Hero Background Image"
+                    images={formData.imageUrl ? [formData.imageUrl] : []}
+                    onImagesChange={(imgs) =>
+                      setFormData((prev) => ({ ...prev, imageUrl: imgs[0] || "" }))
+                    }
+                    maxImages={1}
+                  />
+                </div>
                 <InputField
                   label="Scroll Button Label"
                   value={formData.secondaryLabel || ""}

@@ -39,11 +39,6 @@ import {
  * (GlobalConfig.footer, .siteImages & .socialLinks) through the global API: /api/seo/global.
  */
 
-// Home page sections the live website still reads these details from. Each save copies
-// the global values into them so the site stays current until it reads the global API.
-const LEGACY_FOOTER = "FooterCMS";
-const LEGACY_ENQUIRY = "EnquirySection";
-
 type ImageValue = File | string | null;
 
 interface Badge {
@@ -56,7 +51,6 @@ interface Badge {
 interface FooterData {
   logo: ImageValue;
   homeBackground: ImageValue;
-  pageHero: ImageValue;
   logoAlt: string;
   facebookUrl: string;
   twitterUrl: string;
@@ -85,7 +79,6 @@ interface DropTarget {
 const EMPTY: FooterData = {
   logo: null,
   homeBackground: null,
-  pageHero: null,
   logoAlt: "",
   facebookUrl: "",
   twitterUrl: "",
@@ -105,10 +98,6 @@ const EMPTY: FooterData = {
   rightText: "",
   companyInitials: "",
 };
-
-// Fields that hold images, not text
-const IMAGE_KEYS: string[] = ["logo", "homeBackground", "pageHero", "badges"];
-const isTextKey = (k: string) => !IMAGE_KEYS.includes(k);
 
 type TextKey = {
   [K in keyof FooterData]: FooterData[K] extends string ? K : never;
@@ -201,30 +190,6 @@ function fromGlobal(footer: Partial<SiteFooter>, socialLinks: unknown): FooterDa
         }))
       : [],
   };
-}
-
-/** Form state from the old home page "FooterCMS" section (used until the first save here). */
-function fromLegacy(content: Record<string, unknown>): FooterData {
-  return {
-    ...EMPTY,
-    ...Object.fromEntries(
-      Object.keys(EMPTY)
-        .filter(isTextKey)
-        .map((k) => [k, str(content[k])]),
-    ),
-    logo: str(content.logo) || null,
-    badges: [],
-  };
-}
-
-async function putHomeSection(section: string, content: Record<string, unknown>) {
-  const res = await fetch("/api/home", {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ section, content }),
-  });
-  const json = await res.json();
-  if (!json.success) throw new Error(json.error);
 }
 
 /** Uploads a picked file (WebP-compressed by /api/upload) and returns its URL; URLs pass through. */
@@ -432,43 +397,24 @@ function LogoUploadSubCard({
 
 export default function SocialMediaFooterPage() {
   const [data, setData] = useState<FooterData>(EMPTY);
-  // The old home page sections, kept in sync on save (their other fields are left as they are)
-  const [legacy, setLegacy] = useState<Record<string, Record<string, unknown>>>({});
-  // True when nothing is in the global settings yet and the form was filled from the old footer
-  const [importedFromLegacy, setImportedFromLegacy] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [draggedBadgeId, setDraggedBadgeId] = useState<string | null>(null);
   const [dropTarget, setDropTarget] = useState<DropTarget | null>(null);
 
   useEffect(() => {
-    Promise.all([
-      fetch("/api/seo/global").then((r) => r.json()),
-      // ?slim=1 leaves out the blog bodies (MBs of images) we don't need here
-      fetch("/api/pages/home?slim=1").then((r) => r.json()),
-    ])
-      .then(([global, home]) => {
-        const sections: { type: string; content: Record<string, unknown> }[] =
-          home.data?.sections ?? [];
-        const sectionContent = (type: string) =>
-          sections.find((section) => section.type === type)?.content ?? {};
-        setLegacy({
-          [LEGACY_FOOTER]: sectionContent(LEGACY_FOOTER),
-          [LEGACY_ENQUIRY]: sectionContent(LEGACY_ENQUIRY),
-        });
-
+    fetch("/api/seo/global")
+      .then((r) => r.json())
+      .then((global) => {
         const footer = global.data?.footer;
         const images: Partial<SiteImages> = global.data?.siteImages ?? {};
         const siteImages = {
           homeBackground: str(images.homeBackground) || null,
-          pageHero: str(images.pageHero) || null,
         };
-        if (footer && typeof footer === "object") {
-          setData({ ...fromGlobal(footer, global.data?.socialLinks), ...siteImages });
-        } else {
-          setData({ ...fromLegacy(sectionContent(LEGACY_FOOTER)), ...siteImages });
-          setImportedFromLegacy(true);
-        }
+        setData({
+          ...fromGlobal(footer && typeof footer === "object" ? footer : {}, global.data?.socialLinks),
+          ...siteImages,
+        });
       })
       .catch(() => toast.error("Could not load the footer details"))
       .finally(() => setIsLoading(false));
@@ -507,10 +453,9 @@ export default function SocialMediaFooterPage() {
     setIsSaving(true);
     const toastId = toast.loading("Saving…");
     try {
-      const [logo, homeBackground, pageHero, ...badgeImages] = await Promise.all([
+      const [logo, homeBackground, ...badgeImages] = await Promise.all([
         toUrl(data.logo),
         toUrl(data.homeBackground),
-        toUrl(data.pageHero),
         ...data.badges.map((b) => toUrl(b.image)),
       ]);
       const badges = data.badges.map((b, i) => ({
@@ -534,14 +479,14 @@ export default function SocialMediaFooterPage() {
         badges,
         wordmark: { left: trim("leftText"), center: trim("centerText"), right: trim("rightText") },
       };
-      // Only the photos: the tech logos are saved from the Services editor
-      const siteImages: Pick<SiteImages, "homeBackground" | "pageHero"> = { homeBackground, pageHero };
+      // Only the home background: tech logos are saved from the Services editor
+      const siteImages: Pick<SiteImages, "homeBackground"> = { homeBackground };
       const socialLinks: SocialLink[] = SOCIALS.map(({ key, platform }) => ({
         platform,
         url: trim(key),
       })).filter((link) => link.url && isSocialPlatform(link.platform));
 
-      // 1. The global settings: the single source for these details
+      // The global settings: the single source for these details (website: /api/site/global)
       const res = await fetch("/api/seo/global", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -550,37 +495,10 @@ export default function SocialMediaFooterPage() {
       const json = await res.json();
       if (!json.success) throw new Error(json.error);
 
-      // 2. Copy into the old home sections the live website still reads
-      const legacyFooter = {
-        ...legacy[LEGACY_FOOTER],
-        ...Object.fromEntries(
-          (Object.keys(EMPTY) as (keyof FooterData)[])
-            .filter(isTextKey)
-            .map((k) => [k, trim(k as TextKey)]),
-        ),
-        logo,
-        badges,
-      };
-      const legacyEnquiry = {
-        ...legacy[LEGACY_ENQUIRY],
-        email: footer.email,
-        phone: footer.phone,
-        address: (footer.offices[0]?.address ?? "").replace(/\s*\n\s*/g, " "),
-      };
-      await Promise.all([
-        putHomeSection(LEGACY_FOOTER, legacyFooter),
-        Object.keys(legacy[LEGACY_ENQUIRY] ?? {}).length > 0
-          ? putHomeSection(LEGACY_ENQUIRY, legacyEnquiry)
-          : Promise.resolve(),
-      ]);
-
-      setLegacy({ [LEGACY_FOOTER]: legacyFooter, [LEGACY_ENQUIRY]: legacyEnquiry });
-      setImportedFromLegacy(false);
       setData((prev) => ({
         ...prev,
         logo: logo || null,
         homeBackground: homeBackground || null,
-        pageHero: pageHero || null,
         badges: prev.badges.map((b, i) => ({
           ...b,
           image: badges[i]?.image || null,
@@ -614,20 +532,12 @@ export default function SocialMediaFooterPage() {
       />
 
       <div className="flex flex-col gap-6">
-        {importedFromLegacy && (
-          <p className="rounded-2xl border border-amber-200/70 bg-[#FFFDF4] px-5 py-4 text-sm text-[#8a6d1f]">
-            These details were copied from the old Home page footer section. Click{" "}
-            <b>Save Changes</b> to store them in the global settings, where the whole website reads
-            them from.
-          </p>
-        )}
-
         {/* 1. Website Branding & Logos */}
         <SectionCard
           icon={ImageIcon}
           iconBg="bg-teal-50 text-teal-700"
           title="1. Website Branding & Logos"
-          description="The logo used in the navbar and footer, and the site-wide photos."
+          description="The logo used in the navbar and footer, and the home page background."
         >
           <div className="grid gap-5 md:grid-cols-2">
             <LogoUploadSubCard
@@ -678,15 +588,6 @@ export default function SocialMediaFooterPage() {
               onChange={(homeBackground) => setData((prev) => ({ ...prev, homeBackground }))}
             />
 
-            <LogoUploadSubCard
-              badgeIcon={ImageIcon}
-              badgeLabel="Page Heroes"
-              badgeColor="text-teal-700"
-              title="Default Hero Photo"
-              helperText="Large photo at the top of pages (About, Contact, Portfolio…) that don't set their own."
-              value={data.pageHero}
-              onChange={(pageHero) => setData((prev) => ({ ...prev, pageHero }))}
-            />
           </div>
         </SectionCard>
 

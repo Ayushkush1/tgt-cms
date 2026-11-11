@@ -6,7 +6,7 @@
  * 3. Creates one admin login from SEED_ADMIN_EMAIL / SEED_ADMIN_PASSWORD.
  *
  * For a brand-new database, create the tables first: `npx prisma db push`
- * Images are not copied: the seeded content points at the Cloudinary copies (scripts/migrate-images.mjs).
+ * Images are not copied: the seeded content already points at Cloudinary URLs.
  */
 import fs from "node:fs";
 import path from "node:path";

@@ -1192,7 +1192,7 @@
       "primaryUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
       "secondaryLabel": "Meet the team",
       "secondaryUrl": "#team",
-      "imageUrl": ""
+      "imageUrl": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375986/tgt/team-1794375986217.webp"
     },
     "order": 0,
     "createdAt": "2026-11-10T09:44:12.713Z",
@@ -2018,7 +2018,7 @@
         "primaryUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
         "secondaryLabel": "See the products",
         "secondaryUrl": "#products",
-        "imageUrl": ""
+        "imageUrl": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375986/tgt/team-1794375986217.webp"
       },
       "grid": {
         "label": "(The suite)",
@@ -2281,7 +2281,7 @@
         "primaryUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
         "secondaryLabel": "See the work",
         "secondaryUrl": "#work",
-        "imageUrl": ""
+        "imageUrl": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375986/tgt/team-1794375986217.webp"
       },
       "index": {
         "label": "(Selected work)",
@@ -2411,7 +2411,7 @@
       "mediaPrompt": "Looking for press coverage?",
       "mediaLabel": "See media & articles",
       "mediaUrl": "/media",
-      "imageUrl": ""
+      "imageUrl": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375986/tgt/team-1794375986217.webp"
     },
     "createdAt": "2026-11-10T09:13:43.911Z",
     "updatedAt": "2026-11-10T09:13:43.911Z"
@@ -3430,7 +3430,7 @@
             "desc": "Email journeys that turn readers into leads, with monthly reporting you can act on."
           }
         ],
-        "imageUrl": ""
+        "imageUrl": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375986/tgt/team-1794375986217.webp"
       },
       "services": [
         {
@@ -3559,7 +3559,7 @@
             "desc": "Spend, leads and revenue in one view, reviewed with you every month."
           }
         ],
-        "imageUrl": ""
+        "imageUrl": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375986/tgt/team-1794375986217.webp"
       },
       "services": [
         {
@@ -4013,7 +4013,7 @@
             "desc": "Add, swap or pause people month to month as your roadmap changes."
           }
         ],
-        "imageUrl": ""
+        "imageUrl": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375986/tgt/team-1794375986217.webp"
       },
       "services": [
         {
@@ -4256,7 +4256,7 @@
       "top": "In the",
       "highlight": "spotlight.",
       "description": "Press coverage, interviews and articles featuring The Gold Technologies and our work.",
-      "imageUrl": "",
+      "imageUrl": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375986/tgt/team-1794375986217.webp",
       "secondaryLabel": "See the coverage",
       "listLabel": "(Coverage)",
       "empty": "Press coverage is on its way. In the meantime, read our latest articles.",
@@ -4286,7 +4286,7 @@
       "headlineTop": "Let's build",
       "headlineHighlight": "something great.",
       "description": "Tell us where you want to grow. You'll get a reply within 24 hours with clear next steps, whether you work with us or not.",
-      "imageUrl": "",
+      "imageUrl": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375986/tgt/team-1794375986217.webp",
       "primaryLabel": "Book a free strategy call",
       "primaryUrl": "https://calendar.app.google/5nNHP69fUR5WEMvt9",
       "secondaryLabel": "Send a brief",

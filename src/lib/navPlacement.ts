@@ -15,3 +15,21 @@ export const isNavPlacement = (value: unknown): value is NavPlacement =>
 
 export const navPlacementLabel = (value: string) =>
   NAV_PLACEMENTS.find((placement) => placement.value === value)?.label ?? "";
+
+/**
+ * A link inside a dropdown can also be hidden everywhere ("none"). It shows in a place only
+ * when both it and its dropdown are set to show there (website: filter a menu's links with
+ * `linkShownIn` too).
+ */
+export type LinkPlacement = NavPlacement | "none";
+export type NavPlace = "navbar" | "footer";
+
+export const isLinkPlacement = (value: unknown): value is LinkPlacement =>
+  value === "none" || isNavPlacement(value);
+
+export const linkShownIn = (placement: string | null | undefined, where: NavPlace) =>
+  (placement ?? "navbar") === where || placement === "both";
+
+/** Builds a placement from the two "show in" switches. */
+export const placementFrom = (navbar: boolean, footer: boolean): LinkPlacement =>
+  navbar && footer ? "both" : navbar ? "navbar" : footer ? "footer" : "none";

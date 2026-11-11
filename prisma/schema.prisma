@@ -105,7 +105,7 @@ model NavLink {
   description String?
   title       String?
   isStatic    Boolean  @default(false)
-  placement   String   @default("navbar") // "navbar" | "footer" | "both" (see src/lib/navPlacement.ts)
+  placement   String   @default("navbar") // "navbar" | "footer" | "both"; links in a dropdown also "none" (see src/lib/navPlacement.ts)
 }
 
 model User {

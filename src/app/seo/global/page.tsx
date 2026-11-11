@@ -19,8 +19,6 @@ interface GlobalConfig {
   googleAnalyticsId: string;
   gtmId: string;
   searchConsoleId: string;
-  customHeaderScripts: string;
-  customFooterScripts: string;
   schema?: string;
   headingOptions: HeadingTag | ""; // the home page's main heading tag (home uses Global SEO)
 }
@@ -32,8 +30,6 @@ const defaultData: GlobalConfig = {
   googleAnalyticsId: "",
   gtmId: "",
   searchConsoleId: "",
-  customHeaderScripts: "",
-  customFooterScripts: "",
   schema: "",
   headingOptions: "",
 };
@@ -225,42 +221,16 @@ Paste only XXXXXXXX`}
           />
         </div>
 
-        {/* Custom Scripts */}
+        {/* Structured Data */}
         <div className="flex flex-col gap-6 rounded-[2.5rem] border border-gray-100 bg-white p-8 shadow-sm lg:col-span-2">
           <div className="mb-2 flex items-center gap-3">
             <div className="rounded-2xl bg-amber-50 p-2.5 text-amber-600">
               <Shield className="h-5 w-5" />
             </div>
-            <h2 className="text-xl font-bold text-[#0B0F29]">Custom Code Injection</h2>
+            <h2 className="text-xl font-bold text-[#0B0F29]">Structured Data</h2>
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <TextAreaField
-              label="Custom Header Scripts (<head>)"
-              value={formData.customHeaderScripts}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  customHeaderScripts: e.target.value,
-                })
-              }
-              placeholder="Paste your scripts to be injected into the head..."
-              rows={8}
-              className="font-mono text-xs"
-            />
-            <TextAreaField
-              label="Custom Footer Scripts (before </body>)"
-              value={formData.customFooterScripts}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  customFooterScripts: e.target.value,
-                })
-              }
-              placeholder="Paste your scripts to be injected before the closing body tag..."
-              rows={8}
-              className="font-mono text-xs"
-            />
             <TextAreaField
               label="Structured Data (Schema Markup JSON-LD)"
               value={formData.schema || ""}
