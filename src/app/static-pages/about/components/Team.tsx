@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Plus } from "lucide-react";
+import { GripVertical, Plus } from "lucide-react";
+import { SelectField } from "@/components/SelectField";
 import { clearCache, fetchWithCache } from "@/lib/apiCache";
 import { uploadFiles } from "@/lib/uploadHelpers";
 import { InputField } from "@/components/InputField";
@@ -16,7 +17,25 @@ import {
   type SectionInstanceProps,
 } from "@/app/components/StaticSectionCard";
 
+/** Where a member shows on the About page. */
+type TeamGroup = "leadership" | "pillars";
+
+const GROUPS: { id: TeamGroup; label: string; hint: string }[] = [
+  { id: "leadership", label: "Leadership", hint: "Larger cards at the top of the Team section." },
+  { id: "pillars", label: "Our Pillars", hint: "The core team, below Leadership." },
+];
+
+/** Before members had a group, the website showed the first 3 as Leadership. */
+const LEGACY_LEADERSHIP_COUNT = 3;
+const groupOf = (raw: unknown, idx: number): TeamGroup =>
+  raw === "leadership" || raw === "pillars"
+    ? raw
+    : idx < LEGACY_LEADERSHIP_COUNT
+      ? "leadership"
+      : "pillars";
+
 interface TeamMember {
+  group: TeamGroup;
   name: string;
   role: string;
   bio: string;
@@ -47,7 +66,8 @@ const DEFAULT_DATA: TeamData = {
   members: [],
 };
 
-const emptyMember = (): TeamMember => ({
+const emptyMember = (group: TeamGroup): TeamMember => ({
+  group,
   name: "",
   role: "",
   bio: "",
@@ -55,6 +75,16 @@ const emptyMember = (): TeamMember => ({
   photo: "",
   linkedin: "",
 });
+
+/** Leadership members first, then Our Pillars, keeping each group's order. */
+function leadershipFirst<T extends { group: TeamGroup }>(list: T[]): T[] {
+  return [
+    ...list.filter((m) => m.group === "leadership"),
+    ...list.filter((m) => m.group !== "leadership"),
+  ];
+}
+
+type DropTarget = { group: TeamGroup; index: number }; // insert before `index` within the group
 
 export function Team(sectionProps?: SectionInstanceProps) {
   const sectionId = sectionProps?.sectionId;
@@ -68,6 +98,10 @@ export function Team(sectionProps?: SectionInstanceProps) {
   const [ourTeamMeta, setOurTeamMeta] = useState<Record<string, unknown>>({});
   const [memberPhotos, setMemberPhotos] = useState<(File | string | null)[]>([]);
   const confirmDelete = useConfirmDelete();
+  // Drag-and-drop reorder, like Menu Links: the grip arms dragging for that card only
+  const [armedIdx, setArmedIdx] = useState<number | null>(null);
+  const [draggedIdx, setDraggedIdx] = useState<number | null>(null);
+  const [dropTarget, setDropTarget] = useState<DropTarget | null>(null);
 
   useEffect(() => {
     if (sectionId) {
@@ -75,7 +109,8 @@ export function Team(sectionProps?: SectionInstanceProps) {
       const rawList = Array.isArray(incoming.members)
         ? (incoming.members as Record<string, unknown>[])
         : [];
-      const normalized: TeamMember[] = rawList.map((m) => ({
+      const normalized: TeamMember[] = rawList.map((m, idx) => ({
+        group: groupOf(m.group, idx),
         name: String(m.name || ""),
         role: String(m.role || m.designation || ""),
         bio: String(m.bio || ""),
@@ -83,12 +118,13 @@ export function Team(sectionProps?: SectionInstanceProps) {
         photo: String(m.photo || m.imageUrl || ""),
         linkedin: String(m.linkedin || m.linkedinUrl || ""),
       }));
+      const ordered = leadershipFirst(normalized);
       setFormData({
         ...DEFAULT_DATA,
         ...(incoming as Partial<TeamData>),
-        members: normalized,
+        members: ordered,
       });
-      setMemberPhotos(normalized.map((m) => m.photo || null));
+      setMemberPhotos(ordered.map((m) => m.photo || null));
       return;
     }
 
@@ -108,7 +144,8 @@ export function Team(sectionProps?: SectionInstanceProps) {
             ? legacy.members
             : [];
 
-        const normalized: TeamMember[] = rawList.map((m: Record<string, unknown>) => ({
+        const normalized: TeamMember[] = rawList.map((m: Record<string, unknown>, idx: number) => ({
+          group: groupOf(m.group, idx),
           name: String(m.name || ""),
           role: String(m.role || m.designation || ""),
           bio: String(m.bio || ""),
@@ -117,12 +154,13 @@ export function Team(sectionProps?: SectionInstanceProps) {
           linkedin: String(m.linkedin || m.linkedinUrl || ""),
         }));
 
+        const ordered = leadershipFirst(normalized);
         setFormData({
           ...DEFAULT_DATA,
           ...(team && typeof team === "object" ? team : {}),
-          members: normalized,
+          members: ordered,
         });
-        setMemberPhotos(normalized.map((m) => m.photo || null));
+        setMemberPhotos(ordered.map((m) => m.photo || null));
       })
       .catch(console.error);
     return () => {
@@ -141,6 +179,35 @@ export function Team(sectionProps?: SectionInstanceProps) {
       ...prev,
       members: members.map((m, i) => (i === idx ? { ...m, ...patch } : m)),
     }));
+
+  /**
+   * Moves member `from` (index in the full list) to position `index` of `group`, carrying its
+   * photo along; the list stays Leadership first.
+   */
+  const moveMember = (from: number, group: TeamGroup, index: number) => {
+    const rows = members.map((m, i) => ({
+      group: m.group,
+      member: m,
+      photo: memberPhotos[i] ?? null,
+    }));
+    const [row] = rows.splice(from, 1);
+    if (!row) return;
+    row.group = group;
+    row.member = { ...row.member, group };
+    const inGroup = rows.filter((r) => r.group === group);
+    const others = rows.filter((r) => r.group !== group);
+    inGroup.splice(Math.max(0, Math.min(index, inGroup.length)), 0, row);
+    const next = leadershipFirst([...inGroup, ...others]);
+    setFormData((prev) => ({ ...prev, members: next.map((r) => r.member) }));
+    setMemberPhotos(next.map((r) => r.photo));
+    setExpandedMember((prev) => (prev === from ? next.indexOf(row) : null));
+  };
+
+  const clearDrag = () => {
+    setDraggedIdx(null);
+    setDropTarget(null);
+    setArmedIdx(null);
+  };
 
   const removeMember = async (idx: number) => {
     const targetName = members[idx]?.name?.trim() || `Team Member #${idx + 1}`;
@@ -164,16 +231,19 @@ export function Team(sectionProps?: SectionInstanceProps) {
     const toastId = toast.loading("Saving Team…");
     try {
       const uploadedPhotos = await uploadFiles(memberPhotos);
-      const cleanMembers: TeamMember[] = members
-        .map((m, i) => ({
-          name: (m.name || "").trim(),
-          role: (m.role || "").trim(),
-          bio: m.bio || "",
-          tag: (m.tag || "").trim(),
-          photo: uploadedPhotos[i] || m.photo || "",
-          linkedin: (m.linkedin || "").trim(),
-        }))
-        .filter((m) => m.name || m.role);
+      const cleanMembers: TeamMember[] = leadershipFirst(
+        members
+          .map((m, i) => ({
+            group: m.group,
+            name: (m.name || "").trim(),
+            role: (m.role || "").trim(),
+            bio: m.bio || "",
+            tag: (m.tag || "").trim(),
+            photo: uploadedPhotos[i] || m.photo || "",
+            linkedin: (m.linkedin || "").trim(),
+          }))
+          .filter((m) => m.name || m.role),
+      );
 
       const teamPayload: TeamData = {
         ...formData,
@@ -184,6 +254,7 @@ export function Team(sectionProps?: SectionInstanceProps) {
         await saveCustomSection(sectionId, teamPayload, sectionSaveUrl);
       } else {
         const legacyMembers = cleanMembers.map((m, i) => ({
+          group: m.group,
           name: m.name,
           designation: m.role,
           role: m.role,
@@ -232,7 +303,7 @@ export function Team(sectionProps?: SectionInstanceProps) {
   return (
     <StaticSectionCard
       title="Team"
-      description="Leadership & core pillars team header, hiring prompt, and member profiles (first 3 appear in Leadership)."
+      description="Team header, hiring prompt, and member profiles in two groups: Leadership and Our Pillars. Drag to reorder or move between groups."
       isOpen={isOpen}
       onToggle={() => setIsOpen((v) => !v)}
       isSaving={isSaving}
@@ -285,90 +356,196 @@ export function Team(sectionProps?: SectionInstanceProps) {
         />
       </div>
 
-      <div className="flex flex-col gap-3">
-        <div className="flex items-center justify-between px-1">
-          <span className="text-[11px] font-bold tracking-widest text-gray-400 uppercase">
-            Team Members ({members.length})
-          </span>
-          <button
-            type="button"
-            onClick={() => {
-              setFormData((prev) => ({ ...prev, members: [...members, emptyMember()] }));
-              setMemberPhotos((prev) => [...prev, null]);
-              setExpandedMember(members.length);
-            }}
-            className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-[#B8932A] hover:bg-amber-100"
-          >
-            <Plus className="h-3.5 w-3.5" /> Add member
-          </button>
-        </div>
+      <div className="flex flex-col gap-6">
+        <span className="px-1 text-[11px] font-bold tracking-widest text-gray-400 uppercase">
+          Team Members ({members.length})
+        </span>
 
-        {members.length === 0 ? (
-          <p className="rounded-2xl bg-gray-50 px-4 py-3 text-xs text-gray-400">
-            No team members added yet.
-          </p>
-        ) : (
-          members.map((member, idx) => (
-            <CollapsibleCard
-              key={idx}
-              badge={`(${String(idx + 1).padStart(2, "0")})`}
-              title={member.name || `Team Member #${idx + 1}`}
-              subtitle={member.role || undefined}
-              isOpen={expandedMember === idx}
-              onToggle={() => setExpandedMember(expandedMember === idx ? null : idx)}
-              onRemove={() => removeMember(idx)}
+        {GROUPS.map((group) => {
+          const rows = members
+            .map((member, idx) => ({ member, idx }))
+            .filter((r) => r.member.group === group.id);
+          const dropLine = (index: number) =>
+            dropTarget?.group === group.id && dropTarget.index === index ? (
+              <div className="pointer-events-none h-0.5 rounded-full bg-[#D4AF37] shadow-[0_0_8px_rgba(212,175,55,0.7)]" />
+            ) : null;
+
+          return (
+            <div
+              key={group.id}
+              className="flex flex-col gap-2 rounded-2xl border border-gray-100 bg-white/60 p-3"
+              // Dropping on the group's empty space adds the member at the end of that group
+              onDragOver={(e) => {
+                if (draggedIdx === null) return;
+                e.preventDefault();
+                if (e.target === e.currentTarget)
+                  setDropTarget({ group: group.id, index: rows.length });
+              }}
+              onDrop={(e) => {
+                if (draggedIdx === null) return;
+                e.preventDefault();
+                const target = dropTarget?.group === group.id ? dropTarget.index : rows.length;
+                const from = draggedIdx;
+                clearDrag();
+                // Indices after removing the dragged member from this group
+                const fromPos = rows.findIndex((r) => r.idx === from);
+                moveMember(
+                  from,
+                  group.id,
+                  fromPos !== -1 && fromPos < target ? target - 1 : target,
+                );
+              }}
             >
-              <div className="grid grid-cols-1 items-end gap-3 md:grid-cols-2">
-                <InputField
-                  label="Full Name"
-                  value={member.name || ""}
-                  onChange={(e) => updateMember(idx, { name: e.target.value })}
-                  placeholder="e.g. Meghna Tiwari"
-                />
-                <InputField
-                  label="Role"
-                  value={member.role || ""}
-                  onChange={(e) => updateMember(idx, { role: e.target.value })}
-                  placeholder="e.g. Founder & CEO"
-                />
-                <InputField
-                  label="Tag (Optional)"
-                  value={member.tag || ""}
-                  onChange={(e) => updateMember(idx, { tag: e.target.value })}
-                  placeholder="e.g. Global"
-                />
-                <InputField
-                  label="LinkedIn URL"
-                  value={member.linkedin || ""}
-                  onChange={(e) => updateMember(idx, { linkedin: e.target.value })}
-                  placeholder="https://www.linkedin.com/in/..."
-                />
-                <TextAreaField
-                  label="Short Bio"
-                  value={member.bio || ""}
-                  onChange={(e) => updateMember(idx, { bio: e.target.value })}
-                  rows={2}
-                  containerClassName="md:col-span-2"
-                  placeholder="One-line bio shown on the team card..."
-                />
-                <div className="md:col-span-2">
-                  <ImageUploadField
-                    label="Portrait Photo"
-                    images={memberPhotos[idx] ? [memberPhotos[idx]] : []}
-                    onImagesChange={(imgs) =>
-                      setMemberPhotos((prev) => {
-                        const next = [...prev];
-                        next[idx] = imgs[0] || null;
-                        return next;
-                      })
-                    }
-                    maxImages={1}
-                  />
+              <div className="flex items-center justify-between gap-3 px-1">
+                <div>
+                  <span className="font-serif text-base text-[#B8932A] italic">{group.label}</span>
+                  <span className="ml-2 text-[11px] font-semibold text-gray-400">
+                    ({rows.length})
+                  </span>
+                  <p className="text-[11px] text-gray-400">{group.hint}</p>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    // New members go at the end of their group (Leadership is listed first)
+                    const added =
+                      group.id === "leadership"
+                        ? members.filter((m) => m.group === "leadership").length
+                        : members.length;
+                    const next = [...members];
+                    next.splice(added, 0, emptyMember(group.id));
+                    setFormData((prev) => ({ ...prev, members: next }));
+                    setMemberPhotos((prev) => {
+                      const photos = [...prev];
+                      photos.splice(added, 0, null);
+                      return photos;
+                    });
+                    setExpandedMember(added);
+                  }}
+                  className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-[#B8932A] hover:bg-amber-100"
+                >
+                  <Plus className="h-3.5 w-3.5" /> Add to {group.label}
+                </button>
               </div>
-            </CollapsibleCard>
-          ))
-        )}
+
+              {rows.length === 0 && (
+                <p className="rounded-xl border border-dashed border-gray-200 px-4 py-3 text-xs text-gray-400">
+                  {draggedIdx !== null
+                    ? "Drop here to move to " + group.label
+                    : "No members here yet."}
+                </p>
+              )}
+
+              {rows.map(({ member, idx }, pos) => (
+                <div key={idx}>
+                  {dropLine(pos)}
+                  <div
+                    draggable={armedIdx === idx}
+                    onDragStart={(e) => {
+                      e.dataTransfer.effectAllowed = "move";
+                      e.dataTransfer.setData("text/plain", String(idx));
+                      setExpandedMember(null);
+                      setDraggedIdx(idx);
+                    }}
+                    onDragOver={(e) => {
+                      if (draggedIdx === null) return;
+                      e.preventDefault();
+                      e.stopPropagation();
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      const index = e.clientY < rect.top + rect.height / 2 ? pos : pos + 1;
+                      setDropTarget((prev) =>
+                        prev?.group === group.id && prev.index === index
+                          ? prev
+                          : { group: group.id, index },
+                      );
+                    }}
+                    onDragEnd={clearDrag}
+                    className={`flex items-start gap-2 ${draggedIdx === idx ? "opacity-50" : ""}`}
+                  >
+                    <span
+                      title="Drag to reorder or move to the other group"
+                      onMouseDown={() => setArmedIdx(idx)}
+                      onMouseUp={() => setArmedIdx(null)}
+                      className="mt-3.5 flex h-6 w-6 shrink-0 cursor-grab items-center justify-center rounded-md text-gray-300 hover:bg-gray-100 hover:text-gray-500 active:cursor-grabbing"
+                    >
+                      <GripVertical className="h-4 w-4" />
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <CollapsibleCard
+                        badge={`(${String(pos + 1).padStart(2, "0")})`}
+                        title={member.name || `Team Member #${idx + 1}`}
+                        subtitle={member.role || undefined}
+                        isOpen={expandedMember === idx}
+                        onToggle={() => setExpandedMember(expandedMember === idx ? null : idx)}
+                        onRemove={() => removeMember(idx)}
+                      >
+                        <div className="grid grid-cols-1 items-end gap-3 md:grid-cols-2">
+                          <SelectField
+                            label="Section"
+                            value={member.group}
+                            onChange={(e) => {
+                              const to = e.target.value as TeamGroup;
+                              if (to !== member.group) moveMember(idx, to, Number.MAX_SAFE_INTEGER);
+                            }}
+                            options={GROUPS.map((g) => ({ value: g.id, label: g.label }))}
+                            containerClassName="md:col-span-2"
+                          />
+                          <InputField
+                            label="Full Name"
+                            value={member.name || ""}
+                            onChange={(e) => updateMember(idx, { name: e.target.value })}
+                            placeholder="e.g. Meghna Tiwari"
+                          />
+                          <InputField
+                            label="Role"
+                            value={member.role || ""}
+                            onChange={(e) => updateMember(idx, { role: e.target.value })}
+                            placeholder="e.g. Founder & CEO"
+                          />
+                          <InputField
+                            label="Tag (Optional)"
+                            value={member.tag || ""}
+                            onChange={(e) => updateMember(idx, { tag: e.target.value })}
+                            placeholder="e.g. Global"
+                          />
+                          <InputField
+                            label="LinkedIn URL"
+                            value={member.linkedin || ""}
+                            onChange={(e) => updateMember(idx, { linkedin: e.target.value })}
+                            placeholder="https://www.linkedin.com/in/..."
+                          />
+                          <TextAreaField
+                            label="Short Bio"
+                            value={member.bio || ""}
+                            onChange={(e) => updateMember(idx, { bio: e.target.value })}
+                            rows={2}
+                            containerClassName="md:col-span-2"
+                            placeholder="One-line bio shown on the team card..."
+                          />
+                          <div className="md:col-span-2">
+                            <ImageUploadField
+                              label="Portrait Photo"
+                              images={memberPhotos[idx] ? [memberPhotos[idx]] : []}
+                              onImagesChange={(imgs) =>
+                                setMemberPhotos((prev) => {
+                                  const next = [...prev];
+                                  next[idx] = imgs[0] || null;
+                                  return next;
+                                })
+                              }
+                              maxImages={1}
+                            />
+                          </div>
+                        </div>
+                      </CollapsibleCard>
+                    </div>
+                  </div>
+                  {pos === rows.length - 1 && dropLine(rows.length)}
+                </div>
+              ))}
+            </div>
+          );
+        })}
       </div>
     </StaticSectionCard>
   );

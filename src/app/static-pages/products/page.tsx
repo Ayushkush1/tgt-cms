@@ -75,7 +75,12 @@ export default function ProductsPage() {
       }
       clearCache("/api/products");
       setFormData(payload);
-      toast.success("Products saved and published!", { id: tid });
+      toast.success("Products saved and published! The Products menu was updated too.", {
+        id: tid,
+      });
+      (json.notes as string[] | undefined)?.forEach((note) =>
+        toast.error(note, { duration: 6000 }),
+      );
     } catch (err) {
       console.error("Save error:", err);
       toast.error(err instanceof Error ? err.message : "Network error.", { id: tid });
