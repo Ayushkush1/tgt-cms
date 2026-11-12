@@ -1,6 +1,9 @@
-import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { toInternalPath } from "@/lib/siteLinks";
+
+// Always read fresh: a CDN-cached copy would hide saves from the CMS for hours
+export const dynamic = "force-dynamic";
+const NO_STORE = "no-store, max-age=0";
 
 const SITE_URL = process.env.NEXT_PUBLIC_WEBSITE_URL || "https://tgt-landing-page-jade.vercel.app";
 
@@ -11,14 +14,17 @@ export async function GET() {
     });
 
     if (config && config.sitemapEnabled === false) {
-      return new Response("Sitemap is disabled", { status: 404 });
+      return new Response("Sitemap is disabled", {
+        status: 404,
+        headers: { "Cache-Control": NO_STORE },
+      });
     }
 
     if (config && config.sitemapCustomContent) {
       return new Response(config.sitemapCustomContent, {
         headers: {
           "Content-Type": "application/xml",
-          "Cache-Control": "public, s-maxage=86400, stale-while-revalidate",
+          "Cache-Control": NO_STORE,
         },
       });
     }
@@ -125,11 +131,14 @@ export async function GET() {
     return new Response(sitemapXml, {
       headers: {
         "Content-Type": "application/xml",
-        "Cache-Control": "public, s-maxage=86400, stale-while-revalidate",
+        "Cache-Control": NO_STORE,
       },
     });
   } catch (error) {
     console.error("Error generating sitemap:", error);
-    return new Response("Error generating sitemap", { status: 500 });
+    return new Response("Error generating sitemap", {
+      status: 500,
+      headers: { "Cache-Control": NO_STORE },
+    });
   }
 }
