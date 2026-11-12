@@ -15,8 +15,7 @@ interface SitemapRobotsConfig {
 const defaultData: SitemapRobotsConfig = {
   sitemapEnabled: true,
   sitemapCustomContent: null,
-  robotsTxt:
-    `User-agent: *\nAllow: /\n\nSitemap: ${process.env.NEXT_PUBLIC_WEBSITE_URL || ""}/sitemap.xml`,
+  robotsTxt: `User-agent: *\nAllow: /\n\nSitemap: ${process.env.NEXT_PUBLIC_WEBSITE_URL || ""}/sitemap.xml`,
 };
 
 export default function SitemapRobotsPage() {
@@ -146,8 +145,7 @@ export default function SitemapRobotsPage() {
     reader.readAsText(file);
   };
 
-  const websiteUrl =
-    process.env.NEXT_PUBLIC_WEBSITE_URL || "";
+  const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL || "";
 
   if (isLoading) {
     return (

@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Plus, Trash2 } from "lucide-react";
+import { useConfirmDelete } from "@/app/components/ConfirmDeleteModal";
 import toast from "react-hot-toast";
 import { PageHeader } from "@/components/PageHeader";
 import { SelectField } from "@/components/SelectField";
@@ -14,23 +16,116 @@ import { ServiceApproach } from "./components/ServiceApproach";
 import { ServiceDeliver } from "./components/ServiceDeliver";
 import { ServiceProof } from "./components/ServiceProof";
 import { ServiceStack } from "./components/ServiceStack";
+import { AddServiceModal, type NewService } from "./components/AddServiceModal";
 import {
+  LEGACY_SERVICE_IDS,
   SERVICE_OPTIONS,
+  isBuiltInService,
+  serviceOptionsFrom,
   createDefaultServiceData,
   normalizeServiceData,
+  type ServiceOption,
   type ServicePageData,
 } from "./types";
-
-const SELECTOR_OPTIONS = [
-  { value: "", label: "Select a service page..." },
-  ...SERVICE_OPTIONS.map((opt) => ({ value: opt.id, label: opt.label })),
-];
 
 export default function ServicesCMS() {
   const [selectedServiceId, setSelectedServiceId] = useState(SERVICE_OPTIONS[0].id);
   const [formData, setFormData] = useState<ServicePageData>(createDefaultServiceData);
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  // The services stored in the CMS (built-in ones minus deleted, plus added); null until loaded
+  const [storedServices, setStoredServices] = useState<ServiceOption[] | null>(null);
+  const [showAddService, setShowAddService] = useState(false);
+  const confirmDelete = useConfirmDelete();
+
+  const loadAddedServices = () =>
+    fetch("/api/services")
+      .then((r) => r.json())
+      .then((json) => {
+        if (json?.success) setStoredServices(serviceOptionsFrom(json.data));
+      })
+      .catch(console.error);
+  useEffect(() => {
+    loadAddedServices();
+  }, []);
+
+  const allOptions = useMemo(() => storedServices ?? SERVICE_OPTIONS, [storedServices]);
+  // If the selected service was deleted (e.g. the default one), open the first that exists
+  useEffect(() => {
+    if (
+      storedServices &&
+      selectedServiceId &&
+      !storedServices.some((s) => s.id === selectedServiceId)
+    ) {
+      setSelectedServiceId(storedServices[0]?.id ?? "");
+    }
+  }, [storedServices, selectedServiceId]);
+  const selectorOptions = useMemo(
+    () => [
+      { value: "", label: "Select a service page..." },
+      ...allOptions.map((opt) => ({ value: opt.id, label: opt.label })),
+    ],
+    [allOptions],
+  );
+  const relatedOptions = useMemo(
+    () => allOptions.filter((o) => !LEGACY_SERVICE_IDS.includes(o.id)),
+    [allOptions],
+  );
+
+  const selectedService = storedServices?.find((s) => s.id === selectedServiceId);
+
+  /** Deletes a service with its menu link, SEO, sitemap entry and home pillar card. */
+  const deleteService = async () => {
+    if (!selectedService) return;
+    const name = formData.hero.name || selectedService.id;
+    const confirmed = await confirmDelete({
+      title: `Delete ${name}?`,
+      message: `The page /service/${selectedService.id}, all its content and SEO settings, its Services menu link (navbar, footer and sitemap) and its card on the home page Service Pillars will all be removed.`,
+      warning: isBuiltInService(selectedService.id)
+        ? "This is one of the original services. Its page will return 404 until you add it again with the same URL slug, and its content can't be restored."
+        : undefined,
+      confirmLabel: "Delete service",
+    });
+    if (!confirmed) return;
+    const tid = toast.loading(`Deleting ${name}...`);
+    try {
+      const res = await fetch(`/api/services?id=${encodeURIComponent(selectedService.id)}`, {
+        method: "DELETE",
+      });
+      const json = await res.json();
+      if (!res.ok || !json.success) throw new Error(json?.error || "Could not delete the service.");
+      clearCache("/api/services");
+      clearCache(`/api/services?id=${selectedService.id}`);
+      const remaining = (storedServices ?? []).filter((s) => s.id !== selectedService.id);
+      setStoredServices(remaining);
+      setSelectedServiceId(remaining[0]?.id ?? "");
+      loadAddedServices();
+      toast.success(`${name} deleted.`, { id: tid });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Network error.", { id: tid });
+    }
+  };
+
+  const createService = async (service: NewService) => {
+    const tid = toast.loading(`Creating ${service.name}...`);
+    try {
+      const res = await fetch("/api/services", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(service),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.success) throw new Error(json?.error || "Could not create the service.");
+      clearCache("/api/services");
+      await loadAddedServices();
+      setSelectedServiceId(service.id);
+      setShowAddService(false);
+      toast.success(`${service.name} created. Fill in its content below.`, { id: tid });
+      (json.notes as string[] | undefined)?.forEach((note) => toast(note, { duration: 6000 }));
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Network error.", { id: tid });
+    }
+  };
   // Tech logos are shared by all services (GlobalConfig.siteImages.techLogos)
   const [techLogos, setTechLogos] = useState<TechLogo[]>([]);
   // One pending change per tech key: a new logo file, a library icon, or clear (built-in icon)
@@ -60,7 +155,9 @@ export default function ServicesCMS() {
     if (change && "icon" in change) return { image: null, icon: change.icon };
     if (change) return { image: null, icon: null };
     const stored = findTechLogo(techLogos, name);
-    return stored?.image ? { image: stored.image, icon: null } : { image: null, icon: stored?.icon || null };
+    return stored?.image
+      ? { image: stored.image, icon: null }
+      : { image: null, icon: stored?.icon || null };
   };
   const changeTech = (name: string, change: LogoOrIconChange) =>
     setPendingTech((prev) => ({ ...prev, [techKey(name)]: change }));
@@ -199,14 +296,40 @@ export default function ServicesCMS() {
         description="Manage all sections displayed on each live /service/[slug] page, in exact website order."
       />
 
-      <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+      <div className="flex flex-col gap-3 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:flex-row md:items-end">
         <SelectField
           label="Select Service Page"
           value={selectedServiceId}
           onChange={(e) => setSelectedServiceId(e.target.value)}
-          options={SELECTOR_OPTIONS}
+          options={selectorOptions}
+          containerClassName="flex-1"
         />
+        <button
+          type="button"
+          onClick={() => setShowAddService(true)}
+          className="inline-flex h-[50px] shrink-0 items-center justify-center gap-1.5 rounded-2xl bg-[#0B0F29] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#0B0F29]/90"
+        >
+          <Plus className="h-4 w-4" /> Add service
+        </button>
+        {selectedService && (
+          <button
+            type="button"
+            onClick={deleteService}
+            disabled={isSaving}
+            title="Delete this service and remove it from the menu, SEO and sitemap"
+            className="inline-flex h-[50px] shrink-0 items-center justify-center gap-1.5 rounded-2xl border border-red-200 bg-white px-5 text-sm font-semibold text-red-500 transition-colors hover:bg-red-50 disabled:opacity-40"
+          >
+            <Trash2 className="h-4 w-4" /> Delete service
+          </button>
+        )}
       </div>
+      {showAddService && (
+        <AddServiceModal
+          takenIds={allOptions.map((o) => o.id)}
+          onClose={() => setShowAddService(false)}
+          onCreate={createService}
+        />
+      )}
 
       {!selectedServiceId ? (
         <div className="rounded-2xl border border-dashed border-gray-200 bg-white p-10 text-center text-sm text-gray-400">
@@ -246,6 +369,7 @@ export default function ServicesCMS() {
           />
           <ServiceStack
             currentSlug={selectedServiceId}
+            serviceOptions={relatedOptions}
             stack={formData.stack}
             related={formData.related}
             onStackChange={(stack) => setFormData((prev) => ({ ...prev, stack }))}

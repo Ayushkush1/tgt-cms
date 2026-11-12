@@ -179,3 +179,52 @@ export function normalizeServiceData(
     seo: (raw.seo as Record<string, unknown> | null | undefined) ?? null,
   };
 }
+
+export type ServiceOption = { id: string; label: string };
+
+const PILLAR_PREFIX: Record<string, string> = {
+  brand: "01 Brand",
+  build: "02 Build",
+  grow: "03 Grow",
+  scale: "04 Scale",
+};
+
+/**
+ * The services that exist in the CMS, from the GET /api/services list: built-in ones in their
+ * usual order and labels (minus any that were deleted), then ones added with "Add service",
+ * labelled like the built-in ones ("02 Build · Name").
+ */
+export function serviceOptionsFrom(list: unknown): ServiceOption[] {
+  if (!Array.isArray(list)) return [];
+  const stored = list.filter(
+    (s): s is { id: string; hero?: { name?: unknown; pillar?: unknown } } =>
+      Boolean(s && typeof s.id === "string" && s.id),
+  );
+  const ids = new Set(stored.map((s) => s.id));
+  const known = new Set(SERVICE_OPTIONS.map((o) => o.id));
+  const added = stored
+    .filter((s) => !known.has(s.id))
+    .map((s) => {
+      const name =
+        typeof s.hero?.name === "string" && s.hero.name.trim() ? s.hero.name.trim() : s.id;
+      const prefix = PILLAR_PREFIX[String(s.hero?.pillar ?? "")] ?? "New";
+      return { id: s.id, label: `${prefix} · ${name}` };
+    });
+  return [...SERVICE_OPTIONS.filter((o) => ids.has(o.id)), ...added];
+}
+
+/** True for a service that ships with the website (it can still be deleted). */
+export const isBuiltInService = (id: string) => SERVICE_OPTIONS.some((o) => o.id === id);
+
+/** Old source-content entries that are not pages, so other services can't pair with them. */
+export const LEGACY_SERVICE_IDS = SERVICE_OPTIONS.filter(
+  (o) => !LIVE_SERVICE_OPTIONS.includes(o),
+).map((o) => o.id);
+
+/** "AI Voice Agents" → "ai-voice-agents" */
+export const toServiceSlug = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/&/g, " and ")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");

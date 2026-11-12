@@ -10,10 +10,12 @@ import {
   type LogoOrIcon,
   type LogoOrIconChange,
 } from "@/app/components/IconPicker";
-import { LIVE_SERVICE_OPTIONS } from "../types";
+import { LIVE_SERVICE_OPTIONS, type ServiceOption } from "../types";
 
 interface ServiceStackProps {
   currentSlug: string;
+  /** Services offered in "Pairs well with" (defaults to the built-in live services). */
+  serviceOptions?: ServiceOption[];
   stack: string[];
   related: string[];
   onStackChange: (stack: string[]) => void;
@@ -30,6 +32,7 @@ interface ServiceStackProps {
 
 export function ServiceStack({
   currentSlug,
+  serviceOptions = LIVE_SERVICE_OPTIONS,
   stack,
   related,
   onStackChange,
@@ -46,10 +49,12 @@ export function ServiceStack({
   const relatedItems = Array.isArray(related) ? related : [];
   const relatedSelectOptions = [
     { value: "", label: "Select related service..." },
-    ...LIVE_SERVICE_OPTIONS.filter((opt) => opt.id !== currentSlug).map((opt) => ({
-      value: opt.id,
-      label: opt.label,
-    })),
+    ...serviceOptions
+      .filter((opt) => opt.id !== currentSlug)
+      .map((opt) => ({
+        value: opt.id,
+        label: opt.label,
+      })),
   ];
 
   return (

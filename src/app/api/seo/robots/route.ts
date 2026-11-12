@@ -10,8 +10,7 @@ export async function GET() {
       where: { id: "global" },
     });
 
-    const websiteUrl =
-      process.env.NEXT_PUBLIC_WEBSITE_URL || "";
+    const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL || "";
     const robotsTxt =
       config?.robotsTxt || `User-agent: *\nAllow: /\n\nSitemap: ${websiteUrl}/sitemap.xml`;
 

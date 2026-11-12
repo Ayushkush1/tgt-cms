@@ -52,7 +52,8 @@ export function LogoOrIconPicker({
 }) {
   const [open, setOpen] = useState(false);
   const fileUrl = useMemo(
-    () => (value.image && typeof value.image !== "string" ? URL.createObjectURL(value.image) : null),
+    () =>
+      value.image && typeof value.image !== "string" ? URL.createObjectURL(value.image) : null,
     [value.image],
   );
   useEffect(() => {
@@ -67,7 +68,13 @@ export function LogoOrIconPicker({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        title={preview ? "Logo (click to change)" : value.icon ? `Icon: ${value.icon} (click to change)` : "Add a logo or icon"}
+        title={
+          preview
+            ? "Logo (click to change)"
+            : value.icon
+              ? `Icon: ${value.icon} (click to change)`
+              : "Add a logo or icon"
+        }
         className={`group relative flex shrink-0 items-center justify-center overflow-hidden rounded-xl border bg-white transition-colors hover:border-[#D4AF37] ${
           preview || icon ? "border-gray-200" : "border-dashed border-gray-200"
         } ${size === "sm" ? "h-10 w-10 p-1.5" : "h-14 w-14 p-2"}`}
@@ -183,7 +190,8 @@ function PickerModal({
           </button>
         </div>
         <p className="px-4 pt-3 text-[11px] text-gray-400">
-          Pick an icon or upload an image. Only one is kept: the new choice replaces the current one.
+          Pick an icon or upload an image. Only one is kept: the new choice replaces the current
+          one.
         </p>
 
         <div className="overflow-y-auto p-4">

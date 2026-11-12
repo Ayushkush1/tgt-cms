@@ -2,8 +2,7 @@
 // Links that leave the website (e.g. product demos on other domains) get no SEO entry.
 
 /** The website's base URL (NEXT_PUBLIC_WEBSITE_URL); empty when it is not set. */
-export const WEBSITE_URL =
-  process.env.NEXT_PUBLIC_WEBSITE_URL || "";
+export const WEBSITE_URL = process.env.NEXT_PUBLIC_WEBSITE_URL || "";
 
 const ownHosts = (() => {
   const hosts = new Set<string>(["thegoldtechnologies.com"]);
