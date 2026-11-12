@@ -5,7 +5,7 @@ import { toInternalPath } from "@/lib/siteLinks";
 export const dynamic = "force-dynamic";
 const NO_STORE = "no-store, max-age=0";
 
-const SITE_URL = process.env.NEXT_PUBLIC_WEBSITE_URL || "https://tgt-landing-page-jade.vercel.app";
+const SITE_URL = process.env.NEXT_PUBLIC_WEBSITE_URL || "";
 
 export async function GET() {
   try {

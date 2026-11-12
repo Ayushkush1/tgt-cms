@@ -64,12 +64,12 @@ function formatSubmittedAt(date: Date): string {
 
 function getMailConfig() {
   const host = process.env.SMTP_HOST?.trim() || "";
-  const port = Number(process.env.SMTP_PORT || "465");
+  const port = Number(process.env.SMTP_PORT || "");
   const secure = process.env.SMTP_SECURE ? process.env.SMTP_SECURE === "true" : port === 465;
   const user = process.env.SMTP_USER?.trim() || "";
   const pass = process.env.SMTP_PASS?.trim() || "";
   const fromEmail = process.env.SMTP_FROM_EMAIL?.trim() || user;
-  const fromName = process.env.SMTP_FROM_NAME?.trim() || "TGT Support";
+  const fromName = process.env.SMTP_FROM_NAME?.trim() || "";
   const notificationEmail = process.env.NOTIFICATION_EMAIL?.trim() || "";
 
   return {
@@ -86,7 +86,7 @@ function getMailConfig() {
 
 function buildSubmissionEmail(input: SubmissionTemplateInput): { html: string; text: string } {
   const timestamp = formatSubmittedAt(input.submittedAt);
-  const cmsBase = (process.env.NEXTAUTH_URL?.trim() || "http://localhost:3001").replace(/\/$/, "");
+  const cmsBase = (process.env.NEXTAUTH_URL?.trim() || "").replace(/\/$/, "");
   const cmsLink = `${cmsBase}${input.cmsPath}`;
 
   const rowsHtml = input.rows
@@ -242,10 +242,9 @@ async function sendNotification(input: SubmissionTemplateInput): Promise<MailRes
     const cleanReplyName = input.replyName.replace(/[\r\n]/g, " ").trim();
 
     const info = await transporter.sendMail({
-      from: {
-        name: cfg.fromName,
-        address: cfg.fromEmail || cfg.user,
-      },
+      from: cfg.fromName
+        ? { name: cfg.fromName, address: cfg.fromEmail || cfg.user }
+        : cfg.fromEmail || cfg.user,
       to: cfg.notificationEmail,
       replyTo: cleanReplyEmail
         ? {

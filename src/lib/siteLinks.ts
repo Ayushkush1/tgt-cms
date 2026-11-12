@@ -1,9 +1,9 @@
 // Decides whether a navigation link points to a page on the TGT website.
 // Links that leave the website (e.g. product demos on other domains) get no SEO entry.
 
-/** The website's base URL; production falls back to the live site when the env var is unset. */
+/** The website's base URL (NEXT_PUBLIC_WEBSITE_URL); empty when it is not set. */
 export const WEBSITE_URL =
-  process.env.NEXT_PUBLIC_WEBSITE_URL || "https://tgt-landing-page-jade.vercel.app";
+  process.env.NEXT_PUBLIC_WEBSITE_URL || "";
 
 const ownHosts = (() => {
   const hosts = new Set<string>(["thegoldtechnologies.com"]);

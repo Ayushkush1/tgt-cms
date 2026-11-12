@@ -16,7 +16,7 @@ const defaultData: SitemapRobotsConfig = {
   sitemapEnabled: true,
   sitemapCustomContent: null,
   robotsTxt:
-    "User-agent: *\nAllow: /\n\nSitemap: https://tgt-landing-page-jade.vercel.app/sitemap.xml",
+    `User-agent: *\nAllow: /\n\nSitemap: ${process.env.NEXT_PUBLIC_WEBSITE_URL || ""}/sitemap.xml`,
 };
 
 export default function SitemapRobotsPage() {
@@ -147,7 +147,7 @@ export default function SitemapRobotsPage() {
   };
 
   const websiteUrl =
-    process.env.NEXT_PUBLIC_WEBSITE_URL || "https://tgt-landing-page-jade.vercel.app";
+    process.env.NEXT_PUBLIC_WEBSITE_URL || "";
 
   if (isLoading) {
     return (

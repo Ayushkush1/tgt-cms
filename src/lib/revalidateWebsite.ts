@@ -12,8 +12,8 @@ export { WebsiteTag };
 export function revalidateWebsite(...tags: string[]) {
   const websiteUrl = WEBSITE_URL;
   const secret = process.env.CMS_SHARED_SECRET;
-  if (!secret) {
-    console.warn("[revalidate] CMS_SHARED_SECRET is not set; skipping");
+  if (!websiteUrl || !secret) {
+    console.warn("[revalidate] NEXT_PUBLIC_WEBSITE_URL or CMS_SHARED_SECRET is not set; skipping");
     return;
   }
 

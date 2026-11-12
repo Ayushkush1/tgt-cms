@@ -11,7 +11,7 @@ export async function GET() {
     });
 
     const websiteUrl =
-      process.env.NEXT_PUBLIC_WEBSITE_URL || "https://tgt-landing-page-jade.vercel.app";
+      process.env.NEXT_PUBLIC_WEBSITE_URL || "";
     const robotsTxt =
       config?.robotsTxt || `User-agent: *\nAllow: /\n\nSitemap: ${websiteUrl}/sitemap.xml`;
 
