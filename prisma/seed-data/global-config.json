@@ -385,6 +385,326 @@
           "matches": [
             "material design"
           ]
+        },
+        {
+          "name": "brand strategy",
+          "image": "",
+          "icon": "compass",
+          "matches": [
+            "brand strategy"
+          ]
+        },
+        {
+          "name": "logo & visual identity",
+          "image": "",
+          "icon": "pen-tool",
+          "matches": [
+            "logo & visual identity"
+          ]
+        },
+        {
+          "name": "personal branding",
+          "image": "",
+          "icon": "user-round",
+          "matches": [
+            "personal branding"
+          ]
+        },
+        {
+          "name": "company branding",
+          "image": "",
+          "icon": "building-2",
+          "matches": [
+            "company branding"
+          ]
+        },
+        {
+          "name": "brand voice",
+          "image": "",
+          "icon": "message-square-quote",
+          "matches": [
+            "brand voice"
+          ]
+        },
+        {
+          "name": "social creatives",
+          "image": "",
+          "icon": "images",
+          "matches": [
+            "social creatives"
+          ]
+        },
+        {
+          "name": "wireframing",
+          "image": "",
+          "icon": "layout-template",
+          "matches": [
+            "wireframing"
+          ]
+        },
+        {
+          "name": "prototyping",
+          "image": "",
+          "icon": "mouse-pointer-click",
+          "matches": [
+            "prototyping"
+          ]
+        },
+        {
+          "name": "website ui",
+          "image": "",
+          "icon": "monitor",
+          "matches": [
+            "website ui"
+          ]
+        },
+        {
+          "name": "app ui",
+          "image": "",
+          "icon": "smartphone",
+          "matches": [
+            "app ui"
+          ]
+        },
+        {
+          "name": "software ui",
+          "image": "",
+          "icon": "app-window",
+          "matches": [
+            "software ui"
+          ]
+        },
+        {
+          "name": "accessibility design",
+          "image": "",
+          "icon": "accessibility",
+          "matches": [
+            "accessibility design"
+          ]
+        },
+        {
+          "name": "cross-platform",
+          "image": "",
+          "icon": "layers",
+          "matches": [
+            "cross-platform"
+          ]
+        },
+        {
+          "name": "app testing & qa",
+          "image": "",
+          "icon": "bug",
+          "matches": [
+            "app testing & qa"
+          ]
+        },
+        {
+          "name": "erp",
+          "image": "",
+          "icon": "boxes",
+          "matches": [
+            "erp"
+          ]
+        },
+        {
+          "name": "crm",
+          "image": "",
+          "icon": "users",
+          "matches": [
+            "crm"
+          ]
+        },
+        {
+          "name": "inventory management",
+          "image": "",
+          "icon": "package",
+          "matches": [
+            "inventory management"
+          ]
+        },
+        {
+          "name": "hr & payroll",
+          "image": "",
+          "icon": "wallet",
+          "matches": [
+            "hr & payroll"
+          ]
+        },
+        {
+          "name": "workflow automation",
+          "image": "",
+          "icon": "workflow",
+          "matches": [
+            "workflow automation"
+          ]
+        },
+        {
+          "name": "document management",
+          "image": "",
+          "icon": "file-text",
+          "matches": [
+            "document management"
+          ]
+        },
+        {
+          "name": "seo",
+          "image": "",
+          "icon": "search",
+          "matches": [
+            "seo"
+          ]
+        },
+        {
+          "name": "aeo, aio & geo",
+          "image": "",
+          "icon": "sparkles",
+          "matches": [
+            "aeo, aio & geo"
+          ]
+        },
+        {
+          "name": "technical seo",
+          "image": "",
+          "icon": "code-xml",
+          "matches": [
+            "technical seo"
+          ]
+        },
+        {
+          "name": "content marketing",
+          "image": "",
+          "icon": "pen-line",
+          "matches": [
+            "content marketing"
+          ]
+        },
+        {
+          "name": "email automation",
+          "image": "",
+          "icon": "mail",
+          "matches": [
+            "email automation"
+          ]
+        },
+        {
+          "name": "klaviyo",
+          "image": "",
+          "icon": "mail-check",
+          "matches": [
+            "klaviyo"
+          ]
+        },
+        {
+          "name": "podcast management",
+          "image": "",
+          "icon": "mic",
+          "matches": [
+            "podcast management"
+          ]
+        },
+        {
+          "name": "social media management",
+          "image": "",
+          "icon": "share-2",
+          "matches": [
+            "social media management"
+          ]
+        },
+        {
+          "name": "performance marketing",
+          "image": "",
+          "icon": "trending-up",
+          "matches": [
+            "performance marketing"
+          ]
+        },
+        {
+          "name": "influencer marketing",
+          "image": "",
+          "icon": "megaphone",
+          "matches": [
+            "influencer marketing"
+          ]
+        },
+        {
+          "name": "video marketing",
+          "image": "",
+          "icon": "video",
+          "matches": [
+            "video marketing"
+          ]
+        },
+        {
+          "name": "retargeting",
+          "image": "",
+          "icon": "repeat",
+          "matches": [
+            "retargeting"
+          ]
+        },
+        {
+          "name": "ai & machine learning",
+          "image": "",
+          "icon": "brain",
+          "matches": [
+            "ai & machine learning"
+          ]
+        },
+        {
+          "name": "ai chatbots",
+          "image": "",
+          "icon": "bot",
+          "matches": [
+            "ai chatbots"
+          ]
+        },
+        {
+          "name": "recommendations",
+          "image": "",
+          "icon": "lightbulb",
+          "matches": [
+            "recommendations"
+          ]
+        },
+        {
+          "name": "power bi",
+          "image": "",
+          "icon": "chart-column",
+          "matches": [
+            "power bi"
+          ]
+        },
+        {
+          "name": "data warehousing",
+          "image": "",
+          "icon": "database",
+          "matches": [
+            "data warehousing"
+          ]
+        },
+        {
+          "name": "data engineering",
+          "image": "",
+          "icon": "cable",
+          "matches": [
+            "data engineering"
+          ]
+        },
+        {
+          "name": "data visualisation",
+          "image": "",
+          "icon": "chart-pie",
+          "matches": [
+            "data visualisation"
+          ]
+        },
+        {
+          "name": "advanced analytics",
+          "image": "",
+          "icon": "chart-line",
+          "matches": [
+            "advanced analytics"
+          ]
         }
       ]
     }

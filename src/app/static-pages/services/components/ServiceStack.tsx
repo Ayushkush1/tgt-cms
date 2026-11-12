@@ -5,6 +5,11 @@ import { Plus, Trash2 } from "lucide-react";
 import { SelectField } from "@/components/SelectField";
 import { StaticSectionCard } from "@/app/components/StaticSectionCard";
 import { LogoPicker, type LogoValue } from "@/app/components/LogoPicker";
+import {
+  LogoOrIconPicker,
+  type LogoOrIcon,
+  type LogoOrIconChange,
+} from "@/app/components/IconPicker";
 import { LIVE_SERVICE_OPTIONS } from "../types";
 
 interface ServiceStackProps {
@@ -16,6 +21,9 @@ interface ServiceStackProps {
   /** The shared tech logo for a technology name (a picked file until saved). */
   techLogoFor: (name: string) => LogoValue;
   onPickTechLogo: (name: string, file: File) => void;
+  /** A technology's logo or icon; with `onTechChange`, one tile picks either (never both). */
+  techValueFor?: (name: string) => LogoOrIcon;
+  onTechChange?: (name: string, change: LogoOrIconChange) => void;
   isSaving: boolean;
   onSave: () => void;
 }
@@ -28,6 +36,8 @@ export function ServiceStack({
   onRelatedChange,
   techLogoFor,
   onPickTechLogo,
+  techValueFor,
+  onTechChange,
   isSaving,
   onSave,
 }: ServiceStackProps) {
@@ -56,6 +66,8 @@ export function ServiceStack({
         onChange={onStackChange}
         techLogoFor={techLogoFor}
         onPickTechLogo={onPickTechLogo}
+        techValueFor={techValueFor}
+        onTechChange={onTechChange}
       />
 
       <div className="flex flex-col gap-3 rounded-2xl border border-gray-100 bg-gray-50/70 p-4">
@@ -112,12 +124,17 @@ function TechStackField({
   onChange,
   techLogoFor,
   onPickTechLogo,
+  techValueFor,
+  onTechChange,
 }: {
   items: string[];
   onChange: (items: string[]) => void;
   techLogoFor: (name: string) => LogoValue;
   onPickTechLogo: (name: string, file: File) => void;
+  techValueFor?: (name: string) => LogoOrIcon;
+  onTechChange?: (name: string, change: LogoOrIconChange) => void;
 }) {
+  const withIcons = Boolean(techValueFor && onTechChange);
   return (
     <div className="flex flex-col gap-2.5">
       <div className="flex items-center justify-between px-1">
@@ -126,7 +143,9 @@ function TechStackField({
             Technologies &amp; Disciplines ({items.length})
           </span>
           <p className="mt-0.5 text-[11px] text-gray-400">
-            Click a logo to upload or change it. Logos are shared by every service using that name.
+            {withIcons
+              ? "Click a tile to pick an icon or upload a logo (only one is kept). Shared by every service using that name."
+              : "Click a logo to upload or change it. Logos are shared by every service using that name."}
           </p>
         </div>
         <button
@@ -147,11 +166,19 @@ function TechStackField({
           {items.map((item, idx) => (
             <div key={idx} className="flex items-center gap-2">
               {item.trim() ? (
-                <LogoPicker
-                  size="sm"
-                  value={techLogoFor(item)}
-                  onChange={(file) => onPickTechLogo(item, file)}
-                />
+                withIcons ? (
+                  <LogoOrIconPicker
+                    size="sm"
+                    value={techValueFor!(item)}
+                    onChange={(change) => onTechChange!(item, change)}
+                  />
+                ) : (
+                  <LogoPicker
+                    size="sm"
+                    value={techLogoFor(item)}
+                    onChange={(file) => onPickTechLogo(item, file)}
+                  />
+                )
               ) : (
                 <span className="h-10 w-10 shrink-0 rounded-xl border border-dashed border-gray-200" />
               )}

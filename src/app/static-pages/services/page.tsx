@@ -8,6 +8,7 @@ import { GlobalSectionRef } from "@/app/components/GlobalSectionRef";
 import { clearCache, fetchWithCache } from "@/lib/apiCache";
 import { uploadFiles } from "@/app/lib/uploadHelpers";
 import type { TechLogo } from "@/lib/siteFooter";
+import type { LogoOrIcon, LogoOrIconChange } from "@/app/components/IconPicker";
 import { ServiceHero } from "./components/ServiceHero";
 import { ServiceApproach } from "./components/ServiceApproach";
 import { ServiceDeliver } from "./components/ServiceDeliver";
@@ -32,7 +33,8 @@ export default function ServicesCMS() {
   const [isLoading, setIsLoading] = useState(true);
   // Tech logos are shared by all services (GlobalConfig.siteImages.techLogos)
   const [techLogos, setTechLogos] = useState<TechLogo[]>([]);
-  const [pendingTechLogos, setPendingTechLogos] = useState<Record<string, File>>({});
+  // One pending change per tech key: a new logo file, a library icon, or clear (built-in icon)
+  const [pendingTech, setPendingTech] = useState<Record<string, LogoOrIconChange>>({});
 
   useEffect(() => {
     fetch("/api/seo/global")
@@ -51,23 +53,46 @@ export default function ServicesCMS() {
       (t) => t.name === key || (Array.isArray(t.matches) && t.matches.includes(key)),
     );
   };
-  const techLogoFor = (name: string) =>
-    pendingTechLogos[techKey(name)] ?? findTechLogo(techLogos, name)?.image ?? null;
+  /** A technology's logo or icon as shown in the CMS, including unsaved changes (never both). */
+  const techValueFor = (name: string): LogoOrIcon => {
+    const change = pendingTech[techKey(name)];
+    if (change && "file" in change) return { image: change.file, icon: null };
+    if (change && "icon" in change) return { image: null, icon: change.icon };
+    if (change) return { image: null, icon: null };
+    const stored = findTechLogo(techLogos, name);
+    return stored?.image ? { image: stored.image, icon: null } : { image: null, icon: stored?.icon || null };
+  };
+  const changeTech = (name: string, change: LogoOrIconChange) =>
+    setPendingTech((prev) => ({ ...prev, [techKey(name)]: change }));
 
-  /** Uploads logos picked in the Tech Stack card and saves the shared list. */
+  /** Uploads logos and saves icons picked in the Tech Stack card into the shared list. */
   const saveTechLogos = async () => {
-    const names = Object.keys(pendingTechLogos);
-    if (names.length === 0) return;
-    const urls = await uploadFiles(names.map((n) => pendingTechLogos[n]));
+    const changes = Object.entries(pendingTech);
+    if (changes.length === 0) return;
+    const files = changes.filter(([, c]) => "file" in c) as [string, { file: File }][];
+    const urls = files.length > 0 ? await uploadFiles(files.map(([, c]) => c.file)) : [];
+    const uploaded = Object.fromEntries(files.map(([name], i) => [name, urls[i] || ""]));
     let next = [...techLogos];
-    names.forEach((name, i) => {
-      const image = urls[i];
-      if (!image) return;
+    for (const [name, change] of changes) {
       const existing = findTechLogo(next, name);
+      const base: TechLogo = existing ?? { name, image: "", matches: [name] };
+      // A logo and an icon replace each other, so each entry keeps only one of them
+      let entry: TechLogo | null;
+      if ("file" in change) {
+        if (!uploaded[name]) continue;
+        entry = { ...base, image: uploaded[name] };
+        delete entry.icon;
+      } else if ("icon" in change) {
+        entry = { ...base, image: "", icon: change.icon };
+      } else {
+        entry = null; // cleared: the website falls back to its built-in icon
+      }
       next = existing
-        ? next.map((t) => (t === existing ? { ...t, image } : t))
-        : [...next, { name, image, matches: [name] }];
-    });
+        ? next.flatMap((t) => (t === existing ? (entry ? [entry] : []) : [t]))
+        : entry
+          ? [...next, entry]
+          : next;
+    }
     const res = await fetch("/api/seo/global", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -76,7 +101,7 @@ export default function ServicesCMS() {
     const json = await res.json();
     if (!res.ok || !json.success) throw new Error(json?.error || "Could not save the tech logos.");
     setTechLogos(next);
-    setPendingTechLogos({});
+    setPendingTech({});
   };
 
   useEffect(() => {
@@ -225,10 +250,10 @@ export default function ServicesCMS() {
             related={formData.related}
             onStackChange={(stack) => setFormData((prev) => ({ ...prev, stack }))}
             onRelatedChange={(related) => setFormData((prev) => ({ ...prev, related }))}
-            techLogoFor={techLogoFor}
-            onPickTechLogo={(name, file) =>
-              setPendingTechLogos((prev) => ({ ...prev, [techKey(name)]: file }))
-            }
+            techLogoFor={(name) => techValueFor(name).image}
+            onPickTechLogo={(name, file) => changeTech(name, { file })}
+            techValueFor={techValueFor}
+            onTechChange={changeTech}
             isSaving={isSaving}
             onSave={handleSave}
           />

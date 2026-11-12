@@ -47,6 +47,7 @@ export interface SiteFooter {
 export interface TechLogo {
   name: string; // e.g. "react"
   image: string;
+  icon?: string; // a lucide icon name (e.g. "bar-chart-3") used instead of an image
   matches: string[]; // lowercase names it stands for, e.g. ["react js", "react native"]
 }
 

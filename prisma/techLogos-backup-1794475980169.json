@@ -1,0 +1,323 @@
+{
+  "techLogos": [
+    {
+      "name": "react",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375977/tgt/react-1794375976833.svg",
+      "matches": [
+        "react js",
+        "react native",
+        "react"
+      ]
+    },
+    {
+      "name": "nextdotjs",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375973/tgt/nextdotjs-1794375973503.svg",
+      "matches": [
+        "next.js"
+      ]
+    },
+    {
+      "name": "vuedotjs",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375982/tgt/vuedotjs-1794375981832.svg",
+      "matches": [
+        "vue js",
+        "vue"
+      ]
+    },
+    {
+      "name": "nodedotjs",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375975/tgt/nodedotjs-1794375975060.svg",
+      "matches": [
+        "node & express",
+        "node.js"
+      ]
+    },
+    {
+      "name": "nestjs",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375973/tgt/nestjs-1794375973496.svg",
+      "matches": [
+        "nest js"
+      ]
+    },
+    {
+      "name": "laravel",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375971/tgt/laravel-1794375971110.svg",
+      "matches": [
+        "laravel"
+      ]
+    },
+    {
+      "name": "django",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375964/tgt/django-1794375964303.svg",
+      "matches": [
+        "django"
+      ]
+    },
+    {
+      "name": "wordpress",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375982/tgt/wordpress-1794375982611.svg",
+      "matches": [
+        "wordpress"
+      ]
+    },
+    {
+      "name": "shopify",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375979/tgt/shopify-1794375979156.svg",
+      "matches": [
+        "shopify",
+        "shopify plus"
+      ]
+    },
+    {
+      "name": "flutter",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375968/tgt/flutter-1794375967966.svg",
+      "matches": [
+        "flutter"
+      ]
+    },
+    {
+      "name": "swift",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375979/tgt/swift-1794375979392.svg",
+      "matches": [
+        "ios (swift)",
+        "swift"
+      ]
+    },
+    {
+      "name": "android",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375962/tgt/android-1794375961673.svg",
+      "matches": [
+        "android (java, kotlin)"
+      ]
+    },
+    {
+      "name": "mongodb",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375973/tgt/mongodb-1794375973486.svg",
+      "matches": [
+        "mern stack"
+      ]
+    },
+    {
+      "name": "angular",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375962/tgt/angular-1794375962234.svg",
+      "matches": [
+        "mean stack"
+      ]
+    },
+    {
+      "name": "dotnet",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375966/tgt/dotnet-1794375965906.svg",
+      "matches": [
+        ".net"
+      ]
+    },
+    {
+      "name": "openjdk",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375975/tgt/openjdk-1794375975473.svg",
+      "matches": [
+        "java"
+      ]
+    },
+    {
+      "name": "python",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375977/tgt/python-1794375976830.svg",
+      "matches": [
+        "python"
+      ]
+    },
+    {
+      "name": "flask",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375967/tgt/flask-1794375967056.svg",
+      "matches": [
+        "flask"
+      ]
+    },
+    {
+      "name": "ethereum",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375966/tgt/ethereum-1794375966255.svg",
+      "matches": [
+        "blockchain & web3"
+      ]
+    },
+    {
+      "name": "sap",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375979/tgt/sap-1794375978648.svg",
+      "matches": [
+        "sap"
+      ]
+    },
+    {
+      "name": "googleanalytics",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375968/tgt/googleanalytics-1794375968028.svg",
+      "matches": [
+        "analytics",
+        "analytics & cro"
+      ]
+    },
+    {
+      "name": "googleads",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375968/tgt/googleads-1794375967985.svg",
+      "matches": [
+        "google ads"
+      ]
+    },
+    {
+      "name": "meta",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375973/tgt/meta-1794375973408.svg",
+      "matches": [
+        "meta ads"
+      ]
+    },
+    {
+      "name": "openai",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375975/tgt/openai-1794375975115.svg",
+      "matches": [
+        "generative ai",
+        "openai api"
+      ]
+    },
+    {
+      "name": "tableau",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375980/tgt/tableau-1794375980283.svg",
+      "matches": [
+        "tableau"
+      ]
+    },
+    {
+      "name": "amazonwebservices",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375962/tgt/amazonwebservices-1794375961644.svg",
+      "matches": [
+        "aws",
+        "aws / cloud"
+      ]
+    },
+    {
+      "name": "figma",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375966/tgt/figma-1794375966390.svg",
+      "matches": [
+        "figma"
+      ]
+    },
+    {
+      "name": "woocommerce",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375982/tgt/woocommerce-1794375982577.svg",
+      "matches": [
+        "woocommerce"
+      ]
+    },
+    {
+      "name": "kotlin",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375970/tgt/kotlin-1794375969833.svg",
+      "matches": [
+        "kotlin"
+      ]
+    },
+    {
+      "name": "docker",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375964/tgt/docker-1794375964425.svg",
+      "matches": [
+        "docker"
+      ]
+    },
+    {
+      "name": "kubernetes",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375971/tgt/kubernetes-1794375971100.svg",
+      "matches": [
+        "kubernetes"
+      ]
+    },
+    {
+      "name": "postgresql",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375976/tgt/postgresql-1794375975974.svg",
+      "matches": [
+        "postgresql"
+      ]
+    },
+    {
+      "name": "stripe",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375979/tgt/stripe-1794375979254.svg",
+      "matches": [
+        "stripe"
+      ]
+    },
+    {
+      "name": "tailwindcss",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375981/tgt/tailwindcss-1794375981169.svg",
+      "matches": [
+        "tailwind css"
+      ]
+    },
+    {
+      "name": "graphql",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375969/tgt/graphql-1794375969632.svg",
+      "matches": [
+        "graphql"
+      ]
+    },
+    {
+      "name": "sanity",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375977/tgt/sanity-1794375977539.svg",
+      "matches": [
+        "sanity"
+      ]
+    },
+    {
+      "name": "linkedin",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375972/tgt/linkedin-1794375971787.svg",
+      "matches": [
+        "linkedin"
+      ]
+    },
+    {
+      "name": "instagram",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375970/tgt/instagram-1794375969766.svg",
+      "matches": [
+        "instagram"
+      ]
+    },
+    {
+      "name": "xcode",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375983/tgt/xcode-1794375982887.svg",
+      "matches": [
+        "xcode"
+      ]
+    },
+    {
+      "name": "androidstudio",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375962/tgt/androidstudio-1794375962172.svg",
+      "matches": [
+        "android studio"
+      ]
+    },
+    {
+      "name": "googleplay",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375969/tgt/googleplay-1794375969582.svg",
+      "matches": [
+        "google play",
+        "play store"
+      ]
+    },
+    {
+      "name": "appstore",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375964/tgt/appstore-1794375964301.svg",
+      "matches": [
+        "app store connect"
+      ]
+    },
+    {
+      "name": "apple",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375964/tgt/apple-1794375964296.svg",
+      "matches": [
+        "apple ui"
+      ]
+    },
+    {
+      "name": "materialdesign",
+      "image": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375972/tgt/materialdesign-1794375971790.svg",
+      "matches": [
+        "material design"
+      ]
+    }
+  ],
+  "homeBackground": "https://res.cloudinary.com/dpa93copz/image/upload/v1794375987/tgt/bg-4-1794375987031.webp"
+}
