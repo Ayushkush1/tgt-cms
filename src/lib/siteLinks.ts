@@ -1,7 +1,8 @@
 // Decides whether a navigation link points to a page on the TGT website.
 // Links that leave the website (e.g. product demos on other domains) get no SEO entry.
 
-const WEBSITE_URL =
+/** The website's base URL; production falls back to the live site when the env var is unset. */
+export const WEBSITE_URL =
   process.env.NEXT_PUBLIC_WEBSITE_URL || "https://tgt-landing-page-jade.vercel.app";
 
 const ownHosts = (() => {

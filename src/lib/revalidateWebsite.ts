@@ -1,5 +1,6 @@
 import { timingSafeEqual } from "node:crypto";
 import { after } from "next/server";
+import { WEBSITE_URL } from "./siteLinks";
 import { WebsiteTag } from "./websiteSections";
 
 export { WebsiteTag };
@@ -9,10 +10,10 @@ export { WebsiteTag };
  * so a slow or offline website never slows down or fails a CMS save.
  */
 export function revalidateWebsite(...tags: string[]) {
-  const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL;
+  const websiteUrl = WEBSITE_URL;
   const secret = process.env.CMS_SHARED_SECRET;
-  if (!websiteUrl || !secret) {
-    console.warn("[revalidate] NEXT_PUBLIC_WEBSITE_URL or CMS_SHARED_SECRET is not set; skipping");
+  if (!secret) {
+    console.warn("[revalidate] CMS_SHARED_SECRET is not set; skipping");
     return;
   }
 
